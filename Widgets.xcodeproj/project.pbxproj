@@ -34,6 +34,11 @@
 			path = Shared;
 			sourceTree = "<group>";
 		};
+		5CF35A5A3078477B006458E2 /* Design */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Design;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -50,6 +55,7 @@
 			children = (
 				5CF35A4A3078477A006458E2 /* Widgets */,
 				5CF35A593078477B006458E2 /* Shared */,
+				5CF35A5A3078477B006458E2 /* Design */,
 				5CF35A493078477A006458E2 /* Products */,
 			);
 			sourceTree = "<group>";

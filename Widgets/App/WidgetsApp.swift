@@ -6,27 +6,21 @@
 //
 
 import SwiftUI
-import SwiftData
 
 @main
 struct WidgetsApp: App {
-    var sharedModelContainer: ModelContainer = {
-        let schema = Schema([
-            Item.self,
-        ])
-        let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
-
-        do {
-            return try ModelContainer(for: schema, configurations: [modelConfiguration])
-        } catch {
-            fatalError("Could not create ModelContainer: \(error)")
-        }
-    }()
+    init() {
+        AppFontFamily.validateRegistration()
+    }
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            HomeView()
+                // التطبيق كله عربي RTL وداكن، فنحددها مرة وحدة هنا بدل كل شاشة
+                .environment(\.layoutDirection, .rightToLeft)
+                .environment(\.locale, Locale(identifier: "ar"))
+                .preferredColorScheme(.dark)
+                .tint(Theme.gold)
         }
-        .modelContainer(sharedModelContainer)
     }
 }

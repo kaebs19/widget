@@ -6,8 +6,35 @@
 	objectVersion = 110;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		5CF35A683078477B006458E2 /* WidgetsExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 5CF35A5B3078477B006458E2 /* WidgetsExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		5CF35A653078477B006458E2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5CF35A403078477A006458E2 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 5CF35A5E3078477B006458E2;
+			remoteInfo = WidgetsExtension;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		5CF35A673078477B006458E2 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			dstPath = "";
+			dstSubfolder = PlugIns;
+			files = (
+				5CF35A683078477B006458E2 /* WidgetsExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		5CF35A483078477A006458E2 /* Widgets.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Widgets.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		5CF35A5B3078477B006458E2 /* WidgetsExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = WidgetsExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -17,6 +44,13 @@
 				Info.plist,
 			);
 			target = 5CF35A473078477A006458E2 /* Widgets */;
+		};
+		5CF35A5D3078477B006458E2 /* Exceptions for "WidgetsExtension" folder in "WidgetsExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 5CF35A5E3078477B006458E2 /* WidgetsExtension */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
@@ -39,10 +73,23 @@
 			path = Design;
 			sourceTree = "<group>";
 		};
+		5CF35A5C3078477B006458E2 /* WidgetsExtension */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				5CF35A5D3078477B006458E2 /* Exceptions for "WidgetsExtension" folder in "WidgetsExtension" target */,
+			);
+			path = WidgetsExtension;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		5CF35A453078477A006458E2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			files = (
+			);
+		};
+		5CF35A603078477B006458E2 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			files = (
 			);
@@ -54,6 +101,7 @@
 			isa = PBXGroup;
 			children = (
 				5CF35A4A3078477A006458E2 /* Widgets */,
+				5CF35A5C3078477B006458E2 /* WidgetsExtension */,
 				5CF35A593078477B006458E2 /* Shared */,
 				5CF35A5A3078477B006458E2 /* Design */,
 				5CF35A493078477A006458E2 /* Products */,
@@ -64,6 +112,7 @@
 			isa = PBXGroup;
 			children = (
 				5CF35A483078477A006458E2 /* Widgets.app */,
+				5CF35A5B3078477B006458E2 /* WidgetsExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -78,8 +127,12 @@
 				5CF35A443078477A006458E2 /* Sources */,
 				5CF35A453078477A006458E2 /* Frameworks */,
 				5CF35A463078477A006458E2 /* Resources */,
+				5CF35A673078477B006458E2 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
+			);
+			dependencies = (
+				5CF35A663078477B006458E2 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				5CF35A4A3078477A006458E2 /* Widgets */,
@@ -89,6 +142,25 @@
 			productName = Widgets;
 			productReference = 5CF35A483078477A006458E2 /* Widgets.app */;
 			productType = "com.apple.product-type.application";
+		};
+		5CF35A5E3078477B006458E2 /* WidgetsExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5CF35A623078477B006458E2 /* Build configuration list for PBXNativeTarget "WidgetsExtension" */;
+			buildPhases = (
+				5CF35A5F3078477B006458E2 /* Sources */,
+				5CF35A603078477B006458E2 /* Frameworks */,
+				5CF35A613078477B006458E2 /* Resources */,
+			);
+			buildRules = (
+			);
+			fileSystemSynchronizedGroups = (
+				5CF35A593078477B006458E2 /* Shared */,
+				5CF35A5C3078477B006458E2 /* WidgetsExtension */,
+			);
+			name = WidgetsExtension;
+			productName = WidgetsExtension;
+			productReference = 5CF35A5B3078477B006458E2 /* WidgetsExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
 
@@ -101,6 +173,9 @@
 				LastUpgradeCheck = 2700;
 				TargetAttributes = {
 					5CF35A473078477A006458E2 = {
+						CreatedOnToolsVersion = 27.0;
+					};
+					5CF35A5E3078477B006458E2 = {
 						CreatedOnToolsVersion = 27.0;
 					};
 				};
@@ -120,12 +195,18 @@
 			projectRoot = "";
 			targets = (
 				5CF35A473078477A006458E2 /* Widgets */,
+				5CF35A5E3078477B006458E2 /* WidgetsExtension */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		5CF35A463078477A006458E2 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			files = (
+			);
+		};
+		5CF35A613078477B006458E2 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			files = (
 			);
@@ -138,7 +219,20 @@
 			files = (
 			);
 		};
+		5CF35A5F3078477B006458E2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			files = (
+			);
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		5CF35A663078477B006458E2 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 5CF35A5E3078477B006458E2 /* WidgetsExtension */;
+			targetProxy = 5CF35A653078477B006458E2 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		5CF35A533078477B006458E2 /* Debug configuration for PBXProject "Widgets" */ = {
@@ -267,6 +361,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Widgets/Widgets.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = ZN3Z5KRWM7;
@@ -301,6 +396,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Widgets/Widgets.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = ZN3Z5KRWM7;
@@ -330,6 +426,68 @@
 			};
 			name = Release;
 		};
+		5CF35A633078477B006458E2 /* Debug configuration for PBXNativeTarget "WidgetsExtension" */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = WidgetsExtension/WidgetsExtension.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = ZN3Z5KRWM7;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = WidgetsExtension/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = WidgetsExtension;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.6;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.app.Widgets.WidgetsExtension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		5CF35A643078477B006458E2 /* Release configuration for PBXNativeTarget "WidgetsExtension" */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = WidgetsExtension/WidgetsExtension.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = ZN3Z5KRWM7;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = WidgetsExtension/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = WidgetsExtension;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.6;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.app.Widgets.WidgetsExtension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -346,6 +504,14 @@
 			buildConfigurations = (
 				5CF35A563078477B006458E2 /* Debug configuration for PBXNativeTarget "Widgets" */,
 				5CF35A573078477B006458E2 /* Release configuration for PBXNativeTarget "Widgets" */,
+			);
+			defaultConfigurationName = Release;
+		};
+		5CF35A623078477B006458E2 /* Build configuration list for PBXNativeTarget "WidgetsExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5CF35A633078477B006458E2 /* Debug configuration for PBXNativeTarget "WidgetsExtension" */,
+				5CF35A643078477B006458E2 /* Release configuration for PBXNativeTarget "WidgetsExtension" */,
 			);
 			defaultConfigurationName = Release;
 		};

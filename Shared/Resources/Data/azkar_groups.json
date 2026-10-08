@@ -1,0 +1,44 @@
+{
+  "AzkarGroupList": [
+    {
+      "id": 1,
+      "groupAzkarAr": "اذكار الصباح",
+      "groupAzkarEn": "In the morning"
+    },
+    {
+      "id": 2,
+      "groupAzkarAr": "اذكار المساء",
+      "groupAzkarEn": "In the evening"
+    },
+    {
+      "id": 3,
+      "groupAzkarAr": "اذكار المسجد",
+      "groupAzkarEn": "The masjid"
+    },
+    {
+      "id": 4,
+      "groupAzkarAr": "اذكار المنزل",
+      "groupAzkarEn": "The house"
+    },
+    {
+      "id": 5,
+      "groupAzkarAr": "اذكار الصلاة",
+      "groupAzkarEn": "The pray"
+    },
+    {
+      "id": 6,
+      "groupAzkarAr": "اذكار بعد الصلاة",
+      "groupAzkarEn": "After prayers"
+    },
+    {
+      "id": 7,
+      "groupAzkarAr": "اذكار الاستيقاظ من النوم",
+      "groupAzkarEn": "When waking up"
+    },
+    {
+      "id": 8,
+      "groupAzkarAr": "اذكار النوم",
+      "groupAzkarEn": "Upon going to sleep"
+    }
+  ]
+}

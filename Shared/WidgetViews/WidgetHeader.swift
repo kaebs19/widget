@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import WidgetKit
 
 // MARK: - عنوان صغير أعلى كل ودجت
 struct WidgetHeader: View {
@@ -16,7 +17,7 @@ struct WidgetHeader: View {
 
     var body: some View {
         HStack(spacing: 4) {
-            AppIconView(icon: icon, size: 13).foregroundStyle(style.accent)
+            AppIconView(icon: icon, size: 13).foregroundStyle(style.accent).widgetAccentable()
             Text(title)
             Spacer()
             if let trailing { Text(style.text(trailing)) }

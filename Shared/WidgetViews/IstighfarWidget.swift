@@ -7,11 +7,13 @@
 
 import AppIntents
 import SwiftUI
+import WidgetKit
 
 // MARK: - الاستغفار
 struct IstighfarWidget: View {
     var date: Date = .now
     @Environment(\.widgetStyle) private var style
+    @Environment(\.widgetRenderingMode) private var renderingMode
 
     // يقرأ من المساحة المشتركة، وداخل التطبيق يعيد الرسم فور الضغط على الزر
     @AppStorage(IstighfarCounter.countKey, store: AppGroup.defaults) private var storedCount = 0
@@ -40,8 +42,10 @@ struct IstighfarWidget: View {
                 .foregroundStyle(style.primary)
                 .lineLimit(1)
                 .minimumScaleFactor(0.7)
+                .widgetAccentable()
             ProgressView(value: Double(min(count, goal)), total: Double(goal))
                 .tint(style.accent)
+                .widgetAccentable()
 
             HStack {
                 HStack(alignment: .firstTextBaseline, spacing: 4) {
@@ -49,6 +53,7 @@ struct IstighfarWidget: View {
                         .font(style.font(.number, 24))
                         .foregroundStyle(style.primary)
                         .contentTransition(.numericText(value: Double(count)))
+                        .widgetAccentable()
                     Text("/ \(style.number(goal))")
                         .font(style.font(.label, 11))
                         .foregroundStyle(style.secondary)
@@ -56,16 +61,28 @@ struct IstighfarWidget: View {
                 Spacer()
                 // Button(intent:) يشتغل من الشاشة الرئيسية بدون فتح التطبيق
                 Button(intent: IncrementIstighfarIntent()) {
-                    Image(systemName: "plus")
-                        .font(.system(size: 17, weight: .semibold))
-                        .foregroundStyle(style.onPrimary)
-                        .frame(width: 40, height: 40)
-                        .background(style.primary.opacity(0.92), in: Circle())
+                    plusButton
                 }
                 .buttonStyle(.plain)
                 .accessibilityLabel("استغفار")
             }
         }
         .widgetContent()
+    }
+
+    /// في الوضع الملوّن يُرسم كل شيء بلون واحد، فعلامة + الداكنة فوق الدائرة تختفي؛
+    /// نخفف الدائرة ونترك العلامة بلون النص
+    @ViewBuilder
+    private var plusButton: some View {
+        let isFullColor = renderingMode == .fullColor
+        Image(systemName: "plus")
+            .font(.system(size: 17, weight: .semibold))
+            .foregroundStyle(isFullColor ? style.onPrimary : style.primary)
+            .frame(width: 40, height: 40)
+            .background {
+                Circle()
+                    .fill(style.primary.opacity(isFullColor ? 0.92 : 0.25))
+                    .widgetAccentable()
+            }
     }
 }

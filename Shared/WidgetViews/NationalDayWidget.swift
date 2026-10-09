@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import WidgetKit
 
 // MARK: - اليوم الوطني
 struct NationalDayWidget: View {
@@ -31,7 +32,7 @@ struct NationalDayWidget: View {
     private var medium: some View {
         VStack(alignment: .leading, spacing: 0) {
             HStack(spacing: 6) {
-                Circle().fill(style.accent).frame(width: 7, height: 7)
+                Circle().fill(style.accent).frame(width: 7, height: 7).widgetAccentable()
                 Text(style.text("اليوم الوطني \(DateHelper.arabic(edition))"))
                 Spacer()
                 Text(style.text(DateHelper.weekdayFull(next)))
@@ -48,6 +49,7 @@ struct NationalDayWidget: View {
                     Text("هي لنا دار")
                         .font(style.font(.labelBold, 13))
                         .foregroundStyle(style.accent)
+                        .widgetAccentable()
                 }
                 .lineLimit(1)
                 .minimumScaleFactor(0.7)
@@ -56,6 +58,7 @@ struct NationalDayWidget: View {
                     Text("اليوم")
                         .font(style.font(.textBold, 30))
                         .foregroundStyle(style.accent)
+                        .widgetAccentable()
                 } else {
                     HStack(alignment: .lastTextBaseline, spacing: 6) {
                         Text(style.number(days))
@@ -63,6 +66,7 @@ struct NationalDayWidget: View {
                             .foregroundStyle(style.accent)
                             .lineLimit(1)
                             .minimumScaleFactor(0.6)
+                            .widgetAccentable()
                         Text("يومًا")
                             .font(style.font(.label, 12))
                             .foregroundStyle(style.secondary)
@@ -73,6 +77,7 @@ struct NationalDayWidget: View {
 
             ProgressView(value: DateHelper.progressUntilGregorian(month: 9, day: 23, from: date))
                 .tint(style.accent)
+                .widgetAccentable()
         }
         .widgetContent()
     }

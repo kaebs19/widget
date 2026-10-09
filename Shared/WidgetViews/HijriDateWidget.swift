@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import WidgetKit
 
 // MARK: - التاريخ الهجري
 struct HijriDateWidget: View {
@@ -33,6 +34,7 @@ struct HijriDateWidget: View {
                     Text(style.text(DateHelper.hijriDay(date)))
                         .font(style.font(.number, 52))
                         .foregroundStyle(style.primary)
+                        .widgetAccentable()
                     Text(style.text(DateHelper.gregorianFull(date)))
                         .font(style.font(.label, 11))
                         .foregroundStyle(style.secondary)
@@ -53,19 +55,25 @@ struct HijriDateWidget: View {
             }
             .font(style.font(.labelBold, 11))
             .foregroundStyle(style.accent)
+            .widgetAccentable()
 
             Spacer(minLength: 0)
             Text(style.text(DateHelper.hijriDay(date)))
                 .font(style.font(.number, 52))
                 .foregroundStyle(style.primary)
+                .widgetAccentable()
             monthName(height: 36)
         }
         .widgetContent()
     }
 
     /// اسم الشهر بالخط العربي، أو نصاً بخط المستخدم إذا أوقف الخط العربي
-    @ViewBuilder
     private func monthName(height: CGFloat) -> some View {
+        monthNameContent(height: height).widgetAccentable()
+    }
+
+    @ViewBuilder
+    private func monthNameContent(height: CGFloat) -> some View {
         if style.usesCalligraphy {
             Image(Calligraphy.hijriMonth(for: date))
                 .calligraphy(height: height)

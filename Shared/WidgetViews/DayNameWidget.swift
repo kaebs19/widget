@@ -6,12 +6,14 @@
 //
 
 import SwiftUI
+import WidgetKit
 
 // MARK: - اسم اليوم
 struct DayNameWidget: View {
     let date: Date
     var size: WidgetSize = .medium
     @Environment(\.widgetStyle) private var style
+    @Environment(\.widgetRenderingMode) private var renderingMode
 
     var body: some View {
         if size == .small { small } else { medium }
@@ -39,13 +41,17 @@ struct DayNameWidget: View {
         return HStack(spacing: 6) {
             ForEach(Self.weekdayLetters.indices, id: \.self) { index in
                 let isToday = index == today
+                // الوضع الملوّن يرسم كل شيء بلون واحد، فالنص الداكن فوق اليوم الحالي يختفي؛ نكتفي بإطار ملوّن
+                let isFilled = isToday && renderingMode == .fullColor
                 let shape = RoundedRectangle(cornerRadius: 9, style: .continuous)
                 Text(Self.weekdayLetters[index])
                     .font(style.font(.labelBold, 13))
-                    .foregroundStyle(isToday ? style.onPrimary : style.secondary)
+                    .foregroundStyle(isFilled ? style.onPrimary : isToday ? style.primary : style.secondary)
                     .frame(maxWidth: .infinity, minHeight: 28)
-                    .background(isToday ? style.primary : style.primary.opacity(0.05), in: shape)
-                    .overlay(shape.strokeBorder(style.primary.opacity(isToday ? 0 : 0.1)))
+                    .background(isFilled ? style.primary : style.primary.opacity(0.05), in: shape)
+                    .overlay(shape.strokeBorder(style.primary.opacity(isFilled ? 0 : isToday ? 0.9 : 0.1),
+                                                lineWidth: isToday ? 1.5 : 1))
+                    .widgetAccentable(isToday)
             }
         }
     }
@@ -67,8 +73,12 @@ struct DayNameWidget: View {
     }
 
     /// اسم اليوم بالخط العربي، أو نصاً بخط المستخدم إذا أوقف الخط العربي
-    @ViewBuilder
     private func dayName(height: CGFloat) -> some View {
+        dayNameContent(height: height).widgetAccentable()
+    }
+
+    @ViewBuilder
+    private func dayNameContent(height: CGFloat) -> some View {
         if style.usesCalligraphy {
             Image(Calligraphy.weekday(for: date))
                 .calligraphy(height: height)

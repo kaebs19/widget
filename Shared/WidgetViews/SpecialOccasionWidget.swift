@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import WidgetKit
 
 // MARK: - مناسبة خاصة
 // الاسم والتاريخ يختارهما المستخدم من «تعديل الودجت» (التصميم ١٦)
@@ -48,6 +49,7 @@ struct SpecialOccasionWidget: View {
                 Text("اليوم")
                     .font(style.font(.textBold, 24))
                     .foregroundStyle(style.accent)
+                    .widgetAccentable()
             } else {
                 let remaining = DateHelper.countdown(to: target, from: date)
                 tile(style.number(remaining.days), unit: "يوم", accent: false)
@@ -74,5 +76,6 @@ struct SpecialOccasionWidget: View {
         .frame(width: 58, height: 58)
         .background(accent ? style.accent.opacity(0.12) : style.primary.opacity(0.06), in: shape)
         .overlay(shape.strokeBorder(accent ? style.accent.opacity(0.4) : style.primary.opacity(0.1)))
+        .widgetAccentable(accent)
     }
 }

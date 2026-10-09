@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import WidgetKit
 
 // MARK: - المباراة القادمة
 struct MatchWidget: View {
@@ -25,6 +26,7 @@ struct MatchWidget: View {
                 VStack(spacing: 2) {
                     Text(style.text(time)).font(style.font(.number, 22)).foregroundStyle(style.primary)
                     Text(style.text("بعد ٥ أيام")).font(style.font(.label, 11)).foregroundStyle(style.accent)
+                        .widgetAccentable()
                 }
                 Spacer()
                 team(away)

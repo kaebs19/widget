@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import WidgetKit
 
 // MARK: - عداد المناسبات (قالب واحد لكل المناسبات)
 struct CountdownWidget: View {
@@ -25,7 +26,7 @@ struct CountdownWidget: View {
             HStack {
                 Text(style.text(title))
                 Spacer()
-                AppIconView(icon: icon, size: 15).foregroundStyle(style.accent)
+                AppIconView(icon: icon, size: 15).foregroundStyle(style.accent).widgetAccentable()
             }
             .font(style.font(.label, 11))
             .foregroundStyle(style.secondary)
@@ -52,6 +53,7 @@ struct CountdownWidget: View {
             if let progress {
                 ProgressView(value: progress)
                     .tint(style.accent)
+                    .widgetAccentable()
                     .padding(.top, 4)
             }
 
@@ -60,6 +62,7 @@ struct CountdownWidget: View {
                 Text(style.text(footnote))
                     .font(style.font(footnoteIsAccent ? .labelBold : .label, 11))
                     .foregroundStyle(footnoteIsAccent ? style.accent : style.secondary)
+                    .widgetAccentable(footnoteIsAccent)
             }
         }
         .widgetContent()
@@ -71,5 +74,6 @@ struct CountdownWidget: View {
             .foregroundStyle(style.primary)
             .lineLimit(1)
             .minimumScaleFactor(0.6)
+            .widgetAccentable()
     }
 }

@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import WidgetKit
 
 // MARK: - نقاط السنة
 struct YearDotsWidget: View {
@@ -24,32 +25,49 @@ struct YearDotsWidget: View {
                 Spacer()
                 Text(style.text("٪\(DateHelper.arabic(progress.percent))"))
                     .foregroundStyle(style.accent)
+                    .widgetAccentable()
             }
             .font(style.font(.labelBold, 14))
 
-            // Canvas يرسم كل النقاط في مرة وحدة، وأخف بكثير من ٣٦٥ Circle منفصلة
+            // Canvas يرسم كل النقاط في مرة وحدة، وأخف بكثير من ٣٦٥ Circle منفصلة.
+            // نقطة اليوم في طبقة منفصلة حتى تأخذ لون التمييز في الوضع الملوّن
             Canvas { ctx, size in
-                let columns = 37
-                let rows = Int(ceil(Double(progress.totalDays) / Double(columns)))
-                let cellW = size.width / CGFloat(columns)
-                let cellH = size.height / CGFloat(rows)
-                let radius = min(cellW, cellH) * 0.3
-
-                for i in 0..<progress.totalDays {
-                    // نعكس العمود عشان التعبئة تبدأ من اليمين (RTL)
-                    let column = columns - 1 - (i % columns)
-                    let x = (CGFloat(column) + 0.5) * cellW
-                    let y = (CGFloat(i / columns) + 0.5) * cellH
-
-                    let isToday = i == progress.dayOfYear - 1
-                    let r = isToday ? radius * 1.6 : radius
-                    let color = isToday ? today : (i < progress.dayOfYear ? passed : upcoming)
-
-                    ctx.fill(Path(ellipseIn: CGRect(x: x - r, y: y - r, width: r * 2, height: r * 2)),
-                             with: .color(color))
+                let grid = DotGrid(size: size, totalDays: progress.totalDays)
+                for i in 0..<progress.totalDays where i != progress.dayOfYear - 1 {
+                    ctx.fill(grid.dot(i), with: .color(i < progress.dayOfYear ? passed : upcoming))
                 }
+            }
+            .overlay {
+                Canvas { ctx, size in
+                    let grid = DotGrid(size: size, totalDays: progress.totalDays)
+                    ctx.fill(grid.dot(progress.dayOfYear - 1, scale: 1.6), with: .color(today))
+                }
+                .widgetAccentable()
             }
         }
         .widgetContent()
+    }
+}
+
+/// مواقع النقاط: ٣٧ عموداً، والتعبئة تبدأ من اليمين (RTL)
+private struct DotGrid {
+    let columns = 37
+    let cellW: CGFloat
+    let cellH: CGFloat
+    let radius: CGFloat
+
+    init(size: CGSize, totalDays: Int) {
+        let rows = Int(ceil(Double(totalDays) / Double(columns)))
+        cellW = size.width / CGFloat(columns)
+        cellH = size.height / CGFloat(rows)
+        radius = min(cellW, cellH) * 0.3
+    }
+
+    func dot(_ index: Int, scale: CGFloat = 1) -> Path {
+        let column = columns - 1 - (index % columns)
+        let x = (CGFloat(column) + 0.5) * cellW
+        let y = (CGFloat(index / columns) + 0.5) * cellH
+        let r = radius * scale
+        return Path(ellipseIn: CGRect(x: x - r, y: y - r, width: r * 2, height: r * 2))
     }
 }

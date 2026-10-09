@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import WidgetKit
 
 // MARK: - آية اليوم
 struct VerseWidget: View {
@@ -37,6 +38,7 @@ struct VerseWidget: View {
                     .foregroundStyle(style.accent)
                     .padding(.horizontal, 10).padding(.vertical, 4)
                     .overlay(Capsule().strokeBorder(style.accent.opacity(0.4)))
+                    .widgetAccentable()
             }
         }
         .widgetContent(padding: 16)

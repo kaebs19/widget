@@ -77,7 +77,7 @@ struct ChoiceChips<Value: Hashable, Label: View>: View {
                         label(option)
                             .padding(.horizontal, 14)
                             .padding(.vertical, 8)
-                            .foregroundStyle(isOn ? Color.black : Theme.textPrimary)
+                            .foregroundStyle(isOn ? Theme.onAccent : Theme.textPrimary)
                             .background(isOn ? AnyShapeStyle(Theme.gold) : AnyShapeStyle(Theme.cardTop), in: Capsule())
                     }
                     .buttonStyle(.plain)

@@ -10,6 +10,7 @@ import SwiftUI
 struct HomeView: View {
     @State private var viewModel = GalleryViewModel()
     @State private var showHowTo = false
+    @State private var showSettings = false
 
     // عمودين متساويين للودجات الصغيرة
     private let smallGrid = [GridItem(.flexible(), spacing: 14),
@@ -32,17 +33,22 @@ struct HomeView: View {
             .background(Theme.background.ignoresSafeArea())
             .navigationTitle("ويدجت")
             .toolbar {
-                ToolbarItem(placement: .topBarLeading) {
+                ToolbarItemGroup(placement: .topBarLeading) {
+                    Button { showSettings = true } label: {
+                        Image(systemName: "gearshape")
+                    }
+                    .accessibilityLabel("الإعدادات")
                     Button { showHowTo = true } label: {
                         Image(systemName: "questionmark.circle")
                     }
-                    .tint(Theme.gold)
+                    .accessibilityLabel("طريقة الإضافة")
                 }
             }
             .navigationDestination(for: WidgetKind.self) { kind in
                 WidgetDetailView(kind: kind)
             }
-            .sheet(isPresented: $showHowTo) { HowToAddView() }
+            .sheet(isPresented: $showHowTo) { HowToAddView().appAppearance() }
+            .sheet(isPresented: $showSettings) { SettingsView().appAppearance() }
         }
     }
 

@@ -132,6 +132,6 @@ struct WidgetDetailView: View {
             }
             Button("تجاهل التعديلات", role: .destructive) { dismiss() }
         }
-        .sheet(isPresented: $showHowTo) { HowToAddView() }
+        .sheet(isPresented: $showHowTo) { HowToAddView().appAppearance() }
     }
 }

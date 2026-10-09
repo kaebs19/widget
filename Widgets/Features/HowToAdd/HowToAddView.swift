@@ -26,7 +26,7 @@ struct HowToAddView: View {
                     HStack(spacing: 14) {
                         Text(DateHelper.arabic(index + 1))
                             .font(AppFont.uiBold(15))
-                            .foregroundStyle(.black)
+                            .foregroundStyle(Theme.onAccent)
                             .frame(width: 30, height: 30)
                             .background(Theme.gold, in: Circle())
                         Text(step.text)

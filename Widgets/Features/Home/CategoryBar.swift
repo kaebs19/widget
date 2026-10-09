@@ -36,7 +36,7 @@ struct CategoryBar: View {
                 .font(AppFont.ui(14))
                 .padding(.horizontal, 14)
                 .padding(.vertical, 8)
-                .foregroundStyle(isOn ? .black : Theme.textPrimary)
+                .foregroundStyle(isOn ? Theme.onAccent : Theme.textPrimary)
                 .background(isOn ? AnyShapeStyle(Theme.gold) : AnyShapeStyle(Theme.cardTop),
                             in: Capsule())
         }

@@ -18,56 +18,57 @@ struct CountdownWidget: View {
     var progress: Double? = nil
     var footnote: String? = nil
     var footnoteIsAccent = false
+    @Environment(\.widgetStyle) private var style
 
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
             HStack {
-                Text(title)
+                Text(style.text(title))
                 Spacer()
-                AppIconView(icon: icon, size: 15).foregroundStyle(Theme.gold)
+                AppIconView(icon: icon, size: 15).foregroundStyle(style.accent)
             }
-            .font(AppFont.ui(11))
-            .foregroundStyle(Theme.textSecondary)
+            .font(style.font(.label, 11))
+            .foregroundStyle(style.secondary)
 
             Spacer(minLength: 0)
             if let name {
-                Text(name)
-                    .font(AppFont.zikrBold(22))
-                    .foregroundStyle(Theme.textPrimary)
+                Text(style.text(name))
+                    .font(style.font(.textBold, 22))
+                    .foregroundStyle(style.primary)
                     .lineLimit(1)
                     .minimumScaleFactor(0.7)
                 HStack(alignment: .lastTextBaseline, spacing: 6) {
                     daysText(size: 38)
                     if days > 0 {
-                        Text("يومًا").font(AppFont.ui(12)).foregroundStyle(Theme.textSecondary)
+                        Text("يومًا").font(style.font(.label, 12)).foregroundStyle(style.secondary)
                     }
                 }
             } else {
                 daysText(size: 46)
                 Text(days == 0 ? "كل عام وأنتم بخير" : "يومًا متبقيًا")
-                    .font(AppFont.ui(12))
-                    .foregroundStyle(Theme.textSecondary)
+                    .font(style.font(.label, 12))
+                    .foregroundStyle(style.secondary)
             }
             if let progress {
                 ProgressView(value: progress)
-                    .tint(Theme.gold)
+                    .tint(style.accent)
                     .padding(.top, 4)
             }
 
             Spacer(minLength: 0)
             if let footnote {
-                Text(footnote)
-                    .font(footnoteIsAccent ? AppFont.uiBold(11) : AppFont.ui(11))
-                    .foregroundStyle(footnoteIsAccent ? Theme.gold : Theme.textSecondary)
+                Text(style.text(footnote))
+                    .font(style.font(footnoteIsAccent ? .labelBold : .label, 11))
+                    .foregroundStyle(footnoteIsAccent ? style.accent : style.secondary)
             }
         }
         .widgetContent()
     }
 
     private func daysText(size: CGFloat) -> some View {
-        Text(days == 0 ? "اليوم" : DateHelper.arabic(days))
-            .font(AppFont.number(size))
-            .foregroundStyle(Theme.textPrimary)
+        Text(days == 0 ? "اليوم" : style.number(days))
+            .font(style.font(.number, size))
+            .foregroundStyle(style.primary)
             .lineLimit(1)
             .minimumScaleFactor(0.6)
     }

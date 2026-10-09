@@ -15,6 +15,7 @@ struct SpecialOccasionWidget: View {
     let occasionDate: Date?
     var repeatsYearly = true
     var date: Date = .now
+    @Environment(\.widgetStyle) private var style
 
     /// موعد المناسبة القادم (لو تتكرر سنوياً ومضت، ننتقل للسنة القادمة)
     private var target: Date? {
@@ -28,8 +29,8 @@ struct SpecialOccasionWidget: View {
             Spacer(minLength: 0)
             HStack(spacing: 10) {
                 Text(name)
-                    .font(AppFont.zikrBold(30))
-                    .foregroundStyle(Theme.textPrimary)
+                    .font(style.font(.textBold, 30))
+                    .foregroundStyle(style.primary)
                     .lineLimit(2)
                     .minimumScaleFactor(0.6)
                 Spacer(minLength: 8)
@@ -45,17 +46,17 @@ struct SpecialOccasionWidget: View {
         if let target {
             if target <= date {
                 Text("اليوم")
-                    .font(AppFont.zikrBold(24))
-                    .foregroundStyle(Theme.gold)
+                    .font(style.font(.textBold, 24))
+                    .foregroundStyle(style.accent)
             } else {
                 let remaining = DateHelper.countdown(to: target, from: date)
-                tile(DateHelper.arabic(remaining.days), unit: "يوم", accent: false)
-                tile(DateHelper.arabicTwoDigits(remaining.hours), unit: "ساعة", accent: true)
+                tile(style.number(remaining.days), unit: "يوم", accent: false)
+                tile(style.text(DateHelper.arabicTwoDigits(remaining.hours)), unit: "ساعة", accent: true)
             }
         } else {
             Text("اضغط مطولاً ثم «تعديل الودجت» لاختيار التاريخ")
-                .font(AppFont.ui(11))
-                .foregroundStyle(Theme.textSecondary)
+                .font(style.font(.label, 11))
+                .foregroundStyle(style.secondary)
                 .frame(maxWidth: 130)
         }
     }
@@ -64,14 +65,14 @@ struct SpecialOccasionWidget: View {
         let shape = RoundedRectangle(cornerRadius: 14, style: .continuous)
         return VStack(spacing: 2) {
             Text(value)
-                .font(AppFont.number(22))
-                .foregroundStyle(accent ? Theme.gold : Theme.textPrimary)
+                .font(style.font(.number, 22))
+                .foregroundStyle(accent ? style.accent : style.primary)
             Text(unit)
-                .font(AppFont.ui(11))
-                .foregroundStyle(Theme.textSecondary)
+                .font(style.font(.label, 11))
+                .foregroundStyle(style.secondary)
         }
         .frame(width: 58, height: 58)
-        .background(accent ? Theme.gold.opacity(0.12) : Color.white.opacity(0.06), in: shape)
-        .overlay(shape.strokeBorder(accent ? Theme.gold.opacity(0.4) : Theme.border))
+        .background(accent ? style.accent.opacity(0.12) : style.primary.opacity(0.06), in: shape)
+        .overlay(shape.strokeBorder(accent ? style.accent.opacity(0.4) : style.primary.opacity(0.1)))
     }
 }

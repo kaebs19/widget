@@ -77,6 +77,7 @@ struct HomeView: View {
 
 #Preview {
     HomeView()
+        .environment(WidgetStyleStore())
         .environment(\.layoutDirection, .rightToLeft)
         .preferredColorScheme(.dark)
 }

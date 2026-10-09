@@ -9,8 +9,10 @@ import SwiftUI
 
 struct WidgetDetailView: View {
     let kind: WidgetKind
+    @Environment(WidgetStyleStore.self) private var styles
     @State private var size: WidgetSize
     @State private var showHowTo = false
+    @State private var showCustomize = false
 
     init(kind: WidgetKind) {
         self.kind = kind
@@ -23,7 +25,7 @@ struct WidgetDetailView: View {
             VStack(spacing: 24) {
                 // المعاينة: الصغير بعرض ثابت، والباقي يملأ العرض.
                 // النسبة قبل تحديد العرض، وإلا يأخذ الصغير ارتفاع عرض الشاشة كاملاً
-                WidgetPreviewView(kind: kind, size: size)
+                WidgetPreviewView(kind: kind, size: size, style: styles.style(for: kind))
                     .aspectRatio(size.aspectRatio, contentMode: .fit)
                     .cardStyle(radius: 28)
                     .frame(maxWidth: size == .small ? 200 : .infinity)
@@ -48,13 +50,23 @@ struct WidgetDetailView: View {
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
 
-                Button { showHowTo = true } label: {
-                    Label("طريقة إضافة الودجت", systemImage: "plus.square.on.square")
-                        .font(AppFont.uiBold(16))
-                        .frame(maxWidth: .infinity)
-                        .padding(.vertical, 14)
-                        .foregroundStyle(.black)
-                        .background(Theme.gold, in: RoundedRectangle(cornerRadius: 16))
+                VStack(spacing: 12) {
+                    Button { showCustomize = true } label: {
+                        Label("تخصيص الشكل", systemImage: "paintbrush.pointed")
+                            .font(AppFont.uiBold(16))
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 14)
+                            .foregroundStyle(.black)
+                            .background(Theme.gold, in: RoundedRectangle(cornerRadius: 16))
+                    }
+                    Button { showHowTo = true } label: {
+                        Label("طريقة إضافة الودجت", systemImage: "plus.square.on.square")
+                            .font(AppFont.uiBold(16))
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 14)
+                            .foregroundStyle(Theme.gold)
+                            .background(Theme.gold.opacity(0.12), in: RoundedRectangle(cornerRadius: 16))
+                    }
                 }
             }
             .padding(16)
@@ -63,5 +75,9 @@ struct WidgetDetailView: View {
         .navigationTitle(kind.title)
         .navigationBarTitleDisplayMode(.inline)
         .sheet(isPresented: $showHowTo) { HowToAddView() }
+        .sheet(isPresented: $showCustomize) {
+            WidgetCustomizeView(kind: kind, style: styles.style(for: kind), size: size)
+                .environment(styles)
+        }
     }
 }

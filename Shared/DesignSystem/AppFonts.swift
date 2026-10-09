@@ -11,7 +11,7 @@ import UIKit
 // MARK: - Weight
 
 /// أوزان الخطوط، مرتبة من الأخف إلى الأثقل.
-nonisolated enum AppFontWeight: Int, CaseIterable, Comparable, Sendable {
+nonisolated enum AppFontWeight: Int, CaseIterable, Comparable, Codable, Sendable {
     case extraLight = 200
     case light = 300
     case regular = 400
@@ -22,6 +22,26 @@ nonisolated enum AppFontWeight: Int, CaseIterable, Comparable, Sendable {
     case black = 900
 
     static func < (lhs: Self, rhs: Self) -> Bool { lhs.rawValue < rhs.rawValue }
+
+    /// وزن أثقل أو أخف بعدد من الدرجات، ضمن الأوزان المتاحة
+    func shifted(by steps: Int) -> AppFontWeight {
+        let all = Self.allCases
+        let index = all.firstIndex(of: self) ?? 0
+        return all[min(max(index + steps, 0), all.count - 1)]
+    }
+
+    var swiftUIWeight: Font.Weight {
+        switch self {
+        case .extraLight: .ultraLight
+        case .light: .light
+        case .regular: .regular
+        case .medium: .medium
+        case .semibold: .semibold
+        case .bold: .bold
+        case .extraBold: .heavy
+        case .black: .black
+        }
+    }
 
     var uiKitWeight: UIFont.Weight {
         switch self {
@@ -53,7 +73,7 @@ nonisolated enum AppFontWeight: Int, CaseIterable, Comparable, Sendable {
 // MARK: - Family
 
 /// عائلات الخطوط المضافة إلى المشروع. لإضافة عائلة جديدة: أضف ملفاتها إلى `UIAppFonts` في Info.plist ثم حالة هنا.
-nonisolated enum AppFontFamily: String, CaseIterable, Identifiable, Sendable {
+nonisolated enum AppFontFamily: String, CaseIterable, Identifiable, Codable, Sendable {
     case cairo
     case tajawal
     case amiri

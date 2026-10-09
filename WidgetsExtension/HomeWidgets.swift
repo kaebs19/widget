@@ -49,8 +49,11 @@ struct HomeWidgetView: View {
         if family.isLockScreen {
             LockScreenWidgetView(kind: entry.kind, date: entry.date, family: family)
         } else {
-            WidgetPreviewView(kind: entry.kind, date: entry.date, size: WidgetSize(family))
-                .containerBackground(for: .widget) { Theme.cardGradient }
+            // الشكل يُقرأ عند كل رسم، فأي تخصيص يحفظه التطبيق يظهر مع أول تحديث
+            let style = WidgetStyleStorage.style(for: entry.kind.rawValue)
+            WidgetPreviewView(kind: entry.kind, date: entry.date, size: WidgetSize(family),
+                              style: style, showsBackground: false)
+                .containerBackground(for: .widget) { WidgetBackgroundView(background: style.background) }
         }
     }
 }

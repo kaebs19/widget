@@ -117,6 +117,11 @@ enum WidgetKind: String, CaseIterable, Identifiable {
         }
     }
 
+    /// يعرض اسم يوم أو شهر يمكن كتابته بالخط العربي
+    var supportsCalligraphy: Bool {
+        self == .hijriDate || self == .dayName
+    }
+
     /// كل الأحجام المتاحة لهذا الودجت
     var supportedSizes: [WidgetSize] {
         switch self {

@@ -9,6 +9,8 @@ import SwiftUI
 
 @main
 struct WidgetsApp: App {
+    @State private var styleStore = WidgetStyleStore()
+
     init() {
         AppFontFamily.validateRegistration()
     }
@@ -21,6 +23,7 @@ struct WidgetsApp: App {
                 .environment(\.locale, Locale(identifier: "ar"))
                 .preferredColorScheme(.dark)
                 .tint(Theme.gold)
+                .environment(styleStore)
         }
     }
 }

@@ -67,10 +67,12 @@ struct SpecialOccasionHomeWidget: Widget {
     var body: some WidgetConfiguration {
         AppIntentConfiguration(kind: kind.rawValue, intent: SpecialOccasionIntent.self,
                                provider: SpecialOccasionProvider()) { entry in
+            let style = WidgetStyleStorage.style(for: WidgetKind.specialOccasion.rawValue)
             SpecialOccasionWidget(name: entry.name, occasionDate: entry.occasionDate,
                                   repeatsYearly: entry.repeatsYearly, date: entry.date)
+                .environment(\.widgetStyle, style)
                 .environment(\.layoutDirection, .rightToLeft)
-                .containerBackground(for: .widget) { Theme.cardGradient }
+                .containerBackground(for: .widget) { WidgetBackgroundView(background: style.background) }
         }
         .configurationDisplayName(kind.title)
         .description(kind.subtitle)

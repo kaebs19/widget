@@ -10,19 +10,22 @@ import SwiftUI
 // MARK: - نقاط السنة
 struct YearDotsWidget: View {
     let date: Date
+    @Environment(\.widgetStyle) private var style
 
     var body: some View {
         let progress = DateHelper.yearProgress(date)
+        // Canvas ما يقرأ البيئة، فنمرر الألوان جاهزة
+        let today = style.accent, passed = style.primary, upcoming = style.primary.opacity(0.18)
 
         VStack(alignment: .leading, spacing: 10) {
             HStack {
-                Text(DateHelper.arabic(DateHelper.gregorian.component(.year, from: date)))
-                    .foregroundStyle(Theme.textSecondary)
+                Text(style.number(DateHelper.gregorian.component(.year, from: date)))
+                    .foregroundStyle(style.secondary)
                 Spacer()
-                Text("٪\(DateHelper.arabic(progress.percent))")
-                    .foregroundStyle(Theme.gold)
+                Text(style.text("٪\(DateHelper.arabic(progress.percent))"))
+                    .foregroundStyle(style.accent)
             }
-            .font(AppFont.uiBold(14))
+            .font(style.font(.labelBold, 14))
 
             // Canvas يرسم كل النقاط في مرة وحدة، وأخف بكثير من ٣٦٥ Circle منفصلة
             Canvas { ctx, size in
@@ -40,8 +43,7 @@ struct YearDotsWidget: View {
 
                     let isToday = i == progress.dayOfYear - 1
                     let r = isToday ? radius * 1.6 : radius
-                    let color: Color = isToday ? Theme.gold
-                        : (i < progress.dayOfYear ? .white : .white.opacity(0.18))
+                    let color = isToday ? today : (i < progress.dayOfYear ? passed : upcoming)
 
                     ctx.fill(Path(ellipseIn: CGRect(x: x - r, y: y - r, width: r * 2, height: r * 2)),
                              with: .color(color))

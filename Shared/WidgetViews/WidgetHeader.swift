@@ -12,15 +12,16 @@ struct WidgetHeader: View {
     let icon: AppIcon
     let title: String
     var trailing: String? = nil
+    @Environment(\.widgetStyle) private var style
 
     var body: some View {
         HStack(spacing: 4) {
-            AppIconView(icon: icon, size: 13).foregroundStyle(Theme.gold)
+            AppIconView(icon: icon, size: 13).foregroundStyle(style.accent)
             Text(title)
             Spacer()
-            if let trailing { Text(trailing) }
+            if let trailing { Text(style.text(trailing)) }
         }
-        .font(AppFont.ui(11))
-        .foregroundStyle(Theme.textSecondary)
+        .font(style.font(.label, 11))
+        .foregroundStyle(style.secondary)
     }
 }

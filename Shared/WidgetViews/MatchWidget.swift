@@ -13,6 +13,7 @@ struct MatchWidget: View {
     var away = "النصر"
     var time = "٩:٠٠ م"
     var competition = "دوري روشن"
+    @Environment(\.widgetStyle) private var style
 
     var body: some View {
         VStack(spacing: 8) {
@@ -22,8 +23,8 @@ struct MatchWidget: View {
                 team(home)
                 Spacer()
                 VStack(spacing: 2) {
-                    Text(time).font(AppFont.number(22)).foregroundStyle(Theme.textPrimary)
-                    Text("بعد ٥ أيام").font(AppFont.ui(11)).foregroundStyle(Theme.gold)
+                    Text(style.text(time)).font(style.font(.number, 22)).foregroundStyle(style.primary)
+                    Text(style.text("بعد ٥ أيام")).font(style.font(.label, 11)).foregroundStyle(style.accent)
                 }
                 Spacer()
                 team(away)
@@ -37,11 +38,11 @@ struct MatchWidget: View {
     private func team(_ name: String) -> some View {
         VStack(spacing: 6) {
             Text(String(name.dropFirst(2).prefix(1)))
-                .font(AppFont.uiBold(16))
-                .foregroundStyle(Theme.textPrimary)
+                .font(style.font(.labelBold, 16))
+                .foregroundStyle(style.primary)
                 .frame(width: 40, height: 40)
-                .overlay(Circle().strokeBorder(Theme.border, lineWidth: 1.5))
-            Text(name).font(AppFont.uiBold(12)).foregroundStyle(Theme.textPrimary)
+                .overlay(Circle().strokeBorder(style.primary.opacity(0.15), lineWidth: 1.5))
+            Text(name).font(style.font(.labelBold, 12)).foregroundStyle(style.primary)
         }
     }
 }

@@ -11,6 +11,7 @@ import SwiftUI
 struct HijriDateWidget: View {
     let date: Date
     var size: WidgetSize = .medium
+    @Environment(\.widgetStyle) private var style
 
     var body: some View {
         if size == .small { small } else { medium }
@@ -22,19 +23,19 @@ struct HijriDateWidget: View {
             Spacer()
             HStack(alignment: .center) {
                 VStack(alignment: .leading, spacing: 4) {
-                    monthCalligraphy(height: 52)
-                    Text("\(DateHelper.hijriYear(date)) هـ · \(DateHelper.weekday(date))")
-                        .font(AppFont.ui(11))
-                        .foregroundStyle(Theme.gold)
+                    monthName(height: 52)
+                    Text(style.text("\(DateHelper.hijriYear(date)) هـ · \(DateHelper.weekday(date))"))
+                        .font(style.font(.label, 11))
+                        .foregroundStyle(style.accent)
                 }
                 Spacer()
                 VStack(spacing: 2) {
-                    Text(DateHelper.hijriDay(date))
-                        .font(AppFont.number(52))
-                        .foregroundStyle(Theme.textPrimary)
-                    Text(DateHelper.gregorianFull(date))
-                        .font(AppFont.ui(11))
-                        .foregroundStyle(Theme.textSecondary)
+                    Text(style.text(DateHelper.hijriDay(date)))
+                        .font(style.font(.number, 52))
+                        .foregroundStyle(style.primary)
+                    Text(style.text(DateHelper.gregorianFull(date)))
+                        .font(style.font(.label, 11))
+                        .foregroundStyle(style.secondary)
                 }
             }
             Spacer()
@@ -42,30 +43,40 @@ struct HijriDateWidget: View {
         .widgetContent()
     }
 
-    // التصميم ٠٨: السنة أعلى، اليوم كبير، والشهر بالخط تحته
+    // التصميم ٠٨: السنة أعلى، اليوم كبير، والشهر تحته
     private var small: some View {
         VStack(alignment: .leading, spacing: 0) {
             HStack {
                 Image(systemName: "moon")
                 Spacer()
-                Text("\(DateHelper.hijriYear(date)) هـ")
+                Text(style.text("\(DateHelper.hijriYear(date)) هـ"))
             }
-            .font(AppFont.uiBold(11))
-            .foregroundStyle(Theme.gold)
+            .font(style.font(.labelBold, 11))
+            .foregroundStyle(style.accent)
 
             Spacer(minLength: 0)
-            Text(DateHelper.hijriDay(date))
-                .font(AppFont.number(52))
-                .foregroundStyle(Theme.textPrimary)
-            monthCalligraphy(height: 36)
+            Text(style.text(DateHelper.hijriDay(date)))
+                .font(style.font(.number, 52))
+                .foregroundStyle(style.primary)
+            monthName(height: 36)
         }
         .widgetContent()
     }
 
-    private func monthCalligraphy(height: CGFloat) -> some View {
-        Image(Calligraphy.hijriMonth(for: date))
-            .calligraphy(height: height)
-            .foregroundStyle(Theme.textPrimary)
-            .accessibilityLabel(DateHelper.hijriMonth(date))
+    /// اسم الشهر بالخط العربي، أو نصاً بخط المستخدم إذا أوقف الخط العربي
+    @ViewBuilder
+    private func monthName(height: CGFloat) -> some View {
+        if style.usesCalligraphy {
+            Image(Calligraphy.hijriMonth(for: date))
+                .calligraphy(height: height)
+                .foregroundStyle(style.primary)
+                .accessibilityLabel(DateHelper.hijriMonth(date))
+        } else {
+            Text(DateHelper.hijriMonth(date))
+                .font(style.font(.textBold, height * 0.55))
+                .foregroundStyle(style.primary)
+                .lineLimit(1)
+                .minimumScaleFactor(0.6)
+        }
     }
 }

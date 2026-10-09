@@ -15,10 +15,20 @@ struct WidgetPreviewView: View {
     var date: Date = .now
     /// الحجم المعروض؛ إذا لم يُحدَّد نستخدم حجم المعرض
     var size: WidgetSize? = nil
+    /// الشكل الذي اختاره المستخدم لهذا النوع
+    var style: WidgetStyle = .default
+    /// التطبيق يرسم الخلفية هنا، والـ Widget يرسمها عبر containerBackground
+    var showsBackground = true
 
     var body: some View {
         content
+            .environment(\.widgetStyle, style)
             .environment(\.layoutDirection, .rightToLeft)
+            .background {
+                if showsBackground {
+                    WidgetBackgroundView(background: style.background)
+                }
+            }
     }
 
     @ViewBuilder
@@ -28,7 +38,7 @@ struct WidgetPreviewView: View {
         case .dayName:      DayNameWidget(date: date, size: resolvedSize)
         case .yearDots:     YearDotsWidget(date: date)
         case .morningDhikr:
-            let maxLetters = DhikrWidget.maxLetters(for: resolvedSize)
+            let maxLetters = DhikrWidget.maxLetters(for: resolvedSize, style: style)
             if let zikr = AzkarLibrary.bundled.rotatingZikr(in: ZikrGroup.morningID, at: date, maxLetters: maxLetters) {
                 DhikrWidget(zikr: zikr, showsInfo: resolvedSize != .small)
             }

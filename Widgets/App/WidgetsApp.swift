@@ -10,6 +10,7 @@ import SwiftUI
 @main
 struct WidgetsApp: App {
     @State private var styleStore = WidgetStyleStore()
+    @Environment(\.scenePhase) private var scenePhase
     @AppStorage(AppSettings.Key.accent, store: AppGroup.defaults) private var accent = AppAccent.gold
     @AppStorage(AppSettings.Key.hijriOffset, store: AppGroup.defaults) private var hijriOffset = 0
     @AppStorage(AppSettings.Key.weekStart, store: AppGroup.defaults) private var weekStart = 1
@@ -29,6 +30,10 @@ struct WidgetsApp: App {
                 // لون التمييز والتقويم يُقرأان من الإعدادات عند الرسم، فنعيد بناء الواجهة عند تغييرها
                 .id("\(accent.rawValue)|\(hijriOffset)|\(weekStart)")
                 .environment(styleStore)
+                // عند كل فتح للتطبيق تمتد تنبيهات الأذان لأيام قادمة
+                .onChange(of: scenePhase) { _, phase in
+                    if phase == .active { Task { await PrayerNotifications.reschedule() } }
+                }
         }
     }
 }

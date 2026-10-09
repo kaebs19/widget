@@ -43,6 +43,8 @@ nonisolated struct WidgetTimelineProvider: AppIntentTimelineProvider {
 
     func timeline(for configuration: WidgetStyleIntent, in context: Context) async -> Timeline<WidgetEntry> {
         let styleID = configuration.style?.id
+        // ودجات الصلاة تتحدث باستمرار، فنجدّد معها تنبيهات الأذان حتى لو لم يُفتح التطبيق
+        if kind.category == .prayer { await PrayerNotifications.reschedule() }
         let dates = kind.category == .prayer ? TimelineSchedule.prayer() : TimelineSchedule.hourly()
         let entries = dates.map { WidgetEntry(date: $0, kind: kind, styleID: styleID) }
         return Timeline(entries: entries, policy: .atEnd)

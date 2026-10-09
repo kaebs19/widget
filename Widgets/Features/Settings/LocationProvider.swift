@@ -84,6 +84,7 @@ final class LocationProvider: NSObject, CLLocationManagerDelegate {
 enum PrayerWidgets {
     /// ودجات الصلاة تعيد الحساب بالموقع أو الطريقة الجديدة
     static func reload() {
+        Task { await PrayerNotifications.reschedule() }
         for kind in WidgetKind.allCases where kind.category == .prayer {
             WidgetCenter.shared.reloadTimelines(ofKind: kind.rawValue)
         }

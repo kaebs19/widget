@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import UserNotifications
 
 // MARK: - إعدادات الصلاة
 // في الإعدادات وفي صفحات ودجات الصلاة
@@ -13,6 +14,10 @@ struct PrayerSettingsSection: View {
     @State private var locator = LocationProvider()
     @AppStorage(PrayerSchedule.Key.method, store: AppGroup.defaults) private var method = PrayerMethod.ummAlQura
     @AppStorage(PrayerSchedule.Key.madhab, store: AppGroup.defaults) private var isHanafi = false
+    @AppStorage(PrayerNotifications.Key.enabled, store: AppGroup.defaults) private var notify = false
+    @AppStorage(PrayerNotifications.Key.minutesBefore, store: AppGroup.defaults) private var minutesBefore = 0
+    @State private var selectedPrayers = PrayerNotifications.prayers
+    @State private var notificationsDenied = false
 
     var body: some View {
         SettingsSection("أوقات الصلاة") {
@@ -52,6 +57,42 @@ struct PrayerSettingsSection: View {
                 .labelsHidden()
             }
             Toggle("العصر على المذهب الحنفي", isOn: $isHanafi)
+            Divider()
+            Toggle(isOn: $notify) {
+                Label("تنبيه الأذان", systemImage: "bell.badge")
+            }
+            if notify {
+                HStack(spacing: 6) {
+                    ForEach(PrayerName.fard) { prayer in
+                        let isOn = selectedPrayers.contains(prayer)
+                        Button {
+                            if isOn { selectedPrayers.remove(prayer) } else { selectedPrayers.insert(prayer) }
+                        } label: {
+                            Text(prayer.title)
+                                .font(AppFont.ui(13))
+                                .frame(maxWidth: .infinity)
+                                .padding(.vertical, 8)
+                                .foregroundStyle(isOn ? Theme.onAccent : Theme.textPrimary)
+                                .background(isOn ? AnyShapeStyle(Theme.gold) : AnyShapeStyle(Theme.cardTop), in: Capsule())
+                        }
+                        .buttonStyle(.plain)
+                    }
+                }
+                HStack {
+                    Text("وقت التنبيه")
+                    Spacer()
+                    Picker("وقت التنبيه", selection: $minutesBefore) {
+                        Text("عند الأذان").tag(0)
+                        ForEach([5, 10, 15, 30], id: \.self) { Text("قبل \(DateHelper.arabic($0)) دقيقة").tag($0) }
+                    }
+                    .labelsHidden()
+                }
+                if notificationsDenied {
+                    Text("التنبيهات مقفلة للتطبيق. فعّلها من إعدادات الجهاز.")
+                        .font(AppFont.ui(12))
+                        .foregroundStyle(Color.red.opacity(0.85))
+                }
+            }
             Text(method == .ummAlQura
                  ? "أم القرى: العشاء بعد المغرب بساعة ونصف، وساعتين في رمضان."
                  : "اختر الطريقة المعتمدة في بلدك.")
@@ -62,5 +103,20 @@ struct PrayerSettingsSection: View {
         .foregroundStyle(Theme.textPrimary)
         .onChange(of: method) { PrayerWidgets.reload() }
         .onChange(of: isHanafi) { PrayerWidgets.reload() }
+        .onChange(of: minutesBefore) { PrayerWidgets.reload() }
+        .onChange(of: selectedPrayers) { _, prayers in
+            PrayerNotifications.setPrayers(prayers)
+            PrayerWidgets.reload()
+        }
+        .onChange(of: notify) { _, on in
+            Task {
+                if on {
+                    let granted = (try? await UNUserNotificationCenter.current()
+                        .requestAuthorization(options: [.alert, .sound, .timeSensitive])) ?? false
+                    notificationsDenied = !granted
+                }
+                await PrayerNotifications.reschedule()
+            }
+        }
     }
 }

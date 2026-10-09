@@ -7,12 +7,14 @@
 
 import SwiftUI
 import UserNotifications
+import WidgetKit
 
 // MARK: - مناسباتي
 // المناسبات المحفوظة هنا تظهر في «تعديل الودجت» لودجت «مناسبة خاصة».
 struct OccasionsView: View {
     @State private var occasions = OccasionStore.all()
     @State private var editing: Occasion?
+    @AppStorage(AppSettings.Key.reminderHour, store: AppGroup.defaults) private var reminderHour = 9
 
     private var sorted: [Occasion] {
         occasions.sorted { $0.nextDate() < $1.nextDate() }
@@ -32,6 +34,25 @@ struct OccasionsView: View {
                         .contextMenu {
                             Button("حذف", systemImage: "trash", role: .destructive) { delete(occasion) }
                         }
+                    }
+                    SettingsSection("التذكير") {
+                        HStack {
+                            Text("وقت تذكير «قبل يوم»")
+                            Spacer()
+                            Picker("وقت التذكير", selection: $reminderHour) {
+                                ForEach(Array(6...22), id: \.self) { hour in
+                                    Text(AppSettings.reminderTimeLabel(hour)).tag(hour)
+                                }
+                            }
+                            .labelsHidden()
+                        }
+                        .font(AppFont.ui(15))
+                        .foregroundStyle(Theme.textPrimary)
+                    }
+                    .padding(.top, 8)
+                    .onChange(of: reminderHour) {
+                        OccasionStore.save(occasions)
+                        WidgetCenter.shared.reloadTimelines(ofKind: WidgetKind.specialOccasion.rawValue)
                     }
                     Text("اختر أي مناسبة لودجت «مناسبة خاصة»: اضغط عليه مطولاً ثم «تعديل الودجت» ← «من مناسباتي».")
                         .font(AppFont.ui(12))

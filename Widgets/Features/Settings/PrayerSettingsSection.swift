@@ -23,7 +23,8 @@ struct PrayerSettingsSection: View {
     @State private var notificationsDenied = false
 
     var body: some View {
-        SettingsSection("أوقات الصلاة") {
+        VStack(spacing: 20) {
+        SettingsSection("الموقع") {
             HStack(spacing: 12) {
                 Image(systemName: locator.location == nil ? "location.slash" : "location.fill")
                     .foregroundStyle(Theme.gold)
@@ -49,8 +50,9 @@ struct PrayerSettingsSection: View {
                 }
                 .disabled(locator.isLocating)
             }
+        }
 
-            Divider()
+        SettingsSection("طريقة الحساب") {
             HStack {
                 Text("طريقة الحساب")
                 Spacer()
@@ -60,7 +62,14 @@ struct PrayerSettingsSection: View {
                 .labelsHidden()
             }
             Toggle("العصر على المذهب الحنفي", isOn: $isHanafi)
-            Divider()
+            Text(method == .ummAlQura
+                 ? "أم القرى: العشاء بعد المغرب بساعة ونصف، وساعتين في رمضان."
+                 : "اختر الطريقة المعتمدة في بلدك.")
+                .font(AppFont.ui(12))
+                .foregroundStyle(Theme.textSecondary)
+        }
+
+        SettingsSection("التنبيهات") {
             Toggle(isOn: $notify) {
                 Label("تنبيه الأذان", systemImage: "bell.badge")
             }
@@ -99,7 +108,9 @@ struct PrayerSettingsSection: View {
             Toggle(isOn: $afterAdhkar) {
                 Label("تذكير بأذكار بعد الصلاة", systemImage: "text.book.closed")
             }
-            Divider()
+        }
+
+        SettingsSection("أدوات") {
             HStack(spacing: 10) {
                 Button { showAdjustments = true } label: {
                     Label("تعديل الدقائق", systemImage: "slider.horizontal.3")
@@ -116,11 +127,7 @@ struct PrayerSettingsSection: View {
             }
             .font(AppFont.uiBold(14))
             .foregroundStyle(Theme.gold)
-            Text(method == .ummAlQura
-                 ? "أم القرى: العشاء بعد المغرب بساعة ونصف، وساعتين في رمضان."
-                 : "اختر الطريقة المعتمدة في بلدك.")
-                .font(AppFont.ui(12))
-                .foregroundStyle(Theme.textSecondary)
+        }
         }
         .font(AppFont.ui(15))
         .foregroundStyle(Theme.textPrimary)

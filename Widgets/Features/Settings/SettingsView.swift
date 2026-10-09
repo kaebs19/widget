@@ -15,7 +15,6 @@ struct SettingsView: View {
     @State private var showResetAll = false
     @State private var showResetCounter = false
     @AppStorage(AppSettings.Key.haptics, store: AppGroup.defaults) private var haptics = true
-    @AppStorage(AppSettings.Key.reminderHour, store: AppGroup.defaults) private var reminderHour = 9
     @AppStorage(AppSettings.Key.hijriOffset, store: AppGroup.defaults) private var hijriOffset = 0
     @AppStorage(AppSettings.Key.weekStart, store: AppGroup.defaults) private var weekStart = 1
     @AppStorage(AppSettings.Key.colorScheme, store: AppGroup.defaults) private var colorScheme = ColorSchemeChoice.dark
@@ -24,14 +23,21 @@ struct SettingsView: View {
     var body: some View {
         NavigationStack {
             ScrollView {
-                VStack(spacing: 20) {
-                    occasionsLink
-                    PrayerSettingsSection()
-                    appearanceSection
-                    widgetDefaultsSection
-                    counterSection
-                    calendarSection
-                    aboutSection
+                VStack(spacing: 24) {
+                    header
+                    group("المحتوى") {
+                        row(.prayer)
+                        row(.occasions)
+                        row(.counter)
+                    }
+                    group("الشكل") {
+                        row(.appearance)
+                        row(.widgetDefaults)
+                    }
+                    group("عام") {
+                        row(.calendar)
+                        row(.about)
+                    }
                 }
                 .padding(16)
             }
@@ -43,32 +49,118 @@ struct SettingsView: View {
                     Button("تم") { dismiss() }
                 }
             }
+            .navigationDestination(for: SettingsPage.self) { page in
+                destination(page)
+            }
         }
         .tint(Theme.gold)
     }
 
-    // MARK: مناسباتي
-    private var occasionsLink: some View {
-        NavigationLink { OccasionsView() } label: {
-            HStack(spacing: 12) {
-                Image(systemName: "birthday.cake")
-                    .foregroundStyle(Theme.gold)
-                    .frame(width: 36, height: 36)
-                    .background(Theme.gold.opacity(0.12), in: Circle())
-                VStack(alignment: .leading, spacing: 2) {
-                    Text("مناسباتي").font(AppFont.uiBold(16))
-                    Text("أعياد الميلاد والذكريات لودجت «مناسبة خاصة»")
-                        .font(AppFont.ui(12))
-                        .foregroundStyle(Theme.textSecondary)
-                }
-                Spacer()
-                Image(systemName: "chevron.left").font(.footnote).foregroundStyle(Theme.textSecondary)
+    // MARK: الصفحة الرئيسية
+    private var header: some View {
+        HStack(spacing: 14) {
+            Image(systemName: "square.grid.2x2.fill")
+                .font(.system(size: 26))
+                .foregroundStyle(Theme.onAccent)
+                .frame(width: 60, height: 60)
+                .background(Theme.gold, in: RoundedRectangle(cornerRadius: 16, style: .continuous))
+            VStack(alignment: .leading, spacing: 3) {
+                Text("ويدجت").font(AppFont.uiBold(20))
+                Text("خصّص ودجاتك وأوقات صلاتك ومناسباتك")
+                    .font(AppFont.ui(13))
+                    .foregroundStyle(Theme.textSecondary)
             }
-            .foregroundStyle(Theme.textPrimary)
-            .padding(14)
+            Spacer()
+        }
+        .foregroundStyle(Theme.textPrimary)
+        .padding(16)
+        .background(Theme.cardTop.opacity(0.6), in: RoundedRectangle(cornerRadius: 20, style: .continuous))
+    }
+
+    private func group<Content: View>(_ title: String, @ViewBuilder content: () -> Content) -> some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text(title)
+                .font(AppFont.uiBold(14))
+                .foregroundStyle(Theme.textSecondary)
+                .padding(.horizontal, 6)
+            VStack(spacing: 0) {
+                content()
+            }
             .background(Theme.cardTop.opacity(0.6), in: RoundedRectangle(cornerRadius: 18, style: .continuous))
         }
+    }
+
+    private func row(_ page: SettingsPage) -> some View {
+        NavigationLink(value: page) {
+            HStack(spacing: 12) {
+                Image(systemName: page.symbol)
+                    .font(.system(size: 16, weight: .semibold))
+                    .foregroundStyle(.white)
+                    .frame(width: 34, height: 34)
+                    .background(page.color, in: RoundedRectangle(cornerRadius: 9, style: .continuous))
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(page.title).font(AppFont.uiBold(15))
+                    Text(summary(page))
+                        .font(AppFont.ui(12))
+                        .foregroundStyle(Theme.textSecondary)
+                        .lineLimit(1)
+                }
+                Spacer()
+                Image(systemName: "chevron.left")
+                    .font(.footnote.weight(.semibold))
+                    .foregroundStyle(Theme.textSecondary)
+            }
+            .foregroundStyle(Theme.textPrimary)
+            .padding(.horizontal, 14)
+            .padding(.vertical, 12)
+            .contentShape(Rectangle())
+        }
         .buttonStyle(.plain)
+    }
+
+    /// سطر صغير تحت كل قسم يلخّص إعداده الحالي
+    private func summary(_ page: SettingsPage) -> String {
+        switch page {
+        case .prayer:
+            "\(PrayerLocation.current.city) · \(PrayerSchedule.method.title)"
+        case .occasions:
+            OccasionStore.all().isEmpty ? "أعياد الميلاد والذكريات" : "\(DateHelper.arabic(OccasionStore.all().count)) مناسبة"
+        case .counter:
+            haptics ? "الاهتزاز مفعّل" : "الاهتزاز متوقف"
+        case .appearance:
+            "\(colorScheme.title) · \(accent.title)"
+        case .widgetDefaults:
+            "الخلفية والخط والأرقام"
+        case .calendar:
+            "تصحيح الهجري: \(offsetLabel)"
+        case .about:
+            "الإصدار \(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "")"
+        }
+    }
+
+    @ViewBuilder
+    private func destination(_ page: SettingsPage) -> some View {
+        switch page {
+        case .occasions:
+            OccasionsView()
+        default:
+            ScrollView {
+                VStack(spacing: 20) {
+                    switch page {
+                    case .prayer: PrayerSettingsSection()
+                    case .counter: counterSection
+                    case .appearance: appearanceSection
+                    case .widgetDefaults: widgetDefaultsSection
+                    case .calendar: calendarSection
+                    case .about, .occasions: aboutSection
+                    }
+                }
+                .padding(16)
+            }
+            .background(Theme.background.ignoresSafeArea())
+            .navigationTitle(page.title)
+            .navigationBarTitleDisplayMode(.inline)
+        }
     }
 
     // MARK: المظهر
@@ -149,7 +241,7 @@ struct SettingsView: View {
 
     // MARK: العدّاد والتنبيهات
     private var counterSection: some View {
-        SettingsSection("العدّاد والتنبيهات") {
+        SettingsSection("عدّاد الذكر") {
             Toggle("اهتزاز عند العدّ داخل التطبيق", isOn: $haptics)
             Button(role: .destructive) { showResetCounter = true } label: {
                 Label("تصفير عدّاد اليوم", systemImage: "arrow.counterclockwise")
@@ -160,24 +252,6 @@ struct SettingsView: View {
                     WidgetCenter.shared.reloadTimelines(ofKind: WidgetKind.istighfar.rawValue)
                 }
             }
-            Divider()
-            HStack {
-                Text("وقت تذكير المناسبات")
-                Spacer()
-                Picker("وقت تذكير المناسبات", selection: $reminderHour) {
-                    ForEach(Array(stride(from: 6, through: 22, by: 1)), id: \.self) { hour in
-                        Text(AppSettings.reminderTimeLabel(hour)).tag(hour)
-                    }
-                }
-                .labelsHidden()
-            }
-            .onChange(of: reminderHour) {
-                // الودجات تعيد جدولة تذكيراتها بالوقت الجديد
-                WidgetCenter.shared.reloadTimelines(ofKind: WidgetKind.specialOccasion.rawValue)
-            }
-            Text("تنبيه «ذكّرني قبل يوم» يصل في هذا الوقت من اليوم السابق للمناسبة.")
-                .font(AppFont.ui(12))
-                .foregroundStyle(Theme.textSecondary)
         }
         .font(AppFont.ui(15))
         .foregroundStyle(Theme.textPrimary)
@@ -264,5 +338,47 @@ private struct AccentSwatch: View {
         .buttonStyle(.plain)
         .accessibilityLabel(accent.title)
         .accessibilityAddTraits(isSelected ? .isSelected : [])
+    }
+}
+
+// MARK: - أقسام الإعدادات
+enum SettingsPage: Hashable {
+    case prayer, occasions, counter, appearance, widgetDefaults, calendar, about
+
+    var title: String {
+        switch self {
+        case .prayer:         "أوقات الصلاة"
+        case .occasions:      "مناسباتي"
+        case .counter:        "عدّاد الذكر"
+        case .appearance:     "المظهر"
+        case .widgetDefaults: "الشكل الافتراضي للودجات"
+        case .calendar:       "التقويم"
+        case .about:          "عن التطبيق"
+        }
+    }
+
+    var symbol: String {
+        switch self {
+        case .prayer:         "moon.stars.fill"
+        case .occasions:      "birthday.cake.fill"
+        case .counter:        "circle.dotted.circle"
+        case .appearance:     "paintpalette.fill"
+        case .widgetDefaults: "square.on.square.fill"
+        case .calendar:       "calendar"
+        case .about:          "info.circle.fill"
+        }
+    }
+
+    /// لون مربع الأيقونة، على طريقة إعدادات iOS
+    var color: Color {
+        switch self {
+        case .prayer:         Color(red: 0.11, green: 0.49, blue: 0.33)
+        case .occasions:      Color(red: 0.85, green: 0.36, blue: 0.47)
+        case .counter:        Color(red: 0.55, green: 0.42, blue: 0.85)
+        case .appearance:     Color(red: 0.93, green: 0.58, blue: 0.20)
+        case .widgetDefaults: Color(red: 0.25, green: 0.52, blue: 0.90)
+        case .calendar:       Color(red: 0.88, green: 0.30, blue: 0.27)
+        case .about:          Color(white: 0.55)
+        }
     }
 }

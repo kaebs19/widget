@@ -98,6 +98,8 @@ struct WidgetDetailView: View {
                         }
                     }
 
+                    LockScreenPreview(kind: kind, style: style, tasbeeh: tasbeeh)
+
                     WidgetCustomizeView(kind: kind, style: styleBinding)
                 }
                 .padding(16)

@@ -53,14 +53,29 @@ struct IstighfarHomeWidget: Widget {
 
     var body: some WidgetConfiguration {
         AppIntentConfiguration(kind: kind.rawValue, intent: TasbeehIntent.self, provider: TasbeehProvider()) { entry in
-            let style = WidgetStyleStorage.style(for: WidgetKind.istighfar.rawValue, savedStyleID: entry.styleID)
+            TasbeehEntryView(entry: entry)
+        }
+        .configurationDisplayName(kind.title)
+        .description(kind.subtitle)
+        .supportedFamilies(kind.supportedSizes.map(\.family) + kind.lockScreenFamilies)
+        .contentMarginsDisabled()
+    }
+}
+
+// MARK: - العرض
+struct TasbeehEntryView: View {
+    let entry: TasbeehEntry
+    @Environment(\.widgetFamily) private var family
+
+    var body: some View {
+        let style = WidgetStyleStorage.style(for: WidgetKind.istighfar.rawValue, savedStyleID: entry.styleID)
+        if family.isLockScreen {
+            TasbeehLockView(dhikr: entry.dhikr, date: entry.date, family: family, style: style)
+                .lockScreenContainer(family: family)
+        } else {
             WidgetPreviewView(kind: .istighfar, date: entry.date, size: .small, style: style,
                               showsBackground: false, tasbeeh: entry.dhikr)
                 .containerBackground(for: .widget) { WidgetBackgroundView(background: style.background) }
         }
-        .configurationDisplayName(kind.title)
-        .description(kind.subtitle)
-        .supportedFamilies(kind.supportedSizes.map(\.family))
-        .contentMarginsDisabled()
     }
 }

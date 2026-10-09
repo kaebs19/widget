@@ -90,16 +90,47 @@ struct SpecialOccasionHomeWidget: Widget {
     var body: some WidgetConfiguration {
         AppIntentConfiguration(kind: kind.rawValue, intent: SpecialOccasionIntent.self,
                                provider: SpecialOccasionProvider()) { entry in
-            let style = WidgetStyleStorage.style(for: WidgetKind.specialOccasion.rawValue, savedStyleID: entry.styleID)
+            SpecialOccasionEntryView(entry: entry)
+        }
+        .configurationDisplayName(kind.title)
+        .description(kind.subtitle)
+        .supportedFamilies(kind.supportedSizes.map(\.family) + kind.lockScreenFamilies)
+        .contentMarginsDisabled()
+    }
+}
+
+// MARK: - العرض
+struct SpecialOccasionEntryView: View {
+    let entry: SpecialOccasionEntry
+    @Environment(\.widgetFamily) private var family
+
+    var body: some View {
+        let style = WidgetStyleStorage.style(for: WidgetKind.specialOccasion.rawValue, savedStyleID: entry.styleID)
+        if family.isLockScreen {
+            lockScreen(style: style)
+                .lockScreenContainer(family: family)
+        } else {
             SpecialOccasionWidget(name: entry.name, occasionDate: entry.occasionDate,
                                   repeatsYearly: entry.repeatsYearly, date: entry.date, type: entry.type)
                 .environment(\.widgetStyle, style)
                 .environment(\.layoutDirection, .rightToLeft)
                 .containerBackground(for: .widget) { WidgetBackgroundView(background: style.background) }
         }
-        .configurationDisplayName(kind.title)
-        .description(kind.subtitle)
-        .supportedFamilies(kind.supportedSizes.map(\.family))
-        .contentMarginsDisabled()
+    }
+
+    @ViewBuilder
+    private func lockScreen(style: WidgetStyle) -> some View {
+        if let occasionDate = entry.occasionDate {
+            let target = DateHelper.nextOccurrence(of: occasionDate, repeatsYearly: entry.repeatsYearly, from: entry.date)
+            let calendar = DateHelper.gregorian
+            let days = max(calendar.dateComponents([.day], from: calendar.startOfDay(for: entry.date),
+                                                   to: calendar.startOfDay(for: target)).day ?? 0, 0)
+            LockCountdownView(countdown: LockCountdown(title: entry.name, symbol: entry.type?.symbol ?? "star.fill",
+                                                       days: days, detail: DateHelper.weekdayDayMonth(target)),
+                              family: family, style: style)
+        } else {
+            Label("اختر مناسبة", systemImage: "star")
+                .font(style.font(.label, 12))
+        }
     }
 }

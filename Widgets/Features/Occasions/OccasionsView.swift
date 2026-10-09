@@ -53,7 +53,7 @@ struct OccasionsView: View {
                 .accessibilityLabel("إضافة مناسبة")
             }
         }
-        .sheet(item: $editing) { occasion in
+        .fullScreenCover(item: $editing) { occasion in
             OccasionEditor(occasion: occasion, isNew: !occasions.contains { $0.id == occasion.id },
                            onSave: save, onDelete: delete)
                 .appAppearance()

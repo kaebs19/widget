@@ -47,11 +47,11 @@ struct HomeWidgetView: View {
     @Environment(\.widgetFamily) private var family
 
     var body: some View {
+        // الشكل يُقرأ عند كل رسم، فأي تخصيص يحفظه التطبيق يظهر مع أول تحديث
+        let style = WidgetStyleStorage.style(for: entry.kind.rawValue, savedStyleID: entry.styleID)
         if family.isLockScreen {
-            LockScreenWidgetView(kind: entry.kind, date: entry.date, family: family)
+            LockScreenWidgetView(kind: entry.kind, date: entry.date, family: family, style: style)
         } else {
-            // الشكل يُقرأ عند كل رسم، فأي تخصيص يحفظه التطبيق يظهر مع أول تحديث
-            let style = WidgetStyleStorage.style(for: entry.kind.rawValue, savedStyleID: entry.styleID)
             WidgetPreviewView(kind: entry.kind, date: entry.date, size: WidgetSize(family),
                               style: style, showsBackground: false)
                 .containerBackground(for: .widget) { WidgetBackgroundView(background: style.background) }

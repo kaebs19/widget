@@ -21,7 +21,7 @@ struct ReminderPermissionView: View {
             Label("تذكير قبل المناسبة", systemImage: "bell.badge")
                 .font(AppFont.uiBold(15))
                 .foregroundStyle(Theme.textPrimary)
-            Text("فعّل «ذكّرني قبل يوم» من «تعديل الودجت»، ويصلك تنبيه الساعة ٩ صباح اليوم السابق.")
+            Text("فعّل «ذكّرني قبل يوم» من «تعديل الودجت»، ويصلك تنبيه \(AppSettings.reminderTimeLabel()) في اليوم السابق. تقدر تغيّر الوقت من الإعدادات.")
                 .font(AppFont.ui(13))
                 .foregroundStyle(Theme.textSecondary)
             action

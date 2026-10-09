@@ -13,6 +13,21 @@ nonisolated enum AppSettings {
     enum Key {
         static let colorScheme = "settings.colorScheme"
         static let accent = "settings.accent"
+        static let haptics = "settings.haptics"
+        static let reminderHour = "settings.reminderHour"
+    }
+
+    /// ساعة تنبيه «ذكّرني قبل يوم» في اليوم السابق للمناسبة (٠–٢٣)
+    static var reminderHour: Int {
+        AppGroup.defaults.object(forKey: Key.reminderHour) as? Int ?? 9
+    }
+
+    /// «الساعة ٩ صباحاً»، «الساعة ٨ مساءً»
+    @MainActor
+    static func reminderTimeLabel(_ hour: Int = reminderHour) -> String {
+        let display = hour % 12 == 0 ? 12 : hour % 12
+        let period = hour < 12 ? "صباحاً" : (hour < 18 ? "ظهراً" : "مساءً")
+        return "الساعة \(DateHelper.arabic(display)) \(period)"
     }
 }
 

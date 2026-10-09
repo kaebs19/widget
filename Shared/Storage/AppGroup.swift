@@ -28,6 +28,14 @@ nonisolated enum TasbeehCounter {
         defaults.string(forKey: dhikr.dayKey) == dayID(for: date) ? defaults.integer(forKey: dhikr.countKey) : 0
     }
 
+    /// يصفّر عدد اليوم لكل الأذكار
+    static func resetToday(in defaults: UserDefaults = AppGroup.defaults) {
+        for dhikr in TasbeehDhikr.allCases {
+            defaults.removeObject(forKey: dhikr.countKey)
+            defaults.removeObject(forKey: dhikr.dayKey)
+        }
+    }
+
     static func increment(_ dhikr: TasbeehDhikr, on date: Date = .now, in defaults: UserDefaults = AppGroup.defaults) {
         let next = count(of: dhikr, on: date, in: defaults) + 1
         defaults.set(dayID(for: date), forKey: dhikr.dayKey)

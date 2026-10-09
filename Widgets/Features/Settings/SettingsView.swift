@@ -6,12 +6,16 @@
 //
 
 import SwiftUI
+import WidgetKit
 
 // MARK: - الإعدادات
 struct SettingsView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(WidgetStyleStore.self) private var styles
     @State private var showResetAll = false
+    @State private var showResetCounter = false
+    @AppStorage(AppSettings.Key.haptics, store: AppGroup.defaults) private var haptics = true
+    @AppStorage(AppSettings.Key.reminderHour, store: AppGroup.defaults) private var reminderHour = 9
     @AppStorage(AppSettings.Key.colorScheme, store: AppGroup.defaults) private var colorScheme = ColorSchemeChoice.dark
     @AppStorage(AppSettings.Key.accent, store: AppGroup.defaults) private var accent = AppAccent.gold
 
@@ -21,6 +25,7 @@ struct SettingsView: View {
                 VStack(spacing: 20) {
                     appearanceSection
                     widgetDefaultsSection
+                    counterSection
                     aboutSection
                 }
                 .padding(16)
@@ -111,6 +116,37 @@ struct SettingsView: View {
                 Text("كل ودجت خصّصته يرجع للشكل الافتراضي. أنماطك المحفوظة تبقى.")
             }
         }
+    }
+
+    // MARK: العدّاد والتنبيهات
+    private var counterSection: some View {
+        SettingsSection("العدّاد والتنبيهات") {
+            Toggle("اهتزاز عند العدّ داخل التطبيق", isOn: $haptics)
+            Button(role: .destructive) { showResetCounter = true } label: {
+                Label("تصفير عدّاد اليوم", systemImage: "arrow.counterclockwise")
+            }
+            .confirmationDialog("تصفير عدد اليوم لكل الأذكار؟", isPresented: $showResetCounter, titleVisibility: .visible) {
+                Button("تصفير", role: .destructive) {
+                    TasbeehCounter.resetToday()
+                    WidgetCenter.shared.reloadTimelines(ofKind: WidgetKind.istighfar.rawValue)
+                }
+            }
+            Divider()
+            Picker("وقت تذكير المناسبات", selection: $reminderHour) {
+                ForEach(Array(stride(from: 6, through: 22, by: 1)), id: \.self) { hour in
+                    Text(AppSettings.reminderTimeLabel(hour)).tag(hour)
+                }
+            }
+            .onChange(of: reminderHour) {
+                // الودجات تعيد جدولة تذكيراتها بالوقت الجديد
+                WidgetCenter.shared.reloadTimelines(ofKind: WidgetKind.specialOccasion.rawValue)
+            }
+            Text("تنبيه «ذكّرني قبل يوم» يصل في هذا الوقت من اليوم السابق للمناسبة.")
+                .font(AppFont.ui(12))
+                .foregroundStyle(Theme.textSecondary)
+        }
+        .font(AppFont.ui(15))
+        .foregroundStyle(Theme.textPrimary)
     }
 
     // MARK: عن التطبيق

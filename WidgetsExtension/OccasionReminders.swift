@@ -10,12 +10,11 @@ import UserNotifications
 import WidgetKit
 
 // MARK: - تذكير المناسبة الخاصة
-// كل ودجت مناسبة فعّل «ذكّرني قبل يوم» له تنبيه الساعة ٩ صباح اليوم السابق.
+// كل ودجت مناسبة فعّل «ذكّرني قبل يوم» له تنبيه في اليوم السابق، في الساعة المختارة من الإعدادات.
 // نقرأ إعدادات كل الودجات المضافة، فالتنبيهات تبقى مطابقة لها حتى لو حُذف ودجت أو تغيّر تاريخه.
 // إذن التنبيهات يُطلب من التطبيق، فبدونه لا نجدول شيئاً.
 enum OccasionReminders {
     private static let prefix = "occasion."
-    private static let hour = 9
 
     static func sync(now: Date = .now) async {
         let center = UNUserNotificationCenter.current()
@@ -43,7 +42,7 @@ enum OccasionReminders {
         let calendar = DateHelper.gregorian
         let target = DateHelper.nextOccurrence(of: date, repeatsYearly: repeatsYearly, from: now)
         guard let dayBefore = calendar.date(byAdding: .day, value: -1, to: calendar.startOfDay(for: target)),
-              let fireDate = calendar.date(bySettingHour: hour, minute: 0, second: 0, of: dayBefore),
+              let fireDate = calendar.date(bySettingHour: AppSettings.reminderHour, minute: 0, second: 0, of: dayBefore),
               fireDate > now else { return nil }
 
         let content = UNMutableNotificationContent()

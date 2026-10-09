@@ -19,6 +19,7 @@ struct IstighfarWidget: View {
     // يقرأ من المساحة المشتركة، وداخل التطبيق يعيد الرسم فور الضغط على الزر
     @AppStorage private var storedCount: Int
     @AppStorage private var storedDay: String
+    @AppStorage(AppSettings.Key.haptics, store: AppGroup.defaults) private var haptics = true
 
     init(dhikr: TasbeehDhikr = .istighfar, date: Date = .now) {
         self.dhikr = dhikr
@@ -89,6 +90,11 @@ struct IstighfarWidget: View {
             }
         }
         .widgetContent()
+        // اهتزاز خفيف مع كل ضغطة داخل التطبيق (الـ Widget يتجاهله)، وأقوى عند الإكمال
+        .sensoryFeedback(trigger: count) { old, new in
+            guard haptics, new > old else { return nil }
+            return dhikr.goal == new ? .success : .impact(weight: .light)
+        }
     }
 
     private var goalLabel: String {

@@ -39,6 +39,10 @@ struct WidgetPreviewView: View {
         case .hijriDate:    HijriDateWidget(date: date, size: resolvedSize)
         case .dayName:      DayNameWidget(date: date, size: resolvedSize)
         case .yearDots:     YearDotsWidget(date: date)
+        case .tearOff:      TearOffCalendarWidget(date: date)
+        case .dualDate:     DualDateWidget(date: date)
+        case .gregorianMonth: MonthCalendarWidget(date: date, isHijri: false)
+        case .hijriMonth:   MonthCalendarWidget(date: date, isHijri: true)
         case .morningDhikr:
             let maxLetters = DhikrWidget.maxLetters(for: resolvedSize, style: style)
             if let zikr = AzkarLibrary.bundled.rotatingZikr(in: ZikrGroup.morningID, at: date, maxLetters: maxLetters) {

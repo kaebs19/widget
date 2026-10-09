@@ -31,6 +31,10 @@ extension HomeWidget {
 struct HijriDateHomeWidget: HomeWidget { static let kind = WidgetKind.hijriDate }
 struct DayNameHomeWidget: HomeWidget { static let kind = WidgetKind.dayName }
 struct YearDotsHomeWidget: HomeWidget { static let kind = WidgetKind.yearDots }
+struct TearOffHomeWidget: HomeWidget { static let kind = WidgetKind.tearOff }
+struct DualDateHomeWidget: HomeWidget { static let kind = WidgetKind.dualDate }
+struct GregorianMonthHomeWidget: HomeWidget { static let kind = WidgetKind.gregorianMonth }
+struct HijriMonthHomeWidget: HomeWidget { static let kind = WidgetKind.hijriMonth }
 struct MorningDhikrHomeWidget: HomeWidget { static let kind = WidgetKind.morningDhikr }
 struct DailyVerseHomeWidget: HomeWidget { static let kind = WidgetKind.dailyVerse }
 struct RamadanHomeWidget: HomeWidget { static let kind = WidgetKind.ramadan }

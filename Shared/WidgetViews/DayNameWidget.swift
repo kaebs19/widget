@@ -33,8 +33,6 @@ struct DayNameWidget: View {
         .widgetContent()
     }
 
-    /// الحرف المميّز لكل يوم، بترتيب Calendar: الأحد = ١
-    private static let weekdayLetters = ["ح", "ن", "ث", "ر", "خ", "ج", "س"]
 
     private var weekStrip: some View {
         let today = DateHelper.gregorian.component(.weekday, from: date) - 1
@@ -47,7 +45,7 @@ struct DayNameWidget: View {
                 // الوضع الملوّن يرسم كل شيء بلون واحد، فالنص الداكن فوق اليوم الحالي يختفي؛ نكتفي بإطار ملوّن
                 let isFilled = isToday && renderingMode == .fullColor
                 let shape = RoundedRectangle(cornerRadius: 9, style: .continuous)
-                Text(Self.weekdayLetters[index])
+                Text(WeekdayLetters.all[index])
                     .font(style.font(.labelBold, 13))
                     .foregroundStyle(isFilled ? style.onPrimary : isToday ? style.primary : style.secondary)
                     .frame(maxWidth: .infinity, minHeight: 28)

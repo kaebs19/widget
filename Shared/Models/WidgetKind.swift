@@ -61,6 +61,7 @@ enum WidgetSize: String {
 // كل نوع يعرف قسمه وحجمه واسمه. لما تضيف ودجت جديد، تضيف case هنا وبس.
 enum WidgetKind: String, CaseIterable, Identifiable {
     case hijriDate, dayName, yearDots
+    case tearOff, dualDate, gregorianMonth, hijriMonth
     case morningDhikr, dailyVerse, istighfar
     case ramadan, eid, nationalDay, foundingDay, specialOccasion
     case nextMatch
@@ -72,6 +73,10 @@ enum WidgetKind: String, CaseIterable, Identifiable {
         case .hijriDate:    "التاريخ الهجري"
         case .dayName:      "اسم اليوم"
         case .yearDots:     "نقاط السنة"
+        case .tearOff:      "ورقة التقويم"
+        case .dualDate:     "التاريخان"
+        case .gregorianMonth: "الشهر الميلادي"
+        case .hijriMonth:   "الشهر الهجري"
         case .morningDhikr: "ذكر الصباح"
         case .dailyVerse:   "آية اليوم"
         case .istighfar:    "عداد الذكر"
@@ -89,6 +94,10 @@ enum WidgetKind: String, CaseIterable, Identifiable {
         case .hijriDate:    "التاريخ بتقويم أم القرى مع الميلادي"
         case .dayName:      "اسم اليوم بخط عربي فخم"
         case .yearDots:     "كل نقطة يوم، وتشوف كم مضى من السنة"
+        case .tearOff:      "اسم اليوم ورقمه مثل ورقة التقويم"
+        case .dualDate:     "اليوم بالتاريخين الهجري والميلادي"
+        case .gregorianMonth: "أيام الشهر الميلادي واليوم مميّز"
+        case .hijriMonth:   "أيام الشهر الهجري بتقويم أم القرى"
         case .morningDhikr: "أذكار الصباح من حصن المسلم"
         case .dailyVerse:   "آية جديدة كل يوم بالرسم العثماني"
         case .istighfar:    "استغفار وتسبيح وتهليل وصلاة على النبي ﷺ، تعدّها بالضغط من الشاشة"
@@ -103,7 +112,8 @@ enum WidgetKind: String, CaseIterable, Identifiable {
 
     var category: WidgetCategory {
         switch self {
-        case .hijriDate, .dayName, .yearDots:          .calendar
+        case .hijriDate, .dayName, .yearDots, .tearOff, .dualDate,
+             .gregorianMonth, .hijriMonth:             .calendar
         case .morningDhikr, .dailyVerse, .istighfar:   .religious
         case .ramadan, .eid, .nationalDay, .foundingDay, .specialOccasion: .occasions
         case .nextMatch:                               .sports
@@ -113,7 +123,7 @@ enum WidgetKind: String, CaseIterable, Identifiable {
     /// الحجم اللي يظهر في المعرض
     var previewSize: WidgetSize {
         switch self {
-        case .istighfar, .ramadan, .eid, .foundingDay: .small
+        case .istighfar, .ramadan, .eid, .foundingDay, .tearOff, .dualDate: .small
         case .dailyVerse:                              .large
         default:                                       .medium
         }
@@ -127,7 +137,8 @@ enum WidgetKind: String, CaseIterable, Identifiable {
     /// كل الأحجام المتاحة لهذا الودجت
     var supportedSizes: [WidgetSize] {
         switch self {
-        case .istighfar, .ramadan, .eid, .foundingDay: [.small]
+        case .istighfar, .ramadan, .eid, .foundingDay, .tearOff, .dualDate: [.small]
+        case .gregorianMonth, .hijriMonth:             [.medium]
         case .dailyVerse:                              [.medium, .large]
         case .yearDots:                                [.medium, .large]
         case .specialOccasion:                         [.medium]

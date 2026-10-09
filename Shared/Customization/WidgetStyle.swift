@@ -64,6 +64,12 @@ nonisolated struct WidgetStyle: Codable, Hashable, Sendable {
     var secondary: Color { Color(textColor).opacity(0.6) }
     var accent: Color { Color(accentColor) }
 
+    /// لون يقرأ فوق لون التمييز (رقم اليوم المحدد، شريط ورقة التقويم)
+    var onAccent: Color {
+        let luminance = 0.2126 * accentColor.linearRed + 0.7152 * accentColor.linearGreen + 0.0722 * accentColor.linearBlue
+        return luminance > 0.4 ? Color(white: 0.12) : .white
+    }
+
     /// لون يقرأ فوق لون النص (مثل علامة + داخل زر بلون النص)
     var onPrimary: Color {
         let luminance = 0.2126 * textColor.linearRed + 0.7152 * textColor.linearGreen + 0.0722 * textColor.linearBlue

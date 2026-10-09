@@ -53,6 +53,7 @@ enum DateHelper {
     private static let weekdayFmt     = formatter("EEEE", calendar: gregorian)
     private static let dayMonthFmt    = formatter("d MMMM", calendar: gregorian)
     private static let weekdayDayMonthFmt = formatter("EEEE d MMMM", calendar: gregorian)
+    private static let monthNameFmt   = formatter("MMMM", calendar: gregorian)
     private static let weekdayFullFmt = formatter("EEEE d MMMM y", calendar: gregorian)
 
     // MARK: - تصحيح الهجري
@@ -72,6 +73,8 @@ enum DateHelper {
     static func gregorianDayMonth(_ date: Date) -> String { dayMonthFmt.string(from: date) }
     /// السبت ٢٤ أكتوبر
     static func weekdayDayMonth(_ date: Date) -> String { weekdayDayMonthFmt.string(from: date) }
+    /// أكتوبر
+    static func gregorianMonthName(_ date: Date) -> String { monthNameFmt.string(from: date) }
     /// الخميس ٢٣ سبتمبر ٢٠٢٧
     static func weekdayFull(_ date: Date) -> String { weekdayFullFmt.string(from: date) }
     /// ٢٩ ربيع الآخر

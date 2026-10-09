@@ -24,7 +24,14 @@ struct HomeView: View {
                     CategoryBar(selected: viewModel.selectedCategory,
                                 onSelect: viewModel.select)
 
-                    ForEach(viewModel.visibleCategories) { category in
+                    ForEach(Array(viewModel.visibleCategories.enumerated()), id: \.element) { index, category in
+                        if index > 0 {
+                            // فاصل واضح بين الأقسام
+                            Rectangle()
+                                .fill(Theme.border)
+                                .frame(height: 1)
+                                .padding(.vertical, 4)
+                        }
                         section(category)
                     }
                 }
@@ -62,13 +69,23 @@ struct HomeView: View {
         let widgets = viewModel.widgets(in: category)
 
         VStack(alignment: .leading, spacing: 14) {
-            Label {
-                Text(category.title)
-            } icon: {
-                AppIconView(icon: category.icon, size: 22)
+            HStack(spacing: 12) {
+                // صورة القسم داخل مربع ملوّن
+                AppIconView(icon: category.icon, size: 26)
+                    .font(.system(size: 22))
+                    .foregroundStyle(Theme.gold)
+                    .frame(width: 48, height: 48)
+                    .background(Theme.gold.opacity(0.14), in: RoundedRectangle(cornerRadius: 14, style: .continuous))
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(category.title)
+                        .font(AppFont.uiBold(20))
+                        .foregroundStyle(Theme.textPrimary)
+                    Text("\(DateHelper.arabic(widgets.small.count + widgets.wide.count)) ودجت")
+                        .font(AppFont.ui(12))
+                        .foregroundStyle(Theme.textSecondary)
+                }
             }
-                .font(AppFont.uiBold(20))
-                .foregroundStyle(Theme.textPrimary)
+            .padding(.bottom, 2)
 
             ForEach(widgets.wide) { kind in
                 GalleryCard(kind: kind)

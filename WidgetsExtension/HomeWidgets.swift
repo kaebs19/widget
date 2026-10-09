@@ -28,6 +28,10 @@ extension HomeWidget {
     }
 }
 
+struct PrayerRingHomeWidget: HomeWidget { static let kind = WidgetKind.prayerRing }
+struct PrayerBarHomeWidget: HomeWidget { static let kind = WidgetKind.prayerBar }
+struct PrayerDayHomeWidget: HomeWidget { static let kind = WidgetKind.prayerDay }
+struct PrayerListHomeWidget: HomeWidget { static let kind = WidgetKind.prayerList }
 struct HijriDateHomeWidget: HomeWidget { static let kind = WidgetKind.hijriDate }
 struct DayNameHomeWidget: HomeWidget { static let kind = WidgetKind.dayName }
 struct TearOffHomeWidget: HomeWidget { static let kind = WidgetKind.tearOff }

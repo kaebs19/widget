@@ -26,6 +26,7 @@ struct SettingsView: View {
             ScrollView {
                 VStack(spacing: 20) {
                     occasionsLink
+                    PrayerSettingsSection()
                     appearanceSection
                     widgetDefaultsSection
                     counterSection

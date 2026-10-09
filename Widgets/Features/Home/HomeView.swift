@@ -11,6 +11,8 @@ struct HomeView: View {
     @State private var viewModel = GalleryViewModel()
     @State private var showHowTo = false
     @State private var showSettings = false
+    /// يتغيّر بعد إغلاق الإعدادات فتُرسم المعاينات من جديد (الموقع، التقويم، الشكل الافتراضي)
+    @State private var refresh = 0
     @Environment(WidgetStyleStore.self) private var styleStore
 
     // عمودين متساويين للودجات الصغيرة
@@ -37,6 +39,7 @@ struct HomeView: View {
                 }
                 .padding(.horizontal, 16)
                 .padding(.bottom, 32)
+                .id(refresh)
             }
             .background(Theme.background.ignoresSafeArea())
             .navigationTitle("ويدجت")
@@ -59,7 +62,7 @@ struct HomeView: View {
                 WidgetDetailView(kind: kind)
             }
             .sheet(isPresented: $showHowTo) { HowToAddView().appAppearance() }
-            .fullScreenCover(isPresented: $showSettings) { SettingsView().environment(styleStore).appAppearance() }
+            .fullScreenCover(isPresented: $showSettings, onDismiss: { refresh += 1 }) { SettingsView().environment(styleStore).appAppearance() }
         }
     }
 

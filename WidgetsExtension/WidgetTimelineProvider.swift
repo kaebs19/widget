@@ -43,12 +43,19 @@ nonisolated struct WidgetTimelineProvider: AppIntentTimelineProvider {
 
     func timeline(for configuration: WidgetStyleIntent, in context: Context) async -> Timeline<WidgetEntry> {
         let styleID = configuration.style?.id
-        let entries = TimelineSchedule.hourly().map { WidgetEntry(date: $0, kind: kind, styleID: styleID) }
+        let dates = kind.category == .prayer ? TimelineSchedule.prayer() : TimelineSchedule.hourly()
+        let entries = dates.map { WidgetEntry(date: $0, kind: kind, styleID: styleID) }
         return Timeline(entries: entries, policy: .atEnd)
     }
 }
 
 nonisolated enum TimelineSchedule {
+    /// الصلاة: كل ٥ دقائق لـ ٦ ساعات (لتتقدم الحلقة)، مع بداية كل وقت صلاة خلال اليوم
+    static func prayer(from now: Date = .now) -> [Date] {
+        let steps = (0...72).map { now.addingTimeInterval(Double($0) * 300) }
+        return (steps + PrayerSchedule.transitions(from: now)).sorted()
+    }
+
     /// الآن، ثم بداية كل ساعة لـ ٢٤ ساعة قادمة
     static func hourly(from now: Date = .now, calendar: Calendar = .current) -> [Date] {
         let currentHour = calendar.dateInterval(of: .hour, for: now)?.start ?? now

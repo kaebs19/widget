@@ -36,6 +36,10 @@ struct WidgetPreviewView: View {
     @ViewBuilder
     private var content: some View {
         switch kind {
+        case .prayerRing:   PrayerRingWidget(date: date)
+        case .prayerBar:    PrayerBarWidget(date: date)
+        case .prayerDay:    PrayerDayWidget(date: date)
+        case .prayerList:   PrayerListWidget(date: date)
         case .hijriDate:    HijriDateWidget(date: date, size: resolvedSize)
         case .dayName:      DayNameWidget(date: date, size: resolvedSize)
         case .tearOff:      TearOffCalendarWidget(date: date)

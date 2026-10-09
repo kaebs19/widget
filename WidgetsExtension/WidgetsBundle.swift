@@ -15,6 +15,10 @@ struct WidgetsBundle: WidgetBundle {
     }
 
     var body: some Widget {
+        PrayerRingHomeWidget()
+        PrayerBarHomeWidget()
+        PrayerDayHomeWidget()
+        PrayerListHomeWidget()
         HijriDateHomeWidget()
         DayNameHomeWidget()
         TearOffHomeWidget()

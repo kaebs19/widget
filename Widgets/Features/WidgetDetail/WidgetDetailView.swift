@@ -74,6 +74,10 @@ struct WidgetDetailView: View {
                         .foregroundStyle(Theme.textSecondary)
                         .frame(maxWidth: .infinity, alignment: .leading)
 
+                    if kind.category == .prayer {
+                        PrayerSettingsSection()
+                    }
+
                     if kind == .specialOccasion {
                         NavigationLink { OccasionsView() } label: {
                             Label("مناسباتي: أضف عيد ميلاد أو ذكرى", systemImage: "birthday.cake")

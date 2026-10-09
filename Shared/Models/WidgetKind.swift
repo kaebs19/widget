@@ -10,12 +10,13 @@ import SwiftUI
 // MARK: - الأقسام
 // CaseIterable يعطيك allCases تلقائياً، فتبني شريط الأقسام بحلقة بدون ما تكتب كل قسم يدوياً.
 enum WidgetCategory: String, CaseIterable, Identifiable {
-    case religious, calendar, occasions, sports
+    case prayer, religious, calendar, occasions, sports
 
     var id: String { rawValue }
 
     var title: String {
         switch self {
+        case .prayer:    "الصلاة"
         case .religious: "ديني"
         case .calendar:  "تقويم"
         case .occasions: "مناسبات"
@@ -25,6 +26,7 @@ enum WidgetCategory: String, CaseIterable, Identifiable {
 
     var icon: AppIcon {
         switch self {
+        case .prayer:    .asset(.iconMosque)
         case .religious: .asset(.iconCategoryReligious)
         case .calendar:  .asset(.iconCategoryCalendar)
         case .occasions: .asset(.iconCategoryOccasions)
@@ -60,6 +62,7 @@ enum WidgetSize: String {
 // MARK: - نوع الودجت
 // كل نوع يعرف قسمه وحجمه واسمه. لما تضيف ودجت جديد، تضيف case هنا وبس.
 enum WidgetKind: String, CaseIterable, Identifiable {
+    case prayerRing, prayerBar, prayerDay, prayerList
     case hijriDate, dayName
     case tearOff, dualDate, gregorianMonth, hijriMonth
     case morningDhikr, dailyVerse, istighfar
@@ -70,6 +73,10 @@ enum WidgetKind: String, CaseIterable, Identifiable {
 
     var title: String {
         switch self {
+        case .prayerRing:   "الصلاة القادمة"
+        case .prayerBar:    "العد التنازلي للصلاة"
+        case .prayerDay:    "أوقات اليوم"
+        case .prayerList:   "جدول الصلوات"
         case .hijriDate:    "التاريخ الهجري"
         case .dayName:      "اسم اليوم"
         case .tearOff:      "ورقة التقويم"
@@ -90,6 +97,10 @@ enum WidgetKind: String, CaseIterable, Identifiable {
 
     var subtitle: String {
         switch self {
+        case .prayerRing:   "الصلاة القادمة والوقت المتبقي في حلقة"
+        case .prayerBar:    "الصلاة القادمة مع شريط الوقت"
+        case .prayerDay:    "الصلوات الخمس في صف واحد"
+        case .prayerList:   "قائمة الصلوات مع العد التنازلي"
         case .hijriDate:    "التاريخ بتقويم أم القرى مع الميلادي"
         case .dayName:      "اسم اليوم بخط عربي فخم"
         case .tearOff:      "اسم اليوم ورقمه مثل ورقة التقويم"
@@ -110,6 +121,7 @@ enum WidgetKind: String, CaseIterable, Identifiable {
 
     var category: WidgetCategory {
         switch self {
+        case .prayerRing, .prayerBar, .prayerDay, .prayerList: .prayer
         case .hijriDate, .dayName, .tearOff, .dualDate,
              .gregorianMonth, .hijriMonth:             .calendar
         case .morningDhikr, .dailyVerse, .istighfar:   .religious
@@ -121,7 +133,8 @@ enum WidgetKind: String, CaseIterable, Identifiable {
     /// الحجم اللي يظهر في المعرض
     var previewSize: WidgetSize {
         switch self {
-        case .istighfar, .ramadan, .eid, .foundingDay, .tearOff, .dualDate: .small
+        case .istighfar, .ramadan, .eid, .foundingDay, .tearOff, .dualDate,
+             .prayerRing, .prayerBar: .small
         case .dailyVerse:                              .large
         default:                                       .medium
         }
@@ -135,8 +148,9 @@ enum WidgetKind: String, CaseIterable, Identifiable {
     /// كل الأحجام المتاحة لهذا الودجت
     var supportedSizes: [WidgetSize] {
         switch self {
-        case .istighfar, .ramadan, .eid, .foundingDay, .tearOff, .dualDate: [.small]
-        case .gregorianMonth, .hijriMonth:             [.medium]
+        case .istighfar, .ramadan, .eid, .foundingDay, .tearOff, .dualDate,
+             .prayerRing, .prayerBar: [.small]
+        case .gregorianMonth, .hijriMonth, .prayerDay, .prayerList: [.medium]
         case .dailyVerse:                              [.medium, .large]
         case .specialOccasion:                         [.medium]
         default:                                       [.small, .medium]

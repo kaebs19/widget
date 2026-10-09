@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		5CF35A683078477B006458E2 /* WidgetsExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 5CF35A5B3078477B006458E2 /* WidgetsExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		AD4A0004000000000000AD04 /* Adhan in Frameworks */ = {isa = PBXBuildFile; productRef = AD4A0002000000000000AD02 /* Adhan */; };
+		AD4A0005000000000000AD05 /* Adhan in Frameworks */ = {isa = PBXBuildFile; productRef = AD4A0003000000000000AD03 /* Adhan */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -87,11 +89,13 @@
 		5CF35A453078477A006458E2 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			files = (
+				AD4A0004000000000000AD04 /* Adhan in Frameworks */,
 			);
 		};
 		5CF35A603078477B006458E2 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			files = (
+				AD4A0005000000000000AD05 /* Adhan in Frameworks */,
 			);
 		};
 /* End PBXFrameworksBuildPhase section */
@@ -139,6 +143,9 @@
 				5CF35A593078477B006458E2 /* Shared */,
 			);
 			name = Widgets;
+			packageProductDependencies = (
+				AD4A0002000000000000AD02 /* Adhan */,
+			);
 			productName = Widgets;
 			productReference = 5CF35A483078477A006458E2 /* Widgets.app */;
 			productType = "com.apple.product-type.application";
@@ -158,6 +165,9 @@
 				5CF35A5C3078477B006458E2 /* WidgetsExtension */,
 			);
 			name = WidgetsExtension;
+			packageProductDependencies = (
+				AD4A0003000000000000AD03 /* Adhan */,
+			);
 			productName = WidgetsExtension;
 			productReference = 5CF35A5B3078477B006458E2 /* WidgetsExtension.appex */;
 			productType = "com.apple.product-type.app-extension";
@@ -189,6 +199,9 @@
 			);
 			mainGroup = 5CF35A3F3078477A006458E2;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				AD4A0001000000000000AD01 /* XCRemoteSwiftPackageReference "adhan-swift" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 5CF35A493078477A006458E2 /* Products */;
 			projectDirPath = "";
@@ -518,6 +531,30 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		AD4A0001000000000000AD01 /* XCRemoteSwiftPackageReference "adhan-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/batoulapps/adhan-swift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.5.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		AD4A0002000000000000AD02 /* Adhan */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AD4A0001000000000000AD01 /* XCRemoteSwiftPackageReference "adhan-swift" */;
+			productName = Adhan;
+		};
+		AD4A0003000000000000AD03 /* Adhan */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AD4A0001000000000000AD01 /* XCRemoteSwiftPackageReference "adhan-swift" */;
+			productName = Adhan;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 5CF35A403078477A006458E2 /* Project object */;
 	validationLevel = 1;

@@ -172,6 +172,13 @@ struct WidgetCustomizeView: View {
                     Text(family.displayName).font(.app(family, size: 16))
                 }
             }
+            if kind.category == .occasions {
+                SettingRow("خط اسم المناسبة") {
+                    ChoiceChips(options: AppFontFamily.titleChoices, selection: $style.titleFont) { family in
+                        Text(family.displayName).font(.app(family, size: 16))
+                    }
+                }
+            }
             SettingRow("وزن الخط") {
                 ChoiceChips(options: AppFontWeight.customizable, selection: $style.fontWeight) { weight in
                     Text(weight.title).font(.app(style.contentFont, size: 15, weight: weight))

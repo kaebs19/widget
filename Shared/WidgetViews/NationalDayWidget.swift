@@ -42,9 +42,9 @@ struct NationalDayWidget: View {
 
             Spacer(minLength: 0)
             HStack(alignment: .lastTextBaseline) {
-                VStack(alignment: .leading, spacing: 2) {
+                VStack(alignment: .leading, spacing: 6) {
                     Text("اليوم الوطني")
-                        .font(style.font(.textBold, 30))
+                        .font(style.font(.title, 34))
                         .foregroundStyle(style.primary)
                     Text("هي لنا دار")
                         .font(style.font(.labelBold, 13))

@@ -78,6 +78,8 @@ nonisolated enum AppFontFamily: String, CaseIterable, Identifiable, Codable, Sen
     case tajawal
     case amiri
     case uthmanicHafs
+    /// خط الرقعة لعناوين المناسبات
+    case arefRuqaa
 
     var id: Self { self }
 
@@ -87,6 +89,7 @@ nonisolated enum AppFontFamily: String, CaseIterable, Identifiable, Codable, Sen
         case .tajawal: "تجوال"
         case .amiri: "أميري"
         case .uthmanicHafs: "عثماني حفص"
+        case .arefRuqaa: "رقعة"
         }
     }
 
@@ -97,6 +100,7 @@ nonisolated enum AppFontFamily: String, CaseIterable, Identifiable, Codable, Sen
         case .tajawal: [.extraLight, .light, .regular, .medium, .bold, .extraBold, .black]
         case .amiri: [.regular, .bold]
         case .uthmanicHafs: [.regular]
+        case .arefRuqaa: [.regular, .bold]
         }
     }
 
@@ -129,6 +133,8 @@ nonisolated enum AppFontFamily: String, CaseIterable, Identifiable, Codable, Sen
             }
         case .uthmanicHafs:
             return "KFGQPCUthmanicScriptHAFS"
+        case .arefRuqaa:
+            return weight >= .bold ? "ArefRuqaa-Bold" : "ArefRuqaa-Regular"
         }
     }
 

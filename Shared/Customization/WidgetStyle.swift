@@ -18,6 +18,8 @@ nonisolated struct WidgetStyle: Codable, Hashable, Sendable {
     var contentFont: AppFontFamily = .amiri
     /// خط العناوين الصغيرة والتفاصيل
     var labelFont: AppFontFamily = .tajawal
+    /// خط أسماء المناسبات (اليوم الوطني، العيد، المناسبة الخاصة)
+    var titleFont: AppFontFamily = .arefRuqaa
     var fontWeight: AppFontWeight = .regular
     var fontScale: Double = 1
     var numberFont: NumberFont = .rounded
@@ -42,6 +44,7 @@ nonisolated struct WidgetStyle: Codable, Hashable, Sendable {
         accentColor = value(.accentColor, fallback.accentColor)
         contentFont = value(.contentFont, fallback.contentFont)
         labelFont = value(.labelFont, fallback.labelFont)
+        titleFont = value(.titleFont, fallback.titleFont)
         fontWeight = value(.fontWeight, fallback.fontWeight)
         fontScale = value(.fontScale, fallback.fontScale)
         numberFont = value(.numberFont, fallback.numberFont)
@@ -78,6 +81,7 @@ nonisolated struct WidgetStyle: Codable, Hashable, Sendable {
         case .labelBold: return .app(labelFont, size: labelSize, weight: .bold)
         case .text:      return .app(contentFont, size: contentSize, weight: fontWeight)
         case .textBold:  return .app(contentFont, size: contentSize, weight: fontWeight.shifted(by: 3))
+        case .title:     return .app(titleFont, size: contentSize, weight: fontWeight.shifted(by: 3))
         case .number:    return numberFont.font(size: contentSize, weight: fontWeight.shifted(by: 4), family: contentFont)
         case .quran:     return .app(.uthmanicHafs, size: contentSize)
         }
@@ -97,7 +101,7 @@ nonisolated struct WidgetStyle: Codable, Hashable, Sendable {
 }
 
 nonisolated enum WidgetFontRole: Sendable {
-    case label, labelBold, text, textBold, number, quran
+    case label, labelBold, text, textBold, title, number, quran
 }
 
 // MARK: - الأرقام
@@ -160,11 +164,13 @@ nonisolated enum NumberFont: String, Codable, CaseIterable, Identifiable, Sendab
 extension AppFontFamily {
     /// الخطوط المتاحة للمستخدم (خط المصحف خاص بالآيات)
     nonisolated static let customizable: [AppFontFamily] = [.amiri, .cairo, .tajawal]
+    /// خطوط أسماء المناسبات: الرقعة أولاً ثم خطوط النص
+    nonisolated static let titleChoices: [AppFontFamily] = [.arefRuqaa] + customizable
 
     /// المساحة التي يحتاجها الخط مقارنة بـ Amiri، مقاسة على أذكار الصباح والمساء
     nonisolated var spaceFactor: Double {
         switch self {
-        case .amiri, .uthmanicHafs: 1
+        case .amiri, .uthmanicHafs, .arefRuqaa: 1
         case .cairo: 1.28
         case .tajawal: 0.82
         }

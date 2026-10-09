@@ -34,7 +34,7 @@ struct CountdownWidget: View {
             Spacer(minLength: 0)
             if let name {
                 Text(style.text(name))
-                    .font(style.font(.textBold, 22))
+                    .font(style.font(.title, 24))
                     .foregroundStyle(style.primary)
                     .lineLimit(1)
                     .minimumScaleFactor(0.7)

@@ -30,7 +30,7 @@ struct SpecialOccasionWidget: View {
             Spacer(minLength: 0)
             HStack(spacing: 10) {
                 Text(name)
-                    .font(style.font(.textBold, 30))
+                    .font(style.font(.title, 30))
                     .foregroundStyle(style.primary)
                     .lineLimit(2)
                     .minimumScaleFactor(0.6)

@@ -12,10 +12,26 @@ import Foundation
 nonisolated enum WidgetStyleStorage {
     private static let key = "widget.styles"
 
+    /// شكل النوع إن خصّصه المستخدم، وإلا الشكل الافتراضي من الإعدادات
     static func style(for kindID: String, in defaults: UserDefaults = AppGroup.defaults) -> WidgetStyle {
-        guard let data = stored(in: defaults)[kindID],
-              let style = try? JSONDecoder().decode(WidgetStyle.self, from: data) else { return .default }
-        return style
+        customStyle(for: kindID, in: defaults) ?? defaultStyle(in: defaults)
+    }
+
+    /// الشكل المحفوظ لهذا النوع فقط؛ nil إذا لم يخصّصه المستخدم
+    static func customStyle(for kindID: String, in defaults: UserDefaults = AppGroup.defaults) -> WidgetStyle? {
+        stored(in: defaults)[kindID].flatMap { try? JSONDecoder().decode(WidgetStyle.self, from: $0) }
+    }
+
+    // MARK: الشكل الافتراضي
+    // يأخذه كل نوع لم يخصّصه المستخدم، ويُعدَّل من الإعدادات
+    private static let defaultKey = "widget.defaultStyle"
+
+    static func defaultStyle(in defaults: UserDefaults = AppGroup.defaults) -> WidgetStyle {
+        defaults.data(forKey: defaultKey).flatMap { try? JSONDecoder().decode(WidgetStyle.self, from: $0) } ?? .default
+    }
+
+    static func saveDefaultStyle(_ style: WidgetStyle, in defaults: UserDefaults = AppGroup.defaults) {
+        defaults.set(try? JSONEncoder().encode(style), forKey: defaultKey)
     }
 
     /// `nil` يرجع النوع لشكله الافتراضي

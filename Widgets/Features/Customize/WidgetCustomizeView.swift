@@ -248,13 +248,13 @@ struct WidgetCustomizeView: View {
                     .background(Theme.gold.opacity(0.12), in: RoundedRectangle(cornerRadius: 14))
             }
             Button {
-                withAnimation(.snappy) { style = .default }
+                withAnimation(.snappy) { style = store.defaultStyle }
             } label: {
                 Text("استعادة الشكل الافتراضي")
                     .font(AppFont.ui(14))
-                    .foregroundStyle(style == .default ? Theme.textSecondary : Color.red.opacity(0.85))
+                    .foregroundStyle(style == store.defaultStyle ? Theme.textSecondary : Color.red.opacity(0.85))
             }
-            .disabled(style == .default)
+            .disabled(style == store.defaultStyle)
         }
         .padding(.top, 4)
     }

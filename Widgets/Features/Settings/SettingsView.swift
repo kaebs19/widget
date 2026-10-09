@@ -10,6 +10,8 @@ import SwiftUI
 // MARK: - الإعدادات
 struct SettingsView: View {
     @Environment(\.dismiss) private var dismiss
+    @Environment(WidgetStyleStore.self) private var styles
+    @State private var showResetAll = false
     @AppStorage(AppSettings.Key.colorScheme, store: AppGroup.defaults) private var colorScheme = ColorSchemeChoice.dark
     @AppStorage(AppSettings.Key.accent, store: AppGroup.defaults) private var accent = AppAccent.gold
 
@@ -18,6 +20,7 @@ struct SettingsView: View {
             ScrollView {
                 VStack(spacing: 20) {
                     appearanceSection
+                    widgetDefaultsSection
                     aboutSection
                 }
                 .padding(16)
@@ -55,6 +58,58 @@ struct SettingsView: View {
             Text("لون التطبيق للأزرار والاختيارات فقط، وألوان كل ودجت تختارها من صفحته.")
                 .font(AppFont.ui(12))
                 .foregroundStyle(Theme.textSecondary)
+        }
+    }
+
+    // MARK: افتراضيات الودجات
+    private var defaultStyle: Binding<WidgetStyle> {
+        Binding(get: { styles.defaultStyle }, set: { styles.saveDefault($0) })
+    }
+
+    private var widgetDefaultsSection: some View {
+        SettingsSection("الشكل الافتراضي للودجات") {
+            WidgetPreviewView(kind: .hijriDate, size: .medium, style: styles.defaultStyle)
+                .aspectRatio(WidgetSize.medium.aspectRatio, contentMode: .fit)
+                .cardStyle(radius: 20)
+                .animation(.snappy, value: styles.defaultStyle)
+            SettingRow("الخلفية") {
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack(spacing: 12) {
+                        ForEach(BackgroundPreset.allCases) { preset in
+                            PresetSwatch(preset: preset, isSelected: styles.defaultStyle.background == .preset(preset)) {
+                                withAnimation(.snappy) { defaultStyle.wrappedValue.apply(preset) }
+                            }
+                        }
+                    }
+                    .padding(.vertical, 2)
+                }
+            }
+            SettingRow("خط النص") {
+                ChoiceChips(options: AppFontFamily.customizable, selection: defaultStyle.contentFont) { family in
+                    Text(family.displayName).font(.app(family, size: 16))
+                }
+            }
+            SettingRow("الأرقام") {
+                Picker("الأرقام", selection: defaultStyle.numerals) {
+                    ForEach(Numerals.allCases) { Text($0.title).tag($0) }
+                }
+                .pickerStyle(.segmented)
+            }
+            Text("يظهر في كل ودجت ما خصّصته من صفحته. الودجات المخصّصة تبقى على شكلها.")
+                .font(AppFont.ui(12))
+                .foregroundStyle(Theme.textSecondary)
+            Button { showResetAll = true } label: {
+                Label("تطبيق على كل الودجات", systemImage: "square.on.square")
+                    .font(AppFont.uiBold(15))
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 12)
+                    .background(Theme.gold.opacity(0.12), in: RoundedRectangle(cornerRadius: 14))
+            }
+            .confirmationDialog("إلغاء تخصيص كل الودجات؟", isPresented: $showResetAll, titleVisibility: .visible) {
+                Button("تطبيق الشكل الافتراضي على الكل", role: .destructive) { styles.resetAllToDefault() }
+            } message: {
+                Text("كل ودجت خصّصته يرجع للشكل الافتراضي. أنماطك المحفوظة تبقى.")
+            }
         }
     }
 

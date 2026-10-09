@@ -11,6 +11,7 @@ struct HomeView: View {
     @State private var viewModel = GalleryViewModel()
     @State private var showHowTo = false
     @State private var showSettings = false
+    @Environment(WidgetStyleStore.self) private var styleStore
 
     // عمودين متساويين للودجات الصغيرة
     private let smallGrid = [GridItem(.flexible(), spacing: 14),
@@ -48,7 +49,7 @@ struct HomeView: View {
                 WidgetDetailView(kind: kind)
             }
             .sheet(isPresented: $showHowTo) { HowToAddView().appAppearance() }
-            .sheet(isPresented: $showSettings) { SettingsView().appAppearance() }
+            .sheet(isPresented: $showSettings) { SettingsView().environment(styleStore).appAppearance() }
         }
     }
 

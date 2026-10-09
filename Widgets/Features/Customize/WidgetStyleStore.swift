@@ -12,22 +12,41 @@ import WidgetKit
 /// أشكال الودجات داخل التطبيق: المعرض يعرضها، وشاشة التخصيص تحفظ فيها.
 @Observable
 final class WidgetStyleStore {
+    /// الأنواع التي خصّصها المستخدم فقط؛ البقية تأخذ `defaultStyle`
     private var styles: [WidgetKind: WidgetStyle] = [:]
+    /// الشكل الافتراضي لكل ودجت لم يُخصَّص، يُعدَّل من الإعدادات
+    private(set) var defaultStyle: WidgetStyle = .default
     /// أنماط بأسماء يختارها المستخدم لكل نسخة ودجت من «تعديل الودجت»
     private(set) var savedStyles: [SavedStyle] = []
 
     init() {
         for kind in WidgetKind.allCases {
-            styles[kind] = WidgetStyleStorage.style(for: kind.rawValue)
+            styles[kind] = WidgetStyleStorage.customStyle(for: kind.rawValue)
         }
+        defaultStyle = WidgetStyleStorage.defaultStyle()
         savedStyles = WidgetStyleStorage.savedStyles()
         // عند التشغيل ما فيه تعديلات معلّقة، فأي صورة لا يستخدمها شكل محفوظ صارت زائدة
         let photoIDs = styles.values.compactMap(\.background.photoID) + savedStyles.compactMap(\.style.background.photoID)
+            + [defaultStyle.background.photoID].compactMap { $0 }
         BackgroundImageStore.removeUnused(keeping: Set(photoIDs))
     }
 
     func style(for kind: WidgetKind) -> WidgetStyle {
-        styles[kind] ?? .default
+        styles[kind] ?? defaultStyle
+    }
+
+    /// يغيّر الشكل الافتراضي؛ يظهر في كل ودجت لم يخصّصه المستخدم
+    func saveDefault(_ style: WidgetStyle) {
+        defaultStyle = style
+        WidgetStyleStorage.saveDefaultStyle(style)
+        WidgetCenter.shared.reloadAllTimelines()
+    }
+
+    /// يمسح تخصيص كل الأنواع، فتأخذ كلها الشكل الافتراضي
+    func resetAllToDefault() {
+        styles.removeAll()
+        WidgetStyleStorage.save(nil, for: WidgetKind.allCases.map(\.rawValue))
+        WidgetCenter.shared.reloadAllTimelines()
     }
 
     func save(_ style: WidgetStyle, for kinds: [WidgetKind]) {

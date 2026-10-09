@@ -14,8 +14,20 @@ nonisolated enum WidgetStyleStorage {
 
     /// شكل النوع إن خصّصه المستخدم، وإلا الشكل الافتراضي من الإعدادات
     static func style(for kindID: String, in defaults: UserDefaults = AppGroup.defaults) -> WidgetStyle {
-        customStyle(for: kindID, in: defaults) ?? defaultStyle(in: defaults)
+        customStyle(for: kindID, in: defaults) ?? fallbackStyle(for: kindID, default: defaultStyle(in: defaults))
     }
+
+    /// شكل النوع غير المخصّص: ودجات التقويم الملوّنة لها ألوانها الخاصة ما دام المستخدم لم يغيّر الشكل الافتراضي
+    static func fallbackStyle(for kindID: String, default defaultStyle: WidgetStyle) -> WidgetStyle {
+        guard defaultStyle == .default, let preset = suggestedPresets[kindID] else { return defaultStyle }
+        var style = defaultStyle
+        style.apply(preset)
+        return style
+    }
+
+    private static let suggestedPresets: [String: BackgroundPreset] = [
+        "tearOff": .sunflower, "dualDate": .sunset, "gregorianMonth": .lagoon, "hijriMonth": .sage,
+    ]
 
     /// الشكل المحفوظ لهذا النوع فقط؛ nil إذا لم يخصّصه المستخدم
     static func customStyle(for kindID: String, in defaults: UserDefaults = AppGroup.defaults) -> WidgetStyle? {

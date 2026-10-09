@@ -24,6 +24,8 @@ nonisolated enum WidgetBackground: Codable, Hashable, Sendable {
 // كل خلفية تأتي بلون نص ولون تمييز مقروءين فوقها
 nonisolated enum BackgroundPreset: String, Codable, CaseIterable, Identifiable, Sendable {
     case night, golden, pattern, emerald, navy, violet, rose, teal, dawn, national, sand, pearl
+    // ألوان مرحة لودجات التقويم
+    case sunflower, sunset, lagoon, sage
     // نقوش إسلامية متكررة (المرحلة الثانية من التصاميم)
     case starTiles, arabesque, mashrabiya, hexagonal
     // صور ظلية في الثلث السفلي
@@ -45,6 +47,10 @@ nonisolated enum BackgroundPreset: String, Codable, CaseIterable, Identifiable, 
         case .national: "وطني"
         case .sand:     "رملي"
         case .pearl:    "لؤلؤي"
+        case .sunflower: "دوّار الشمس"
+        case .sunset:   "غروب"
+        case .lagoon:   "بحيرة"
+        case .sage:     "مريمية"
         case .starTiles:  "نجمة ثمانية"
         case .arabesque:  "توريق"
         case .mashrabiya: "مشربية"
@@ -71,6 +77,10 @@ nonisolated enum BackgroundPreset: String, Codable, CaseIterable, Identifiable, 
         case .national: [.init(hex: 0x00753A), .init(hex: 0x004B26)]
         case .sand:     [.init(hex: 0xF4EADB), .init(hex: 0xE3D2B4)]
         case .pearl:    [.init(hex: 0xFBFAF7), .init(hex: 0xECEAE4)]
+        case .sunflower: [.init(hex: 0x666A70), .init(hex: 0x55585D)]
+        case .sunset:   [.init(hex: 0x3360C2), .init(hex: 0xB8343A)]
+        case .lagoon:   [.init(hex: 0x3C8C9C), .init(hex: 0xA94A6F)]
+        case .sage:     [.init(hex: 0x6E8E77), .init(hex: 0x5F7F68)]
         case .crescent: [.init(hex: 0x1F2330), .init(hex: 0x131315)]
         case .starTiles, .arabesque, .mashrabiya, .hexagonal,
              .domes, .masjidAlHaram, .masjidAnNabawi:
@@ -102,6 +112,10 @@ nonisolated enum BackgroundPreset: String, Codable, CaseIterable, Identifiable, 
         case .national: .init(hex: 0xF1EBD9)
         case .sand:     .init(hex: 0x9A6B28)
         case .pearl:    .init(hex: 0xA88247)
+        case .sunflower: .init(hex: 0xFCE38A)
+        case .sunset:   .init(hex: 0xFFD9A0)
+        case .lagoon:   .init(hex: 0xF7B8CF)
+        case .sage:     .init(hex: 0xFDD27E)
         case .starTiles, .arabesque, .mashrabiya, .hexagonal,
              .domes, .masjidAlHaram, .masjidAnNabawi, .crescent:
             .init(hex: 0xEBCB8B)

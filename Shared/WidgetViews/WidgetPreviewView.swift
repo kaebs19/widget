@@ -38,7 +38,6 @@ struct WidgetPreviewView: View {
         switch kind {
         case .hijriDate:    HijriDateWidget(date: date, size: resolvedSize)
         case .dayName:      DayNameWidget(date: date, size: resolvedSize)
-        case .yearDots:     YearDotsWidget(date: date)
         case .tearOff:      TearOffCalendarWidget(date: date)
         case .dualDate:     DualDateWidget(date: date)
         case .gregorianMonth: MonthCalendarWidget(date: date, isHijri: false)

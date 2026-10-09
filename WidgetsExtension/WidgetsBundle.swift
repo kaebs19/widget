@@ -17,7 +17,6 @@ struct WidgetsBundle: WidgetBundle {
     var body: some Widget {
         HijriDateHomeWidget()
         DayNameHomeWidget()
-        YearDotsHomeWidget()
         TearOffHomeWidget()
         DualDateHomeWidget()
         GregorianMonthHomeWidget()

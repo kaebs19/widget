@@ -60,7 +60,7 @@ enum WidgetSize: String {
 // MARK: - نوع الودجت
 // كل نوع يعرف قسمه وحجمه واسمه. لما تضيف ودجت جديد، تضيف case هنا وبس.
 enum WidgetKind: String, CaseIterable, Identifiable {
-    case hijriDate, dayName, yearDots
+    case hijriDate, dayName
     case tearOff, dualDate, gregorianMonth, hijriMonth
     case morningDhikr, dailyVerse, istighfar
     case ramadan, eid, nationalDay, foundingDay, specialOccasion
@@ -72,7 +72,6 @@ enum WidgetKind: String, CaseIterable, Identifiable {
         switch self {
         case .hijriDate:    "التاريخ الهجري"
         case .dayName:      "اسم اليوم"
-        case .yearDots:     "نقاط السنة"
         case .tearOff:      "ورقة التقويم"
         case .dualDate:     "التاريخان"
         case .gregorianMonth: "الشهر الميلادي"
@@ -93,7 +92,6 @@ enum WidgetKind: String, CaseIterable, Identifiable {
         switch self {
         case .hijriDate:    "التاريخ بتقويم أم القرى مع الميلادي"
         case .dayName:      "اسم اليوم بخط عربي فخم"
-        case .yearDots:     "كل نقطة يوم، وتشوف كم مضى من السنة"
         case .tearOff:      "اسم اليوم ورقمه مثل ورقة التقويم"
         case .dualDate:     "اليوم بالتاريخين الهجري والميلادي"
         case .gregorianMonth: "أيام الشهر الميلادي واليوم مميّز"
@@ -112,7 +110,7 @@ enum WidgetKind: String, CaseIterable, Identifiable {
 
     var category: WidgetCategory {
         switch self {
-        case .hijriDate, .dayName, .yearDots, .tearOff, .dualDate,
+        case .hijriDate, .dayName, .tearOff, .dualDate,
              .gregorianMonth, .hijriMonth:             .calendar
         case .morningDhikr, .dailyVerse, .istighfar:   .religious
         case .ramadan, .eid, .nationalDay, .foundingDay, .specialOccasion: .occasions
@@ -140,7 +138,6 @@ enum WidgetKind: String, CaseIterable, Identifiable {
         case .istighfar, .ramadan, .eid, .foundingDay, .tearOff, .dualDate: [.small]
         case .gregorianMonth, .hijriMonth:             [.medium]
         case .dailyVerse:                              [.medium, .large]
-        case .yearDots:                                [.medium, .large]
         case .specialOccasion:                         [.medium]
         default:                                       [.small, .medium]
         }

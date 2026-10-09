@@ -158,11 +158,4 @@ enum DateHelper {
         let parts = gregorian.dateComponents([.month, .day, .hour, .minute], from: date)
         return gregorian.nextDate(after: today.addingTimeInterval(-1), matching: parts, matchingPolicy: .nextTime) ?? date
     }
-
-    // MARK: - تقدم السنة
-    static func yearProgress(_ date: Date = .now) -> (dayOfYear: Int, totalDays: Int, percent: Int) {
-        let day   = gregorian.ordinality(of: .day, in: .year, for: date) ?? 1
-        let total = gregorian.range(of: .day, in: .year, for: date)?.count ?? 365
-        return (day, total, Int((Double(day) / Double(total) * 100).rounded()))
-    }
 }

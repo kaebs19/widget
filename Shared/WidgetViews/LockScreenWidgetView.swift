@@ -15,7 +15,6 @@ extension WidgetKind {
         switch self {
         case .hijriDate:                     [.accessoryRectangular, .accessoryInline, .accessoryCircular]
         case .dayName:                       [.accessoryRectangular, .accessoryInline, .accessoryCircular]
-        case .yearDots:                      [.accessoryCircular, .accessoryInline]
         case .morningDhikr:                  [.accessoryRectangular]
         case .ramadan, .eid, .nationalDay, .foundingDay:
                                              [.accessoryCircular, .accessoryRectangular, .accessoryInline]
@@ -70,12 +69,6 @@ struct LockScreenWidgetView: View {
             dayNameCircular
         case (.dayName, _):
             dayNameRectangular
-        case (.yearDots, .accessoryInline):
-            let progress = DateHelper.yearProgress(date)
-            Label(LockText.inline(style.text("مضى ٪\(DateHelper.arabic(progress.percent)) من \(DateHelper.arabic(DateHelper.gregorian.component(.year, from: date)))")),
-                  systemImage: "circle.grid.3x3")
-        case (.yearDots, _):
-            yearCircular
         case (.morningDhikr, _):
             dhikrRectangular
         case (.ramadan, _), (.eid, _), (.nationalDay, _), (.foundingDay, _):
@@ -135,22 +128,6 @@ struct LockScreenWidgetView: View {
                 .font(style.font(.number, 15))
         }
         .accessibilityLabel(DateHelper.weekdayDayMonth(date))
-    }
-
-    private var yearCircular: some View {
-        let progress = DateHelper.yearProgress(date)
-        return Gauge(value: Double(progress.dayOfYear), in: 0...Double(progress.totalDays)) {
-            EmptyView()
-        } currentValueLabel: {
-            VStack(spacing: -1) {
-                Text(style.text("٪\(DateHelper.arabic(progress.percent))"))
-                    .font(style.font(.number, 15))
-                Text(style.number(DateHelper.gregorian.component(.year, from: date)))
-                    .font(style.font(.label, 8))
-            }
-            .minimumScaleFactor(0.6)
-        }
-        .gaugeStyle(.accessoryCircularCapacity)
     }
 
     // التصميم ٢٤

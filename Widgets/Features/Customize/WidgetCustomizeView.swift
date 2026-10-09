@@ -236,6 +236,11 @@ struct WidgetCustomizeView: View {
         }
     }
 
+    /// الشكل الذي يرجع له «استعادة الشكل الافتراضي» لهذا النوع
+    private var kindDefault: WidgetStyle {
+        WidgetStyleStorage.fallbackStyle(for: kind.rawValue, default: store.defaultStyle)
+    }
+
     // MARK: إجراءات
     private var actions: some View {
         VStack(spacing: 12) {
@@ -248,13 +253,13 @@ struct WidgetCustomizeView: View {
                     .background(Theme.gold.opacity(0.12), in: RoundedRectangle(cornerRadius: 14))
             }
             Button {
-                withAnimation(.snappy) { style = store.defaultStyle }
+                withAnimation(.snappy) { style = kindDefault }
             } label: {
                 Text("استعادة الشكل الافتراضي")
                     .font(AppFont.ui(14))
-                    .foregroundStyle(style == store.defaultStyle ? Theme.textSecondary : Color.red.opacity(0.85))
+                    .foregroundStyle(style == kindDefault ? Theme.textSecondary : Color.red.opacity(0.85))
             }
-            .disabled(style == store.defaultStyle)
+            .disabled(style == kindDefault)
         }
         .padding(.top, 4)
     }

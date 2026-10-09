@@ -32,7 +32,7 @@ final class WidgetStyleStore {
     }
 
     func style(for kind: WidgetKind) -> WidgetStyle {
-        styles[kind] ?? defaultStyle
+        styles[kind] ?? WidgetStyleStorage.fallbackStyle(for: kind.rawValue, default: defaultStyle)
     }
 
     /// يغيّر الشكل الافتراضي؛ يظهر في كل ودجت لم يخصّصه المستخدم

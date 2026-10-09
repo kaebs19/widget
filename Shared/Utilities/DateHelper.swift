@@ -55,9 +55,17 @@ enum DateHelper {
     private static let weekdayDayMonthFmt = formatter("EEEE d MMMM", calendar: gregorian)
     private static let weekdayFullFmt = formatter("EEEE d MMMM y", calendar: gregorian)
 
-    static func hijriDay(_ date: Date) -> String   { arabic(hijri.component(.day, from: date)) }
-    static func hijriYear(_ date: Date) -> String  { arabic(hijri.component(.year, from: date)) }
-    static func hijriMonth(_ date: Date) -> String { hijriMonthFmt.string(from: date) }
+    // MARK: - تصحيح الهجري
+    /// اليوم المقابل في التقويم الهجري بعد تصحيح المستخدم من الإعدادات.
+    /// كل حساب هجري يمر من هنا، فيتغيّر التاريخ والعدادات معاً.
+    static func hijriAdjusted(_ date: Date) -> Date {
+        let offset = AppSettings.hijriOffset
+        return offset == 0 ? date : gregorian.date(byAdding: .day, value: offset, to: date) ?? date
+    }
+
+    static func hijriDay(_ date: Date) -> String   { arabic(hijri.component(.day, from: hijriAdjusted(date))) }
+    static func hijriYear(_ date: Date) -> String  { arabic(hijri.component(.year, from: hijriAdjusted(date))) }
+    static func hijriMonth(_ date: Date) -> String { hijriMonthFmt.string(from: hijriAdjusted(date)) }
     static func gregorianFull(_ date: Date) -> String { gregorianFmt.string(from: date) }
     static func weekday(_ date: Date) -> String    { weekdayFmt.string(from: date) }
     /// ١١ أكتوبر
@@ -72,7 +80,7 @@ enum DateHelper {
     // MARK: - العدادات
     /// كم يوم باقي على تاريخ هجري (مثلاً رمضان = شهر ٩ يوم ١)
     static func daysUntilHijri(month: Int, day: Int, from now: Date = .now) -> Int {
-        daysUntil(DateComponents(month: month, day: day), calendar: hijri, from: now)
+        daysUntil(DateComponents(month: month, day: day), calendar: hijri, from: hijriAdjusted(now))
     }
 
     /// كم يوم باقي على تاريخ ميلادي (مثلاً اليوم الوطني = ٩/٢٣)
@@ -82,7 +90,9 @@ enum DateHelper {
 
     /// تاريخ المناسبة الهجرية القادمة (أو اليوم إذا كانت اليوم)
     static func nextHijri(month: Int, day: Int, from now: Date = .now) -> Date {
-        nextDate(DateComponents(month: month, day: day), calendar: hijri, from: now)
+        // نحسب في التقويم المصحّح ثم نرجع للتاريخ الميلادي الفعلي
+        let adjusted = nextDate(DateComponents(month: month, day: day), calendar: hijri, from: hijriAdjusted(now))
+        return gregorian.date(byAdding: .day, value: -AppSettings.hijriOffset, to: adjusted) ?? adjusted
     }
 
     static func nextGregorian(month: Int, day: Int, from now: Date = .now) -> Date {
@@ -91,7 +101,9 @@ enum DateHelper {
 
     /// كم مضى (من ٠ إلى ١) من الانتظار بين المناسبة الهجرية السابقة والقادمة، للأشرطة والحلقات
     static func progressUntilHijri(month: Int, day: Int, from now: Date = .now) -> Double {
-        progress(until: nextHijri(month: month, day: day, from: now), calendar: hijri, from: now)
+        let adjustedNow = hijriAdjusted(now)
+        return progress(until: nextDate(DateComponents(month: month, day: day), calendar: hijri, from: adjustedNow),
+                        calendar: hijri, from: adjustedNow)
     }
 
     static func progressUntilGregorian(month: Int, day: Int, from now: Date = .now) -> Double {

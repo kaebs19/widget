@@ -16,6 +16,8 @@ struct SettingsView: View {
     @State private var showResetCounter = false
     @AppStorage(AppSettings.Key.haptics, store: AppGroup.defaults) private var haptics = true
     @AppStorage(AppSettings.Key.reminderHour, store: AppGroup.defaults) private var reminderHour = 9
+    @AppStorage(AppSettings.Key.hijriOffset, store: AppGroup.defaults) private var hijriOffset = 0
+    @AppStorage(AppSettings.Key.weekStart, store: AppGroup.defaults) private var weekStart = 1
     @AppStorage(AppSettings.Key.colorScheme, store: AppGroup.defaults) private var colorScheme = ColorSchemeChoice.dark
     @AppStorage(AppSettings.Key.accent, store: AppGroup.defaults) private var accent = AppAccent.gold
 
@@ -26,6 +28,7 @@ struct SettingsView: View {
                     appearanceSection
                     widgetDefaultsSection
                     counterSection
+                    calendarSection
                     aboutSection
                 }
                 .padding(16)
@@ -132,10 +135,15 @@ struct SettingsView: View {
                 }
             }
             Divider()
-            Picker("وقت تذكير المناسبات", selection: $reminderHour) {
-                ForEach(Array(stride(from: 6, through: 22, by: 1)), id: \.self) { hour in
-                    Text(AppSettings.reminderTimeLabel(hour)).tag(hour)
+            HStack {
+                Text("وقت تذكير المناسبات")
+                Spacer()
+                Picker("وقت تذكير المناسبات", selection: $reminderHour) {
+                    ForEach(Array(stride(from: 6, through: 22, by: 1)), id: \.self) { hour in
+                        Text(AppSettings.reminderTimeLabel(hour)).tag(hour)
+                    }
                 }
+                .labelsHidden()
             }
             .onChange(of: reminderHour) {
                 // الودجات تعيد جدولة تذكيراتها بالوقت الجديد
@@ -147,6 +155,44 @@ struct SettingsView: View {
         }
         .font(AppFont.ui(15))
         .foregroundStyle(Theme.textPrimary)
+    }
+
+    // MARK: التقويم
+    private var calendarSection: some View {
+        SettingsSection("التقويم") {
+            SettingRow("تصحيح التاريخ الهجري", detail: offsetLabel) {
+                HStack {
+                    Text(DateHelper.hijriDayMonth(.now) + " " + DateHelper.hijriYear(.now) + " هـ")
+                        .font(AppFont.uiBold(16))
+                        .foregroundStyle(Theme.textPrimary)
+                    Spacer()
+                    Stepper("تصحيح التاريخ الهجري", value: $hijriOffset, in: -2...2)
+                        .labelsHidden()
+                }
+            }
+            Text("حسب تقويم أم القرى. إذا اختلف إعلان رؤية الهلال، زِد أو أنقص يوماً، ويتعدّل التاريخ وعدّاد رمضان والعيد.")
+                .font(AppFont.ui(12))
+                .foregroundStyle(Theme.textSecondary)
+            Divider()
+            SettingRow("بداية الأسبوع") {
+                Picker("بداية الأسبوع", selection: $weekStart) {
+                    Text("السبت").tag(7)
+                    Text("الأحد").tag(1)
+                    Text("الاثنين").tag(2)
+                }
+                .pickerStyle(.segmented)
+            }
+        }
+        .onChange(of: hijriOffset) { WidgetCenter.shared.reloadAllTimelines() }
+        .onChange(of: weekStart) { WidgetCenter.shared.reloadAllTimelines() }
+    }
+
+    private var offsetLabel: String {
+        switch hijriOffset {
+        case 0: "بدون تصحيح"
+        case let days where days > 0: "+\(DateHelper.arabic(days)) يوم"
+        default: "−\(DateHelper.arabic(-hijriOffset)) يوم"
+        }
     }
 
     // MARK: عن التطبيق

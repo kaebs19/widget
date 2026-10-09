@@ -15,7 +15,7 @@ enum Calligraphy {
 
     /// الشهر الهجري بتقويم أم القرى
     static func hijriMonth(for date: Date) -> ImageResource {
-        hijriMonths[DateHelper.hijri.component(.month, from: date) - 1]
+        hijriMonths[DateHelper.hijri.component(.month, from: DateHelper.hijriAdjusted(date)) - 1]
     }
 
     static func gregorianMonth(for date: Date) -> ImageResource {

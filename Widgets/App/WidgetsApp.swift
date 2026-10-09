@@ -11,6 +11,8 @@ import SwiftUI
 struct WidgetsApp: App {
     @State private var styleStore = WidgetStyleStore()
     @AppStorage(AppSettings.Key.accent, store: AppGroup.defaults) private var accent = AppAccent.gold
+    @AppStorage(AppSettings.Key.hijriOffset, store: AppGroup.defaults) private var hijriOffset = 0
+    @AppStorage(AppSettings.Key.weekStart, store: AppGroup.defaults) private var weekStart = 1
 
     init() {
         AppFontFamily.validateRegistration()
@@ -24,8 +26,8 @@ struct WidgetsApp: App {
                 .environment(\.locale, Locale(identifier: "ar"))
                 .appAppearance()
                 .tint(Theme.gold)
-                // Theme.gold يُقرأ من الإعدادات، فنعيد بناء الواجهة كلها عند تغيير اللون
-                .id(accent)
+                // لون التمييز والتقويم يُقرأان من الإعدادات عند الرسم، فنعيد بناء الواجهة عند تغييرها
+                .id("\(accent.rawValue)|\(hijriOffset)|\(weekStart)")
                 .environment(styleStore)
         }
     }

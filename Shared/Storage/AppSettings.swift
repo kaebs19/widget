@@ -15,6 +15,18 @@ nonisolated enum AppSettings {
         static let accent = "settings.accent"
         static let haptics = "settings.haptics"
         static let reminderHour = "settings.reminderHour"
+        static let hijriOffset = "settings.hijriOffset"
+        static let weekStart = "settings.weekStart"
+    }
+
+    /// تصحيح التاريخ الهجري بالأيام (−٢ إلى +٢) إذا اختلفت رؤية الهلال عن تقويم أم القرى
+    static var hijriOffset: Int {
+        AppGroup.defaults.integer(forKey: Key.hijriOffset)
+    }
+
+    /// أول يوم في شريط الأسبوع بترتيب Calendar (الأحد = ١، السبت = ٧)
+    static var weekStart: Int {
+        AppGroup.defaults.object(forKey: Key.weekStart) as? Int ?? 1
     }
 
     /// ساعة تنبيه «ذكّرني قبل يوم» في اليوم السابق للمناسبة (٠–٢٣)

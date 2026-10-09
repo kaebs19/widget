@@ -38,8 +38,11 @@ struct DayNameWidget: View {
 
     private var weekStrip: some View {
         let today = DateHelper.gregorian.component(.weekday, from: date) - 1
+        // يبدأ الشريط من اليوم المختار في الإعدادات
+        let start = AppSettings.weekStart - 1
+        let order = (0..<7).map { (start + $0) % 7 }
         return HStack(spacing: 6) {
-            ForEach(Self.weekdayLetters.indices, id: \.self) { index in
+            ForEach(order, id: \.self) { index in
                 let isToday = index == today
                 // الوضع الملوّن يرسم كل شيء بلون واحد، فالنص الداكن فوق اليوم الحالي يختفي؛ نكتفي بإطار ملوّن
                 let isFilled = isToday && renderingMode == .fullColor

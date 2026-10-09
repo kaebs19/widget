@@ -382,6 +382,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Widgets/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "ويدجت";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "نستخدم موقعك لحساب أوقات الصلاة في مدينتك. لا يُرسل لأي جهة.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -418,6 +419,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Widgets/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "ويدجت";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "نستخدم موقعك لحساب أوقات الصلاة في مدينتك. لا يُرسل لأي جهة.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

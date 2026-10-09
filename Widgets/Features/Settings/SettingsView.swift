@@ -5,7 +5,6 @@
 //  Created by Mohammed Saleh on 09/10/2026.
 //
 
-import StoreKit
 import SwiftUI
 import WidgetKit
 
@@ -18,7 +17,6 @@ struct SettingsView: View {
     @State private var showHowTo = false
     @State private var webPage: URL?
     @Environment(\.openURL) private var openURL
-    @Environment(\.requestReview) private var requestReview
     @AppStorage(AppSettings.Key.haptics, store: AppGroup.defaults) private var haptics = true
     @AppStorage(AppSettings.Key.hijriOffset, store: AppGroup.defaults) private var hijriOffset = 0
     @AppStorage(AppSettings.Key.weekStart, store: AppGroup.defaults) private var weekStart = 1
@@ -60,8 +58,8 @@ struct SettingsView: View {
                             }
                         }
                         actionRow("قيّم التطبيق", "رأيك يساعدنا نتحسّن", symbol: "star.fill",
-                                  color: Color(red: 0.95, green: 0.70, blue: 0.15)) { requestReview() }
-                        ShareLink(item: AppLinks.site,
+                                  color: Color(red: 0.95, green: 0.70, blue: 0.15), external: true) { openURL(AppLinks.writeReview) }
+                        ShareLink(item: AppLinks.appStore,
                                   message: Text("جرّب تطبيق ويدجت: ودجات الصلاة والأذكار والتقويم الهجري")) {
                             rowLabel("شارك التطبيق", "أرسله لمن تحب", symbol: "square.and.arrow.up.fill",
                                      color: Color(red: 0.55, green: 0.42, blue: 0.85))

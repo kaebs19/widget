@@ -19,6 +19,13 @@ enum AppLinks {
     static let x = URL(string: "https://x.com/B_c_Arab")!
     static let supportEmail = "kaebs19@gmail.com"
 
+    // MARK: App Store
+    static let appStoreID = "6820719175"
+    /// صفحة التطبيق في App Store، للمشاركة
+    static let appStore = URL(string: "https://apps.apple.com/app/id\(appStoreID)")!
+    /// يفتح App Store مباشرة على نافذة كتابة التقييم
+    static let writeReview = URL(string: "https://apps.apple.com/app/id\(appStoreID)?action=write-review")!
+
     static var version: String {
         let info = Bundle.main.infoDictionary
         let short = info?["CFBundleShortVersionString"] as? String ?? ""

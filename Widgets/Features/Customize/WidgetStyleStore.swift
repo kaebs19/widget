@@ -21,6 +21,9 @@ final class WidgetStyleStore {
             styles[kind] = WidgetStyleStorage.style(for: kind.rawValue)
         }
         savedStyles = WidgetStyleStorage.savedStyles()
+        // عند التشغيل ما فيه تعديلات معلّقة، فأي صورة لا يستخدمها شكل محفوظ صارت زائدة
+        let photoIDs = styles.values.compactMap(\.background.photoID) + savedStyles.compactMap(\.style.background.photoID)
+        BackgroundImageStore.removeUnused(keeping: Set(photoIDs))
     }
 
     func style(for kind: WidgetKind) -> WidgetStyle {

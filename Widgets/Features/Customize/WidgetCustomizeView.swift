@@ -5,6 +5,7 @@
 //  Created by Mohammed Saleh on 09/10/2026.
 //
 
+import PhotosUI
 import SwiftUI
 
 // MARK: - تخصيص الودجت
@@ -21,6 +22,7 @@ struct WidgetCustomizeView: View {
     @State private var showNewStyleName = false
     @State private var newStyleName = ""
     @State private var styleToDelete: SavedStyle?
+    @State private var photoItem: PhotosPickerItem?
 
     var body: some View {
         VStack(spacing: 20) {
@@ -110,6 +112,22 @@ struct WidgetCustomizeView: View {
                     }
                 }
                 .padding(.vertical, 2)
+            }
+            PhotosPicker(selection: $photoItem, matching: .images) {
+                HStack {
+                    Text("صورة من ألبومك")
+                    Spacer()
+                    if style.background.photoID != nil {
+                        Image(systemName: "checkmark.circle.fill").foregroundStyle(Theme.gold)
+                    }
+                    Image(systemName: "photo.on.rectangle")
+                        .foregroundStyle(Theme.gold)
+                }
+            }
+            .buttonStyle(.plain)
+            .onChange(of: photoItem) { _, item in
+                guard let item else { return }
+                Task { await usePhoto(item) }
             }
             ColorPicker("لون سادة", selection: solidColor, supportsOpacity: false)
             HStack {
@@ -264,6 +282,21 @@ struct WidgetCustomizeView: View {
         case .preset(let preset): preset.colors
         case .color(let color): [color, color]
         case .gradient(let top, let bottom): [top, bottom]
+        case .photo: BackgroundPreset.night.colors
+        }
+    }
+
+    // MARK: صورة الخلفية
+    private func usePhoto(_ item: PhotosPickerItem) async {
+        defer { photoItem = nil }
+        guard let data = try? await item.loadTransferable(type: Data.self),
+              let image = UIImage(data: data),
+              let id = BackgroundImageStore.save(image) else { return }
+        withAnimation(.snappy) {
+            style.background = .photo(id)
+            // الصورة معتّمة، فالنص الفاتح يُقرأ فوقها
+            style.textColor = BackgroundPreset.night.textColor
+            style.accentColor = BackgroundPreset.night.accentColor
         }
     }
 }

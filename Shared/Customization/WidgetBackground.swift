@@ -12,6 +12,12 @@ nonisolated enum WidgetBackground: Codable, Hashable, Sendable {
     case preset(BackgroundPreset)
     case color(Color.Resolved)
     case gradient(Color.Resolved, Color.Resolved)
+    /// صورة من ألبوم المستخدم، بمعرّفها في `BackgroundImageStore`
+    case photo(String)
+
+    var photoID: String? {
+        if case .photo(let id) = self { id } else { nil }
+    }
 }
 
 // MARK: - الخلفيات الجاهزة
@@ -116,6 +122,20 @@ struct WidgetBackgroundView: View {
             Color(color)
         case .gradient(let top, let bottom):
             LinearGradient(colors: [Color(top), Color(bottom)], startPoint: .top, endPoint: .bottom)
+        case .photo(let id):
+            if let image = BackgroundImageStore.image(for: id) {
+                // تعتيم خفيف حتى يُقرأ النص فوق أي صورة
+                Color.clear
+                    .overlay {
+                        Image(uiImage: image)
+                            .resizable()
+                            .scaledToFill()
+                    }
+                    .overlay(Color.black.opacity(0.3))
+                    .clipped()
+            } else {
+                WidgetBackgroundView(background: .preset(.night))
+            }
         }
     }
 }

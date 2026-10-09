@@ -103,15 +103,9 @@ struct WidgetCustomizeView: View {
     // MARK: الخلفية
     private var backgroundSection: some View {
         SettingsSection("الخلفية") {
-            ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: 12) {
-                    ForEach(BackgroundPreset.allCases) { preset in
-                        PresetSwatch(preset: preset, isSelected: style.background == .preset(preset)) {
-                            withAnimation(.snappy) { style.apply(preset) }
-                        }
-                    }
-                }
-                .padding(.vertical, 2)
+            presetRow(BackgroundPreset.allCases.filter { $0.tile == nil && $0.silhouette == nil })
+            SettingRow("نقوش إسلامية") {
+                presetRow(BackgroundPreset.allCases.filter { $0.tile != nil || $0.silhouette != nil })
             }
             PhotosPicker(selection: $photoItem, matching: .images) {
                 HStack {
@@ -144,6 +138,19 @@ struct WidgetCustomizeView: View {
         }
         .font(AppFont.ui(15))
         .foregroundStyle(Theme.textPrimary)
+    }
+
+    private func presetRow(_ presets: [BackgroundPreset]) -> some View {
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack(spacing: 12) {
+                ForEach(presets) { preset in
+                    PresetSwatch(preset: preset, isSelected: style.background == .preset(preset)) {
+                        withAnimation(.snappy) { style.apply(preset) }
+                    }
+                }
+            }
+            .padding(.vertical, 2)
+        }
     }
 
     // MARK: الألوان

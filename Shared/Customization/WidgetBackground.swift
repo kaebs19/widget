@@ -24,6 +24,10 @@ nonisolated enum WidgetBackground: Codable, Hashable, Sendable {
 // كل خلفية تأتي بلون نص ولون تمييز مقروءين فوقها
 nonisolated enum BackgroundPreset: String, Codable, CaseIterable, Identifiable, Sendable {
     case night, golden, pattern, emerald, navy, violet, rose, teal, dawn, national, sand, pearl
+    // نقوش إسلامية متكررة (المرحلة الثانية من التصاميم)
+    case starTiles, arabesque, mashrabiya, hexagonal
+    // صور ظلية في الثلث السفلي
+    case domes, masjidAlHaram, masjidAnNabawi, crescent
 
     var id: Self { self }
 
@@ -41,6 +45,14 @@ nonisolated enum BackgroundPreset: String, Codable, CaseIterable, Identifiable, 
         case .national: "وطني"
         case .sand:     "رملي"
         case .pearl:    "لؤلؤي"
+        case .starTiles:  "نجمة ثمانية"
+        case .arabesque:  "توريق"
+        case .mashrabiya: "مشربية"
+        case .hexagonal:  "سداسي"
+        case .domes:      "قباب ومآذن"
+        case .masjidAlHaram:  "الحرم المكي"
+        case .masjidAnNabawi: "المسجد النبوي"
+        case .crescent:   "هلال ونجوم"
         }
     }
 
@@ -59,6 +71,10 @@ nonisolated enum BackgroundPreset: String, Codable, CaseIterable, Identifiable, 
         case .national: [.init(hex: 0x00753A), .init(hex: 0x004B26)]
         case .sand:     [.init(hex: 0xF4EADB), .init(hex: 0xE3D2B4)]
         case .pearl:    [.init(hex: 0xFBFAF7), .init(hex: 0xECEAE4)]
+        case .crescent: [.init(hex: 0x1F2330), .init(hex: 0x131315)]
+        case .starTiles, .arabesque, .mashrabiya, .hexagonal,
+             .domes, .masjidAlHaram, .masjidAnNabawi:
+            [.init(hex: 0x2B2B2E), .init(hex: 0x131315)]
         }
     }
 
@@ -86,6 +102,31 @@ nonisolated enum BackgroundPreset: String, Codable, CaseIterable, Identifiable, 
         case .national: .init(hex: 0xF1EBD9)
         case .sand:     .init(hex: 0x9A6B28)
         case .pearl:    .init(hex: 0xA88247)
+        case .starTiles, .arabesque, .mashrabiya, .hexagonal,
+             .domes, .masjidAlHaram, .masjidAnNabawi, .crescent:
+            .init(hex: 0xEBCB8B)
+        }
+    }
+
+    /// بلاطة النقش التي تتكرر فوق التدرج
+    var tile: ImageResource? {
+        switch self {
+        case .starTiles:  .tileEightPointStar
+        case .arabesque:  .tileArabesque
+        case .mashrabiya: .tileMashrabiya
+        case .hexagonal:  .tileHexagonal
+        default:          nil
+        }
+    }
+
+    /// الصورة الظلية في أسفل الودجت
+    var silhouette: ImageResource? {
+        switch self {
+        case .domes:          .silhouetteDomesMinarets
+        case .masjidAlHaram:  .silhouetteMasjidAlHaram
+        case .masjidAnNabawi: .silhouetteMasjidAnNabawi
+        case .crescent:       .silhouetteCrescentStars
+        default:              nil
         }
     }
 }
@@ -105,6 +146,8 @@ struct WidgetBackgroundView: View {
 
     var body: some View {
         switch background {
+        case .preset(let preset) where preset.tile != nil || preset.silhouette != nil:
+            IslamicArtBackground(preset: preset)
         case .preset(let preset):
             LinearGradient(colors: preset.colors.map { Color($0) }, startPoint: .top, endPoint: .bottom)
                 .overlay {
@@ -135,6 +178,79 @@ struct WidgetBackgroundView: View {
                     .clipped()
             } else {
                 WidgetBackgroundView(background: .preset(.night))
+            }
+        }
+    }
+}
+
+/// النقوش المتكررة والصور الظلية: تدرج داكن، ثم بلاطة تتكرر بأي مقاس،
+/// أو صورة ظلية تأخذ الثلث السفلي مع وهج ذهبي خفيف خلفها
+private struct IslamicArtBackground: View {
+    let preset: BackgroundPreset
+
+    var body: some View {
+        let colors = preset.colors.map { Color($0) }
+        let gradient = preset == .crescent
+            ? LinearGradient(colors: colors, startPoint: .top, endPoint: .bottom)
+            : LinearGradient(colors: colors, startPoint: .topLeading, endPoint: .bottomTrailing)
+        gradient
+            .overlay {
+                if let tile = preset.tile {
+                    Image(tile).resizable(resizingMode: .tile)
+                }
+            }
+            .overlay(alignment: .bottom) {
+                if let silhouette = preset.silhouette {
+                    GeometryReader { proxy in
+                        // عرض الصورة الأصلي ٣٦٤ وارتفاعها ١٢٠، ولا تتجاوز ثلث الارتفاع
+                        let scale = min(proxy.size.width / 364, proxy.size.height / 3 / 120)
+                        ZStack(alignment: .bottom) {
+                            RadialGradient(colors: [Color(preset.accentColor).opacity(0.08), .clear],
+                                           center: .bottom, startRadius: 0, endRadius: proxy.size.width * 0.6)
+                            if preset == .crescent {
+                                CrescentAndStars(scale: scale)
+                            }
+                            Image(silhouette)
+                                .resizable()
+                                .frame(width: 364 * scale, height: 120 * scale)
+                        }
+                        .frame(width: proxy.size.width, height: proxy.size.height, alignment: .bottom)
+                    }
+                }
+            }
+    }
+}
+
+/// هلال ونجوم فوق المسجد، بنفس مقياس الصورة الظلية
+private struct CrescentAndStars: View {
+    let scale: CGFloat
+
+    var body: some View {
+        Canvas { context, size in
+            let gold = Color(red: 0.92, green: 0.80, blue: 0.55)
+            let baseY = size.height - 120 * scale
+            let width = 364 * scale
+            let left = (size.width - width) / 2
+            func point(_ x: CGFloat, _ y: CGFloat) -> CGPoint { CGPoint(x: left + x * scale, y: baseY - y * scale) }
+
+            // هلال: دائرة تقصّها دائرة مزاحة
+            let center = point(42, 30), radius = 11 * scale
+            var crescent = Path(ellipseIn: CGRect(x: center.x - radius, y: center.y - radius, width: radius * 2, height: radius * 2))
+            crescent = crescent.subtracting(Path(ellipseIn: CGRect(x: center.x - radius * 0.55, y: center.y - radius * 1.05,
+                                                                   width: radius * 2, height: radius * 2)))
+            context.fill(crescent, with: .color(gold.opacity(0.6)))
+
+            // نجوم رباعية صغيرة
+            for (x, y, r) in [(110.0, 50.0, 4.0), (150.0, 26.0, 3.0), (98.0, 12.0, 2.5), (240.0, 40.0, 3.0),
+                              (290.0, 52.0, 4.0), (330.0, 16.0, 2.5), (200.0, 14.0, 2.0)] {
+                let c = point(x, y), s = r * scale
+                var star = Path()
+                star.move(to: CGPoint(x: c.x, y: c.y - s))
+                star.addQuadCurve(to: CGPoint(x: c.x + s, y: c.y), control: c)
+                star.addQuadCurve(to: CGPoint(x: c.x, y: c.y + s), control: c)
+                star.addQuadCurve(to: CGPoint(x: c.x - s, y: c.y), control: c)
+                star.addQuadCurve(to: CGPoint(x: c.x, y: c.y - s), control: c)
+                context.fill(star, with: .color(gold.opacity(0.55)))
             }
         }
     }

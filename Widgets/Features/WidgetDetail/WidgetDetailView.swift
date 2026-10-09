@@ -32,39 +32,49 @@ struct WidgetDetailView: View {
         Binding(get: { style }, set: { draft = $0 })
     }
 
-    var body: some View {
-        ScrollView {
-            VStack(spacing: 20) {
-                // المعاينة: الصغير بعرض ثابت، والباقي يملأ العرض.
-                // النسبة قبل تحديد العرض، وإلا يأخذ الصغير ارتفاع عرض الشاشة كاملاً
-                WidgetPreviewView(kind: kind, size: size, style: style)
-                    .aspectRatio(size.aspectRatio, contentMode: .fit)
-                    .cardStyle(radius: 28)
-                    .frame(maxWidth: size == .small ? 200 : .infinity)
-                    .animation(.snappy, value: size)
-                    .animation(.snappy, value: style)
+    private var preview: some View {
+        VStack(spacing: 12) {
+            // الصغير بعرض ثابت، والباقي يملأ العرض.
+            // النسبة قبل تحديد العرض، وإلا يأخذ الصغير ارتفاع عرض الشاشة كاملاً
+            WidgetPreviewView(kind: kind, size: size, style: style)
+                .aspectRatio(size.aspectRatio, contentMode: .fit)
+                .cardStyle(radius: 24)
+                .frame(maxWidth: size == .small ? 170 : .infinity, maxHeight: 200)
+                .animation(.snappy, value: size)
+                .animation(.snappy, value: style)
 
-                if kind.supportedSizes.count > 1 {
-                    Picker("الحجم", selection: $size) {
-                        ForEach(kind.supportedSizes, id: \.self) { s in
-                            Text(s.title).tag(s)
-                        }
+            if kind.supportedSizes.count > 1 {
+                Picker("الحجم", selection: $size) {
+                    ForEach(kind.supportedSizes, id: \.self) { s in
+                        Text(s.title).tag(s)
                     }
-                    .pickerStyle(.segmented)
                 }
-
-                Text(kind.subtitle)
-                    .font(AppFont.ui(14))
-                    .foregroundStyle(Theme.textSecondary)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-
-                if kind == .specialOccasion {
-                    ReminderPermissionView()
-                }
-
-                WidgetCustomizeView(kind: kind, style: styleBinding)
+                .pickerStyle(.segmented)
             }
-            .padding(16)
+        }
+        .padding([.horizontal, .top], 16)
+        .padding(.bottom, 8)
+    }
+
+    var body: some View {
+        VStack(spacing: 0) {
+            // المعاينة ثابتة أعلى الصفحة، فتشوف أثر كل تعديل وأنت تمرّر الخيارات
+            preview
+            ScrollView {
+                VStack(spacing: 20) {
+                    Text(kind.subtitle)
+                        .font(AppFont.ui(14))
+                        .foregroundStyle(Theme.textSecondary)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+
+                    if kind == .specialOccasion {
+                        ReminderPermissionView()
+                    }
+
+                    WidgetCustomizeView(kind: kind, style: styleBinding)
+                }
+                .padding(16)
+            }
         }
         .background(Theme.background.ignoresSafeArea())
         .navigationTitle(kind.title)

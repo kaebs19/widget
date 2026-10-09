@@ -16,6 +16,8 @@ struct SpecialOccasionWidget: View {
     let occasionDate: Date?
     var repeatsYearly = true
     var date: Date = .now
+    /// نوع المناسبة المحفوظة في التطبيق: يحدد الأيقونة والعنوان، ويُحسب العمر للميلاد
+    var type: OccasionType? = nil
     @Environment(\.widgetStyle) private var style
 
     /// موعد المناسبة القادم (لو تتكرر سنوياً ومضت، ننتقل للسنة القادمة)
@@ -25,21 +27,39 @@ struct SpecialOccasionWidget: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
-            WidgetHeader(icon: .asset(.iconCategoryOccasions), title: "مناسبة خاصة",
+            WidgetHeader(icon: type.map { .system($0.symbol) } ?? .asset(.iconCategoryOccasions),
+                         title: type?.title ?? "مناسبة خاصة",
                          trailing: target.map { DateHelper.weekdayDayMonth($0) })
             Spacer(minLength: 0)
             HStack(spacing: 10) {
-                Text(name)
-                    .font(style.font(.title, 30))
-                    .foregroundStyle(style.primary)
-                    .lineLimit(2)
-                    .minimumScaleFactor(0.6)
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(name)
+                        .font(style.font(.title, 30))
+                        .foregroundStyle(style.primary)
+                        .lineLimit(2)
+                        .minimumScaleFactor(0.6)
+                    if let yearsLabel {
+                        Text(style.text(yearsLabel))
+                            .font(style.font(.labelBold, 12))
+                            .foregroundStyle(style.accent)
+                            .widgetAccentable()
+                    }
+                }
                 Spacer(minLength: 8)
                 countdown
             }
             Spacer(minLength: 0)
         }
         .widgetContent()
+    }
+
+    /// «يكمل ٣٠ سنة» للميلاد، «الذكرى ١٠» للزواج
+    private var yearsLabel: String? {
+        guard let type, type.countsYears, repeatsYearly, let occasionDate, let target else { return nil }
+        let calendar = DateHelper.gregorian
+        let years = calendar.component(.year, from: target) - calendar.component(.year, from: occasionDate)
+        guard years > 0 else { return nil }
+        return type == .birthday ? "يكمل \(DateHelper.arabic(years)) سنة" : "الذكرى \(DateHelper.arabic(years))"
     }
 
     @ViewBuilder

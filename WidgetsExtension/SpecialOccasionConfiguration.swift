@@ -13,7 +13,12 @@ import WidgetKit
 // تظهر عند الضغط المطوّل على الـ Widget ثم «تعديل الودجت»
 struct SpecialOccasionIntent: WidgetConfigurationIntent {
     static let title: LocalizedStringResource = "مناسبة خاصة"
-    static var description: IntentDescription? { IntentDescription("اكتب اسم مناسبتك وتاريخها") }
+    static var description: IntentDescription? {
+        IntentDescription("اختر مناسبة من «مناسباتي» في التطبيق، أو اكتب اسمها وتاريخها هنا")
+    }
+
+    @Parameter(title: "من مناسباتي")
+    var occasion: OccasionEntity?
 
     @Parameter(title: "اسم المناسبة", default: "مناسبتي")
     var name: String
@@ -38,6 +43,7 @@ nonisolated struct SpecialOccasionEntry: TimelineEntry, Sendable {
     let occasionDate: Date?
     let repeatsYearly: Bool
     var styleID: UUID? = nil
+    var type: OccasionType? = nil
 }
 
 nonisolated struct SpecialOccasionProvider: AppIntentTimelineProvider {
@@ -59,14 +65,21 @@ nonisolated struct SpecialOccasionProvider: AppIntentTimelineProvider {
     }
 
     private func entry(for configuration: SpecialOccasionIntent, at date: Date) -> SpecialOccasionEntry {
-        SpecialOccasionEntry(date: date, name: configuration.name,
+        // المناسبة المحفوظة في التطبيق تُقرأ في كل مرة، فتعديلها يظهر في الودجت مباشرة
+        if let id = configuration.occasion?.id, let saved = OccasionStore.occasion(id: id) {
+            return SpecialOccasionEntry(date: date, name: saved.name, occasionDate: saved.date,
+                                        repeatsYearly: saved.repeatsYearly, styleID: configuration.style?.id,
+                                        type: saved.type)
+        }
+        return SpecialOccasionEntry(date: date, name: configuration.name,
                              occasionDate: configuration.date, repeatsYearly: configuration.repeatsYearly,
                              styleID: configuration.style?.id)
     }
 
     private func sample(at date: Date) -> SpecialOccasionEntry {
         SpecialOccasionEntry(date: date, name: "عيد ميلاد سارة",
-                             occasionDate: date.addingTimeInterval((13 * 24 + 6) * 3600), repeatsYearly: false)
+                             occasionDate: date.addingTimeInterval((13 * 24 + 6) * 3600), repeatsYearly: false,
+                             type: .birthday)
     }
 }
 
@@ -79,7 +92,7 @@ struct SpecialOccasionHomeWidget: Widget {
                                provider: SpecialOccasionProvider()) { entry in
             let style = WidgetStyleStorage.style(for: WidgetKind.specialOccasion.rawValue, savedStyleID: entry.styleID)
             SpecialOccasionWidget(name: entry.name, occasionDate: entry.occasionDate,
-                                  repeatsYearly: entry.repeatsYearly, date: entry.date)
+                                  repeatsYearly: entry.repeatsYearly, date: entry.date, type: entry.type)
                 .environment(\.widgetStyle, style)
                 .environment(\.layoutDirection, .rightToLeft)
                 .containerBackground(for: .widget) { WidgetBackgroundView(background: style.background) }

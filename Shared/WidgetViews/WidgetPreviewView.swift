@@ -72,9 +72,15 @@ struct WidgetPreviewView: View {
                             footnoteIsAccent: true)
         case .specialOccasion:
             // مثال للمعرض؛ في الشاشة الرئيسية يختار المستخدم الاسم والتاريخ
-            SpecialOccasionWidget(name: "عيد ميلاد سارة",
-                                  occasionDate: date.addingTimeInterval((13 * 24 + 6) * 3600),
-                                  repeatsYearly: false, date: date)
+            // أقرب مناسبة حفظها المستخدم، وإلا مثال
+            if let next = OccasionStore.all().min(by: { $0.nextDate(from: date) < $1.nextDate(from: date) }) {
+                SpecialOccasionWidget(name: next.name, occasionDate: next.date, repeatsYearly: next.repeatsYearly,
+                                      date: date, type: next.type)
+            } else {
+                SpecialOccasionWidget(name: "عيد ميلاد سارة",
+                                      occasionDate: date.addingTimeInterval((13 * 24 + 6) * 3600),
+                                      repeatsYearly: false, date: date, type: .birthday)
+            }
         case .nextMatch:    MatchWidget()
         }
     }

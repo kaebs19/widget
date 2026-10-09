@@ -75,6 +75,14 @@ struct WidgetDetailView: View {
                         .frame(maxWidth: .infinity, alignment: .leading)
 
                     if kind == .specialOccasion {
+                        NavigationLink { OccasionsView() } label: {
+                            Label("مناسباتي: أضف عيد ميلاد أو ذكرى", systemImage: "birthday.cake")
+                                .font(AppFont.uiBold(15))
+                                .frame(maxWidth: .infinity)
+                                .padding(.vertical, 14)
+                                .foregroundStyle(Theme.onAccent)
+                                .background(Theme.gold, in: RoundedRectangle(cornerRadius: 16))
+                        }
                         ReminderPermissionView()
                     }
 

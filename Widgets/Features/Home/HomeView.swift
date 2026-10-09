@@ -34,11 +34,14 @@ struct HomeView: View {
             .background(Theme.background.ignoresSafeArea())
             .navigationTitle("ويدجت")
             .toolbar {
-                ToolbarItemGroup(placement: .topBarLeading) {
+                // الإعدادات في الجهة المقابلة لزر طريقة الإضافة
+                ToolbarItem(placement: .topBarTrailing) {
                     Button { showSettings = true } label: {
                         Image(systemName: "gearshape")
                     }
                     .accessibilityLabel("الإعدادات")
+                }
+                ToolbarItem(placement: .topBarLeading) {
                     Button { showHowTo = true } label: {
                         Image(systemName: "questionmark.circle")
                     }
@@ -49,7 +52,7 @@ struct HomeView: View {
                 WidgetDetailView(kind: kind)
             }
             .sheet(isPresented: $showHowTo) { HowToAddView().appAppearance() }
-            .sheet(isPresented: $showSettings) { SettingsView().environment(styleStore).appAppearance() }
+            .fullScreenCover(isPresented: $showSettings) { SettingsView().environment(styleStore).appAppearance() }
         }
     }
 

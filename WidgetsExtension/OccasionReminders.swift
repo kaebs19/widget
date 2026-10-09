@@ -25,6 +25,7 @@ enum OccasionReminders {
         var wanted: [String: UNNotificationRequest] = [:]
         for info in configurations where info.kind == WidgetKind.specialOccasion.rawValue {
             guard let intent = info.widgetConfigurationIntent(of: SpecialOccasionIntent.self),
+                  intent.occasion == nil,   // المحفوظة في التطبيق لها تذكيرها الخاص
                   intent.remindsDayBefore, let date = intent.date,
                   let request = request(name: intent.name, date: date, repeatsYearly: intent.repeatsYearly, now: now)
             else { continue }

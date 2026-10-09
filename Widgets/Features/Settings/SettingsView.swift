@@ -25,6 +25,7 @@ struct SettingsView: View {
         NavigationStack {
             ScrollView {
                 VStack(spacing: 20) {
+                    occasionsLink
                     appearanceSection
                     widgetDefaultsSection
                     counterSection
@@ -43,6 +44,30 @@ struct SettingsView: View {
             }
         }
         .tint(Theme.gold)
+    }
+
+    // MARK: مناسباتي
+    private var occasionsLink: some View {
+        NavigationLink { OccasionsView() } label: {
+            HStack(spacing: 12) {
+                Image(systemName: "birthday.cake")
+                    .foregroundStyle(Theme.gold)
+                    .frame(width: 36, height: 36)
+                    .background(Theme.gold.opacity(0.12), in: Circle())
+                VStack(alignment: .leading, spacing: 2) {
+                    Text("مناسباتي").font(AppFont.uiBold(16))
+                    Text("أعياد الميلاد والذكريات لودجت «مناسبة خاصة»")
+                        .font(AppFont.ui(12))
+                        .foregroundStyle(Theme.textSecondary)
+                }
+                Spacer()
+                Image(systemName: "chevron.left").font(.footnote).foregroundStyle(Theme.textSecondary)
+            }
+            .foregroundStyle(Theme.textPrimary)
+            .padding(14)
+            .background(Theme.cardTop.opacity(0.6), in: RoundedRectangle(cornerRadius: 18, style: .continuous))
+        }
+        .buttonStyle(.plain)
     }
 
     // MARK: المظهر

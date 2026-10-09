@@ -91,20 +91,24 @@ nonisolated struct AzkarLibrary: Sendable {
         azkar.first { $0.id == id }
     }
 
-    /// ذكر يتبدّل مع بداية كل ساعة بالتوقيت المحلي، من الأذكار التي لا تتجاوز `maxLetters`.
-    /// نفس الوقت يعطي نفس الذكر دائماً، فيتطابق التطبيق والـ Widget.
+    /// ذكر يتبدّل مع بداية كل ساعة بالتوقيت المحلي. نفس الوقت يعطي نفس الذكر دائماً، فيتطابق التطبيق والـ Widget.
+    /// لكل ساعة ذكرها من القائمة كاملة؛ إذا تجاوز `maxLetters` نأخذ الذي يليه، فتغيير الخط أو الحجم
+    /// لا يبدّل الذكر إلا إذا لم يعد يتسع.
     func rotatingZikr(
         in groupID: ZikrGroup.ID,
         at date: Date,
         maxLetters: Int = .max,
         timeZone: TimeZone = .current
     ) -> Zikr? {
-        let candidates = azkar(in: groupID).filter { $0.letterCount <= maxLetters }
-        guard !candidates.isEmpty else { return nil }
+        let all = azkar(in: groupID)
+        guard !all.isEmpty else { return nil }
         let localSeconds = date.timeIntervalSinceReferenceDate + Double(timeZone.secondsFromGMT(for: date))
         let hour = Int((localSeconds / 3600).rounded(.down))
-        let count = candidates.count
-        return candidates[(hour % count + count) % count]
+        let start = (hour % all.count + all.count) % all.count
+        return (0..<all.count)
+            .lazy
+            .map { all[(start + $0) % all.count] }
+            .first { $0.letterCount <= maxLetters }
     }
 
     private static func decode<T: Decodable>(_ type: T.Type, resource: String, in bundle: Bundle) throws -> T {

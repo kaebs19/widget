@@ -53,6 +53,7 @@ enum DateHelper {
     private static let weekdayFmt     = formatter("EEEE", calendar: gregorian)
     private static let dayMonthFmt    = formatter("d MMMM", calendar: gregorian)
     private static let weekdayDayMonthFmt = formatter("EEEE d MMMM", calendar: gregorian)
+    private static let weekdayFullFmt = formatter("EEEE d MMMM y", calendar: gregorian)
 
     static func hijriDay(_ date: Date) -> String   { arabic(hijri.component(.day, from: date)) }
     static func hijriYear(_ date: Date) -> String  { arabic(hijri.component(.year, from: date)) }
@@ -63,6 +64,8 @@ enum DateHelper {
     static func gregorianDayMonth(_ date: Date) -> String { dayMonthFmt.string(from: date) }
     /// السبت ٢٤ أكتوبر
     static func weekdayDayMonth(_ date: Date) -> String { weekdayDayMonthFmt.string(from: date) }
+    /// الخميس ٢٣ سبتمبر ٢٠٢٧
+    static func weekdayFull(_ date: Date) -> String { weekdayFullFmt.string(from: date) }
     /// ٢٩ ربيع الآخر
     static func hijriDayMonth(_ date: Date) -> String { "\(hijriDay(date)) \(hijriMonth(date))" }
 
@@ -88,10 +91,27 @@ enum DateHelper {
 
     /// كم مضى (من ٠ إلى ١) من الانتظار بين المناسبة الهجرية السابقة والقادمة، للأشرطة والحلقات
     static func progressUntilHijri(month: Int, day: Int, from now: Date = .now) -> Double {
-        let next = nextHijri(month: month, day: day, from: now)
-        guard let previous = hijri.date(byAdding: .year, value: -1, to: next) else { return 0 }
+        progress(until: nextHijri(month: month, day: day, from: now), calendar: hijri, from: now)
+    }
+
+    static func progressUntilGregorian(month: Int, day: Int, from now: Date = .now) -> Double {
+        progress(until: nextGregorian(month: month, day: day, from: now), calendar: gregorian, from: now)
+    }
+
+    private static func progress(until next: Date, calendar: Calendar, from now: Date) -> Double {
+        guard let previous = calendar.date(byAdding: .year, value: -1, to: next) else { return 0 }
         let total = next.timeIntervalSince(previous)
         return total > 0 ? min(max(now.timeIntervalSince(previous) / total, 0), 1) : 0
+    }
+
+    // MARK: - العيد
+    /// أقرب عيد قادم: الفطر (١ شوال) أو الأضحى (١٠ ذو الحجة)
+    static func nextEid(from now: Date = .now) -> (name: String, date: Date, days: Int) {
+        let fitr = (name: "عيد الفطر", date: nextHijri(month: 10, day: 1, from: now),
+                    days: daysUntilHijri(month: 10, day: 1, from: now))
+        let adha = (name: "عيد الأضحى", date: nextHijri(month: 12, day: 10, from: now),
+                    days: daysUntilHijri(month: 12, day: 10, from: now))
+        return fitr.days <= adha.days ? fitr : adha
     }
 
     private static func daysUntil(_ components: DateComponents, calendar: Calendar, from now: Date) -> Int {

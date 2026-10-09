@@ -50,13 +50,12 @@ struct WidgetPreviewView: View {
                             days: DateHelper.daysUntilHijri(month: 9, day: 1, from: date),
                             progress: DateHelper.progressUntilHijri(month: 9, day: 1, from: date),
                             footnote: "≈ \(DateHelper.gregorianFull(next))")
-        case .nationalDay:
-            let next = DateHelper.nextGregorian(month: 9, day: 23, from: date)
-            // الترقيم الرسمي: اليوم الوطني ٩٣ كان في ٢٠٢٣
-            let edition = DateHelper.gregorian.component(.year, from: next) - 1930
-            CountdownWidget(title: DateHelper.gregorianDayMonth(next), icon: .asset(.iconPalmSwords),
-                            days: DateHelper.daysUntilGregorian(month: 9, day: 23, from: date),
-                            name: "اليوم الوطني \(DateHelper.arabic(edition))")
+        case .eid:
+            let eid = DateHelper.nextEid(from: date)
+            CountdownWidget(title: "\(DateHelper.hijriMonth(eid.date)) \(DateHelper.hijriYear(eid.date))",
+                            icon: .asset(.iconEidStar), days: eid.days, name: eid.name,
+                            footnote: "≈ \(DateHelper.gregorianFull(eid.date))")
+        case .nationalDay:  NationalDayWidget(date: date, size: resolvedSize)
         case .foundingDay:
             let next = DateHelper.nextGregorian(month: 2, day: 22, from: date)
             let anniversary = DateHelper.gregorian.component(.year, from: next) - 1727

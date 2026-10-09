@@ -62,7 +62,7 @@ enum WidgetSize: String {
 enum WidgetKind: String, CaseIterable, Identifiable {
     case hijriDate, dayName, yearDots
     case morningDhikr, dailyVerse, istighfar
-    case ramadan, nationalDay, foundingDay, specialOccasion
+    case ramadan, eid, nationalDay, foundingDay, specialOccasion
     case nextMatch
 
     var id: String { rawValue }
@@ -76,6 +76,7 @@ enum WidgetKind: String, CaseIterable, Identifiable {
         case .dailyVerse:   "آية اليوم"
         case .istighfar:    "الاستغفار"
         case .ramadan:      "عداد رمضان"
+        case .eid:          "عداد العيد"
         case .nationalDay:  "اليوم الوطني"
         case .foundingDay:  "يوم التأسيس"
         case .specialOccasion: "مناسبة خاصة"
@@ -92,6 +93,7 @@ enum WidgetKind: String, CaseIterable, Identifiable {
         case .dailyVerse:   "آية جديدة كل يوم بالرسم العثماني"
         case .istighfar:    "عداد استغفار تضغط عليه من الشاشة"
         case .ramadan:      "كم يوم باقي على رمضان"
+        case .eid:          "كم يوم باقي على أقرب عيد"
         case .nationalDay:  "العد التنازلي لـ ٢٣ سبتمبر"
         case .foundingDay:  "العد التنازلي لـ ٢٢ فبراير"
         case .specialOccasion: "اختر اسم مناسبتك وتاريخها من «تعديل الودجت»"
@@ -103,7 +105,7 @@ enum WidgetKind: String, CaseIterable, Identifiable {
         switch self {
         case .hijriDate, .dayName, .yearDots:          .calendar
         case .morningDhikr, .dailyVerse, .istighfar:   .religious
-        case .ramadan, .nationalDay, .foundingDay, .specialOccasion: .occasions
+        case .ramadan, .eid, .nationalDay, .foundingDay, .specialOccasion: .occasions
         case .nextMatch:                               .sports
         }
     }
@@ -111,9 +113,9 @@ enum WidgetKind: String, CaseIterable, Identifiable {
     /// الحجم اللي يظهر في المعرض
     var previewSize: WidgetSize {
         switch self {
-        case .istighfar, .ramadan, .foundingDay: .small
-        case .dailyVerse:                        .large
-        default:                                 .medium
+        case .istighfar, .ramadan, .eid, .foundingDay: .small
+        case .dailyVerse:                              .large
+        default:                                       .medium
         }
     }
 
@@ -125,11 +127,11 @@ enum WidgetKind: String, CaseIterable, Identifiable {
     /// كل الأحجام المتاحة لهذا الودجت
     var supportedSizes: [WidgetSize] {
         switch self {
-        case .istighfar, .ramadan, .foundingDay: [.small]
-        case .dailyVerse:                        [.medium, .large]
-        case .yearDots:                          [.medium, .large]
-        case .specialOccasion:                   [.medium]
-        default:                                 [.small, .medium]
+        case .istighfar, .ramadan, .eid, .foundingDay: [.small]
+        case .dailyVerse:                              [.medium, .large]
+        case .yearDots:                                [.medium, .large]
+        case .specialOccasion:                         [.medium]
+        default:                                       [.small, .medium]
         }
     }
 }

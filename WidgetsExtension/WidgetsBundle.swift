@@ -22,6 +22,7 @@ struct WidgetsBundle: WidgetBundle {
         DailyVerseHomeWidget()
         IstighfarHomeWidget()
         RamadanHomeWidget()
+        EidHomeWidget()
         NationalDayHomeWidget()
         FoundingDayHomeWidget()
         SpecialOccasionHomeWidget()

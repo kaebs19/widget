@@ -17,16 +17,37 @@ struct DayNameWidget: View {
         if size == .small { small } else { medium }
     }
 
+    // التصميم ٠٢: اسم اليوم، وتحته شريط الأسبوع واليوم الحالي مميّز
     private var medium: some View {
-        VStack(alignment: .leading) {
+        VStack(alignment: .leading, spacing: 0) {
             WidgetHeader(icon: .asset(.iconCategoryCalendar), title: "اليوم",
-                         trailing: DateHelper.gregorianFull(date))
-            Spacer()
-            dayName(height: 68)
+                         trailing: "\(DateHelper.gregorianFull(date)) · \(DateHelper.hijriDayMonth(date))")
+            Spacer(minLength: 0)
+            dayName(height: 64)
                 .frame(maxWidth: .infinity, alignment: .leading)
-            Spacer()
+            Spacer(minLength: 0)
+            weekStrip
         }
         .widgetContent()
+    }
+
+    /// الحرف المميّز لكل يوم، بترتيب Calendar: الأحد = ١
+    private static let weekdayLetters = ["ح", "ن", "ث", "ر", "خ", "ج", "س"]
+
+    private var weekStrip: some View {
+        let today = DateHelper.gregorian.component(.weekday, from: date) - 1
+        return HStack(spacing: 6) {
+            ForEach(Self.weekdayLetters.indices, id: \.self) { index in
+                let isToday = index == today
+                let shape = RoundedRectangle(cornerRadius: 9, style: .continuous)
+                Text(Self.weekdayLetters[index])
+                    .font(style.font(.labelBold, 13))
+                    .foregroundStyle(isToday ? style.onPrimary : style.secondary)
+                    .frame(maxWidth: .infinity, minHeight: 28)
+                    .background(isToday ? style.primary : style.primary.opacity(0.05), in: shape)
+                    .overlay(shape.strokeBorder(style.primary.opacity(isToday ? 0 : 0.1)))
+            }
+        }
     }
 
     // التصميم ٠٩: اسم اليوم، وتحته الميلادي ثم الهجري

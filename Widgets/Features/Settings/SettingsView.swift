@@ -5,6 +5,7 @@
 //  Created by Mohammed Saleh on 09/10/2026.
 //
 
+import StoreKit
 import SwiftUI
 import WidgetKit
 
@@ -14,6 +15,10 @@ struct SettingsView: View {
     @Environment(WidgetStyleStore.self) private var styles
     @State private var showResetAll = false
     @State private var showResetCounter = false
+    @State private var showHowTo = false
+    @State private var webPage: URL?
+    @Environment(\.openURL) private var openURL
+    @Environment(\.requestReview) private var requestReview
     @AppStorage(AppSettings.Key.haptics, store: AppGroup.defaults) private var haptics = true
     @AppStorage(AppSettings.Key.hijriOffset, store: AppGroup.defaults) private var hijriOffset = 0
     @AppStorage(AppSettings.Key.weekStart, store: AppGroup.defaults) private var weekStart = 1
@@ -38,6 +43,47 @@ struct SettingsView: View {
                         row(.calendar)
                         row(.about)
                     }
+                    group("الدعم") {
+                        actionRow("طريقة الإضافة", "للشاشة الرئيسية وشاشة القفل", symbol: "questionmark.circle.fill",
+                                  color: Color(red: 0.20, green: 0.60, blue: 0.86), chevron: true) { showHowTo = true }
+                        actionRow("الأسئلة الشائعة", "إجابات سريعة لأكثر الأسئلة", symbol: "bubble.left.and.text.bubble.right.fill",
+                                  color: Color(red: 0.36, green: 0.42, blue: 0.86), external: true) { webPage = AppLinks.faq }
+                        actionRow("تواصل معنا", AppLinks.supportEmail, symbol: "envelope.fill",
+                                  color: Color(red: 0.18, green: 0.62, blue: 0.52), external: true) {
+                            if let url = AppLinks.mail(subject: "دعم تطبيق ويدجت") { openURL(url) }
+                        }
+                        actionRow("إبلاغ عن خطأ في نص", "آية أو ذكر يحتاج تصحيح", symbol: "exclamationmark.bubble.fill",
+                                  color: Color(red: 0.90, green: 0.45, blue: 0.20), external: true) {
+                            if let url = AppLinks.mail(subject: "خطأ في نص",
+                                                       body: "اسم الودجت:\nالنص الذي فيه الخطأ:\nالتصحيح المقترح:\n") {
+                                openURL(url)
+                            }
+                        }
+                        actionRow("قيّم التطبيق", "رأيك يساعدنا نتحسّن", symbol: "star.fill",
+                                  color: Color(red: 0.95, green: 0.70, blue: 0.15)) { requestReview() }
+                        ShareLink(item: AppLinks.site,
+                                  message: Text("جرّب تطبيق ويدجت: ودجات الصلاة والأذكار والتقويم الهجري")) {
+                            rowLabel("شارك التطبيق", "أرسله لمن تحب", symbol: "square.and.arrow.up.fill",
+                                     color: Color(red: 0.55, green: 0.42, blue: 0.85))
+                        }
+                        .buttonStyle(.plain)
+                        actionRow("تابعنا على X", "@B_c_Arab", symbol: "at",
+                                  color: Color(white: 0.2), external: true) { openURL(AppLinks.x) }
+                    }
+                    group("قانوني") {
+                        actionRow("سياسة الخصوصية", "كيف نتعامل مع بياناتك", symbol: "hand.raised.fill",
+                                  color: Color(red: 0.25, green: 0.52, blue: 0.90), external: true) { webPage = AppLinks.privacy }
+                        actionRow("شروط الاستخدام", "شروط التطبيق والاشتراك", symbol: "doc.text.fill",
+                                  color: Color(white: 0.5), external: true) { webPage = AppLinks.terms }
+                        NavigationLink { CreditsView() } label: {
+                            rowLabel("المصادر والتراخيص", "مصادر النصوص والخطوط والمكتبات", symbol: "books.vertical.fill",
+                                     color: Color(red: 0.62, green: 0.48, blue: 0.30), chevron: true)
+                        }
+                        .buttonStyle(.plain)
+                    }
+                    Text("ويدجت \(AppLinks.version)")
+                        .font(AppFont.ui(12))
+                        .foregroundStyle(Theme.textSecondary)
                 }
                 .padding(16)
             }
@@ -52,6 +98,8 @@ struct SettingsView: View {
             .navigationDestination(for: SettingsPage.self) { page in
                 destination(page)
             }
+            .sheet(isPresented: $showHowTo) { HowToAddView().appAppearance() }
+            .sheet(item: $webPage) { url in SafariView(url: url).ignoresSafeArea() }
         }
         .tint(Theme.gold)
     }
@@ -116,6 +164,43 @@ struct SettingsView: View {
             .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
+    }
+
+    /// سطر يفتح رابطاً أو ينفّذ إجراءً بدل صفحة
+    private func actionRow(_ title: String, _ subtitle: String, symbol: String, color: Color,
+                           external: Bool = false, chevron: Bool = false, action: @escaping () -> Void) -> some View {
+        Button(action: action) {
+            rowLabel(title, subtitle, symbol: symbol, color: color, chevron: chevron, external: external)
+        }
+        .buttonStyle(.plain)
+    }
+
+    private func rowLabel(_ title: String, _ subtitle: String, symbol: String, color: Color,
+                          chevron: Bool = false, external: Bool = false) -> some View {
+        HStack(spacing: 12) {
+            Image(systemName: symbol)
+                .font(.system(size: 15, weight: .semibold))
+                .foregroundStyle(.white)
+                .frame(width: 34, height: 34)
+                .background(color, in: RoundedRectangle(cornerRadius: 9, style: .continuous))
+            VStack(alignment: .leading, spacing: 2) {
+                Text(title).font(AppFont.uiBold(15))
+                Text(subtitle)
+                    .font(AppFont.ui(12))
+                    .foregroundStyle(Theme.textSecondary)
+                    .lineLimit(1)
+            }
+            Spacer()
+            if external || chevron {
+                Image(systemName: external ? "arrow.up.left" : "chevron.left")
+                    .font(.footnote.weight(.semibold))
+                    .foregroundStyle(Theme.textSecondary)
+            }
+        }
+        .foregroundStyle(Theme.textPrimary)
+        .padding(.horizontal, 14)
+        .padding(.vertical, 12)
+        .contentShape(Rectangle())
     }
 
     /// سطر صغير تحت كل قسم يلخّص إعداده الحالي
@@ -301,8 +386,14 @@ struct SettingsView: View {
             HStack {
                 Text("الإصدار")
                 Spacer()
-                Text(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "")
+                Text(AppLinks.version)
                     .foregroundStyle(Theme.textSecondary)
+            }
+            HStack {
+                Text("الموقع")
+                Spacer()
+                Link("kaebs19.github.io", destination: AppLinks.site)
+                    .environment(\.layoutDirection, .leftToRight)
             }
             Text("نص القرآن الكريم وخطه من مجمع الملك فهد لطباعة المصحف الشريف.")
                 .font(AppFont.ui(12))

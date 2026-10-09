@@ -26,6 +26,9 @@ struct SpecialOccasionIntent: WidgetConfigurationIntent {
 
     @Parameter(title: "ذكّرني قبل يوم", default: false)
     var remindsDayBefore: Bool
+
+    @Parameter(title: "النمط")
+    var style: SavedStyleEntity?
 }
 
 // MARK: - الجدول الزمني
@@ -34,6 +37,7 @@ nonisolated struct SpecialOccasionEntry: TimelineEntry, Sendable {
     let name: String
     let occasionDate: Date?
     let repeatsYearly: Bool
+    var styleID: UUID? = nil
 }
 
 nonisolated struct SpecialOccasionProvider: AppIntentTimelineProvider {
@@ -56,7 +60,8 @@ nonisolated struct SpecialOccasionProvider: AppIntentTimelineProvider {
 
     private func entry(for configuration: SpecialOccasionIntent, at date: Date) -> SpecialOccasionEntry {
         SpecialOccasionEntry(date: date, name: configuration.name,
-                             occasionDate: configuration.date, repeatsYearly: configuration.repeatsYearly)
+                             occasionDate: configuration.date, repeatsYearly: configuration.repeatsYearly,
+                             styleID: configuration.style?.id)
     }
 
     private func sample(at date: Date) -> SpecialOccasionEntry {
@@ -72,7 +77,7 @@ struct SpecialOccasionHomeWidget: Widget {
     var body: some WidgetConfiguration {
         AppIntentConfiguration(kind: kind.rawValue, intent: SpecialOccasionIntent.self,
                                provider: SpecialOccasionProvider()) { entry in
-            let style = WidgetStyleStorage.style(for: WidgetKind.specialOccasion.rawValue)
+            let style = WidgetStyleStorage.style(for: WidgetKind.specialOccasion.rawValue, savedStyleID: entry.styleID)
             SpecialOccasionWidget(name: entry.name, occasionDate: entry.occasionDate,
                                   repeatsYearly: entry.repeatsYearly, date: entry.date)
                 .environment(\.widgetStyle, style)

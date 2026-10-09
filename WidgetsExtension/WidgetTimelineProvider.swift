@@ -5,30 +5,46 @@
 //  Created by Mohammed Saleh on 09/10/2026.
 //
 
+import AppIntents
 import WidgetKit
+
+// MARK: - إعدادات الودجت
+// تظهر عند الضغط المطوّل على الـ Widget ثم «تعديل الودجت»
+nonisolated struct WidgetStyleIntent: WidgetConfigurationIntent {
+    static let title: LocalizedStringResource = "شكل الودجت"
+    static var description: IntentDescription? {
+        IntentDescription("اختر نمطاً حفظته من التطبيق، أو اتركه فارغاً ليأخذ شكل هذا النوع")
+    }
+
+    @Parameter(title: "النمط")
+    var style: SavedStyleEntity?
+}
 
 nonisolated struct WidgetEntry: TimelineEntry, Sendable {
     let date: Date
     let kind: WidgetKind
+    /// النمط الذي اختاره المستخدم لهذه النسخة؛ nil تعني شكل النوع
+    var styleID: UUID? = nil
 }
 
 /// كل الـ Widgets تُحسب من التاريخ فقط (التقويم، العدادات، الذكر اللي يتبدّل كل ساعة)،
 /// فنجهّز مدخلاً عند بداية كل ساعة لـ ٢٤ ساعة قادمة، وبعدها يطلب النظام جدولاً جديداً.
 /// بداية الساعة تغطي أيضاً منتصف الليل، فيتغيّر التاريخ في وقته.
-nonisolated struct WidgetTimelineProvider: TimelineProvider {
+nonisolated struct WidgetTimelineProvider: AppIntentTimelineProvider {
     let kind: WidgetKind
 
     func placeholder(in context: Context) -> WidgetEntry {
         WidgetEntry(date: .now, kind: kind)
     }
 
-    func getSnapshot(in context: Context, completion: @escaping (WidgetEntry) -> Void) {
-        completion(WidgetEntry(date: .now, kind: kind))
+    func snapshot(for configuration: WidgetStyleIntent, in context: Context) async -> WidgetEntry {
+        WidgetEntry(date: .now, kind: kind, styleID: configuration.style?.id)
     }
 
-    func getTimeline(in context: Context, completion: @escaping (Timeline<WidgetEntry>) -> Void) {
-        let entries = TimelineSchedule.hourly().map { WidgetEntry(date: $0, kind: kind) }
-        completion(Timeline(entries: entries, policy: .atEnd))
+    func timeline(for configuration: WidgetStyleIntent, in context: Context) async -> Timeline<WidgetEntry> {
+        let styleID = configuration.style?.id
+        let entries = TimelineSchedule.hourly().map { WidgetEntry(date: $0, kind: kind, styleID: styleID) }
+        return Timeline(entries: entries, policy: .atEnd)
     }
 }
 

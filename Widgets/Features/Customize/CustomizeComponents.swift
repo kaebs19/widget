@@ -117,3 +117,35 @@ struct PresetSwatch: View {
         .accessibilityAddTraits(isSelected ? .isSelected : [])
     }
 }
+
+// MARK: - نمط محفوظ
+struct SavedStyleChip: View {
+    let saved: SavedStyle
+    let isCurrent: Bool
+    let action: () -> Void
+
+    var body: some View {
+        Button(action: action) {
+            HStack(spacing: 8) {
+                WidgetBackgroundView(background: saved.style.background)
+                    .overlay {
+                        Circle().fill(Color(saved.style.accentColor)).frame(width: 8, height: 8)
+                    }
+                    .frame(width: 26, height: 26)
+                    .clipShape(Circle())
+                    .overlay(Circle().strokeBorder(Theme.border))
+                Text(saved.name)
+                    .font(.app(saved.style.labelFont, size: 14, weight: .medium))
+                    .lineLimit(1)
+            }
+            .padding(.leading, 6)
+            .padding(.trailing, 14)
+            .padding(.vertical, 6)
+            .foregroundStyle(isCurrent ? Theme.gold : Theme.textPrimary)
+            .background(Theme.cardTop, in: Capsule())
+            .overlay(Capsule().strokeBorder(isCurrent ? Theme.gold : .clear, lineWidth: 1.5))
+        }
+        .buttonStyle(.plain)
+        .accessibilityAddTraits(isCurrent ? .isSelected : [])
+    }
+}

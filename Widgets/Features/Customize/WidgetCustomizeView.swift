@@ -19,6 +19,9 @@ struct WidgetCustomizeView: View {
     @State private var style: WidgetStyle
     @State private var size: WidgetSize
     @State private var showApplyToAll = false
+    @State private var showNewStyleName = false
+    @State private var newStyleName = ""
+    @State private var styleToDelete: SavedStyle?
     private let original: WidgetStyle
 
     init(kind: WidgetKind, style: WidgetStyle, size: WidgetSize) {
@@ -34,6 +37,7 @@ struct WidgetCustomizeView: View {
                 preview
                 ScrollView {
                     VStack(spacing: 20) {
+                        savedStylesSection
                         backgroundSection
                         colorsSection
                         fontSection
@@ -69,6 +73,25 @@ struct WidgetCustomizeView: View {
             } message: {
                 Text("يستبدل الشكل الحالي لكل الودجات بهذا الشكل.")
             }
+            .alert("حفظ كنمط جديد", isPresented: $showNewStyleName) {
+                TextField("اسم النمط", text: $newStyleName)
+                Button("حفظ") {
+                    let name = newStyleName.trimmingCharacters(in: .whitespacesAndNewlines)
+                    store.addSavedStyle(named: name.isEmpty ? "نمط \(store.savedStyles.count + 1)" : name, style: style)
+                }
+                Button("إلغاء", role: .cancel) {}
+            } message: {
+                Text("يظهر في «تعديل الودجت» لتختاره لأي ودجت.")
+            }
+            .confirmationDialog("حذف النمط «\(styleToDelete?.name ?? "")»؟",
+                                isPresented: Binding(get: { styleToDelete != nil }, set: { if !$0 { styleToDelete = nil } }),
+                                titleVisibility: .visible) {
+                Button("حذف", role: .destructive) {
+                    if let styleToDelete { store.deleteSavedStyle(styleToDelete.id) }
+                }
+            } message: {
+                Text("الودجات التي تستخدمه ترجع لشكل نوعها.")
+            }
             // لا يُغلق بالسحب وفيه تعديلات غير محفوظة
             .interactiveDismissDisabled(style != original)
         }
@@ -94,6 +117,43 @@ struct WidgetCustomizeView: View {
         }
         .padding(16)
         .background(Theme.background)
+    }
+
+    // MARK: الأنماط المحفوظة
+    private var savedStylesSection: some View {
+        SettingsSection("أنماطي") {
+            if !store.savedStyles.isEmpty {
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack(spacing: 8) {
+                        ForEach(store.savedStyles) { saved in
+                            SavedStyleChip(saved: saved, isCurrent: saved.style == style) {
+                                withAnimation(.snappy) { style = saved.style }
+                            }
+                            .contextMenu {
+                                Button("تحديث بالشكل الحالي", systemImage: "arrow.triangle.2.circlepath") {
+                                    store.updateSavedStyle(saved.id, with: style)
+                                }
+                                .disabled(saved.style == style)
+                                Button("حذف", systemImage: "trash", role: .destructive) {
+                                    styleToDelete = saved
+                                }
+                            }
+                        }
+                    }
+                    .padding(.vertical, 2)
+                }
+            }
+            Button {
+                newStyleName = ""
+                showNewStyleName = true
+            } label: {
+                Label("حفظ الشكل الحالي كنمط", systemImage: "plus.circle")
+                    .font(AppFont.uiBold(14))
+            }
+            Text("اختر النمط لأي ودجت في الشاشة الرئيسية: اضغط عليه مطولاً ثم «تعديل الودجت». اضغط مطولاً على النمط هنا لتحديثه أو حذفه.")
+                .font(AppFont.ui(12))
+                .foregroundStyle(Theme.textSecondary)
+        }
     }
 
     // MARK: الخلفية

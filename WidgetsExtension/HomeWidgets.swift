@@ -17,7 +17,8 @@ protocol HomeWidget: Widget {
 
 extension HomeWidget {
     var body: some WidgetConfiguration {
-        StaticConfiguration(kind: Self.kind.rawValue, provider: WidgetTimelineProvider(kind: Self.kind)) { entry in
+        AppIntentConfiguration(kind: Self.kind.rawValue, intent: WidgetStyleIntent.self,
+                               provider: WidgetTimelineProvider(kind: Self.kind)) { entry in
             HomeWidgetView(entry: entry)
         }
         .configurationDisplayName(Self.kind.title)
@@ -51,7 +52,7 @@ struct HomeWidgetView: View {
             LockScreenWidgetView(kind: entry.kind, date: entry.date, family: family)
         } else {
             // الشكل يُقرأ عند كل رسم، فأي تخصيص يحفظه التطبيق يظهر مع أول تحديث
-            let style = WidgetStyleStorage.style(for: entry.kind.rawValue)
+            let style = WidgetStyleStorage.style(for: entry.kind.rawValue, savedStyleID: entry.styleID)
             WidgetPreviewView(kind: entry.kind, date: entry.date, size: WidgetSize(family),
                               style: style, showsBackground: false)
                 .containerBackground(for: .widget) { WidgetBackgroundView(background: style.background) }

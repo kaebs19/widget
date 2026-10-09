@@ -28,6 +28,26 @@ nonisolated enum WidgetStyleStorage {
         defaults.set(all, forKey: key)
     }
 
+    /// شكل الودجت: النمط الذي اختاره المستخدم لهذه النسخة إن وُجد، وإلا شكل النوع
+    static func style(for kindID: String, savedStyleID: UUID?, in defaults: UserDefaults = AppGroup.defaults) -> WidgetStyle {
+        if let savedStyleID, let saved = savedStyles(in: defaults).first(where: { $0.id == savedStyleID }) {
+            return saved.style
+        }
+        return style(for: kindID, in: defaults)
+    }
+
+    // MARK: الأنماط المحفوظة
+    private static let savedKey = "widget.savedStyles"
+
+    static func savedStyles(in defaults: UserDefaults = AppGroup.defaults) -> [SavedStyle] {
+        guard let data = defaults.data(forKey: savedKey) else { return [] }
+        return (try? JSONDecoder().decode([SavedStyle].self, from: data)) ?? []
+    }
+
+    static func saveSavedStyles(_ styles: [SavedStyle], in defaults: UserDefaults = AppGroup.defaults) {
+        defaults.set(try? JSONEncoder().encode(styles), forKey: savedKey)
+    }
+
     private static func stored(in defaults: UserDefaults) -> [String: Data] {
         defaults.dictionary(forKey: key) as? [String: Data] ?? [:]
     }

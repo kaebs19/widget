@@ -7,12 +7,16 @@
 
 import SwiftUI
 
+// المعاينة وتحتها التخصيص مباشرة. التعديلات تظهر في المعاينة، ولا تُحفظ إلا بزر ✓.
 struct WidgetDetailView: View {
     let kind: WidgetKind
     @Environment(WidgetStyleStore.self) private var styles
+    @Environment(\.dismiss) private var dismiss
     @State private var size: WidgetSize
+    /// التعديلات غير المحفوظة؛ nil تعني الشكل المحفوظ كما هو
+    @State private var draft: WidgetStyle?
     @State private var showHowTo = false
-    @State private var showCustomize = false
+    @State private var showDiscard = false
 
     init(kind: WidgetKind) {
         self.kind = kind
@@ -20,16 +24,25 @@ struct WidgetDetailView: View {
         _size = State(initialValue: kind.previewSize)
     }
 
+    private var saved: WidgetStyle { styles.style(for: kind) }
+    private var style: WidgetStyle { draft ?? saved }
+    private var hasChanges: Bool { draft.map { $0 != saved } ?? false }
+
+    private var styleBinding: Binding<WidgetStyle> {
+        Binding(get: { style }, set: { draft = $0 })
+    }
+
     var body: some View {
         ScrollView {
-            VStack(spacing: 24) {
+            VStack(spacing: 20) {
                 // المعاينة: الصغير بعرض ثابت، والباقي يملأ العرض.
                 // النسبة قبل تحديد العرض، وإلا يأخذ الصغير ارتفاع عرض الشاشة كاملاً
-                WidgetPreviewView(kind: kind, size: size, style: styles.style(for: kind))
+                WidgetPreviewView(kind: kind, size: size, style: style)
                     .aspectRatio(size.aspectRatio, contentMode: .fit)
                     .cardStyle(radius: 28)
                     .frame(maxWidth: size == .small ? 200 : .infinity)
                     .animation(.snappy, value: size)
+                    .animation(.snappy, value: style)
 
                 if kind.supportedSizes.count > 1 {
                     Picker("الحجم", selection: $size) {
@@ -40,48 +53,56 @@ struct WidgetDetailView: View {
                     .pickerStyle(.segmented)
                 }
 
-                VStack(alignment: .leading, spacing: 8) {
-                    Text(kind.title)
-                        .font(AppFont.uiBold(22))
-                        .foregroundStyle(Theme.textPrimary)
-                    Text(kind.subtitle)
-                        .font(AppFont.ui(15))
-                        .foregroundStyle(Theme.textSecondary)
-                }
-                .frame(maxWidth: .infinity, alignment: .leading)
+                Text(kind.subtitle)
+                    .font(AppFont.ui(14))
+                    .foregroundStyle(Theme.textSecondary)
+                    .frame(maxWidth: .infinity, alignment: .leading)
 
                 if kind == .specialOccasion {
                     ReminderPermissionView()
                 }
 
-                VStack(spacing: 12) {
-                    Button { showCustomize = true } label: {
-                        Label("تخصيص الشكل", systemImage: "paintbrush.pointed")
-                            .font(AppFont.uiBold(16))
-                            .frame(maxWidth: .infinity)
-                            .padding(.vertical, 14)
-                            .foregroundStyle(.black)
-                            .background(Theme.gold, in: RoundedRectangle(cornerRadius: 16))
-                    }
-                    Button { showHowTo = true } label: {
-                        Label("طريقة إضافة الودجت", systemImage: "plus.square.on.square")
-                            .font(AppFont.uiBold(16))
-                            .frame(maxWidth: .infinity)
-                            .padding(.vertical, 14)
-                            .foregroundStyle(Theme.gold)
-                            .background(Theme.gold.opacity(0.12), in: RoundedRectangle(cornerRadius: 16))
-                    }
-                }
+                WidgetCustomizeView(kind: kind, style: styleBinding)
             }
             .padding(16)
         }
         .background(Theme.background.ignoresSafeArea())
         .navigationTitle(kind.title)
         .navigationBarTitleDisplayMode(.inline)
-        .sheet(isPresented: $showHowTo) { HowToAddView() }
-        .sheet(isPresented: $showCustomize) {
-            WidgetCustomizeView(kind: kind, style: styles.style(for: kind), size: size)
-                .environment(styles)
+        // فيه تعديلات غير محفوظة: زر رجوع يسأل قبل ما تضيع
+        .navigationBarBackButtonHidden(hasChanges)
+        .toolbar {
+            if hasChanges {
+                ToolbarItem(placement: .topBarLeading) {
+                    Button { showDiscard = true } label: {
+                        Image(systemName: "chevron.backward")
+                    }
+                    .accessibilityLabel("رجوع")
+                }
+            }
+            ToolbarItemGroup(placement: .topBarTrailing) {
+                Button { showHowTo = true } label: {
+                    Image(systemName: "questionmark.circle")
+                }
+                .accessibilityLabel("طريقة إضافة الودجت")
+                Button {
+                    styles.save(style, for: [kind])
+                    draft = nil
+                } label: {
+                    Image(systemName: "checkmark")
+                }
+                .disabled(!hasChanges)
+                .accessibilityLabel("حفظ")
+            }
         }
+        .tint(Theme.gold)
+        .confirmationDialog("عندك تعديلات ما حفظتها", isPresented: $showDiscard, titleVisibility: .visible) {
+            Button("حفظ والرجوع") {
+                styles.save(style, for: [kind])
+                dismiss()
+            }
+            Button("تجاهل التعديلات", role: .destructive) { dismiss() }
+        }
+        .sheet(isPresented: $showHowTo) { HowToAddView() }
     }
 }

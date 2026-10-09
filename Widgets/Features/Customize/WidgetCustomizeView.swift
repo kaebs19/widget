@@ -8,115 +8,57 @@
 import SwiftUI
 
 // MARK: - تخصيص الودجت
-// التعديلات تظهر مباشرة في المعاينة، ولا تُحفظ إلا بالضغط على «حفظ».
+// أقسام التخصيص تحت المعاينة في صفحة الودجت. التعديلات على `style` تظهر مباشرة في المعاينة،
+// والحفظ من زر ✓ في صفحة الودجت.
 struct WidgetCustomizeView: View {
     let kind: WidgetKind
+    @Binding var style: WidgetStyle
     @Environment(WidgetStyleStore.self) private var store
-    @Environment(\.dismiss) private var dismiss
     /// لتحويل ألوان ColorPicker إلى قيم قابلة للحفظ
     @Environment(\.self) private var environment
 
-    @State private var style: WidgetStyle
-    @State private var size: WidgetSize
     @State private var showApplyToAll = false
     @State private var showNewStyleName = false
     @State private var newStyleName = ""
     @State private var styleToDelete: SavedStyle?
-    private let original: WidgetStyle
-
-    init(kind: WidgetKind, style: WidgetStyle, size: WidgetSize) {
-        self.kind = kind
-        self.original = style
-        _style = State(initialValue: style)
-        _size = State(initialValue: size)
-    }
 
     var body: some View {
-        NavigationStack {
-            VStack(spacing: 0) {
-                preview
-                ScrollView {
-                    VStack(spacing: 20) {
-                        savedStylesSection
-                        backgroundSection
-                        colorsSection
-                        fontSection
-                        numbersSection
-                        if kind.supportsCalligraphy { calligraphySection }
-                        actions
-                    }
-                    .padding(16)
-                }
-            }
-            .background(Theme.background.ignoresSafeArea())
-            .navigationTitle("تخصيص \(kind.title)")
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .cancellationAction) {
-                    Button("إلغاء") { dismiss() }
-                }
-                ToolbarItem(placement: .confirmationAction) {
-                    Button("حفظ") {
-                        store.save(style, for: [kind])
-                        dismiss()
-                    }
-                    .bold()
-                    .disabled(style == original)
-                }
-            }
-            .confirmationDialog("تطبيق هذا الشكل على كل الودجات؟", isPresented: $showApplyToAll,
-                                titleVisibility: .visible) {
-                Button("تطبيق على الكل") {
-                    store.save(style, for: WidgetKind.allCases)
-                    dismiss()
-                }
-            } message: {
-                Text("يستبدل الشكل الحالي لكل الودجات بهذا الشكل.")
-            }
-            .alert("حفظ كنمط جديد", isPresented: $showNewStyleName) {
-                TextField("اسم النمط", text: $newStyleName)
-                Button("حفظ") {
-                    let name = newStyleName.trimmingCharacters(in: .whitespacesAndNewlines)
-                    store.addSavedStyle(named: name.isEmpty ? "نمط \(store.savedStyles.count + 1)" : name, style: style)
-                }
-                Button("إلغاء", role: .cancel) {}
-            } message: {
-                Text("يظهر في «تعديل الودجت» لتختاره لأي ودجت.")
-            }
-            .confirmationDialog("حذف النمط «\(styleToDelete?.name ?? "")»؟",
-                                isPresented: Binding(get: { styleToDelete != nil }, set: { if !$0 { styleToDelete = nil } }),
-                                titleVisibility: .visible) {
-                Button("حذف", role: .destructive) {
-                    if let styleToDelete { store.deleteSavedStyle(styleToDelete.id) }
-                }
-            } message: {
-                Text("الودجات التي تستخدمه ترجع لشكل نوعها.")
-            }
-            // لا يُغلق بالسحب وفيه تعديلات غير محفوظة
-            .interactiveDismissDisabled(style != original)
+        VStack(spacing: 20) {
+            savedStylesSection
+            backgroundSection
+            colorsSection
+            fontSection
+            numbersSection
+            if kind.supportsCalligraphy { calligraphySection }
+            actions
         }
-        .tint(Theme.gold)
-    }
-
-    // MARK: المعاينة
-    private var preview: some View {
-        VStack(spacing: 12) {
-            WidgetPreviewView(kind: kind, size: size, style: style)
-                .aspectRatio(size.aspectRatio, contentMode: .fit)
-                .cardStyle(radius: 24)
-                .frame(maxWidth: size == .small ? 170 : .infinity, maxHeight: 200)
-                .animation(.snappy, value: style)
-                .animation(.snappy, value: size)
-
-            if kind.supportedSizes.count > 1 {
-                Picker("الحجم", selection: $size) {
-                    ForEach(kind.supportedSizes, id: \.self) { Text($0.title).tag($0) }
-                }
-                .pickerStyle(.segmented)
+        .confirmationDialog("تطبيق هذا الشكل على كل الودجات؟", isPresented: $showApplyToAll,
+                            titleVisibility: .visible) {
+            Button("تطبيق على الكل") {
+                store.save(style, for: WidgetKind.allCases)
             }
+        } message: {
+            Text("يستبدل الشكل الحالي لكل الودجات بهذا الشكل.")
         }
-        .padding(16)
-        .background(Theme.background)
+        .alert("حفظ كنمط جديد", isPresented: $showNewStyleName) {
+            TextField("اسم النمط", text: $newStyleName)
+            Button("حفظ") {
+                let name = newStyleName.trimmingCharacters(in: .whitespacesAndNewlines)
+                store.addSavedStyle(named: name.isEmpty ? "نمط \(store.savedStyles.count + 1)" : name, style: style)
+            }
+            Button("إلغاء", role: .cancel) {}
+        } message: {
+            Text("يظهر في «تعديل الودجت» لتختاره لأي ودجت.")
+        }
+        .confirmationDialog("حذف النمط «\(styleToDelete?.name ?? "")»؟",
+                            isPresented: Binding(get: { styleToDelete != nil }, set: { if !$0 { styleToDelete = nil } }),
+                            titleVisibility: .visible) {
+            Button("حذف", role: .destructive) {
+                if let styleToDelete { store.deleteSavedStyle(styleToDelete.id) }
+            }
+        } message: {
+            Text("الودجات التي تستخدمه ترجع لشكل نوعها.")
+        }
     }
 
     // MARK: الأنماط المحفوظة

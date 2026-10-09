@@ -150,7 +150,8 @@ enum WidgetKind: String, CaseIterable, Identifiable {
         switch self {
         case .istighfar, .ramadan, .eid, .foundingDay, .tearOff, .dualDate,
              .prayerRing, .prayerBar: [.small]
-        case .gregorianMonth, .hijriMonth, .prayerDay, .prayerList: [.medium]
+        case .gregorianMonth, .hijriMonth, .prayerDay: [.medium]
+        case .prayerList:                              [.medium, .large]
         case .dailyVerse:                              [.medium, .large]
         case .specialOccasion:                         [.medium]
         default:                                       [.small, .medium]

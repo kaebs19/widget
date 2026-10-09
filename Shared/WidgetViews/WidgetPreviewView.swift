@@ -39,7 +39,7 @@ struct WidgetPreviewView: View {
         case .prayerRing:   PrayerRingWidget(date: date)
         case .prayerBar:    PrayerBarWidget(date: date)
         case .prayerDay:    PrayerDayWidget(date: date)
-        case .prayerList:   PrayerListWidget(date: date)
+        case .prayerList:   PrayerListWidget(date: date, size: resolvedSize)
         case .hijriDate:    HijriDateWidget(date: date, size: resolvedSize)
         case .dayName:      DayNameWidget(date: date, size: resolvedSize)
         case .tearOff:      TearOffCalendarWidget(date: date)

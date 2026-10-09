@@ -105,6 +105,12 @@ nonisolated enum PrayerSchedule {
     enum Key {
         static let method = "prayer.method"
         static let madhab = "prayer.hanafi"
+        static func adjustment(_ prayer: PrayerName) -> String { "prayer.adjust.\(prayer.rawValue)" }
+    }
+
+    /// دقائق يضيفها المستخدم أو ينقصها لكل صلاة لتطابق أذان مسجده (−٣٠ إلى +٣٠)
+    static func adjustment(for prayer: PrayerName) -> Int {
+        AppGroup.defaults.integer(forKey: Key.adjustment(prayer))
     }
 
     static var method: PrayerMethod {
@@ -120,9 +126,11 @@ nonisolated enum PrayerSchedule {
         let coordinates = Coordinates(latitude: location.latitude, longitude: location.longitude)
         params.highLatitudeRule = HighLatitudeRule.recommended(for: coordinates)
         // أم القرى: العشاء بعد المغرب بساعتين في رمضان بدل ساعة ونصف (ملاحظة المكتبة)
-        if method == .ummAlQura, DateHelper.hijri.component(.month, from: DateHelper.hijriAdjusted(date)) == 9 {
-            params.adjustments.isha = 30
-        }
+        let ramadanIsha = method == .ummAlQura
+            && DateHelper.hijri.component(.month, from: DateHelper.hijriAdjusted(date)) == 9 ? 30 : 0
+        params.adjustments = PrayerAdjustments(
+            fajr: adjustment(for: .fajr), sunrise: adjustment(for: .sunrise), dhuhr: adjustment(for: .dhuhr),
+            asr: adjustment(for: .asr), maghrib: adjustment(for: .maghrib), isha: adjustment(for: .isha) + ramadanIsha)
         let components = calendar.dateComponents([.year, .month, .day], from: date)
         guard let times = PrayerTimes(coordinates: coordinates, date: components, calculationParameters: params) else {
             return nil
@@ -131,6 +139,11 @@ nonisolated enum PrayerSchedule {
             .fajr: times.fajr, .sunrise: times.sunrise, .dhuhr: times.dhuhr,
             .asr: times.asr, .maghrib: times.maghrib, .isha: times.isha,
         ], location: location)
+    }
+
+    /// اتجاه القبلة بالدرجات من الشمال، للموقع المحفوظ
+    static func qiblaDirection(location: PrayerLocation = .current) -> Double {
+        Qibla(coordinates: Coordinates(latitude: location.latitude, longitude: location.longitude)).direction
     }
 
     /// الوقت الحالي: الصلاة الماضية والقادمة (بعد العشاء القادمة فجر الغد)

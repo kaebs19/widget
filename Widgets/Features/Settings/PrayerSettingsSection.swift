@@ -16,7 +16,10 @@ struct PrayerSettingsSection: View {
     @AppStorage(PrayerSchedule.Key.madhab, store: AppGroup.defaults) private var isHanafi = false
     @AppStorage(PrayerNotifications.Key.enabled, store: AppGroup.defaults) private var notify = false
     @AppStorage(PrayerNotifications.Key.minutesBefore, store: AppGroup.defaults) private var minutesBefore = 0
+    @AppStorage(PrayerNotifications.Key.afterAdhkar, store: AppGroup.defaults) private var afterAdhkar = false
     @State private var selectedPrayers = PrayerNotifications.prayers
+    @State private var showAdjustments = false
+    @State private var showQibla = false
     @State private var notificationsDenied = false
 
     var body: some View {
@@ -93,6 +96,26 @@ struct PrayerSettingsSection: View {
                         .foregroundStyle(Color.red.opacity(0.85))
                 }
             }
+            Toggle(isOn: $afterAdhkar) {
+                Label("تذكير بأذكار بعد الصلاة", systemImage: "text.book.closed")
+            }
+            Divider()
+            HStack(spacing: 10) {
+                Button { showAdjustments = true } label: {
+                    Label("تعديل الدقائق", systemImage: "slider.horizontal.3")
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 10)
+                        .background(Theme.gold.opacity(0.12), in: RoundedRectangle(cornerRadius: 12))
+                }
+                Button { showQibla = true } label: {
+                    Label("اتجاه القبلة", systemImage: "location.north.circle")
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 10)
+                        .background(Theme.gold.opacity(0.12), in: RoundedRectangle(cornerRadius: 12))
+                }
+            }
+            .font(AppFont.uiBold(14))
+            .foregroundStyle(Theme.gold)
             Text(method == .ummAlQura
                  ? "أم القرى: العشاء بعد المغرب بساعة ونصف، وساعتين في رمضان."
                  : "اختر الطريقة المعتمدة في بلدك.")
@@ -107,6 +130,16 @@ struct PrayerSettingsSection: View {
         .onChange(of: selectedPrayers) { _, prayers in
             PrayerNotifications.setPrayers(prayers)
             PrayerWidgets.reload()
+        }
+        .sheet(isPresented: $showAdjustments) { PrayerAdjustmentsView().appAppearance() }
+        .fullScreenCover(isPresented: $showQibla) { QiblaView().appAppearance() }
+        .onChange(of: afterAdhkar) { _, on in
+            Task {
+                if on {
+                    _ = try? await UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound])
+                }
+                await PrayerNotifications.reschedule()
+            }
         }
         .onChange(of: notify) { _, on in
             Task {

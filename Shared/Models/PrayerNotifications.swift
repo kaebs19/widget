@@ -16,10 +16,14 @@ nonisolated enum PrayerNotifications {
         static let enabled = "prayer.notify.enabled"
         static let prayers = "prayer.notify.prayers"
         static let minutesBefore = "prayer.notify.before"
+        static let afterAdhkar = "prayer.notify.afterAdhkar"
     }
 
+    /// تذكير بأذكار بعد الصلاة، بعد الأذان بربع ساعة تقريباً (بعد انقضاء الصلاة)
+    static var afterAdhkar: Bool { AppGroup.defaults.bool(forKey: Key.afterAdhkar) }
+    private static let afterAdhkarDelay: TimeInterval = 20 * 60
+
     private static let prefix = "prayer."
-    private static let days = 6
 
     static var isEnabled: Bool { AppGroup.defaults.bool(forKey: Key.enabled) }
 
@@ -41,7 +45,10 @@ nonisolated enum PrayerNotifications {
         let pending = await center.pendingNotificationRequests().map(\.identifier).filter { $0.hasPrefix(prefix) }
         center.removePendingNotificationRequests(withIdentifiers: pending)
 
-        guard isEnabled else { return }
+        guard isEnabled || afterAdhkar else { return }
+        // الحد ٦٤ تنبيهاً معلّقاً: ٥ صلوات × نوعين × ٥ أيام = ٥٠، ونترك مجالاً لتذكير المناسبات
+        let days = afterAdhkar && isEnabled ? 5 : 6
+        let adhkar = AzkarLibrary.bundled.azkar(in: 6).filter { $0.letterCount <= 140 }
         let status = await center.notificationSettings().authorizationStatus
         guard status == .authorized || status == .provisional else { return }
 
@@ -50,8 +57,21 @@ nonisolated enum PrayerNotifications {
         for offset in 0..<days {
             guard let date = calendar.date(byAdding: .day, value: offset, to: now),
                   let day = PrayerSchedule.day(for: date, calendar: calendar) else { continue }
-            for prayer in PrayerName.fard where selected.contains(prayer) {
+            for (index, prayer) in PrayerName.fard.enumerated() where selected.contains(prayer) {
                 let time = day.time(prayer)
+                if afterAdhkar, !adhkar.isEmpty {
+                    let fire = time.addingTimeInterval(afterAdhkarDelay)
+                    if fire > now {
+                        let zikr = adhkar[(offset * 5 + index) % adhkar.count]
+                        let content = UNMutableNotificationContent()
+                        content.title = "أذكار بعد صلاة \(prayer.title)"
+                        content.body = zikr.text
+                        content.sound = .default
+                        await add(content, at: fire, id: "\(prefix)after.\(prayer.rawValue).\(Int(fire.timeIntervalSince1970))",
+                                  center: center, calendar: calendar)
+                    }
+                }
+                guard isEnabled else { continue }
                 let fire = time.addingTimeInterval(Double(-before * 60))
                 guard fire > now else { continue }
                 let content = UNMutableNotificationContent()
@@ -63,11 +83,16 @@ nonisolated enum PrayerNotifications {
                 content.body = "\(day.location.city) · \(PrayerSchedule.format(time))"
                 content.sound = .default
                 content.interruptionLevel = .timeSensitive
-                let parts = calendar.dateComponents([.year, .month, .day, .hour, .minute], from: fire)
-                let id = "\(prefix)\(prayer.rawValue).\(Int(fire.timeIntervalSince1970))"
-                try? await center.add(UNNotificationRequest(identifier: id, content: content,
-                                                            trigger: UNCalendarNotificationTrigger(dateMatching: parts, repeats: false)))
+                await add(content, at: fire, id: "\(prefix)\(prayer.rawValue).\(Int(fire.timeIntervalSince1970))",
+                          center: center, calendar: calendar)
             }
         }
+    }
+
+    private static func add(_ content: UNMutableNotificationContent, at fire: Date, id: String,
+                            center: UNUserNotificationCenter, calendar: Calendar) async {
+        let parts = calendar.dateComponents([.year, .month, .day, .hour, .minute], from: fire)
+        try? await center.add(UNNotificationRequest(identifier: id, content: content,
+                                                    trigger: UNCalendarNotificationTrigger(dateMatching: parts, repeats: false)))
     }
 }

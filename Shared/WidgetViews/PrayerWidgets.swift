@@ -124,10 +124,13 @@ struct PrayerDayWidget: View {
 // MARK: - قائمة الأوقات وحلقة القادمة (متوسط)
 struct PrayerListWidget: View {
     let date: Date
+    var size: WidgetSize = .medium
     @Environment(\.widgetStyle) private var style
 
     var body: some View {
-        if let moment = PrayerSchedule.moment(at: date) {
+        if size == .large, let moment = PrayerSchedule.moment(at: date) {
+            large(moment)
+        } else if let moment = PrayerSchedule.moment(at: date) {
             let highlighted = PrayerHighlight.upcomingFard(moment)
             HStack(spacing: 10) {
                 VStack(spacing: 1) {
@@ -174,6 +177,76 @@ struct PrayerListWidget: View {
             }
             .padding(12)
         }
+    }
+}
+
+extension PrayerListWidget {
+    // الكبير: التاريخان والمدينة، حلقة كبيرة للقادمة، ثم الأوقات الستة مع الشروق
+    fileprivate func large(_ moment: PrayerSchedule.Moment) -> some View {
+        let highlighted = moment.next
+        return VStack(spacing: 12) {
+            HStack(alignment: .top) {
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(DateHelper.weekday(date))
+                        .font(style.font(.textBold, 20))
+                        .foregroundStyle(style.primary)
+                    Text(style.text("\(DateHelper.hijriDayMonth(date)) \(DateHelper.hijriYear(date)) هـ"))
+                        .font(style.font(.labelBold, 12))
+                        .foregroundStyle(style.accent)
+                        .widgetAccentable()
+                    Text(style.text(DateHelper.gregorianFull(date)))
+                        .font(style.font(.label, 11))
+                        .foregroundStyle(style.secondary)
+                }
+                Spacer()
+                ZStack {
+                    PrayerRing(progress: moment.progress(at: date), lineWidth: 6)
+                    VStack(spacing: 1) {
+                        Text(moment.next.title)
+                            .font(style.font(.textBold, 15))
+                            .foregroundStyle(style.primary)
+                        PrayerCountdown(target: moment.nextTime, size: 14)
+                    }
+                    .padding(10)
+                }
+                .frame(width: 104, height: 104)
+            }
+
+            VStack(spacing: 4) {
+                ForEach(PrayerName.allCases) { prayer in
+                    let isOn = prayer == highlighted
+                    HStack(spacing: 10) {
+                        Image(systemName: prayer.symbol)
+                            .font(.system(size: 15))
+                            .foregroundStyle(style.accent)
+                            .widgetAccentable()
+                            .frame(width: 22)
+                        Text(prayer.title)
+                            .font(style.font(isOn ? .labelBold : .label, 14))
+                            .foregroundStyle(prayer == .sunrise ? style.secondary : style.primary)
+                        Spacer()
+                        Text(style.text(PrayerSchedule.format(moment.today.time(prayer))))
+                            .font(style.font(.number, 15))
+                            .foregroundStyle(style.primary)
+                    }
+                    .padding(.horizontal, 12)
+                    .frame(maxHeight: .infinity)
+                    .background {
+                        if isOn {
+                            RoundedRectangle(cornerRadius: 12, style: .continuous)
+                                .fill(style.primary.opacity(0.12))
+                                .widgetAccentable()
+                        }
+                    }
+                }
+            }
+
+            Label(moment.today.location.city, systemImage: "location.fill")
+                .font(style.font(.label, 10))
+                .foregroundStyle(style.secondary)
+                .frame(maxWidth: .infinity, alignment: .leading)
+        }
+        .widgetContent(padding: 16)
     }
 }
 

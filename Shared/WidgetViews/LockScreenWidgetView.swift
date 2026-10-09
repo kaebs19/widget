@@ -20,6 +20,9 @@ extension WidgetKind {
                                              [.accessoryCircular, .accessoryRectangular, .accessoryInline]
         case .istighfar:                     [.accessoryCircular, .accessoryRectangular]
         case .specialOccasion:               [.accessoryCircular, .accessoryRectangular, .accessoryInline]
+        case .prayerRing:                    [.accessoryCircular, .accessoryInline]
+        case .prayerBar:                     [.accessoryRectangular]
+        case .prayerList, .prayerDay:        [.accessoryRectangular]
         default:                             []
         }
     }
@@ -71,6 +74,8 @@ struct LockScreenWidgetView: View {
             dayNameRectangular
         case (.morningDhikr, _):
             dhikrRectangular
+        case (.prayerRing, _), (.prayerBar, _), (.prayerList, _), (.prayerDay, _):
+            PrayerLockView(kind: kind, date: date, family: family, style: style)
         case (.ramadan, _), (.eid, _), (.nationalDay, _), (.foundingDay, _):
             if let countdown = LockCountdown(kind: kind, date: date) {
                 LockCountdownView(countdown: countdown, family: family, style: style)
@@ -319,6 +324,75 @@ struct TasbeehLockView: View {
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
+    }
+}
+
+// MARK: - الصلاة
+struct PrayerLockView: View {
+    let kind: WidgetKind
+    let date: Date
+    let family: WidgetFamily
+    var style: WidgetStyle = .default
+
+    var body: some View {
+        if let moment = PrayerSchedule.moment(at: date) {
+            switch family {
+            case .accessoryInline:
+                Label(LockText.inline(style.text("\(moment.next.title) \(PrayerSchedule.format(moment.nextTime))")),
+                      systemImage: moment.next.symbol)
+            case .accessoryCircular:
+                Gauge(value: moment.progress(at: date)) { EmptyView() } currentValueLabel: {
+                    VStack(spacing: 0) {
+                        Image(systemName: moment.next.symbol).font(.system(size: 10))
+                        Text(style.text(PrayerSchedule.format(moment.nextTime)))
+                            .font(style.font(.number, 14))
+                            .minimumScaleFactor(0.5)
+                        Text(moment.next.title).font(style.font(.label, 8))
+                    }
+                }
+                .gaugeStyle(.accessoryCircularCapacity)
+            default:
+                if kind == .prayerList || kind == .prayerDay { schedule(moment) } else { next(moment) }
+            }
+        }
+    }
+
+    /// الصلاة القادمة والوقت المتبقي
+    private func next(_ moment: PrayerSchedule.Moment) -> some View {
+        VStack(alignment: .leading, spacing: 1) {
+            Label("\(moment.next.title) \(style.text(PrayerSchedule.format(moment.nextTime)))",
+                  systemImage: moment.next.symbol)
+                .font(style.font(.labelBold, 14))
+            Text(moment.nextTime, style: .timer)
+                .font(style.font(.number, 20))
+                .monospacedDigit()
+                .environment(\.locale, Locale(identifier: style.numerals == .arabic ? "ar@numbers=arab" : "en"))
+            ProgressView(value: moment.progress(at: date))
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+    }
+
+    /// الصلوات الخمس بأعمدة صغيرة، والقادمة بخط عريض
+    private func schedule(_ moment: PrayerSchedule.Moment) -> some View {
+        let highlighted = PrayerHighlight.upcomingFard(moment)
+        return HStack(spacing: 2) {
+            ForEach(PrayerName.fard) { prayer in
+                let isOn = prayer == highlighted
+                VStack(spacing: 2) {
+                    Text(prayer.title)
+                        .font(style.font(isOn ? .labelBold : .label, 10))
+                    Text(style.text(PrayerSchedule.format(moment.today.time(prayer))))
+                        .font(style.font(.number, isOn ? 13 : 12))
+                }
+                .lineLimit(1)
+                .minimumScaleFactor(0.6)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .foregroundStyle(isOn ? .primary : .secondary)
+                .background {
+                    if isOn { RoundedRectangle(cornerRadius: 6).fill(.white.opacity(0.18)) }
+                }
+            }
+        }
     }
 }
 

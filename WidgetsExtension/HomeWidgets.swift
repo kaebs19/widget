@@ -33,7 +33,6 @@ struct DayNameHomeWidget: HomeWidget { static let kind = WidgetKind.dayName }
 struct YearDotsHomeWidget: HomeWidget { static let kind = WidgetKind.yearDots }
 struct MorningDhikrHomeWidget: HomeWidget { static let kind = WidgetKind.morningDhikr }
 struct DailyVerseHomeWidget: HomeWidget { static let kind = WidgetKind.dailyVerse }
-struct IstighfarHomeWidget: HomeWidget { static let kind = WidgetKind.istighfar }
 struct RamadanHomeWidget: HomeWidget { static let kind = WidgetKind.ramadan }
 struct EidHomeWidget: HomeWidget { static let kind = WidgetKind.eid }
 struct NationalDayHomeWidget: HomeWidget { static let kind = WidgetKind.nationalDay }

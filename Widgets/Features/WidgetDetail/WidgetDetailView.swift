@@ -17,6 +17,8 @@ struct WidgetDetailView: View {
     @State private var draft: WidgetStyle?
     @State private var showHowTo = false
     @State private var showDiscard = false
+    /// الذكر المعروض في معاينة ودجت العدّاد (في الشاشة الرئيسية يُختار من «تعديل الودجت»)
+    @State private var tasbeeh: TasbeehDhikr = .istighfar
 
     init(kind: WidgetKind) {
         self.kind = kind
@@ -37,7 +39,7 @@ struct WidgetDetailView: View {
             // يُرسم بمقاس الودجت الحقيقي ثم يُصغَّر كاملاً، فالمعاينة تطابق الشاشة الرئيسية
             // ولا يُقص نص (آية طويلة مثلاً) لأن المساحة أصغر من الودجت
             GeometryReader { proxy in
-                WidgetPreviewView(kind: kind, size: size, style: style)
+                WidgetPreviewView(kind: kind, size: size, style: style, tasbeeh: tasbeeh)
                     .frame(width: size.size.width, height: size.size.height)
                     .cardStyle(radius: 24)
                     .scaleEffect(proxy.size.width / size.size.width)
@@ -74,6 +76,18 @@ struct WidgetDetailView: View {
 
                     if kind == .specialOccasion {
                         ReminderPermissionView()
+                    }
+
+                    if kind == .istighfar {
+                        SettingsSection("الذكر") {
+                            ChoiceChips(options: TasbeehDhikr.allCases, selection: $tasbeeh) { dhikr in
+                                Text(dhikr.isLong ? "\(dhikr.title) · \(dhikr.goal == 1 ? "مرة" : "١٠٠")" : dhikr.title)
+                                    .font(AppFont.ui(14))
+                            }
+                            Text("كل ذكر له عدده اليومي. لتغيير الذكر في الشاشة الرئيسية: اضغط مطولاً على الودجت ثم «تعديل الودجت».")
+                                .font(AppFont.ui(12))
+                                .foregroundStyle(Theme.textSecondary)
+                        }
                     }
 
                     WidgetCustomizeView(kind: kind, style: styleBinding)

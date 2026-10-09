@@ -19,6 +19,8 @@ struct WidgetPreviewView: View {
     var style: WidgetStyle = .default
     /// التطبيق يرسم الخلفية هنا، والـ Widget يرسمها عبر containerBackground
     var showsBackground = true
+    /// الذكر الذي يعرضه ودجت العدّاد
+    var tasbeeh: TasbeehDhikr = .istighfar
 
     var body: some View {
         content
@@ -47,7 +49,7 @@ struct WidgetPreviewView: View {
             if let verse = QuranLibrary.bundled.verseOfDay(at: date, maxLetters: maxLetters) {
                 VerseWidget(verse: verse, size: resolvedSize)
             }
-        case .istighfar:    IstighfarWidget(date: date)
+        case .istighfar:    IstighfarWidget(dhikr: tasbeeh, date: date)
         case .ramadan:
             let next = DateHelper.nextHijri(month: 9, day: 1, from: date)
             CountdownWidget(title: "رمضان \(DateHelper.hijriYear(next))", icon: .asset(.iconCrescentLantern),

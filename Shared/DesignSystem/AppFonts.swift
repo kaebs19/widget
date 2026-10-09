@@ -132,7 +132,7 @@ nonisolated enum AppFontFamily: String, CaseIterable, Identifiable, Codable, Sen
             case (true, true): return "Amiri-BoldItalic"
             }
         case .uthmanicHafs:
-            return "KFGQPCHAFSUthmanicScript-Regula"
+            return "kfgqpchafsv3"
         case .arefRuqaa:
             return weight >= .bold ? "ArefRuqaa-Bold" : "ArefRuqaa-Regular"
         }

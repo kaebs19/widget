@@ -50,6 +50,10 @@ struct WidgetDetailView: View {
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
 
+                if kind == .specialOccasion {
+                    ReminderPermissionView()
+                }
+
                 VStack(spacing: 12) {
                     Button { showCustomize = true } label: {
                         Label("تخصيص الشكل", systemImage: "paintbrush.pointed")

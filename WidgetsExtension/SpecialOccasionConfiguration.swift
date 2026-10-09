@@ -23,6 +23,9 @@ struct SpecialOccasionIntent: WidgetConfigurationIntent {
 
     @Parameter(title: "تتكرر كل سنة", default: true)
     var repeatsYearly: Bool
+
+    @Parameter(title: "ذكّرني قبل يوم", default: false)
+    var remindsDayBefore: Bool
 }
 
 // MARK: - الجدول الزمني
@@ -44,6 +47,8 @@ nonisolated struct SpecialOccasionProvider: AppIntentTimelineProvider {
     }
 
     func timeline(for configuration: SpecialOccasionIntent, in context: Context) async -> Timeline<SpecialOccasionEntry> {
+        // كل تعديل على الودجت يطلب جدولاً جديداً، فنحدّث التذكيرات معه
+        await OccasionReminders.sync()
         // عدّاد الساعات يتغيّر كل ساعة
         let entries = TimelineSchedule.hourly().map { entry(for: configuration, at: $0) }
         return Timeline(entries: entries, policy: .atEnd)

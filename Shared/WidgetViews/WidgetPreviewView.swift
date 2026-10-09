@@ -42,7 +42,11 @@ struct WidgetPreviewView: View {
             if let zikr = AzkarLibrary.bundled.rotatingZikr(in: ZikrGroup.morningID, at: date, maxLetters: maxLetters) {
                 DhikrWidget(zikr: zikr, showsInfo: resolvedSize != .small)
             }
-        case .dailyVerse:   VerseWidget()
+        case .dailyVerse:
+            let maxLetters = VerseWidget.maxLetters(for: resolvedSize, style: style)
+            if let verse = QuranLibrary.bundled.verseOfDay(at: date, maxLetters: maxLetters) {
+                VerseWidget(verse: verse, size: resolvedSize)
+            }
         case .istighfar:    IstighfarWidget(date: date)
         case .ramadan:
             let next = DateHelper.nextHijri(month: 9, day: 1, from: date)

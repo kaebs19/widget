@@ -34,14 +34,19 @@ struct WidgetDetailView: View {
 
     private var preview: some View {
         VStack(spacing: 12) {
-            // الصغير بعرض ثابت، والباقي يملأ العرض.
-            // النسبة قبل تحديد العرض، وإلا يأخذ الصغير ارتفاع عرض الشاشة كاملاً
-            WidgetPreviewView(kind: kind, size: size, style: style)
-                .aspectRatio(size.aspectRatio, contentMode: .fit)
-                .cardStyle(radius: 24)
-                .frame(maxWidth: size == .small ? 170 : .infinity, maxHeight: 200)
-                .animation(.snappy, value: size)
-                .animation(.snappy, value: style)
+            // يُرسم بمقاس الودجت الحقيقي ثم يُصغَّر كاملاً، فالمعاينة تطابق الشاشة الرئيسية
+            // ولا يُقص نص (آية طويلة مثلاً) لأن المساحة أصغر من الودجت
+            GeometryReader { proxy in
+                WidgetPreviewView(kind: kind, size: size, style: style)
+                    .frame(width: size.size.width, height: size.size.height)
+                    .cardStyle(radius: 24)
+                    .scaleEffect(proxy.size.width / size.size.width)
+                    .frame(width: proxy.size.width, height: proxy.size.height)
+            }
+            .aspectRatio(size.aspectRatio, contentMode: .fit)
+            .frame(maxWidth: size == .small ? 170 : .infinity, maxHeight: 200)
+            .animation(.snappy, value: size)
+            .animation(.snappy, value: style)
 
             if kind.supportedSizes.count > 1 {
                 Picker("الحجم", selection: $size) {

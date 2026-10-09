@@ -181,10 +181,10 @@
 				};
 			};
 			buildConfigurationList = 5CF35A433078477A006458E2 /* Build configuration list for PBXProject "Widgets" */;
-			developmentRegion = en;
+			developmentRegion = ar;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				en,
+				ar,
 				Base,
 			);
 			mainGroup = 5CF35A3F3078477A006458E2;

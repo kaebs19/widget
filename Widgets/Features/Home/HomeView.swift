@@ -14,6 +14,7 @@ struct HomeView: View {
     /// يتغيّر بعد إغلاق الإعدادات فتُرسم المعاينات من جديد (الموقع، التقويم، الشكل الافتراضي)
     @State private var refresh = 0
     @Environment(WidgetStyleStore.self) private var styleStore
+    @Environment(\.scenePhase) private var scenePhase
 
     // عمودين متساويين للودجات الصغيرة
     private let smallGrid = [GridItem(.flexible(), spacing: 14),
@@ -24,7 +25,16 @@ struct HomeView: View {
             ScrollView {
                 VStack(alignment: .leading, spacing: 28) {
                     CategoryBar(selected: viewModel.selectedCategory,
-                                onSelect: viewModel.select)
+                                onSelect: viewModel.select,
+                                installedCount: viewModel.installed.reduce(0) { $0 + $1.count },
+                                showsInstalled: viewModel.showsInstalled,
+                                onSelectInstalled: viewModel.selectInstalled)
+
+                    if viewModel.showsInstalled {
+                        Text("الودجات التي أضفتها لشاشتك الرئيسية وشاشة القفل. اضغط أي ودجت لتخصيصه.")
+                            .font(AppFont.ui(13))
+                            .foregroundStyle(Theme.textSecondary)
+                    }
 
                     ForEach(Array(viewModel.visibleCategories.enumerated()), id: \.element) { index, category in
                         if index > 0 {
@@ -61,9 +71,18 @@ struct HomeView: View {
             .navigationDestination(for: WidgetKind.self) { kind in
                 WidgetDetailView(kind: kind)
             }
+            // النظام لا يخبرنا عند إضافة ودجت، فنقرأ القائمة عند كل عودة للتطبيق
+            .task { await viewModel.loadInstalled() }
+            .onChange(of: scenePhase) { _, phase in
+                if phase == .active { Task { await viewModel.loadInstalled() } }
+            }
             .sheet(isPresented: $showHowTo) { HowToAddView().appAppearance() }
             .fullScreenCover(isPresented: $showSettings, onDismiss: { refresh += 1 }) { SettingsView().environment(styleStore).appAppearance() }
         }
+    }
+
+    private func installedInfo(_ kind: WidgetKind) -> InstalledWidget? {
+        viewModel.installed.first { $0.kind == kind }
     }
 
     // MARK: - قسم
@@ -91,13 +110,13 @@ struct HomeView: View {
             .padding(.bottom, 2)
 
             ForEach(widgets.wide) { kind in
-                GalleryCard(kind: kind)
+                GalleryCard(kind: kind, installed: installedInfo(kind))
             }
 
             if !widgets.small.isEmpty {
                 LazyVGrid(columns: smallGrid, spacing: 14) {
                     ForEach(widgets.small) { kind in
-                        GalleryCard(kind: kind)
+                        GalleryCard(kind: kind, installed: installedInfo(kind))
                     }
                 }
             }

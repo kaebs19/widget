@@ -11,13 +11,21 @@ import SwiftUI
 struct CategoryBar: View {
     let selected: WidgetCategory?
     let onSelect: (WidgetCategory?) -> Void
+    /// عدد الودجات المضافة؛ صفر يخفي «ودجاتي»
+    var installedCount = 0
+    var showsInstalled = false
+    var onSelectInstalled: () -> Void = {}
 
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 8) {
-                chip("الكل", icon: .system("square.grid.2x2"), isOn: selected == nil) { onSelect(nil) }
+                if installedCount > 0 {
+                    chip("ودجاتي \(DateHelper.arabic(installedCount))", icon: .system("checkmark.circle"),
+                         isOn: showsInstalled, action: onSelectInstalled)
+                }
+                chip("الكل", icon: .system("square.grid.2x2"), isOn: selected == nil && !showsInstalled) { onSelect(nil) }
                 ForEach(WidgetCategory.allCases) { category in
-                    chip(category.title, icon: category.icon, isOn: selected == category) {
+                    chip(category.title, icon: category.icon, isOn: selected == category && !showsInstalled) {
                         onSelect(category)
                     }
                 }

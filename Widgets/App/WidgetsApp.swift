@@ -32,7 +32,12 @@ struct WidgetsApp: App {
                 .environment(styleStore)
                 // عند كل فتح للتطبيق تمتد تنبيهات الأذان لأيام قادمة
                 .onChange(of: scenePhase) { _, phase in
-                    if phase == .active { Task { await PrayerNotifications.reschedule() } }
+                    if phase == .active {
+                        Task {
+                            await PrayerNotifications.reschedule()
+                            await PaydayNotifications.reschedule()
+                        }
+                    }
                 }
         }
     }

@@ -88,6 +88,11 @@ struct WidgetPreviewView: View {
                                       occasionDate: date.addingTimeInterval((13 * 24 + 6) * 3600),
                                       repeatsYearly: false, date: date, type: .birthday)
             }
+        case .salary, .citizenAccount, .hafiz, .retirement:
+            if let payday = kind.payday {
+                PaydayWidget(payday: payday, date: date, size: resolvedSize)
+            }
+        case .paydays:      PaydaysWidget(date: date, size: resolvedSize)
         case .nextMatch:    MatchWidget()
         }
     }

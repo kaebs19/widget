@@ -19,6 +19,8 @@ struct WidgetDetailView: View {
     @State private var showDiscard = false
     /// الذكر المعروض في معاينة ودجت العدّاد (في الشاشة الرئيسية يُختار من «تعديل الودجت»)
     @State private var tasbeeh: TasbeehDhikr = .istighfar
+    /// يزيد مع كل تغيير في إعدادات المال، فتُرسم المعاينات من جديد
+    @State private var revision = 0
 
     init(kind: WidgetKind) {
         self.kind = kind
@@ -40,6 +42,7 @@ struct WidgetDetailView: View {
             // ولا يُقص نص (آية طويلة مثلاً) لأن المساحة أصغر من الودجت
             GeometryReader { proxy in
                 WidgetPreviewView(kind: kind, size: size, style: style, tasbeeh: tasbeeh)
+                    .id(revision)
                     .frame(width: size.size.width, height: size.size.height)
                     .cardStyle(radius: 24)
                     .scaleEffect(proxy.size.width / size.size.width)
@@ -78,6 +81,22 @@ struct WidgetDetailView: View {
                         PrayerSettingsSection()
                     }
 
+                    if let payday = kind.payday {
+                        PaydaySettingsSection(payday: payday) { revision += 1 }
+                    }
+
+                    if kind == .paydays {
+                        SettingsSection("الدفعات") {
+                            ForEach(Payday.allCases) { payday in
+                                NavigationLink { PaydayPage(payday: payday) } label: {
+                                    PaydaySummaryRow(payday: payday)
+                                }
+                                .buttonStyle(.plain)
+                            }
+                        }
+                        PaydaysListSettings { revision += 1 }
+                    }
+
                     if kind == .specialOccasion {
                         NavigationLink { OccasionsView() } label: {
                             Label("مناسباتي: أضف عيد ميلاد أو ذكرى", systemImage: "birthday.cake")
@@ -103,6 +122,7 @@ struct WidgetDetailView: View {
                     }
 
                     LockScreenPreview(kind: kind, style: style, tasbeeh: tasbeeh)
+                        .id(revision)
 
                     WidgetCustomizeView(kind: kind, style: styleBinding)
                 }

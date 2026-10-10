@@ -23,6 +23,9 @@ extension WidgetKind {
         case .prayerRing:                    [.accessoryCircular, .accessoryInline]
         case .prayerBar:                     [.accessoryRectangular]
         case .prayerList, .prayerDay:        [.accessoryRectangular]
+        case .salary, .citizenAccount, .hafiz, .retirement:
+                                             [.accessoryCircular, .accessoryRectangular, .accessoryInline]
+        case .paydays:                       [.accessoryRectangular, .accessoryInline]
         default:                             []
         }
     }
@@ -76,7 +79,10 @@ struct LockScreenWidgetView: View {
             dhikrRectangular
         case (.prayerRing, _), (.prayerBar, _), (.prayerList, _), (.prayerDay, _):
             PrayerLockView(kind: kind, date: date, family: family, style: style)
-        case (.ramadan, _), (.eid, _), (.nationalDay, _), (.foundingDay, _):
+        case (.paydays, _):
+            PaydaysLockView(date: date, family: family, style: style)
+        case (.ramadan, _), (.eid, _), (.nationalDay, _), (.foundingDay, _),
+             (.salary, _), (.citizenAccount, _), (.hafiz, _), (.retirement, _):
             if let countdown = LockCountdown(kind: kind, date: date) {
                 LockCountdownView(countdown: countdown, family: family, style: style)
             }
@@ -199,6 +205,11 @@ struct LockCountdown {
                       days: DateHelper.daysUntilGregorian(month: 2, day: 22, from: date),
                       progress: DateHelper.progressUntilGregorian(month: 2, day: 22, from: date),
                       detail: DateHelper.weekdayFull(DateHelper.nextGregorian(month: 2, day: 22, from: date)))
+        case .salary, .citizenAccount, .hafiz, .retirement:
+            guard let payday = kind.payday else { return nil }
+            let cycle = payday.cycle(from: date)
+            self.init(title: payday.displayName, symbol: payday.symbol, days: cycle.days,
+                      progress: cycle.progress, detail: DateHelper.weekdayDayMonth(cycle.next))
         default:
             return nil
         }
@@ -392,6 +403,44 @@ struct PrayerLockView: View {
                     if isOn { RoundedRectangle(cornerRadius: 6).fill(.white.opacity(0.18)) }
                 }
             }
+        }
+    }
+}
+
+// MARK: - مواعيد الصرف
+/// أقرب الدفعات: السطر الواحد يعرض الأقرب، والمستطيل يعرض ثلاثاً
+struct PaydaysLockView: View {
+    let date: Date
+    let family: WidgetFamily
+    var style: WidgetStyle = .default
+
+    private var cycles: [PaydayCycle] {
+        Payday.allCases.filter(\.isListed).map { $0.cycle(from: date) }.sorted { $0.next < $1.next }
+    }
+
+    var body: some View {
+        let cycles = cycles
+        if family == .accessoryInline {
+            if let first = cycles.first {
+                Label(LockText.inline(style.text("\(first.payday.displayName) \(PaydayFormat.remaining(first.days))")),
+                      systemImage: first.payday.symbol)
+            }
+        } else {
+            VStack(alignment: .leading, spacing: 1) {
+                ForEach(Array(cycles.prefix(3).enumerated()), id: \.element.payday) { index, cycle in
+                    HStack(spacing: 4) {
+                        Image(systemName: cycle.payday.symbol).font(.system(size: 10)).frame(width: 14)
+                        Text(cycle.payday.displayName)
+                        Spacer(minLength: 2)
+                        Text(style.text(PaydayFormat.remaining(cycle.days)))
+                    }
+                    .font(style.font(index == 0 ? .labelBold : .label, 12))
+                    .foregroundStyle(index == 0 ? .primary : .secondary)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.7)
+                }
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
         }
     }
 }

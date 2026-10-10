@@ -44,6 +44,11 @@ struct RamadanHomeWidget: HomeWidget { static let kind = WidgetKind.ramadan }
 struct EidHomeWidget: HomeWidget { static let kind = WidgetKind.eid }
 struct NationalDayHomeWidget: HomeWidget { static let kind = WidgetKind.nationalDay }
 struct FoundingDayHomeWidget: HomeWidget { static let kind = WidgetKind.foundingDay }
+struct SalaryHomeWidget: HomeWidget { static let kind = WidgetKind.salary }
+struct CitizenAccountHomeWidget: HomeWidget { static let kind = WidgetKind.citizenAccount }
+struct HafizHomeWidget: HomeWidget { static let kind = WidgetKind.hafiz }
+struct RetirementHomeWidget: HomeWidget { static let kind = WidgetKind.retirement }
+struct PaydaysHomeWidget: HomeWidget { static let kind = WidgetKind.paydays }
 struct NextMatchHomeWidget: HomeWidget { static let kind = WidgetKind.nextMatch }
 
 // MARK: - العرض

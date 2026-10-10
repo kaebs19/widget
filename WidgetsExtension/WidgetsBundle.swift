@@ -33,6 +33,11 @@ struct WidgetsBundle: WidgetBundle {
         NationalDayHomeWidget()
         FoundingDayHomeWidget()
         SpecialOccasionHomeWidget()
+        SalaryHomeWidget()
+        CitizenAccountHomeWidget()
+        HafizHomeWidget()
+        RetirementHomeWidget()
+        PaydaysHomeWidget()
         NextMatchHomeWidget()
     }
 }

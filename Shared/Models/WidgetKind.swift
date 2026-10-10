@@ -10,7 +10,7 @@ import SwiftUI
 // MARK: - الأقسام
 // CaseIterable يعطيك allCases تلقائياً، فتبني شريط الأقسام بحلقة بدون ما تكتب كل قسم يدوياً.
 enum WidgetCategory: String, CaseIterable, Identifiable {
-    case prayer, religious, calendar, occasions, sports
+    case prayer, religious, calendar, occasions, finance, sports
 
     var id: String { rawValue }
 
@@ -20,6 +20,7 @@ enum WidgetCategory: String, CaseIterable, Identifiable {
         case .religious: "ديني"
         case .calendar:  "تقويم"
         case .occasions: "مناسبات"
+        case .finance:   "المال والأعمال"
         case .sports:    "رياضة"
         }
     }
@@ -30,6 +31,7 @@ enum WidgetCategory: String, CaseIterable, Identifiable {
         case .religious: .asset(.iconCategoryReligious)
         case .calendar:  .asset(.iconCategoryCalendar)
         case .occasions: .asset(.iconCategoryOccasions)
+        case .finance:   .system("banknote")
         case .sports:    .asset(.iconCategorySports)
         }
     }
@@ -67,6 +69,7 @@ enum WidgetKind: String, CaseIterable, Identifiable {
     case tearOff, dualDate, gregorianMonth, hijriMonth
     case morningDhikr, dailyVerse, istighfar
     case ramadan, eid, nationalDay, foundingDay, specialOccasion
+    case salary, citizenAccount, hafiz, retirement, paydays
     case nextMatch
 
     var id: String { rawValue }
@@ -91,6 +94,11 @@ enum WidgetKind: String, CaseIterable, Identifiable {
         case .nationalDay:  "اليوم الوطني"
         case .foundingDay:  "يوم التأسيس"
         case .specialOccasion: "مناسبة خاصة"
+        case .salary:       "موعد الراتب"
+        case .citizenAccount: "حساب المواطن"
+        case .hafiz:        "حافز"
+        case .retirement:   "التقاعد"
+        case .paydays:      "مواعيد الصرف"
         case .nextMatch:    "المباراة القادمة"
         }
     }
@@ -115,6 +123,11 @@ enum WidgetKind: String, CaseIterable, Identifiable {
         case .nationalDay:  "العد التنازلي لـ ٢٣ سبتمبر"
         case .foundingDay:  "العد التنازلي لـ ٢٢ فبراير"
         case .specialOccasion: "اختر اسم مناسبتك وتاريخها من «تعديل الودجت»"
+        case .salary:       "كم يوم باقي على الراتب، حكومي أو خاص"
+        case .citizenAccount: "موعد إيداع دعم حساب المواطن"
+        case .hafiz:        "موعد صرف حافز"
+        case .retirement:   "موعد صرف معاش التقاعد"
+        case .paydays:      "الراتب وحساب المواطن وحافز والتقاعد في مكان واحد"
         case .nextMatch:    "موعد مباراة فريقك القادمة"
         }
     }
@@ -126,6 +139,7 @@ enum WidgetKind: String, CaseIterable, Identifiable {
              .gregorianMonth, .hijriMonth:             .calendar
         case .morningDhikr, .dailyVerse, .istighfar:   .religious
         case .ramadan, .eid, .nationalDay, .foundingDay, .specialOccasion: .occasions
+        case .salary, .citizenAccount, .hafiz, .retirement, .paydays: .finance
         case .nextMatch:                               .sports
         }
     }
@@ -134,13 +148,18 @@ enum WidgetKind: String, CaseIterable, Identifiable {
     var previewSize: WidgetSize {
         switch self {
         case .istighfar, .ramadan, .eid, .foundingDay, .tearOff, .dualDate,
-             .prayerRing, .prayerBar: .small
+             .prayerRing, .prayerBar, .citizenAccount, .hafiz, .retirement: .small
         case .dailyVerse:                              .large
         default:                                       .medium
         }
     }
 
     /// يعرض اسم يوم أو شهر يمكن كتابته بالخط العربي
+    /// الدفعة التي يعرضها ودجت المال (nil لـ «مواعيد الصرف» الذي يعرضها كلها)
+    var payday: Payday? {
+        Payday.allCases.first { $0.widgetKind == self }
+    }
+
     var supportsCalligraphy: Bool {
         self == .hijriDate || self == .dayName
     }
@@ -153,6 +172,7 @@ enum WidgetKind: String, CaseIterable, Identifiable {
         case .gregorianMonth, .hijriMonth, .prayerDay: [.medium]
         case .prayerList:                              [.medium, .large]
         case .dailyVerse:                              [.medium, .large]
+        case .paydays:                                 [.medium, .large]
         case .specialOccasion:                         [.medium]
         default:                                       [.small, .medium]
         }

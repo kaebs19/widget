@@ -26,6 +26,9 @@ extension WidgetKind {
         case .salary, .citizenAccount, .hafiz, .retirement, .socialSecurity, .studentBonus, .rehabilitation, .budget:
                                              [.accessoryCircular, .accessoryRectangular, .accessoryInline]
         case .paydays, .obligations:         [.accessoryRectangular, .accessoryInline]
+        case .healthSteps, .healthSleep, .healthActivity:
+                                             [.accessoryCircular, .accessoryRectangular, .accessoryInline]
+        case .healthDashboard:               [.accessoryRectangular]
         default:                             []
         }
     }
@@ -85,6 +88,8 @@ struct LockScreenWidgetView: View {
             ObligationsLockView(date: date, family: family, style: style)
         case (.budget, _):
             BudgetLockView(date: date, family: family, style: style)
+        case (_, _) where kind.category == .health:
+            HealthLockView(kind: kind, date: date, family: family, style: style)
         case (.ramadan, _), (.eid, _), (.nationalDay, _), (.foundingDay, _), (_, _) where kind.payday != nil:
             if let countdown = LockCountdown(kind: kind, date: date) {
                 LockCountdownView(countdown: countdown, family: family, style: style)

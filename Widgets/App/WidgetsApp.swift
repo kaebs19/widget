@@ -17,6 +17,8 @@ struct WidgetsApp: App {
 
     init() {
         AppFontFamily.validateRegistration()
+        // الصحة توقظ التطبيق في الخلفية عند خطوات جديدة، فتتحدث ودجاتها
+        HealthWidgets.startBackgroundUpdates()
     }
 
     var body: some Scene {
@@ -37,6 +39,10 @@ struct WidgetsApp: App {
                             await PrayerNotifications.reschedule()
                             await PaydayNotifications.reschedule()
                             await ObligationStore.scheduleReminders()
+                            if HealthCache.isConnected {
+                                await HealthReader.refresh()
+                                HealthWidgets.reload()
+                            }
                         }
                     }
                 }

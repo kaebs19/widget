@@ -53,6 +53,10 @@ struct StudentBonusHomeWidget: HomeWidget { static let kind = WidgetKind.student
 struct RehabilitationHomeWidget: HomeWidget { static let kind = WidgetKind.rehabilitation }
 struct ObligationsHomeWidget: HomeWidget { static let kind = WidgetKind.obligations }
 struct BudgetHomeWidget: HomeWidget { static let kind = WidgetKind.budget }
+struct HealthStepsHomeWidget: HomeWidget { static let kind = WidgetKind.healthSteps }
+struct HealthActivityHomeWidget: HomeWidget { static let kind = WidgetKind.healthActivity }
+struct HealthDashboardHomeWidget: HomeWidget { static let kind = WidgetKind.healthDashboard }
+struct HealthSleepHomeWidget: HomeWidget { static let kind = WidgetKind.healthSleep }
 struct PaydaysHomeWidget: HomeWidget { static let kind = WidgetKind.paydays }
 struct NextMatchHomeWidget: HomeWidget { static let kind = WidgetKind.nextMatch }
 

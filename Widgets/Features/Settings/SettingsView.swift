@@ -30,6 +30,7 @@ struct SettingsView: View {
                     header
                     group("المحتوى") {
                         row(.prayer)
+                        row(.health)
                         row(.occasions)
                         row(.finance)
                         row(.counter)
@@ -209,6 +210,10 @@ struct SettingsView: View {
             "\(PrayerLocation.current.city) · \(PrayerSchedule.method.title)"
         case .occasions:
             OccasionStore.all().isEmpty ? "أعياد الميلاد والذكريات" : "\(DateHelper.arabic(OccasionStore.all().count)) مناسبة"
+        case .health:
+            HealthCache.isConnected
+                ? HealthCache.load().map { "\(HealthMetric.steps.format($0.value(.steps))) خطوة اليوم" } ?? "مربوط بتطبيق الصحة"
+                : "الخطوات والسعرات والنوم"
         case .finance:
             Payday.allCases.map { $0.cycle() }.min { $0.next < $1.next }
                 .map { "\($0.payday.displayName) \(PaydayFormat.remaining($0.days))" } ?? ""
@@ -232,6 +237,8 @@ struct SettingsView: View {
             OccasionsView()
         case .finance:
             FinanceSettingsView()
+        case .health:
+            HealthSettingsPage()
         default:
             ScrollView {
                 VStack(spacing: 20) {
@@ -241,7 +248,7 @@ struct SettingsView: View {
                     case .appearance: appearanceSection
                     case .widgetDefaults: widgetDefaultsSection
                     case .calendar: calendarSection
-                    case .about, .occasions, .finance: aboutSection
+                    case .about, .occasions, .finance, .health: aboutSection
                     }
                 }
                 .padding(16)
@@ -438,13 +445,14 @@ private struct AccentSwatch: View {
 
 // MARK: - أقسام الإعدادات
 enum SettingsPage: Hashable {
-    case prayer, occasions, finance, counter, appearance, widgetDefaults, calendar, about
+    case prayer, health, occasions, finance, counter, appearance, widgetDefaults, calendar, about
 
     var title: String {
         switch self {
         case .prayer:         "أوقات الصلاة"
         case .occasions:      "مناسباتي"
         case .finance:        "المال والأعمال"
+        case .health:         "الصحة"
         case .counter:        "عدّاد الذكر"
         case .appearance:     "المظهر"
         case .widgetDefaults: "الشكل الافتراضي للودجات"
@@ -458,6 +466,7 @@ enum SettingsPage: Hashable {
         case .prayer:         "moon.stars.fill"
         case .occasions:      "birthday.cake.fill"
         case .finance:        "banknote.fill"
+        case .health:         "heart.fill"
         case .counter:        "circle.dotted.circle"
         case .appearance:     "paintpalette.fill"
         case .widgetDefaults: "square.on.square.fill"
@@ -472,6 +481,7 @@ enum SettingsPage: Hashable {
         case .prayer:         Color(red: 0.11, green: 0.49, blue: 0.33)
         case .occasions:      Color(red: 0.85, green: 0.36, blue: 0.47)
         case .finance:        Color(red: 0.16, green: 0.60, blue: 0.40)
+        case .health:         Color(red: 1.0, green: 0.22, blue: 0.37)
         case .counter:        Color(red: 0.55, green: 0.42, blue: 0.85)
         case .appearance:     Color(red: 0.93, green: 0.58, blue: 0.20)
         case .widgetDefaults: Color(red: 0.25, green: 0.52, blue: 0.90)

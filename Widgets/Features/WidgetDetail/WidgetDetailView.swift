@@ -108,6 +108,10 @@ struct WidgetDetailView: View {
                         }
                     }
 
+                    if kind.category == .health {
+                        HealthSettingsSection { revision += 1 }
+                    }
+
                     if kind == .budget {
                         BudgetSettingsSection { revision += 1 }
                     }

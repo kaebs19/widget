@@ -50,6 +50,13 @@ nonisolated struct WidgetTimelineProvider: AppIntentTimelineProvider {
             await PaydayNotifications.reschedule()
             await ObligationStore.scheduleReminders()
         }
+        if kind.category == .health {
+            // نقرأ الصحة الآن ونحفظها، ونطلب تحديثاً بعد ربع ساعة. والجهاز مقفل يُعرض آخر المحفوظ.
+            await HealthReader.refresh()
+            let now = Date.now
+            return Timeline(entries: [WidgetEntry(date: now, kind: kind, styleID: styleID)],
+                            policy: .after(now.addingTimeInterval(15 * 60)))
+        }
         let dates = kind.category == .prayer ? TimelineSchedule.prayer() : TimelineSchedule.hourly()
         let entries = dates.map { WidgetEntry(date: $0, kind: kind, styleID: styleID) }
         return Timeline(entries: entries, policy: .atEnd)

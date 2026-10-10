@@ -10,7 +10,7 @@ import SwiftUI
 // MARK: - الأقسام
 // CaseIterable يعطيك allCases تلقائياً، فتبني شريط الأقسام بحلقة بدون ما تكتب كل قسم يدوياً.
 enum WidgetCategory: String, CaseIterable, Identifiable {
-    case prayer, religious, calendar, occasions, finance, sports
+    case prayer, religious, calendar, health, occasions, finance, sports
 
     var id: String { rawValue }
 
@@ -19,6 +19,7 @@ enum WidgetCategory: String, CaseIterable, Identifiable {
         case .prayer:    "الصلاة"
         case .religious: "ديني"
         case .calendar:  "تقويم"
+        case .health:    "الصحة"
         case .occasions: "مناسبات"
         case .finance:   "المال والأعمال"
         case .sports:    "رياضة"
@@ -30,6 +31,7 @@ enum WidgetCategory: String, CaseIterable, Identifiable {
         case .prayer:    .asset(.iconMosque)
         case .religious: .asset(.iconCategoryReligious)
         case .calendar:  .asset(.iconCategoryCalendar)
+        case .health:    .system("heart")
         case .occasions: .asset(.iconCategoryOccasions)
         case .finance:   .system("banknote")
         case .sports:    .asset(.iconCategorySports)
@@ -71,6 +73,7 @@ enum WidgetKind: String, CaseIterable, Identifiable {
     case ramadan, eid, nationalDay, foundingDay, specialOccasion
     case salary, citizenAccount, hafiz, retirement, socialSecurity, studentBonus, rehabilitation, paydays
     case obligations, budget
+    case healthSteps, healthActivity, healthDashboard, healthSleep
     case nextMatch
 
     var id: String { rawValue }
@@ -105,6 +108,10 @@ enum WidgetKind: String, CaseIterable, Identifiable {
         case .paydays:      "مواعيد الصرف"
         case .obligations:  "التزاماتي"
         case .budget:       "مصروف اليوم"
+        case .healthSteps:  "الخطوات"
+        case .healthActivity: "حلقات النشاط"
+        case .healthDashboard: "صحتي اليوم"
+        case .healthSleep:  "النوم"
         case .nextMatch:    "المباراة القادمة"
         }
     }
@@ -139,6 +146,10 @@ enum WidgetKind: String, CaseIterable, Identifiable {
         case .paydays:      "الراتب وحساب المواطن وحافز والتقاعد في مكان واحد"
         case .obligations:  "الإيجار والأقساط والفواتير بمواعيدها"
         case .budget:       "كم تصرف كل يوم حتى الراتب، وسجّل مصروفك من الشاشة"
+        case .healthSteps:  "خطوات اليوم مقابل هدفك، وأسبوعك في رسم"
+        case .healthActivity: "السعرات والتمرين والخطوات في ثلاث حلقات"
+        case .healthDashboard: "الخطوات والمسافة والسعرات والتمرين والطوابق والنوم"
+        case .healthSleep:  "ساعات نوم الليلة مقابل هدفك"
         case .nextMatch:    "موعد مباراة فريقك القادمة"
         }
     }
@@ -152,6 +163,7 @@ enum WidgetKind: String, CaseIterable, Identifiable {
         case .ramadan, .eid, .nationalDay, .foundingDay, .specialOccasion: .occasions
         case .salary, .citizenAccount, .hafiz, .retirement, .socialSecurity, .studentBonus,
              .rehabilitation, .paydays, .obligations, .budget: .finance
+        case .healthSteps, .healthActivity, .healthDashboard, .healthSleep: .health
         case .nextMatch:                               .sports
         }
     }
@@ -161,7 +173,8 @@ enum WidgetKind: String, CaseIterable, Identifiable {
         switch self {
         case .istighfar, .ramadan, .eid, .foundingDay, .tearOff, .dualDate,
              .prayerRing, .prayerBar, .citizenAccount, .hafiz, .retirement,
-             .socialSecurity, .studentBonus, .rehabilitation: .small
+             .socialSecurity, .studentBonus, .rehabilitation,
+             .healthSteps, .healthActivity, .healthSleep: .small
         case .dailyVerse:                              .large
         default:                                       .medium
         }
@@ -187,6 +200,8 @@ enum WidgetKind: String, CaseIterable, Identifiable {
         case .dailyVerse:                              [.medium, .large]
         case .paydays:                                 [.medium, .large]
         case .obligations:                             [.small, .medium, .large]
+        case .healthDashboard:                         [.medium, .large]
+        case .healthSleep:                             [.small]
         case .specialOccasion:                         [.medium]
         default:                                       [.small, .medium]
         }

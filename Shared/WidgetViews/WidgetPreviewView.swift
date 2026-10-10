@@ -95,6 +95,18 @@ struct WidgetPreviewView: View {
         case .paydays:      PaydaysWidget(date: date, size: resolvedSize)
         case .obligations:  ObligationsWidget(date: date, size: resolvedSize)
         case .budget:       BudgetWidget(date: date, size: resolvedSize)
+        case .healthSteps, .healthActivity, .healthDashboard, .healthSleep:
+            // في المعرض نعرض مثالاً قبل ربط الصحة، وفي الشاشة الرئيسية ندعو لربطها
+            if let health = HealthCache.load(now: date) ?? (showsBackground ? .sample : nil) {
+                switch kind {
+                case .healthSteps:    HealthStepsWidget(snapshot: health, date: date, size: resolvedSize)
+                case .healthActivity: HealthActivityWidget(snapshot: health, size: resolvedSize)
+                case .healthSleep:    HealthSleepWidget(snapshot: health)
+                default:              HealthDashboardWidget(snapshot: health, date: date, size: resolvedSize)
+                }
+            } else {
+                HealthConnectPrompt(compact: resolvedSize == .small)
+            }
         case .nextMatch:    MatchWidget()
         }
     }

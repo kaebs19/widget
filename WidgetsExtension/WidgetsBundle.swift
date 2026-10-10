@@ -15,6 +15,23 @@ struct WidgetsBundle: WidgetBundle {
     }
 
     var body: some Widget {
+        coreWidgets
+        healthWidgets
+    }
+
+    /// الصحة غير متاحة على الماك، فلا تظهر ودجاتها في قائمة إضافة الودجات هناك
+    @WidgetBundleBuilder
+    private var healthWidgets: some Widget {
+        #if !targetEnvironment(macCatalyst)
+        HealthStepsHomeWidget()
+        HealthActivityHomeWidget()
+        HealthDashboardHomeWidget()
+        HealthSleepHomeWidget()
+        #endif
+    }
+
+    @WidgetBundleBuilder
+    private var coreWidgets: some Widget {
         PrayerRingHomeWidget()
         PrayerBarHomeWidget()
         PrayerDayHomeWidget()
@@ -33,10 +50,6 @@ struct WidgetsBundle: WidgetBundle {
         NationalDayHomeWidget()
         FoundingDayHomeWidget()
         SpecialOccasionHomeWidget()
-        HealthStepsHomeWidget()
-        HealthActivityHomeWidget()
-        HealthDashboardHomeWidget()
-        HealthSleepHomeWidget()
         SalaryHomeWidget()
         CitizenAccountHomeWidget()
         HafizHomeWidget()

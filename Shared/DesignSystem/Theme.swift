@@ -67,3 +67,10 @@ extension View {
             .padding(padding)
     }
 }
+
+extension View {
+    /// على الآيباد والماك: عمود بعرض مريح للقراءة في وسط الشاشة، وعلى الآيفون لا يتغير شيء
+    func readableWidth(_ width: CGFloat = 720) -> some View {
+        frame(maxWidth: width).frame(maxWidth: .infinity)
+    }
+}

@@ -18,7 +18,7 @@ struct CategoryBar: View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 8) {
                 chip("الكل", icon: .system("square.grid.2x2"), isOn: selected == nil && !showsInstalled) { onSelect(nil) }
-                ForEach(WidgetCategory.allCases) { category in
+                ForEach(WidgetCategory.available) { category in
                     chip(category.title, icon: category.icon, isOn: selected == category && !showsInstalled) {
                         onSelect(category)
                     }

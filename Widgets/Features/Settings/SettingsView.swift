@@ -30,7 +30,9 @@ struct SettingsView: View {
                     header
                     group("المحتوى") {
                         row(.prayer)
+                        #if !targetEnvironment(macCatalyst)
                         row(.health)
+                        #endif
                         row(.occasions)
                         row(.finance)
                         row(.counter)
@@ -86,6 +88,7 @@ struct SettingsView: View {
                         .foregroundStyle(Theme.textSecondary)
                 }
                 .padding(16)
+                .readableWidth()
             }
             .background(Theme.background.ignoresSafeArea())
             .navigationTitle("الإعدادات")
@@ -99,7 +102,15 @@ struct SettingsView: View {
                 destination(page)
             }
             .sheet(isPresented: $showHowTo) { HowToAddView().appAppearance() }
+            #if targetEnvironment(macCatalyst)
+            // على الماك تُفتح الصفحات في المتصفح، فهو المعتاد هناك
+            .onChange(of: webPage) { _, url in
+                if let url { openURL(url) }
+                webPage = nil
+            }
+            #else
             .sheet(item: $webPage) { url in SafariView(url: url).ignoresSafeArea() }
+            #endif
         }
         .tint(Theme.gold)
     }
@@ -252,6 +263,7 @@ struct SettingsView: View {
                     }
                 }
                 .padding(16)
+                .readableWidth()
             }
             .background(Theme.background.ignoresSafeArea())
             .navigationTitle(page.title)

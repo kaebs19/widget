@@ -66,7 +66,7 @@ struct OccasionsView: View {
                         .padding(.top, 4)
                 }
             }
-            .padding(16)
+            .padding(16).readableWidth()
         }
         .background(Theme.background.ignoresSafeArea())
         .navigationTitle("مناسباتي")
@@ -229,7 +229,7 @@ private struct OccasionEditor: View {
                         .font(AppFont.ui(15))
                     }
                 }
-                .padding(16)
+                .padding(16).readableWidth()
             }
             .font(AppFont.ui(15))
             .foregroundStyle(Theme.textPrimary)

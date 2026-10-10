@@ -231,7 +231,7 @@ struct BudgetSettingsSection: View {
 struct BudgetPage: View {
     var body: some View {
         ScrollView {
-            BudgetSettingsSection().padding(16)
+            BudgetSettingsSection().padding(16).readableWidth()
         }
         .background(Theme.background.ignoresSafeArea())
         .navigationTitle("مصروف اليوم")

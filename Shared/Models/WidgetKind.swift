@@ -14,6 +14,15 @@ enum WidgetCategory: String, CaseIterable, Identifiable {
 
     var id: String { rawValue }
 
+    /// الأقسام المتاحة على هذا الجهاز: الماك ليس فيه تطبيق الصحة
+    static var available: [WidgetCategory] {
+        #if targetEnvironment(macCatalyst)
+        allCases.filter { $0 != .health }
+        #else
+        allCases
+        #endif
+    }
+
     var title: String {
         switch self {
         case .prayer:    "الصلاة"

@@ -67,10 +67,10 @@ final class GalleryViewModel {
     /// الأقسام اللي تظهر حسب الفلتر
     var visibleCategories: [WidgetCategory] {
         if showsInstalled {
-            return WidgetCategory.allCases.filter { !installed(in: $0).isEmpty }
+            return WidgetCategory.available.filter { !installed(in: $0).isEmpty }
         }
         if let selectedCategory { return [selectedCategory] }
-        return WidgetCategory.allCases
+        return WidgetCategory.available
     }
 
     /// ودجات قسم معيّن، مقسومة لصغيرة (شبكة عمودين) وكبيرة (عرض كامل)

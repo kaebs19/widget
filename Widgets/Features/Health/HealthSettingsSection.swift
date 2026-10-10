@@ -164,7 +164,7 @@ struct HealthSettingsSection: View {
 struct HealthSettingsPage: View {
     var body: some View {
         ScrollView {
-            HealthSettingsSection().padding(16)
+            HealthSettingsSection().padding(16).readableWidth()
         }
         .background(Theme.background.ignoresSafeArea())
         .navigationTitle("الصحة")

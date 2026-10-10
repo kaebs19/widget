@@ -35,7 +35,7 @@ struct FinanceSettingsView: View {
                 }
                 PaydaysListSettings()
             }
-            .padding(16)
+            .padding(16).readableWidth()
         }
         .background(Theme.background.ignoresSafeArea())
         .navigationTitle("المال والأعمال")
@@ -90,7 +90,7 @@ struct PaydayPage: View {
 
     var body: some View {
         ScrollView {
-            PaydaySettingsSection(payday: payday).padding(16)
+            PaydaySettingsSection(payday: payday).padding(16).readableWidth()
         }
         .background(Theme.background.ignoresSafeArea())
         .navigationTitle(payday.title)

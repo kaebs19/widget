@@ -18,7 +18,9 @@ struct WidgetsApp: App {
     init() {
         AppFontFamily.validateRegistration()
         // الصحة توقظ التطبيق في الخلفية عند خطوات جديدة، فتتحدث ودجاتها
+        #if !targetEnvironment(macCatalyst)
         HealthWidgets.startBackgroundUpdates()
+        #endif
     }
 
     var body: some Scene {

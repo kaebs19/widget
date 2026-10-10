@@ -16,9 +16,19 @@ struct HomeView: View {
     @Environment(WidgetStyleStore.self) private var styleStore
     @Environment(\.scenePhase) private var scenePhase
 
-    // عمودين متساويين للودجات الصغيرة
-    private let smallGrid = [GridItem(.flexible(), spacing: 14),
-                             GridItem(.flexible(), spacing: 14)]
+    @Environment(\.horizontalSizeClass) private var sizeClass
+
+    /// الآيباد والماك: أعمدة بقدر ما يتسع العرض. الآيفون: عمودان للصغيرة، والعريضة بعرض كامل.
+    private var isWide: Bool { sizeClass == .regular }
+
+    private var smallGrid: [GridItem] {
+        isWide ? [GridItem(.adaptive(minimum: 170, maximum: 230), spacing: 18, alignment: .top)]
+               : [GridItem(.flexible(), spacing: 14), GridItem(.flexible(), spacing: 14)]
+    }
+
+    private var wideGrid: [GridItem] {
+        isWide ? [GridItem(.adaptive(minimum: 340, maximum: 460), spacing: 18, alignment: .top)] : [GridItem(.flexible())]
+    }
 
     var body: some View {
         NavigationStack {
@@ -43,8 +53,11 @@ struct HomeView: View {
                         section(category)
                     }
                 }
-                .padding(.horizontal, 16)
+                .padding(.horizontal, isWide ? 28 : 16)
                 .padding(.bottom, 32)
+                // على الشاشات العريضة جداً لا تتمدد البطاقات بلا حد
+                .frame(maxWidth: 1200)
+                .frame(maxWidth: .infinity)
                 .id(refresh)
             }
             .background(Theme.background.ignoresSafeArea())
@@ -146,8 +159,12 @@ struct HomeView: View {
             }
             .padding(.bottom, 2)
 
-            ForEach(widgets.wide) { kind in
-                GalleryCard(kind: kind, installed: installedInfo(kind))
+            if !widgets.wide.isEmpty {
+                LazyVGrid(columns: wideGrid, alignment: .leading, spacing: 18) {
+                    ForEach(widgets.wide) { kind in
+                        GalleryCard(kind: kind, installed: installedInfo(kind))
+                    }
+                }
             }
 
             if !widgets.small.isEmpty {

@@ -21,6 +21,8 @@ struct WidgetDetailView: View {
     @State private var tasbeeh: TasbeehDhikr = .istighfar
     /// يزيد مع كل تغيير في إعدادات المال، فتُرسم المعاينات من جديد
     @State private var revision = 0
+    @Environment(\.horizontalSizeClass) private var sizeClass
+    private var isWide: Bool { sizeClass == .regular }
 
     init(kind: WidgetKind) {
         self.kind = kind
@@ -49,7 +51,9 @@ struct WidgetDetailView: View {
                     .frame(width: proxy.size.width, height: proxy.size.height)
             }
             .aspectRatio(size.aspectRatio, contentMode: .fit)
-            .frame(maxWidth: size == .small ? 170 : .infinity, maxHeight: 200)
+            // الآيباد والماك يتسعان لمعاينة أكبر
+            .frame(maxWidth: size == .small ? (isWide ? 220 : 170) : (isWide ? 480 : .infinity),
+                   maxHeight: isWide ? (size == .large ? 420 : 240) : 200)
             .animation(.snappy, value: size)
             .animation(.snappy, value: style)
 
@@ -146,6 +150,7 @@ struct WidgetDetailView: View {
                     WidgetCustomizeView(kind: kind, style: styleBinding)
                 }
                 .padding(16)
+                .readableWidth()
             }
         }
         .background(Theme.background.ignoresSafeArea())

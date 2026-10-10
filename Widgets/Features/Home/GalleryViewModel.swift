@@ -56,10 +56,7 @@ final class GalleryViewModel {
             guard let items = grouped[kind] else { return nil }
             return InstalledWidget(kind: kind, count: items.count, families: items.map(\.1))
         }
-        withAnimation(.snappy) {
-            installed = result
-            if result.isEmpty { showsInstalled = false }
-        }
+        withAnimation(.snappy) { installed = result }
     }
 
     /// الودجات المضافة في قسم معيّن
@@ -91,10 +88,13 @@ final class GalleryViewModel {
         }
     }
 
-    func selectInstalled() {
+    /// زر «ودجاتي» بجوار الإعدادات: يعرض المضافة، والضغط مرة ثانية يرجع للمعرض كاملاً
+    func toggleInstalled() {
         withAnimation(.snappy) {
-            showsInstalled = true
+            showsInstalled.toggle()
             selectedCategory = nil
         }
     }
+
+    var installedCount: Int { installed.reduce(0) { $0 + $1.count } }
 }

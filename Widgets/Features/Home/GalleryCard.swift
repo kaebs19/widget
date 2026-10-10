@@ -22,19 +22,19 @@ struct GalleryCard: View {
                 WidgetPreviewView(kind: kind, style: styles.style(for: kind))
                     .aspectRatio(kind.previewSize.aspectRatio, contentMode: .fit)
                     .cardStyle()
-                    .overlay(alignment: .topTrailing) {
+                VStack(spacing: 1) {
+                    // العلامة بجانب الاسم حتى لا تغطي محتوى الودجت
+                    HStack(spacing: 4) {
                         if installed != nil {
                             Image(systemName: "checkmark.circle.fill")
-                                .font(.system(size: 18))
-                                .foregroundStyle(.white, Theme.gold)
-                                .padding(8)
+                                .font(.system(size: 12))
+                                .foregroundStyle(Theme.gold)
                                 .accessibilityLabel("مضاف لشاشتك")
                         }
+                        Text(kind.title)
                     }
-                VStack(spacing: 1) {
-                    Text(kind.title)
-                        .font(AppFont.ui(13))
-                        .foregroundStyle(Theme.textSecondary)
+                    .font(AppFont.ui(13))
+                    .foregroundStyle(Theme.textSecondary)
                     if let installed {
                         Text(installed.detail)
                             .font(AppFont.ui(11))

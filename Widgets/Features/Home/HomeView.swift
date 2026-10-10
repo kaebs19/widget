@@ -26,14 +26,10 @@ struct HomeView: View {
                 VStack(alignment: .leading, spacing: 28) {
                     CategoryBar(selected: viewModel.selectedCategory,
                                 onSelect: viewModel.select,
-                                installedCount: viewModel.installed.reduce(0) { $0 + $1.count },
-                                showsInstalled: viewModel.showsInstalled,
-                                onSelectInstalled: viewModel.selectInstalled)
+                                showsInstalled: viewModel.showsInstalled)
 
                     if viewModel.showsInstalled {
-                        Text("الودجات التي أضفتها لشاشتك الرئيسية وشاشة القفل. اضغط أي ودجت لتخصيصه.")
-                            .font(AppFont.ui(13))
-                            .foregroundStyle(Theme.textSecondary)
+                        installedHeader
                     }
 
                     ForEach(Array(viewModel.visibleCategories.enumerated()), id: \.element) { index, category in
@@ -54,12 +50,16 @@ struct HomeView: View {
             .background(Theme.background.ignoresSafeArea())
             .navigationTitle("ويدجت")
             .toolbar {
-                // الإعدادات في الجهة المقابلة لزر طريقة الإضافة
-                ToolbarItem(placement: .topBarTrailing) {
+                // الإعدادات و«ودجاتي» في الجهة المقابلة لزر طريقة الإضافة
+                ToolbarItemGroup(placement: .topBarTrailing) {
                     Button { showSettings = true } label: {
                         Image(systemName: "gearshape")
                     }
                     .accessibilityLabel("الإعدادات")
+                    Button { viewModel.toggleInstalled() } label: {
+                        Image(systemName: viewModel.showsInstalled ? "square.stack.3d.up.fill" : "square.stack.3d.up")
+                    }
+                    .accessibilityLabel("ودجاتي")
                 }
                 ToolbarItem(placement: .topBarLeading) {
                     Button { showHowTo = true } label: {
@@ -78,6 +78,43 @@ struct HomeView: View {
             }
             .sheet(isPresented: $showHowTo) { HowToAddView().appAppearance() }
             .fullScreenCover(isPresented: $showSettings, onDismiss: { refresh += 1 }) { SettingsView().environment(styleStore).appAppearance() }
+        }
+    }
+
+    /// عنوان «ودجاتي»، أو شرح الإضافة إذا لم يُضف شيء بعد
+    @ViewBuilder
+    private var installedHeader: some View {
+        let count = viewModel.installedCount
+        VStack(alignment: .leading, spacing: 10) {
+            HStack(alignment: .firstTextBaseline) {
+                Text("ودجاتي")
+                    .font(AppFont.uiBold(22))
+                    .foregroundStyle(Theme.textPrimary)
+                if count > 0 {
+                    Text("\(DateHelper.arabic(count)) ودجت")
+                        .font(AppFont.ui(13))
+                        .foregroundStyle(Theme.textSecondary)
+                }
+                Spacer()
+                Button("كل الودجات") { viewModel.toggleInstalled() }
+                    .font(AppFont.uiBold(14))
+            }
+            Text(count > 0
+                 ? "الودجات التي أضفتها لشاشتك الرئيسية وشاشة القفل. اضغط أي ودجت لتخصيصه."
+                 : "ما أضفت أي ودجت لشاشتك بعد. اختر ودجت من المعرض ثم أضفه من الشاشة الرئيسية.")
+                .font(AppFont.ui(13))
+                .foregroundStyle(Theme.textSecondary)
+            if count == 0 {
+                Button { showHowTo = true } label: {
+                    Label("طريقة الإضافة", systemImage: "questionmark.circle")
+                        .font(AppFont.uiBold(15))
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 12)
+                        .foregroundStyle(Theme.onAccent)
+                        .background(Theme.gold, in: RoundedRectangle(cornerRadius: 14))
+                }
+                .padding(.top, 4)
+            }
         }
     }
 

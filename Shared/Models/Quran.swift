@@ -56,6 +56,15 @@ nonisolated struct QuranLibrary: Sendable {
     /// إذا لم تتسع آية اليوم (`maxLetters`) نأخذ التي تليها.
     func verseOfDay(at date: Date, maxLetters: Int = .max, timeZone: TimeZone = .current) -> Verse? {
         guard !verses.isEmpty else { return nil }
+        #if DEBUG
+        // لقطات المتجر: آية محددة بدل آية اليوم (السورة:الآية)، والنص نفسه من الملف
+        if let pinned = AppGroup.defaults.string(forKey: Self.pinnedKey)?.split(separator: ":").compactMap({ Int($0) }),
+           pinned.count == 2,
+           let verse = verses.first(where: { $0.surah == pinned[0] && $0.number == pinned[1] }),
+           verse.letterCount <= maxLetters {
+            return verse
+        }
+        #endif
         let localSeconds = date.timeIntervalSinceReferenceDate + Double(timeZone.secondsFromGMT(for: date))
         let day = Int((localSeconds / 86_400).rounded(.down))
         let start = ((day * Self.dailyStep) % verses.count + verses.count) % verses.count
@@ -66,6 +75,10 @@ nonisolated struct QuranLibrary: Sendable {
     }
 
     private static let dailyStep = 2459
+
+    #if DEBUG
+    static let pinnedKey = "debug.pinnedVerse"
+    #endif
 }
 
 private nonisolated struct QuranFile: Decodable {

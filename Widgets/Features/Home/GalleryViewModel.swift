@@ -37,7 +37,14 @@ struct InstalledWidget: Identifiable, Hashable {
 final class GalleryViewModel {
 
     /// القسم المختار. nil = الكل
-    var selectedCategory: WidgetCategory? = nil
+    var selectedCategory: WidgetCategory? = {
+        #if DEBUG
+        // لقطات المتجر: `-screenshotCategory finance` يفتح على قسم معيّن
+        return UserDefaults.standard.string(forKey: "screenshotCategory").flatMap(WidgetCategory.init)
+        #else
+        return nil
+        #endif
+    }()
 
     /// «ودجاتي»: يعرض المضافة فقط
     var showsInstalled = false

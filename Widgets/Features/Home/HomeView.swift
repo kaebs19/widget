@@ -22,12 +22,13 @@ struct HomeView: View {
     private var isWide: Bool { sizeClass == .regular }
 
     private var smallGrid: [GridItem] {
-        isWide ? [GridItem(.adaptive(minimum: 170, maximum: 230), spacing: 18, alignment: .top)]
+        isWide ? [GridItem(.adaptive(minimum: 170), spacing: 18, alignment: .top)]
                : [GridItem(.flexible(), spacing: 14), GridItem(.flexible(), spacing: 14)]
     }
 
     private var wideGrid: [GridItem] {
-        isWide ? [GridItem(.adaptive(minimum: 340, maximum: 460), spacing: 18, alignment: .top)] : [GridItem(.flexible())]
+        // عمودان يملآن العرض: أغلب الأقسام فيها ودجتان عريضتان، فلا يبقى عمود ثالث فارغ على الماك
+        isWide ? Array(repeating: GridItem(.flexible(), spacing: 18, alignment: .top), count: 2) : [GridItem(.flexible())]
     }
 
     var body: some View {

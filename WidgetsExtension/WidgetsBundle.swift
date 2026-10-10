@@ -60,6 +60,6 @@ struct WidgetsBundle: WidgetBundle {
         PaydaysHomeWidget()
         BudgetHomeWidget()
         ObligationsHomeWidget()
-        NextMatchHomeWidget()
+        // المباراة القادمة مخفية حتى يتوفر مصدر بيانات حقيقي: NextMatchHomeWidget()
     }
 }

@@ -14,12 +14,13 @@ enum WidgetCategory: String, CaseIterable, Identifiable {
 
     var id: String { rawValue }
 
-    /// الأقسام المتاحة على هذا الجهاز: الماك ليس فيه تطبيق الصحة
+    /// الأقسام التي تظهر في التطبيق. الماك ليس فيه تطبيق الصحة.
+    /// الرياضة مخفية حتى يتوفر مصدر بيانات للمباريات (كودها باقٍ في MatchWidget)
     static var available: [WidgetCategory] {
         #if targetEnvironment(macCatalyst)
-        allCases.filter { $0 != .health }
+        allCases.filter { $0 != .health && $0 != .sports }
         #else
-        allCases
+        allCases.filter { $0 != .sports }
         #endif
     }
 

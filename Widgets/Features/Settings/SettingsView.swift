@@ -75,7 +75,7 @@ struct SettingsView: View {
                     group("قانوني") {
                         actionRow("سياسة الخصوصية", "كيف نتعامل مع بياناتك", symbol: "hand.raised.fill",
                                   color: Color(red: 0.25, green: 0.52, blue: 0.90), external: true) { webPage = AppLinks.privacy }
-                        actionRow("شروط الاستخدام", "شروط التطبيق والاشتراك", symbol: "doc.text.fill",
+                        actionRow("شروط الاستخدام", "شروط استخدام التطبيق", symbol: "doc.text.fill",
                                   color: Color(white: 0.5), external: true) { webPage = AppLinks.terms }
                         NavigationLink { CreditsView() } label: {
                             rowLabel("المصادر والتراخيص", "مصادر النصوص والخطوط والمكتبات", symbol: "books.vertical.fill",

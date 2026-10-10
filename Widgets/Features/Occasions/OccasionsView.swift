@@ -54,7 +54,10 @@ struct OccasionsView: View {
                         OccasionStore.save(occasions)
                         WidgetCenter.shared.reloadTimelines(ofKind: WidgetKind.specialOccasion.rawValue)
                         // تنبيهات مواعيد الصرف بنفس الساعة
-                        Task { await PaydayNotifications.reschedule() }
+                        Task {
+                            await PaydayNotifications.reschedule()
+                            await ObligationStore.scheduleReminders()
+                        }
                     }
                     Text("اختر أي مناسبة لودجت «مناسبة خاصة»: اضغط عليه مطولاً ثم «تعديل الودجت» ← «من مناسباتي».")
                         .font(AppFont.ui(12))

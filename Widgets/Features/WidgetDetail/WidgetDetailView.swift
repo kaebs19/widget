@@ -97,6 +97,21 @@ struct WidgetDetailView: View {
                         PaydaysListSettings { revision += 1 }
                     }
 
+                    if kind == .obligations {
+                        NavigationLink { ObligationsView() } label: {
+                            Label("التزاماتي: أضف إيجاراً أو قسطاً", systemImage: "list.bullet.rectangle.portrait")
+                                .font(AppFont.uiBold(15))
+                                .frame(maxWidth: .infinity)
+                                .padding(.vertical, 14)
+                                .foregroundStyle(Theme.onAccent)
+                                .background(Theme.gold, in: RoundedRectangle(cornerRadius: 16))
+                        }
+                    }
+
+                    if kind == .budget {
+                        BudgetSettingsSection { revision += 1 }
+                    }
+
                     if kind == .specialOccasion {
                         NavigationLink { OccasionsView() } label: {
                             Label("مناسباتي: أضف عيد ميلاد أو ذكرى", systemImage: "birthday.cake")

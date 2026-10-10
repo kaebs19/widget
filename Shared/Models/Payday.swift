@@ -16,9 +16,12 @@ import WidgetKit
 // - حساب المواطن: يوم ١٠، الجمعة ← الخميس، والسبت ← الأحد
 // - حافز: يوم ٥ (صندوق تنمية الموارد البشرية «هدف»)
 // - معاشات التقاعد: يوم ١، وتُقدَّم لآخر يوم عمل قبل الإجازة (التأمينات الاجتماعية)
+// - الضمان الاجتماعي المطور: يوم ١، ويُقدَّم إذا صادف إجازة (الموارد البشرية)
+// - مكافأة الطلاب الجامعيين: يوم ٢٧، مثل الرواتب الحكومية
+// - التأهيل الشامل: يوم ٢٦، ويُؤجَّل لليوم التالي إذا صادف إجازة
 // الإجازات الرسمية كالعيد تتغير كل سنة، فيعدّلها المستخدم بـ «موعد استثنائي».
 nonisolated enum Payday: String, CaseIterable, Identifiable, Codable, Sendable {
-    case salary, citizenAccount, hafiz, retirement
+    case salary, citizenAccount, hafiz, retirement, socialSecurity, studentBonus, rehabilitation
 
     var id: Self { self }
 
@@ -28,6 +31,9 @@ nonisolated enum Payday: String, CaseIterable, Identifiable, Codable, Sendable {
         case .citizenAccount: "حساب المواطن"
         case .hafiz:          "حافز"
         case .retirement:     "التقاعد"
+        case .socialSecurity: "الضمان المطور"
+        case .studentBonus:   "مكافأة الجامعة"
+        case .rehabilitation: "التأهيل الشامل"
         }
     }
 
@@ -37,6 +43,9 @@ nonisolated enum Payday: String, CaseIterable, Identifiable, Codable, Sendable {
         case .citizenAccount: "person.2.fill"
         case .hafiz:          "briefcase.fill"
         case .retirement:     "sun.horizon.fill"
+        case .socialSecurity: "hand.raised.fill"
+        case .studentBonus:   "graduationcap.fill"
+        case .rehabilitation: "figure.roll"
         }
     }
 
@@ -47,11 +56,18 @@ nonisolated enum Payday: String, CaseIterable, Identifiable, Codable, Sendable {
         case .citizenAccount: 10
         case .hafiz:          5
         case .retirement:     1
+        case .socialSecurity: 1
+        case .studentBonus:   27
+        case .rehabilitation: 26
         }
     }
 
     var officialShift: WeekendShift {
-        self == .retirement ? .before : .nearest
+        switch self {
+        case .retirement, .socialSecurity: .before
+        case .rehabilitation:              .after
+        default:                           .nearest
+        }
     }
 
     /// مصدر الموعد الرسمي، يظهر تحت الإعدادات
@@ -65,6 +81,12 @@ nonisolated enum Payday: String, CaseIterable, Identifiable, Codable, Sendable {
             "يُصرف حافز يوم ٥ من كل شهر ميلادي."
         case .retirement:
             "معاشات التقاعد المدني والعسكري والتأمينات يوم ١ من كل شهر ميلادي، وتُقدَّم إذا صادف إجازة."
+        case .socialSecurity:
+            "يُودَع الضمان الاجتماعي المطور يوم ١ من كل شهر ميلادي، ويُقدَّم إذا صادف إجازة."
+        case .studentBonus:
+            "مكافآت طلاب الجامعات والمعاهد يوم ٢٧ من كل شهر ميلادي. بعض الجهات تصرفها في يوم آخر."
+        case .rehabilitation:
+            "إعانة التأهيل الشامل يوم ٢٦ من كل شهر ميلادي، وتُؤجَّل لليوم التالي إذا صادف إجازة."
         }
     }
 
@@ -74,6 +96,9 @@ nonisolated enum Payday: String, CaseIterable, Identifiable, Codable, Sendable {
         case .citizenAccount: .citizenAccount
         case .hafiz:          .hafiz
         case .retirement:     .retirement
+        case .socialSecurity: .socialSecurity
+        case .studentBonus:   .studentBonus
+        case .rehabilitation: .rehabilitation
         }
     }
 
@@ -100,7 +125,14 @@ nonisolated enum Payday: String, CaseIterable, Identifiable, Codable, Sendable {
         defaults.string(forKey: Key.reminder(self)).flatMap(PaydayReminder.init) ?? .off
     }
     /// يظهر في ودجت «مواعيد الصرف»
-    var isListed: Bool { defaults.object(forKey: Key.listed(self)) as? Bool ?? true }
+    var isListed: Bool { defaults.object(forKey: Key.listed(self)) as? Bool ?? isListedByDefault }
+    /// الأربع الأولى تظهر افتراضياً، والبقية يضيفها من يستفيد منها
+    private var isListedByDefault: Bool {
+        switch self {
+        case .salary, .citizenAccount, .hafiz, .retirement: true
+        default: false
+        }
+    }
     /// المبلغ الشهري إن أدخله المستخدم (صفر = لا يُعرض)
     var amount: Int { defaults.integer(forKey: Key.amount(self)) }
     /// اسم يختاره المستخدم بدل الاسم الافتراضي («راتب الشركة» مثلاً)
@@ -192,7 +224,10 @@ nonisolated enum Payday: String, CaseIterable, Identifiable, Codable, Sendable {
         for kind in WidgetKind.allCases where kind.category == .finance {
             WidgetCenter.shared.reloadTimelines(ofKind: kind.rawValue)
         }
-        Task { await PaydayNotifications.reschedule() }
+        Task {
+            await PaydayNotifications.reschedule()
+            await ObligationStore.scheduleReminders()
+        }
     }
 }
 
@@ -214,6 +249,30 @@ nonisolated struct PaydayCycle: Sendable {
         let total = next.timeIntervalSince(previous)
         guard total > 0 else { return 1 }
         return min(max(today.timeIntervalSince(previous) / total, 0), 1)
+    }
+
+    /// إذا وقع الموعد في إجازة عيد تقريباً: «عيد الفطر» أو «عيد الأضحى».
+    /// الإجازة الرسمية تُعلن كل سنة، وغالباً تمتد من ٢٤ رمضان إلى ٥ شوال، ومن ٤ إلى ١٥ ذي الحجة،
+    /// وفيها يُقدَّم الصرف عادةً. لا نغيّر الموعد بأنفسنا، بل ننبّه فقط.
+    var eid: String? {
+        guard payday.activeOverride(now: today) == nil else { return nil }
+        return Self.eidHoliday(on: next)
+    }
+
+    static func eidHoliday(on date: Date) -> String? {
+        let parts = DateHelper.hijri.dateComponents([.month, .day], from: DateHelper.hijriAdjusted(date))
+        switch (parts.month ?? 0, parts.day ?? 0) {
+        case (9, 24...), (10, ...5): return "عيد الفطر"
+        case (12, 4...15):           return "عيد الأضحى"
+        default:                     return nil
+        }
+    }
+
+    /// ملاحظة قصيرة إذا تغيّر الموعد أو قد يتغيّر
+    var note: String? {
+        if let eid { return "قد يُقدَّم قبل \(eid)" }
+        guard isMoved else { return nil }
+        return payday.activeOverride(now: today) == nil ? "نُقل بسبب الإجازة" : "موعد استثنائي"
     }
 
     /// تغيّر موعد هذه الدفعة عن يومها المعتاد (بسبب الإجازة أو موعد استثنائي)

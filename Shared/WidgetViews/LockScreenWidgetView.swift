@@ -23,9 +23,9 @@ extension WidgetKind {
         case .prayerRing:                    [.accessoryCircular, .accessoryInline]
         case .prayerBar:                     [.accessoryRectangular]
         case .prayerList, .prayerDay:        [.accessoryRectangular]
-        case .salary, .citizenAccount, .hafiz, .retirement:
+        case .salary, .citizenAccount, .hafiz, .retirement, .socialSecurity, .studentBonus, .rehabilitation, .budget:
                                              [.accessoryCircular, .accessoryRectangular, .accessoryInline]
-        case .paydays:                       [.accessoryRectangular, .accessoryInline]
+        case .paydays, .obligations:         [.accessoryRectangular, .accessoryInline]
         default:                             []
         }
     }
@@ -81,8 +81,11 @@ struct LockScreenWidgetView: View {
             PrayerLockView(kind: kind, date: date, family: family, style: style)
         case (.paydays, _):
             PaydaysLockView(date: date, family: family, style: style)
-        case (.ramadan, _), (.eid, _), (.nationalDay, _), (.foundingDay, _),
-             (.salary, _), (.citizenAccount, _), (.hafiz, _), (.retirement, _):
+        case (.obligations, _):
+            ObligationsLockView(date: date, family: family, style: style)
+        case (.budget, _):
+            BudgetLockView(date: date, family: family, style: style)
+        case (.ramadan, _), (.eid, _), (.nationalDay, _), (.foundingDay, _), (_, _) where kind.payday != nil:
             if let countdown = LockCountdown(kind: kind, date: date) {
                 LockCountdownView(countdown: countdown, family: family, style: style)
             }
@@ -205,7 +208,7 @@ struct LockCountdown {
                       days: DateHelper.daysUntilGregorian(month: 2, day: 22, from: date),
                       progress: DateHelper.progressUntilGregorian(month: 2, day: 22, from: date),
                       detail: DateHelper.weekdayFull(DateHelper.nextGregorian(month: 2, day: 22, from: date)))
-        case .salary, .citizenAccount, .hafiz, .retirement:
+        case _ where kind.payday != nil:
             guard let payday = kind.payday else { return nil }
             let cycle = payday.cycle(from: date)
             self.init(title: payday.displayName, symbol: payday.symbol, days: cycle.days,

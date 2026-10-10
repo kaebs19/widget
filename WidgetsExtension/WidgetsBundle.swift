@@ -37,7 +37,12 @@ struct WidgetsBundle: WidgetBundle {
         CitizenAccountHomeWidget()
         HafizHomeWidget()
         RetirementHomeWidget()
+        SocialSecurityHomeWidget()
+        StudentBonusHomeWidget()
+        RehabilitationHomeWidget()
         PaydaysHomeWidget()
+        BudgetHomeWidget()
+        ObligationsHomeWidget()
         NextMatchHomeWidget()
     }
 }

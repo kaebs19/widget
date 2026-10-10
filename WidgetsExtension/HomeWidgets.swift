@@ -48,6 +48,11 @@ struct SalaryHomeWidget: HomeWidget { static let kind = WidgetKind.salary }
 struct CitizenAccountHomeWidget: HomeWidget { static let kind = WidgetKind.citizenAccount }
 struct HafizHomeWidget: HomeWidget { static let kind = WidgetKind.hafiz }
 struct RetirementHomeWidget: HomeWidget { static let kind = WidgetKind.retirement }
+struct SocialSecurityHomeWidget: HomeWidget { static let kind = WidgetKind.socialSecurity }
+struct StudentBonusHomeWidget: HomeWidget { static let kind = WidgetKind.studentBonus }
+struct RehabilitationHomeWidget: HomeWidget { static let kind = WidgetKind.rehabilitation }
+struct ObligationsHomeWidget: HomeWidget { static let kind = WidgetKind.obligations }
+struct BudgetHomeWidget: HomeWidget { static let kind = WidgetKind.budget }
 struct PaydaysHomeWidget: HomeWidget { static let kind = WidgetKind.paydays }
 struct NextMatchHomeWidget: HomeWidget { static let kind = WidgetKind.nextMatch }
 

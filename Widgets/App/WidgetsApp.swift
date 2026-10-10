@@ -36,6 +36,7 @@ struct WidgetsApp: App {
                         Task {
                             await PrayerNotifications.reschedule()
                             await PaydayNotifications.reschedule()
+                            await ObligationStore.scheduleReminders()
                         }
                     }
                 }

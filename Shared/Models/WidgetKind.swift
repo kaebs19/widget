@@ -69,7 +69,8 @@ enum WidgetKind: String, CaseIterable, Identifiable {
     case tearOff, dualDate, gregorianMonth, hijriMonth
     case morningDhikr, dailyVerse, istighfar
     case ramadan, eid, nationalDay, foundingDay, specialOccasion
-    case salary, citizenAccount, hafiz, retirement, paydays
+    case salary, citizenAccount, hafiz, retirement, socialSecurity, studentBonus, rehabilitation, paydays
+    case obligations, budget
     case nextMatch
 
     var id: String { rawValue }
@@ -98,7 +99,12 @@ enum WidgetKind: String, CaseIterable, Identifiable {
         case .citizenAccount: "حساب المواطن"
         case .hafiz:        "حافز"
         case .retirement:   "التقاعد"
+        case .socialSecurity: "الضمان المطور"
+        case .studentBonus: "مكافأة الجامعة"
+        case .rehabilitation: "التأهيل الشامل"
         case .paydays:      "مواعيد الصرف"
+        case .obligations:  "التزاماتي"
+        case .budget:       "مصروف اليوم"
         case .nextMatch:    "المباراة القادمة"
         }
     }
@@ -127,7 +133,12 @@ enum WidgetKind: String, CaseIterable, Identifiable {
         case .citizenAccount: "موعد إيداع دعم حساب المواطن"
         case .hafiz:        "موعد صرف حافز"
         case .retirement:   "موعد صرف معاش التقاعد"
+        case .socialSecurity: "موعد إيداع الضمان الاجتماعي المطور"
+        case .studentBonus: "موعد صرف مكافأة طلاب الجامعات"
+        case .rehabilitation: "موعد صرف إعانة التأهيل الشامل"
         case .paydays:      "الراتب وحساب المواطن وحافز والتقاعد في مكان واحد"
+        case .obligations:  "الإيجار والأقساط والفواتير بمواعيدها"
+        case .budget:       "كم تصرف كل يوم حتى الراتب، وسجّل مصروفك من الشاشة"
         case .nextMatch:    "موعد مباراة فريقك القادمة"
         }
     }
@@ -139,7 +150,8 @@ enum WidgetKind: String, CaseIterable, Identifiable {
              .gregorianMonth, .hijriMonth:             .calendar
         case .morningDhikr, .dailyVerse, .istighfar:   .religious
         case .ramadan, .eid, .nationalDay, .foundingDay, .specialOccasion: .occasions
-        case .salary, .citizenAccount, .hafiz, .retirement, .paydays: .finance
+        case .salary, .citizenAccount, .hafiz, .retirement, .socialSecurity, .studentBonus,
+             .rehabilitation, .paydays, .obligations, .budget: .finance
         case .nextMatch:                               .sports
         }
     }
@@ -148,7 +160,8 @@ enum WidgetKind: String, CaseIterable, Identifiable {
     var previewSize: WidgetSize {
         switch self {
         case .istighfar, .ramadan, .eid, .foundingDay, .tearOff, .dualDate,
-             .prayerRing, .prayerBar, .citizenAccount, .hafiz, .retirement: .small
+             .prayerRing, .prayerBar, .citizenAccount, .hafiz, .retirement,
+             .socialSecurity, .studentBonus, .rehabilitation: .small
         case .dailyVerse:                              .large
         default:                                       .medium
         }
@@ -173,6 +186,7 @@ enum WidgetKind: String, CaseIterable, Identifiable {
         case .prayerList:                              [.medium, .large]
         case .dailyVerse:                              [.medium, .large]
         case .paydays:                                 [.medium, .large]
+        case .obligations:                             [.small, .medium, .large]
         case .specialOccasion:                         [.medium]
         default:                                       [.small, .medium]
         }

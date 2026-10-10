@@ -46,7 +46,10 @@ nonisolated struct WidgetTimelineProvider: AppIntentTimelineProvider {
         // ودجات الصلاة تتحدث باستمرار، فنجدّد معها تنبيهات الأذان حتى لو لم يُفتح التطبيق
         if kind.category == .prayer { await PrayerNotifications.reschedule() }
         // وكذلك تنبيهات مواعيد الصرف، فتمتد للشهر القادم بدون فتح التطبيق
-        if kind.category == .finance { await PaydayNotifications.reschedule() }
+        if kind.category == .finance {
+            await PaydayNotifications.reschedule()
+            await ObligationStore.scheduleReminders()
+        }
         let dates = kind.category == .prayer ? TimelineSchedule.prayer() : TimelineSchedule.hourly()
         let entries = dates.map { WidgetEntry(date: $0, kind: kind, styleID: styleID) }
         return Timeline(entries: entries, policy: .atEnd)

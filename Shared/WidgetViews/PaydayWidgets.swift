@@ -65,8 +65,8 @@ struct PaydayWidget: View {
         return VStack(alignment: .leading, spacing: 0) {
             HStack(spacing: 4) {
                 header
-                if cycle.isMoved {
-                    Text(cycle.payday.activeOverride(now: date) == nil ? "نُقل بسبب الإجازة" : "موعد استثنائي")
+                if let note = cycle.note {
+                    Text(note)
                         .font(style.font(.label, 10))
                         .foregroundStyle(style.secondary)
                         .padding(.horizontal, 7)
@@ -149,7 +149,8 @@ struct PaydaysWidget: View {
     }
 
     var body: some View {
-        let cycles = cycles
+        // المتوسط يتسع لأربع دفعات والكبير لست
+        let cycles = Array(cycles.prefix(size == .large ? 6 : 4))
         VStack(alignment: .leading, spacing: size == .large ? 10 : 6) {
             HStack(spacing: 4) {
                 Image(systemName: "calendar.badge.clock")
@@ -174,7 +175,8 @@ struct PaydaysWidget: View {
                 ForEach(cycles, id: \.payday) { cycle in
                     row(cycle, isFirst: cycle.payday == cycles.first?.payday)
                 }
-                if size == .large { Spacer(minLength: 0) }
+                // الصفوف بارتفاعها، والمساحة الباقية أسفلها
+            Spacer(minLength: 0)
             }
         }
         .widgetContent(padding: size == .large ? 16 : 12)
@@ -220,8 +222,7 @@ struct PaydaysWidget: View {
             }
         }
         .padding(.horizontal, 10)
-        .padding(.vertical, size == .large ? 8 : 0)
-        .frame(maxHeight: size == .large ? nil : .infinity)
+        .padding(.vertical, size == .large ? 8 : 6)
         .background {
             if isFirst {
                 RoundedRectangle(cornerRadius: 12, style: .continuous)
@@ -233,8 +234,9 @@ struct PaydaysWidget: View {
 
     /// «الخميس ٢٦ نوفمبر · ٨٬٥٠٠ ر.س»
     private func subtitle(_ cycle: PaydayCycle) -> String {
-        let date = DateHelper.weekdayDayMonth(cycle.next)
-        guard cycle.payday.amount > 0, Payday.showsAmount else { return date }
-        return "\(date) · \(PaydayFormat.amount(cycle.payday.amount))"
+        var parts = [DateHelper.weekdayDayMonth(cycle.next)]
+        if cycle.payday.amount > 0, Payday.showsAmount { parts.append(PaydayFormat.amount(cycle.payday.amount)) }
+        if let eid = cycle.eid { parts.append("قد يُقدَّم قبل \(eid)") }
+        return parts.joined(separator: " · ")
     }
 }

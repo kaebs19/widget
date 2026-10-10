@@ -149,3 +149,12 @@ struct SavedStyleChip: View {
         .accessibilityAddTraits(isCurrent ? .isSelected : [])
     }
 }
+
+// MARK: - حقل مبلغ
+extension View {
+    /// حقل أرقام. لوحة الأرقام وحدها (numberPad) تُخفي النص أثناء الكتابة في واجهتنا المقلوبة للعربية،
+    /// فنستخدم لوحة الأرقام والرموز، وتحويل المبلغ يقبل الأرقام العربية والإنجليزية
+    func amountField() -> some View {
+        keyboardType(.numbersAndPunctuation)
+    }
+}

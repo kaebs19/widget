@@ -14,6 +14,17 @@ struct FinanceSettingsView: View {
     var body: some View {
         ScrollView {
             VStack(spacing: 20) {
+                SettingsSection("أدواتي") {
+                    NavigationLink { ObligationsView() } label: {
+                        FinanceToolRow(title: "التزاماتي", symbol: "list.bullet.rectangle.portrait.fill",
+                                       detail: obligationsSummary)
+                    }
+                    .buttonStyle(.plain)
+                    NavigationLink { BudgetPage() } label: {
+                        FinanceToolRow(title: "مصروف اليوم", symbol: "wallet.bifold.fill", detail: budgetSummary)
+                    }
+                    .buttonStyle(.plain)
+                }
                 SettingsSection("الدفعات") {
                     ForEach(Payday.allCases) { payday in
                         NavigationLink { PaydayPage(payday: payday) } label: {
@@ -29,6 +40,47 @@ struct FinanceSettingsView: View {
         .background(Theme.background.ignoresSafeArea())
         .navigationTitle("المال والأعمال")
         .navigationBarTitleDisplayMode(.inline)
+    }
+}
+
+extension FinanceSettingsView {
+    private var obligationsSummary: String {
+        guard let first = ObligationStore.upcoming().first else { return "الإيجار والأقساط والفواتير" }
+        let days = DateHelper.gregorian.dateComponents([.day], from: DateHelper.gregorian.startOfDay(for: .now),
+                                                       to: first.date).day ?? 0
+        return "\(first.obligation.displayName) \(PaydayFormat.remaining(days))"
+    }
+
+    private var budgetSummary: String {
+        guard let status = Budget.status() else { return "كم تصرف كل يوم حتى الراتب" }
+        return status.isOver ? "تجاوزت حصة اليوم" : "باقي لليوم \(PaydayFormat.amount(status.leftToday))"
+    }
+}
+
+/// سطر أداة في صفحة المال
+private struct FinanceToolRow: View {
+    let title: String
+    let symbol: String
+    let detail: String
+
+    var body: some View {
+        HStack(spacing: 12) {
+            Image(systemName: symbol)
+                .font(.system(size: 15, weight: .semibold))
+                .foregroundStyle(.white)
+                .frame(width: 34, height: 34)
+                .background(Color(red: 0.16, green: 0.60, blue: 0.40), in: RoundedRectangle(cornerRadius: 9, style: .continuous))
+            VStack(alignment: .leading, spacing: 2) {
+                Text(title).font(AppFont.uiBold(15))
+                Text(detail).font(AppFont.ui(12)).foregroundStyle(Theme.textSecondary)
+            }
+            Spacer()
+            Image(systemName: "chevron.left")
+                .font(.footnote.weight(.semibold))
+                .foregroundStyle(Theme.textSecondary)
+        }
+        .foregroundStyle(Theme.textPrimary)
+        .contentShape(Rectangle())
     }
 }
 
@@ -124,6 +176,7 @@ struct PaydaySettingsSection: View {
     @AppStorage private var name: String
     @State private var override: Date?
     @State private var notificationsDenied = false
+    @State private var amountText = ""
 
     init(payday: Payday, onChange: @escaping () -> Void = {}) {
         self.payday = payday
@@ -180,7 +233,7 @@ struct PaydaySettingsSection: View {
             HStack(alignment: .lastTextBaseline) {
                 VStack(alignment: .leading, spacing: 4) {
                     Text(DateHelper.weekdayFull(first.next)).font(AppFont.uiBold(17))
-                    Text(first.isMoved ? movedNote(first) : "في موعدها المعتاد")
+                    Text(first.isMoved || first.eid != nil ? movedNote(first) : "في موعدها المعتاد")
                         .font(AppFont.ui(12))
                         .foregroundStyle(Theme.textSecondary)
                 }
@@ -194,8 +247,11 @@ struct PaydaySettingsSection: View {
                 HStack {
                     Text(DateHelper.weekdayDayMonth(date))
                     Spacer()
-                    Text(DateHelper.gregorianMonthName(date))
-                        .foregroundStyle(Theme.textSecondary)
+                    if let eid = PaydayCycle.eidHoliday(on: date) {
+                        Text("قد يُقدَّم قبل \(eid)").foregroundStyle(Theme.gold)
+                    } else {
+                        Text(DateHelper.gregorianMonthName(date)).foregroundStyle(Theme.textSecondary)
+                    }
                 }
                 .font(AppFont.ui(13))
             }
@@ -205,7 +261,10 @@ struct PaydaySettingsSection: View {
     }
 
     private func movedNote(_ cycle: PaydayCycle) -> String {
-        payday.activeOverride() != nil ? "موعد استثنائي حدّدته" : "نُقل من يوم \(DateHelper.arabic(day)) بسبب الإجازة"
+        if let eid = cycle.eid {
+            return "يوافق إجازة \(eid)، وغالباً يُقدَّم الصرف قبلها. إذا أُعلن موعده عدّله من «موعد استثنائي»."
+        }
+        return payday.activeOverride() != nil ? "موعد استثنائي حدّدته" : "نُقل من يوم \(DateHelper.arabic(day)) بسبب الإجازة"
     }
 
     // MARK: الموعد
@@ -305,12 +364,13 @@ struct PaydaySettingsSection: View {
             HStack {
                 Text("المبلغ (اختياري)")
                 Spacer()
-                TextField("٠", text: Binding(
-                    get: { amount == 0 ? "" : DateHelper.arabic(amount).replacingOccurrences(of: "٬", with: "") },
+                TextField("٠", text: $amountText)
                     // الأرقام العربية والإنجليزية كلها تُقبل
-                    set: { amount = Int($0.compactMap(\.wholeNumberValue).map(String.init).joined().prefix(9)) ?? 0 }))
-                    .keyboardType(.numberPad)
-                    .multilineTextAlignment(.trailing)
+                    .onAppear { amountText = amount == 0 ? "" : String(amount) }
+                    .onChange(of: amountText) { _, text in
+                        amount = Int(text.compactMap(\.wholeNumberValue).map(String.init).joined().prefix(9)) ?? 0
+                    }
+                    .amountField()
                     .frame(maxWidth: 120)
                 Text("ر.س").foregroundStyle(Theme.textSecondary)
             }

@@ -2307,6 +2307,16 @@
         }
       }
     },
+    "الصلاة القادمة ووقتها والعد التنازلي لها." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The next prayer, its time and a countdown."
+          }
+        }
+      }
+    },
     "الصلاة على النبي ﷺ · عدد مفتوح" : {},
     "الصلوات الخمس في صف واحد" : {
       "extractionState" : "manual",

@@ -6,6 +6,7 @@
 //
 
 import WatchConnectivity
+import WidgetKit
 
 // MARK: - مزامنة الآيفون
 // الآيفون يرسل إعدادات الصلاة والعرض فنحفظها هنا، وما يغيّره المستخدم على الساعة نرسله له.
@@ -21,6 +22,7 @@ final class WatchSession: NSObject, WCSessionDelegate {
     /// يحفظ القيمة هنا ويرسلها للآيفون؛ تصل حتى لو كان التطبيق مغلقاً هناك
     func set(_ value: Any, forKey key: String) {
         AppGroup.defaults.set(value, forKey: key)
+        WidgetCenter.shared.reloadAllTimelines()
         guard WCSession.isSupported(), WCSession.default.activationState == .activated else { return }
         WCSession.default.transferUserInfo([key: value])
     }
@@ -29,6 +31,8 @@ final class WatchSession: NSObject, WCSessionDelegate {
         for (key, value) in context {
             AppGroup.defaults.set(value, forKey: key)
         }
+        // وجه الساعة يعيد الحساب بالموقع والأرقام الجديدة
+        WidgetCenter.shared.reloadAllTimelines()
     }
 
     // MARK: WCSessionDelegate

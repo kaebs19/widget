@@ -12,6 +12,8 @@
 		AD4A0005000000000000AD05 /* Adhan in Frameworks */ = {isa = PBXBuildFile; productRef = AD4A0003000000000000AD03 /* Adhan */; };
 		7A7C00000000000000000001 /* WidgetsWatch.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 7A7C00000000000000000002 /* WidgetsWatch.app */; platformFilter = ios; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		7A7C0000000000000000000B /* Adhan in Frameworks */ = {isa = PBXBuildFile; productRef = 7A7C0000000000000000000C /* Adhan */; };
+		7A7C00000000000000001001 /* WidgetsWatchComplications.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 7A7C00000000000000001002 /* WidgetsWatchComplications.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		7A7C0000000000000000100C /* Adhan in Frameworks */ = {isa = PBXBuildFile; productRef = 7A7C0000000000000000100D /* Adhan */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -28,6 +30,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 7A7C00000000000000000005;
 			remoteInfo = WidgetsWatch;
+		};
+		7A7C00000000000000001003 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5CF35A403078477A006458E2 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 7A7C00000000000000001005;
+			remoteInfo = WidgetsWatchComplications;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -52,12 +61,22 @@
 			name = "Embed Watch Content";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		7A7C00000000000000001004 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			dstPath = "";
+			dstSubfolder = PlugIns;
+			files = (
+				7A7C00000000000000001001 /* WidgetsWatchComplications.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		5CF35A483078477A006458E2 /* Widgets.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Widgets.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5CF35A5B3078477B006458E2 /* WidgetsExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = WidgetsExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		7A7C00000000000000000002 /* WidgetsWatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WidgetsWatch.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		7A7C00000000000000001002 /* WidgetsWatchComplications.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = WidgetsWatchComplications.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -89,6 +108,26 @@
 			);
 			target = 7A7C00000000000000000005 /* WidgetsWatch */;
 		};
+		7A7C00000000000000001007 /* Exceptions for "Shared" folder in "WidgetsWatchComplications" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Customization/Numerals.swift,
+				Localization/AppLanguage.swift,
+				Models/PrayerSchedule.swift,
+				Resources/Localizable.xcstrings,
+				Storage/AppGroup.swift,
+				Storage/AppSettings.swift,
+				Utilities/DateHelper.swift,
+			);
+			target = 7A7C00000000000000001005 /* WidgetsWatchComplications */;
+		};
+		7A7C00000000000000001008 /* Exceptions for "WidgetsWatchComplications" folder in "WidgetsWatchComplications" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 7A7C00000000000000001005 /* WidgetsWatchComplications */;
+		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -104,6 +143,7 @@
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
 				7A7C00000000000000000007 /* Exceptions for "Shared" folder in "WidgetsWatch" target */,
+				7A7C00000000000000001007 /* Exceptions for "Shared" folder in "WidgetsWatchComplications" target */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -124,6 +164,14 @@
 		7A7C00000000000000000006 /* WidgetsWatch */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = WidgetsWatch;
+			sourceTree = "<group>";
+		};
+		7A7C00000000000000001006 /* WidgetsWatchComplications */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				7A7C00000000000000001008 /* Exceptions for "WidgetsWatchComplications" folder in "WidgetsWatchComplications" target */,
+			);
+			path = WidgetsWatchComplications;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -147,6 +195,12 @@
 				7A7C0000000000000000000B /* Adhan in Frameworks */,
 			);
 		};
+		7A7C00000000000000001009 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			files = (
+				7A7C0000000000000000100C /* Adhan in Frameworks */,
+			);
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -156,6 +210,7 @@
 				5CF35A4A3078477A006458E2 /* Widgets */,
 				5CF35A5C3078477B006458E2 /* WidgetsExtension */,
 				7A7C00000000000000000006 /* WidgetsWatch */,
+				7A7C00000000000000001006 /* WidgetsWatchComplications */,
 				5CF35A593078477B006458E2 /* Shared */,
 				5CF35A5A3078477B006458E2 /* Design */,
 				5CF35A493078477A006458E2 /* Products */,
@@ -168,6 +223,7 @@
 				5CF35A483078477A006458E2 /* Widgets.app */,
 				5CF35A5B3078477B006458E2 /* WidgetsExtension.appex */,
 				7A7C00000000000000000002 /* WidgetsWatch.app */,
+				7A7C00000000000000001002 /* WidgetsWatchComplications.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -232,8 +288,12 @@
 				7A7C0000000000000000000A /* Sources */,
 				7A7C00000000000000000008 /* Frameworks */,
 				7A7C00000000000000000009 /* Resources */,
+				7A7C00000000000000001004 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
+			);
+			dependencies = (
+				7A7C0000000000000000100F /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				7A7C00000000000000000006 /* WidgetsWatch */,
@@ -245,6 +305,27 @@
 			productName = WidgetsWatch;
 			productReference = 7A7C00000000000000000002 /* WidgetsWatch.app */;
 			productType = "com.apple.product-type.application";
+		};
+		7A7C00000000000000001005 /* WidgetsWatchComplications */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7A7C0000000000000000100E /* Build configuration list for PBXNativeTarget "WidgetsWatchComplications" */;
+			buildPhases = (
+				7A7C0000000000000000100B /* Sources */,
+				7A7C00000000000000001009 /* Frameworks */,
+				7A7C0000000000000000100A /* Resources */,
+			);
+			buildRules = (
+			);
+			fileSystemSynchronizedGroups = (
+				7A7C00000000000000001006 /* WidgetsWatchComplications */,
+			);
+			name = WidgetsWatchComplications;
+			packageProductDependencies = (
+				7A7C0000000000000000100D /* Adhan */,
+			);
+			productName = WidgetsWatchComplications;
+			productReference = 7A7C00000000000000001002 /* WidgetsWatchComplications.appex */;
+			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
 
@@ -263,6 +344,9 @@
 						CreatedOnToolsVersion = 27.0;
 					};
 					7A7C00000000000000000005 = {
+						CreatedOnToolsVersion = 27.0;
+					};
+					7A7C00000000000000001005 = {
 						CreatedOnToolsVersion = 27.0;
 					};
 				};
@@ -288,6 +372,7 @@
 				5CF35A473078477A006458E2 /* Widgets */,
 				5CF35A5E3078477B006458E2 /* WidgetsExtension */,
 				7A7C00000000000000000005 /* WidgetsWatch */,
+				7A7C00000000000000001005 /* WidgetsWatchComplications */,
 			);
 		};
 /* End PBXProject section */
@@ -304,6 +389,11 @@
 			);
 		};
 		7A7C00000000000000000009 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			files = (
+			);
+		};
+		7A7C0000000000000000100A /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			files = (
 			);
@@ -326,6 +416,11 @@
 			files = (
 			);
 		};
+		7A7C0000000000000000100B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			files = (
+			);
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -339,6 +434,11 @@
 			platformFilter = ios;
 			target = 7A7C00000000000000000005 /* WidgetsWatch */;
 			targetProxy = 7A7C00000000000000000003 /* PBXContainerItemProxy */;
+		};
+		7A7C0000000000000000100F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 7A7C00000000000000001005 /* WidgetsWatchComplications */;
+			targetProxy = 7A7C00000000000000001003 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -698,6 +798,70 @@
 			};
 			name = Release;
 		};
+		7A7C00000000000000001010 /* Debug configuration for PBXNativeTarget "WidgetsWatchComplications" */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = WidgetsWatchComplications/WidgetsWatchComplications.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 3;
+				DEVELOPMENT_TEAM = ZN3Z5KRWM7;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = WidgetsWatchComplications/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "ويدجت";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.widgetar.app.watchkitapp.complications;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 11.0;
+			};
+			name = Debug;
+		};
+		7A7C00000000000000001011 /* Release configuration for PBXNativeTarget "WidgetsWatchComplications" */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = WidgetsWatchComplications/WidgetsWatchComplications.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 3;
+				DEVELOPMENT_TEAM = ZN3Z5KRWM7;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = WidgetsWatchComplications/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "ويدجت";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.widgetar.app.watchkitapp.complications;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 11.0;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -733,6 +897,14 @@
 			);
 			defaultConfigurationName = Release;
 		};
+		7A7C0000000000000000100E /* Build configuration list for PBXNativeTarget "WidgetsWatchComplications" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7A7C00000000000000001010 /* Debug configuration for PBXNativeTarget "WidgetsWatchComplications" */,
+				7A7C00000000000000001011 /* Release configuration for PBXNativeTarget "WidgetsWatchComplications" */,
+			);
+			defaultConfigurationName = Release;
+		};
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
@@ -758,6 +930,11 @@
 			productName = Adhan;
 		};
 		7A7C0000000000000000000C /* Adhan */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AD4A0001000000000000AD01 /* XCRemoteSwiftPackageReference "adhan-swift" */;
+			productName = Adhan;
+		};
+		7A7C0000000000000000100D /* Adhan */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = AD4A0001000000000000AD01 /* XCRemoteSwiftPackageReference "adhan-swift" */;
 			productName = Adhan;

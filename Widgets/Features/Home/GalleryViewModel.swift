@@ -26,7 +26,7 @@ struct InstalledWidget: Identifiable, Hashable {
             let n = families.filter(matching.contains).count
             if n > 0 { parts.append(n > 1 ? "\(size.title) ×\(DateHelper.arabic(n))" : size.title) }
         }
-        if families.contains(where: \.isLockScreen) { parts.append("قفل") }
+        if families.contains(where: \.isLockScreen) { parts.append(L10n.text("قفل")) }
         return parts.joined(separator: " · ")
     }
 }
@@ -45,6 +45,19 @@ final class GalleryViewModel {
         return nil
         #endif
     }()
+
+    var searchText = ""
+    private var matchingWidgets: [WidgetKind] {
+        let query = searchText.trimmingCharacters(in: .whitespacesAndNewlines)
+        return WidgetKind.allCases.filter { kind in
+            WidgetCategory.available.contains(kind.category)
+                && (selectedCategory == nil || kind.category == selectedCategory)
+                && (!showsInstalled || installed.contains { $0.kind == kind })
+                && (query.isEmpty || "\(kind.title) \(kind.subtitle) \(kind.category.title)".localizedStandardContains(query))
+        }
+    }
+
+    var hasResults: Bool { !matchingWidgets.isEmpty }
 
     /// «ودجاتي»: يعرض المضافة فقط
     var showsInstalled = false
@@ -73,17 +86,14 @@ final class GalleryViewModel {
 
     /// الأقسام اللي تظهر حسب الفلتر
     var visibleCategories: [WidgetCategory] {
-        if showsInstalled {
-            return WidgetCategory.available.filter { !installed(in: $0).isEmpty }
+        WidgetCategory.available.filter { category in
+            matchingWidgets.contains { $0.category == category }
         }
-        if let selectedCategory { return [selectedCategory] }
-        return WidgetCategory.available
     }
 
-    /// ودجات قسم معيّن، مقسومة لصغيرة (شبكة عمودين) وكبيرة (عرض كامل)
+    /// نتائج البحث والفلاتر في القسم، بحسب حجم المعاينة
     func widgets(in category: WidgetCategory) -> (small: [WidgetKind], wide: [WidgetKind]) {
-        let items = showsInstalled ? installed(in: category).map(\.kind)
-                                   : WidgetKind.allCases.filter { $0.category == category }
+        let items = matchingWidgets.filter { $0.category == category }
         return (items.filter { $0.previewSize == .small },
                 items.filter { $0.previewSize != .small })
     }

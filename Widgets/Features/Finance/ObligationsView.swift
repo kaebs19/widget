@@ -87,7 +87,7 @@ struct ObligationsView: View {
             Text("أضف إيجارك وأقساطك وفواتيرك")
                 .font(AppFont.uiBold(16))
                 .foregroundStyle(Theme.textPrimary)
-            Text("وتابع أقرب موعد من الشاشة الرئيسية، ويُخصم من مصروفك اليومي.")
+            Text("تابع مواعيدها من الشاشة الرئيسية، واحتسب قيمتها في تقدير ميزانيتك اليومية. التطبيق لا يسدّد الالتزامات أو يسحب أموالًا.")
                 .font(AppFont.ui(14))
                 .foregroundStyle(Theme.textSecondary)
                 .multilineTextAlignment(.center)

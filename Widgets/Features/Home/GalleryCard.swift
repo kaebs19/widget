@@ -17,32 +17,34 @@ struct GalleryCard: View {
     var body: some View {
         // NavigationLink(value:) مع navigationDestination أخف من NavigationLink(destination:)
         // لأن صفحة التفاصيل ما تنبني إلا لما المستخدم يضغط
-        NavigationLink(value: kind) {
-            VStack(spacing: 8) {
-                WidgetPreviewView(kind: kind, style: styles.style(for: kind))
-                    .aspectRatio(kind.previewSize.aspectRatio, contentMode: .fit)
-                    .cardStyle()
-                VStack(spacing: 1) {
-                    // العلامة بجانب الاسم حتى لا تغطي محتوى الودجت
-                    HStack(spacing: 4) {
-                        if installed != nil {
-                            Image(systemName: "checkmark.circle.fill")
-                                .font(.system(size: 12))
-                                .foregroundStyle(Theme.gold)
-                                .accessibilityLabel("مضاف لشاشتك")
+        VStack(spacing: 4) {
+            NavigationLink(value: kind) {
+                VStack(spacing: 8) {
+                    WidgetPreviewView(kind: kind, style: styles.style(for: kind))
+                        .aspectRatio(kind.previewSize.aspectRatio, contentMode: .fit)
+                        .cardStyle()
+                    VStack(spacing: 1) {
+                        // العلامة بجانب الاسم حتى لا تغطي محتوى الودجت
+                        HStack(spacing: 4) {
+                            if installed != nil {
+                                Image(systemName: "checkmark.circle.fill")
+                                    .font(.system(size: 12))
+                                    .foregroundStyle(Theme.gold)
+                                    .accessibilityLabel(L10n.text("مضاف لشاشتك"))
+                            }
+                            Text(kind.title)
                         }
-                        Text(kind.title)
-                    }
-                    .font(AppFont.ui(13))
-                    .foregroundStyle(Theme.textSecondary)
-                    if let installed {
-                        Text(installed.detail)
-                            .font(AppFont.ui(11))
-                            .foregroundStyle(Theme.gold)
+                        .font(AppFont.ui(13))
+                        .foregroundStyle(Theme.textSecondary)
+                        if let installed {
+                            Text(installed.detail)
+                                .font(AppFont.ui(11))
+                                .foregroundStyle(Theme.gold)
+                        }
                     }
                 }
             }
+            .buttonStyle(.plain)
         }
-        .buttonStyle(.plain)
     }
 }

@@ -61,6 +61,7 @@ struct ReminderPermissionView: View {
     private func requestAuthorization() async {
         _ = try? await UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound])
         await refresh()
+        await OccasionStore.scheduleReminders(for: OccasionStore.all())
         // الودجات المضافة تجدول تذكيراتها الآن بدل انتظار تحديثها القادم
         WidgetCenter.shared.reloadTimelines(ofKind: WidgetKind.specialOccasion.rawValue)
     }

@@ -75,6 +75,8 @@ nonisolated enum AppFontWeight: Int, CaseIterable, Comparable, Codable, Sendable
 /// عائلات الخطوط المضافة إلى المشروع. لإضافة عائلة جديدة: أضف ملفاتها إلى `UIAppFonts` في Info.plist ثم حالة هنا.
 nonisolated enum AppFontFamily: String, CaseIterable, Identifiable, Codable, Sendable {
     case cairo
+    case lateef
+    case ibmPlexArabic
     case tajawal
     case amiri
     case uthmanicHafs
@@ -85,6 +87,8 @@ nonisolated enum AppFontFamily: String, CaseIterable, Identifiable, Codable, Sen
 
     var displayName: String {
         switch self {
+        case .lateef: "لطيف"
+        case .ibmPlexArabic: "IBM Plex عربي"
         case .cairo: "القاهرة"
         case .tajawal: "تجوال"
         case .amiri: "أميري"
@@ -98,6 +102,8 @@ nonisolated enum AppFontFamily: String, CaseIterable, Identifiable, Codable, Sen
         switch self {
         case .cairo: [.extraLight, .light, .regular, .medium, .semibold, .bold, .extraBold, .black]
         case .tajawal: [.extraLight, .light, .regular, .medium, .bold, .extraBold, .black]
+        case .lateef: [.extraLight, .light, .regular, .medium, .semibold, .bold, .extraBold]
+        case .ibmPlexArabic: [.extraLight, .light, .regular, .medium, .semibold, .bold]
         case .amiri: [.regular, .bold]
         case .uthmanicHafs: [.regular]
         case .arefRuqaa: [.regular, .bold]
@@ -120,6 +126,10 @@ nonisolated enum AppFontFamily: String, CaseIterable, Identifiable, Codable, Sen
     func postScriptName(weight: AppFontWeight = .regular, italic: Bool = false) -> String {
         let weight = resolvedWeight(for: weight)
         switch self {
+        case .lateef:
+            return "Lateef-\(weight.postScriptSuffix)"
+        case .ibmPlexArabic:
+            return "IBMPlexSansArabic-\(weight.postScriptSuffix)"
         case .cairo:
             return "Cairo-\(weight.postScriptSuffix)"
         case .tajawal:

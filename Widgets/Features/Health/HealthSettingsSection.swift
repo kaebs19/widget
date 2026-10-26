@@ -15,21 +15,35 @@ struct HealthSettingsSection: View {
     @State private var snapshot = HealthCache.load()
     @State private var isLoading = false
     @State private var goals: [HealthMetric: Double] = Dictionary(
-        uniqueKeysWithValues: HealthMetric.allCases.map { ($0, $0.goal) })
+        uniqueKeysWithValues: HealthMetric.allCases.map { ($0, $0.baseGoal) })
+    @Environment(\.scenePhase) private var scenePhase
     @Environment(\.openURL) private var openURL
 
     var body: some View {
         VStack(spacing: 20) {
             connection
+            SettingsSection("متابعة صحتي") {
+                NavigationLink("أسبوعي الصحي") { HealthInsightsPage(mode: .weekly) }
+                NavigationLink("الاستمرارية وتقويم الإنجاز") { HealthInsightsPage(mode: .streak) }
+                NavigationLink("نومي هذا الأسبوع") { HealthMetricDetailView(metric: .sleep) }
+                NavigationLink("تماريني") { HealthInsightsPage(mode: .workouts) }
+                NavigationLink("ماء اليوم") { WaterTrackingView() }
+                NavigationLink("أهداف أيام الأسبوع") { WeeklyHealthGoalsView() }
+            }
             if connected { today }
+            HealthDisplayCustomization(onChange: onChange)
             goalsSection
         }
         .font(AppFont.ui(15))
         .foregroundStyle(Theme.textPrimary)
         .task { if connected { await refresh() } }
+        .onChange(of: scenePhase) { _, phase in
+            if phase == .active, connected { Task { await refresh() } }
+        }
     }
 
     private func refresh() async {
+        guard !isLoading else { return }
         isLoading = true
         snapshot = await HealthReader.refresh()
         isLoading = false
@@ -74,10 +88,10 @@ struct HealthSettingsSection: View {
                     .background(connected ? AnyShapeStyle(Theme.gold.opacity(0.12)) : AnyShapeStyle(Theme.gold),
                                 in: RoundedRectangle(cornerRadius: 14))
             }
-            .disabled(!HealthReader.isAvailable)
+            .disabled(!HealthReader.isAvailable || isLoading)
             Text(connected
-                 ? "إذا ظهرت الأرقام أصفاراً: افتح تطبيق الصحة ← ملفك ← التطبيقات ← ويدجت، وفعّل القراءة. والجهاز مقفل تعرض الودجات آخر قراءة."
-                 : "تظهر نافذة الصحة لتختار ما نقرأه: الخطوات والمسافة والسعرات والتمرين والطوابق والنوم. بياناتك تبقى على جهازك.")
+                 ? "إذا غابت القراءات: افتح تطبيق الصحة ← ملفك ← التطبيقات ← ويدجت، وفعّل القراءة. والجهاز مقفل تعرض الودجات آخر قراءة."
+                 : "تظهر نافذة الصحة لتختار ما نقرأه: الخطوات والمسافة والسعرات ودقائق التمرين والطوابق والنوم والتمارين المسجّلة. بياناتك تبقى على جهازك.")
                 .font(AppFont.ui(12))
                 .foregroundStyle(Theme.textSecondary)
         }
@@ -89,11 +103,16 @@ struct HealthSettingsSection: View {
             if let snapshot {
                 LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 12), count: 3), spacing: 14) {
                     ForEach(HealthMetric.allCases) { metric in
-                        tile(metric, snapshot)
+                        NavigationLink {
+                            HealthMetricDetailView(metric: metric)
+                        } label: { tile(metric, snapshot) }
+                        .buttonStyle(.plain)
                     }
                 }
+                Text("اضغط أي مؤشر لعرض تفاصيل اليوم والأسبوع والشهر.")
+                    .font(AppFont.ui(12)).foregroundStyle(Theme.textSecondary)
                 HStack {
-                    Text("آخر تحديث \(snapshot.date.formatted(date: .omitted, time: .shortened))")
+                    Text(HealthFormat.updateLabel(snapshot.date))
                         .font(AppFont.ui(12))
                         .foregroundStyle(Theme.textSecondary)
                     Spacer()
@@ -102,6 +121,7 @@ struct HealthSettingsSection: View {
                     } label: {
                         Label("تحديث", systemImage: "arrow.clockwise").font(AppFont.uiBold(13))
                     }
+                    .disabled(isLoading)
                 }
             } else {
                 Text("لا بيانات بعد. امشِ قليلاً أو تأكد من أذونات القراءة.")
@@ -117,18 +137,18 @@ struct HealthSettingsSection: View {
                 .font(AppFont.ui(11))
                 .foregroundStyle(Theme.textSecondary)
                 .labelStyle(TintedIconLabel(color: metric.color))
-            Text("\(metric.format(snapshot.value(metric))) \(metric.unit)")
+            Text(snapshot.hasData(metric) ? "\(snapshot.displayValue(metric)) \(metric.unit)" : snapshot.missingLabel(metric))
                 .font(AppFont.uiBold(15))
                 .lineLimit(1)
                 .minimumScaleFactor(0.6)
-            ProgressView(value: snapshot.progress(metric)).tint(metric.color)
+            if snapshot.hasData(metric) { ProgressView(value: snapshot.progress(metric)).tint(metric.color) }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
     }
 
     // MARK: الأهداف
     private var goalsSection: some View {
-        SettingsSection("الأهداف اليومية") {
+        SettingsSection("الأهداف اليومية الأساسية") {
             ForEach(HealthMetric.allCases) { metric in
                 let value = goals[metric] ?? metric.defaultGoal
                 HStack(spacing: 10) {

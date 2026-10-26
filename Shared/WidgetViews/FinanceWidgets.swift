@@ -183,7 +183,7 @@ struct BudgetWidget: View {
             VStack(alignment: .leading) {
                 header
                 Spacer()
-                Text("أدخل رصيدك من التطبيق، ونحسب لك مصروف كل يوم حتى الراتب")
+                Text("أدخل مبلغ ميزانيتك يدويًا من التطبيق لتقدير حصة كل يوم حتى الراتب")
                     .font(style.font(.label, 12))
                     .foregroundStyle(style.secondary)
                     .multilineTextAlignment(.center)
@@ -223,7 +223,7 @@ struct BudgetWidget: View {
 
     private func spendButton(_ amount: Int, compact: Bool = false) -> some View {
         Button(intent: SpendIntent(amount: amount)) {
-            Text(style.text("−\(DateHelper.arabic(amount))"))
+            Text(style.text("سجّل \(DateHelper.arabic(amount))"))
                 .font(style.font(.labelBold, compact ? 12 : 13))
                 .foregroundStyle(style.primary)
                 .frame(maxWidth: .infinity)
@@ -231,7 +231,7 @@ struct BudgetWidget: View {
                 .background(style.primary.opacity(0.12), in: Capsule())
         }
         .buttonStyle(.plain)
-        .accessibilityLabel("صرفت \(amount) ريال")
+        .accessibilityLabel("تسجيل مصروف يدوي بقيمة \(amount) ريال دون دفع فعلي")
     }
 
     private func small(_ status: BudgetStatus) -> some View {

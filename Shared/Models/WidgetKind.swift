@@ -10,7 +10,7 @@ import SwiftUI
 // MARK: - الأقسام
 // CaseIterable يعطيك allCases تلقائياً، فتبني شريط الأقسام بحلقة بدون ما تكتب كل قسم يدوياً.
 enum WidgetCategory: String, CaseIterable, Identifiable {
-    case prayer, religious, calendar, health, occasions, finance, sports
+    case prayer, religious, calendar, health, occasions, finance, weather, sports
 
     var id: String { rawValue }
 
@@ -26,13 +26,14 @@ enum WidgetCategory: String, CaseIterable, Identifiable {
 
     var title: String {
         switch self {
-        case .prayer:    "الصلاة"
-        case .religious: "ديني"
-        case .calendar:  "تقويم"
-        case .health:    "الصحة"
-        case .occasions: "مناسبات"
-        case .finance:   "المال والأعمال"
-        case .sports:    "رياضة"
+        case .prayer:    L10n.text("الصلاة")
+        case .religious: L10n.text("ديني")
+        case .calendar:  L10n.text("تقويم")
+        case .health:    L10n.text("الصحة")
+        case .occasions: L10n.text("مناسبات")
+        case .finance:   L10n.text("المال والأعمال")
+        case .weather: L10n.text("الطقس")
+        case .sports:    L10n.text("رياضة")
         }
     }
 
@@ -44,6 +45,7 @@ enum WidgetCategory: String, CaseIterable, Identifiable {
         case .health:    .system("heart")
         case .occasions: .asset(.iconCategoryOccasions)
         case .finance:   .system("banknote")
+        case .weather: .system("cloud.sun.fill")
         case .sports:    .asset(.iconCategorySports)
         }
     }
@@ -55,9 +57,9 @@ enum WidgetSize: String {
 
     var title: String {
         switch self {
-        case .small:  "صغير"
-        case .medium: "متوسط"
-        case .large:  "كبير"
+        case .small:  L10n.text("صغير")
+        case .medium: L10n.text("متوسط")
+        case .large:  L10n.text("كبير")
         }
     }
 
@@ -79,101 +81,126 @@ enum WidgetKind: String, CaseIterable, Identifiable {
     case prayerRing, prayerBar, prayerDay, prayerList
     case hijriDate, dayName
     case tearOff, dualDate, gregorianMonth, hijriMonth
-    case morningDhikr, dailyVerse, istighfar
+    case morningDhikr, eveningDhikr, dailyVerse, istighfar, quranGoal
+    case dailyOverview, subscriptions
     case ramadan, eid, nationalDay, foundingDay, specialOccasion
     case salary, citizenAccount, hafiz, retirement, socialSecurity, studentBonus, rehabilitation, paydays
     case obligations, budget
     case healthSteps, healthActivity, healthDashboard, healthSleep
+    case healthWeekly, healthStreak, healthSleepWeek, healthWater, healthWorkouts
+    case weather
     case nextMatch
 
     var id: String { rawValue }
 
     var title: String {
         switch self {
-        case .prayerRing:   "الصلاة القادمة"
-        case .prayerBar:    "العد التنازلي للصلاة"
-        case .prayerDay:    "أوقات اليوم"
-        case .prayerList:   "جدول الصلوات"
-        case .hijriDate:    "التاريخ الهجري"
-        case .dayName:      "اسم اليوم"
-        case .tearOff:      "ورقة التقويم"
-        case .dualDate:     "التاريخان"
-        case .gregorianMonth: "الشهر الميلادي"
-        case .hijriMonth:   "الشهر الهجري"
-        case .morningDhikr: "ذكر الصباح"
-        case .dailyVerse:   "آية اليوم"
-        case .istighfar:    "عداد الذكر"
-        case .ramadan:      "عداد رمضان"
-        case .eid:          "عداد العيد"
-        case .nationalDay:  "اليوم الوطني"
-        case .foundingDay:  "يوم التأسيس"
-        case .specialOccasion: "مناسبة خاصة"
-        case .salary:       "موعد الراتب"
-        case .citizenAccount: "حساب المواطن"
-        case .hafiz:        "حافز"
-        case .retirement:   "التقاعد"
-        case .socialSecurity: "الضمان المطور"
-        case .studentBonus: "مكافأة الجامعة"
-        case .rehabilitation: "التأهيل الشامل"
-        case .paydays:      "مواعيد الصرف"
-        case .obligations:  "التزاماتي"
-        case .budget:       "مصروف اليوم"
-        case .healthSteps:  "الخطوات"
-        case .healthActivity: "حلقات النشاط"
-        case .healthDashboard: "صحتي اليوم"
-        case .healthSleep:  "النوم"
-        case .nextMatch:    "المباراة القادمة"
+        case .prayerRing:   L10n.text("الصلاة القادمة")
+        case .prayerBar:    L10n.text("العد التنازلي للصلاة")
+        case .prayerDay:    L10n.text("أوقات اليوم")
+        case .prayerList:   L10n.text("جدول الصلوات")
+        case .hijriDate:    L10n.text("التاريخ الهجري")
+        case .dayName:      L10n.text("اسم اليوم")
+        case .tearOff:      L10n.text("ورقة التقويم")
+        case .dualDate:     L10n.text("التاريخان")
+        case .gregorianMonth: L10n.text("الشهر الميلادي")
+        case .hijriMonth:   L10n.text("الشهر الهجري")
+        case .dailyOverview: L10n.text("يومي")
+        case .subscriptions: L10n.text("اشتراكاتي")
+        case .quranGoal: L10n.text("ورد القرآن")
+        case .eveningDhikr: L10n.text("ذكر المساء")
+        case .morningDhikr: L10n.text("ذكر الصباح")
+        case .dailyVerse:   L10n.text("آية اليوم")
+        case .istighfar:    L10n.text("عداد الذكر")
+        case .ramadan:      L10n.text("عداد رمضان")
+        case .eid:          L10n.text("عداد العيد")
+        case .nationalDay:  L10n.text("اليوم الوطني")
+        case .foundingDay:  L10n.text("يوم التأسيس")
+        case .specialOccasion: L10n.text("مناسبة خاصة")
+        case .salary:       L10n.text("موعد الراتب")
+        case .citizenAccount: L10n.text("حساب المواطن")
+        case .hafiz:        L10n.text("حافز")
+        case .retirement:   L10n.text("التقاعد")
+        case .socialSecurity: L10n.text("الضمان المطور")
+        case .studentBonus: L10n.text("مكافأة الجامعة")
+        case .rehabilitation: L10n.text("التأهيل الشامل")
+        case .paydays:      L10n.text("مواعيد الصرف")
+        case .obligations:  L10n.text("التزاماتي")
+        case .budget:       L10n.text("مصروف اليوم")
+        case .healthWeekly: L10n.text("أسبوعي الصحي")
+        case .healthStreak: L10n.text("استمراريتي")
+        case .healthSleepWeek: L10n.text("نومي هذا الأسبوع")
+        case .healthWater: L10n.text("ماء اليوم")
+        case .healthWorkouts: L10n.text("تماريني")
+        case .healthSteps:  L10n.text("الخطوات")
+        case .healthActivity: L10n.text("حلقات النشاط")
+        case .healthDashboard: L10n.text("صحتي اليوم")
+        case .healthSleep:  L10n.text("النوم")
+        case .weather: L10n.text("الطقس والتوقعات")
+        case .nextMatch:    L10n.text("المباراة القادمة")
         }
     }
 
     var subtitle: String {
         switch self {
-        case .prayerRing:   "الصلاة القادمة والوقت المتبقي في حلقة"
-        case .prayerBar:    "الصلاة القادمة مع شريط الوقت"
-        case .prayerDay:    "الصلوات الخمس في صف واحد"
-        case .prayerList:   "قائمة الصلوات مع العد التنازلي"
-        case .hijriDate:    "التاريخ بتقويم أم القرى مع الميلادي"
-        case .dayName:      "اسم اليوم بخط عربي فخم"
-        case .tearOff:      "اسم اليوم ورقمه مثل ورقة التقويم"
-        case .dualDate:     "اليوم بالتاريخين الهجري والميلادي"
-        case .gregorianMonth: "أيام الشهر الميلادي واليوم مميّز"
-        case .hijriMonth:   "أيام الشهر الهجري بتقويم أم القرى"
-        case .morningDhikr: "أذكار الصباح من حصن المسلم"
-        case .dailyVerse:   "آية جديدة كل يوم بالرسم العثماني"
-        case .istighfar:    "استغفار وتسبيح وتهليل وصلاة على النبي ﷺ، تعدّها بالضغط من الشاشة"
-        case .ramadan:      "كم يوم باقي على رمضان"
-        case .eid:          "كم يوم باقي على أقرب عيد"
-        case .nationalDay:  "العد التنازلي لـ ٢٣ سبتمبر"
-        case .foundingDay:  "العد التنازلي لـ ٢٢ فبراير"
-        case .specialOccasion: "اختر اسم مناسبتك وتاريخها من «تعديل الودجت»"
-        case .salary:       "كم يوم باقي على الراتب، حكومي أو خاص"
-        case .citizenAccount: "موعد إيداع دعم حساب المواطن"
-        case .hafiz:        "موعد صرف حافز"
-        case .retirement:   "موعد صرف معاش التقاعد"
-        case .socialSecurity: "موعد إيداع الضمان الاجتماعي المطور"
-        case .studentBonus: "موعد صرف مكافأة طلاب الجامعات"
-        case .rehabilitation: "موعد صرف إعانة التأهيل الشامل"
-        case .paydays:      "الراتب وحساب المواطن وحافز والتقاعد في مكان واحد"
-        case .obligations:  "الإيجار والأقساط والفواتير بمواعيدها"
-        case .budget:       "كم تصرف كل يوم حتى الراتب، وسجّل مصروفك من الشاشة"
-        case .healthSteps:  "خطوات اليوم مقابل هدفك، وأسبوعك في رسم"
-        case .healthActivity: "السعرات والتمرين والخطوات في ثلاث حلقات"
-        case .healthDashboard: "الخطوات والمسافة والسعرات والتمرين والطوابق والنوم"
-        case .healthSleep:  "ساعات نوم الليلة مقابل هدفك"
-        case .nextMatch:    "موعد مباراة فريقك القادمة"
+        case .prayerRing:   L10n.text("الصلاة القادمة والوقت المتبقي في حلقة")
+        case .prayerBar:    L10n.text("الصلاة القادمة مع شريط الوقت")
+        case .prayerDay:    L10n.text("الصلوات الخمس في صف واحد")
+        case .prayerList:   L10n.text("قائمة الصلوات مع العد التنازلي")
+        case .hijriDate:    L10n.text("التاريخ بتقويم أم القرى مع الميلادي")
+        case .dayName:      L10n.text("اسم اليوم بخط عربي فخم")
+        case .tearOff:      L10n.text("اسم اليوم ورقمه مثل ورقة التقويم")
+        case .dualDate:     L10n.text("اليوم بالتاريخين الهجري والميلادي")
+        case .gregorianMonth: L10n.text("أيام الشهر الميلادي واليوم مميّز")
+        case .hijriMonth:   L10n.text("أيام الشهر الهجري بتقويم أم القرى")
+        case .dailyOverview: L10n.text("التاريخ والصلاة القادمة وأقرب مناسبة في مكان واحد")
+        case .subscriptions: L10n.text("تجديد الاشتراكات وتكلفتها الشهرية بالريال السعودي")
+        case .quranGoal: L10n.text("هدفك اليومي من صفحات القرآن، وسجّل إنجازك من الشاشة")
+        case .eveningDhikr: L10n.text("أذكار المساء من حصن المسلم")
+        case .morningDhikr: L10n.text("أذكار الصباح من حصن المسلم")
+        case .dailyVerse:   L10n.text("آية جديدة كل يوم بالرسم العثماني")
+        case .istighfar:    L10n.text("استغفار وتسبيح وتهليل وصلاة على النبي ﷺ، تعدّها بالضغط من الشاشة")
+        case .ramadan:      L10n.text("كم يوم باقي على رمضان")
+        case .eid:          L10n.text("كم يوم باقي على أقرب عيد")
+        case .nationalDay:  L10n.text("العد التنازلي لـ ٢٣ سبتمبر")
+        case .foundingDay:  L10n.text("العد التنازلي لـ ٢٢ فبراير")
+        case .specialOccasion: L10n.text("اختر اسم مناسبتك وتاريخها من «تعديل الودجت»")
+        case .salary:       L10n.text("كم يوم باقي على الراتب، حكومي أو خاص")
+        case .citizenAccount: L10n.text("موعد إيداع دعم حساب المواطن")
+        case .hafiz:        L10n.text("موعد صرف حافز")
+        case .retirement:   L10n.text("موعد صرف معاش التقاعد")
+        case .socialSecurity: L10n.text("موعد إيداع الضمان الاجتماعي المطور")
+        case .studentBonus: L10n.text("موعد صرف مكافأة طلاب الجامعات")
+        case .rehabilitation: L10n.text("موعد صرف إعانة التأهيل الشامل")
+        case .paydays:      L10n.text("الراتب وحساب المواطن وحافز والتقاعد في مكان واحد")
+        case .obligations:  L10n.text("الإيجار والأقساط والفواتير بمواعيدها")
+        case .budget:       L10n.text("ميزانية تقديرية حتى الراتب وتسجيل مصروف يدوي؛ دون ربط بنكي أو دفع فعلي")
+        case .healthWeekly: L10n.text("متوسط الخطوات ودقائق التمرين وأيام تحقيق الهدف في آخر ٧ أيام")
+        case .healthStreak: L10n.text("سلسلة تحقيق هدف الخطوات وتقويم إنجاز آخر ٣٠ يومًا")
+        case .healthSleepWeek: L10n.text("نوم كل ليلة ومتوسط آخر ٧ أيام حسب القراءات المتاحة")
+        case .healthWater: L10n.text("هدف ماء تحدده بنفسك، وسجّل كوبًا أو تراجع عنه من الشاشة")
+        case .healthWorkouts: L10n.text("آخر تمرين ومدته وإجمالي التمارين الأسبوعية من تطبيق الصحة")
+        case .healthSteps:  L10n.text("خطوات اليوم مقابل هدفك، وأسبوعك في رسم")
+        case .healthActivity: L10n.text("السعرات والتمرين والخطوات في ثلاث حلقات")
+        case .healthDashboard: L10n.text("الخطوات والمسافة والسعرات والتمرين والطوابق والنوم")
+        case .healthSleep:  L10n.text("ساعات نوم الليلة مقابل هدفك")
+        case .weather: L10n.text("الطقس الآن وتوقعات الساعات والأيام لمدينتك")
+        case .nextMatch:    L10n.text("موعد مباراة فريقك القادمة")
         }
     }
 
     var category: WidgetCategory {
         switch self {
         case .prayerRing, .prayerBar, .prayerDay, .prayerList: .prayer
-        case .hijriDate, .dayName, .tearOff, .dualDate,
+        case .dailyOverview, .hijriDate, .dayName, .tearOff, .dualDate,
              .gregorianMonth, .hijriMonth:             .calendar
-        case .morningDhikr, .dailyVerse, .istighfar:   .religious
+        case .morningDhikr, .eveningDhikr, .quranGoal, .dailyVerse, .istighfar:   .religious
         case .ramadan, .eid, .nationalDay, .foundingDay, .specialOccasion: .occasions
         case .salary, .citizenAccount, .hafiz, .retirement, .socialSecurity, .studentBonus,
-             .rehabilitation, .paydays, .obligations, .budget: .finance
-        case .healthSteps, .healthActivity, .healthDashboard, .healthSleep: .health
+             .rehabilitation, .paydays, .subscriptions, .obligations, .budget: .finance
+        case .healthSteps, .healthActivity, .healthDashboard, .healthSleep,
+             .healthWeekly, .healthStreak, .healthSleepWeek, .healthWater, .healthWorkouts: .health
+        case .weather: .weather
         case .nextMatch:                               .sports
         }
     }
@@ -184,7 +211,7 @@ enum WidgetKind: String, CaseIterable, Identifiable {
         case .istighfar, .ramadan, .eid, .foundingDay, .tearOff, .dualDate,
              .prayerRing, .prayerBar, .citizenAccount, .hafiz, .retirement,
              .socialSecurity, .studentBonus, .rehabilitation,
-             .healthSteps, .healthActivity, .healthSleep: .small
+             .healthSteps, .healthActivity, .healthSleep, .healthWater: .small
         case .dailyVerse:                              .large
         default:                                       .medium
         }
@@ -203,6 +230,7 @@ enum WidgetKind: String, CaseIterable, Identifiable {
     /// كل الأحجام المتاحة لهذا الودجت
     var supportedSizes: [WidgetSize] {
         switch self {
+        case .weather: [.small, .medium, .large]
         case .istighfar, .ramadan, .eid, .foundingDay, .tearOff, .dualDate,
              .prayerRing, .prayerBar: [.small]
         case .gregorianMonth, .hijriMonth, .prayerDay: [.medium]
@@ -212,7 +240,9 @@ enum WidgetKind: String, CaseIterable, Identifiable {
         case .obligations:                             [.small, .medium, .large]
         case .healthDashboard:                         [.medium, .large]
         case .healthSleep:                             [.small]
-        case .specialOccasion:                         [.medium]
+        case .healthWeekly, .healthStreak, .healthSleepWeek, .healthWorkouts: [.medium]
+        case .specialOccasion, .dailyOverview, .subscriptions: [.medium]
+        case .quranGoal: [.small, .medium]
         default:                                       [.small, .medium]
         }
     }

@@ -8,9 +8,27 @@
 import SwiftUI
 
 struct HomeView: View {
+    @AppStorage(AppLanguage.preferenceKey, store: AppGroup.defaults) private var language = AppLanguage.system
     @State private var viewModel = GalleryViewModel()
+    @State private var navigationPath: [WidgetKind] = {
+        #if DEBUG
+        // فتح معاينة محددة في فحوص الواجهة ولقطات التطوير فقط.
+        if let raw = UserDefaults.standard.string(forKey: "screenshotWidget"),
+           let kind = WidgetKind(rawValue: raw) { return [kind] }
+        #endif
+        return []
+    }()
+    @State private var healthRoute: HealthRoute? = {
+        #if DEBUG
+        if let metric = UserDefaults.standard.string(forKey: "screenshotHealthMetric"),
+           let url = URL(string: "widgetar://health/" + metric) { return HealthRoute(url: url) }
+        #endif
+        return nil
+    }()
     @State private var showHowTo = false
     @State private var showSettings = false
+    @State private var showsSearch = false
+    @FocusState private var searchFocused: Bool
     /// يتغيّر بعد إغلاق الإعدادات فتُرسم المعاينات من جديد (الموقع، التقويم، الشكل الافتراضي)
     @State private var refresh = 0
     @Environment(WidgetStyleStore.self) private var styleStore
@@ -32,7 +50,7 @@ struct HomeView: View {
     }
 
     var body: some View {
-        NavigationStack {
+        NavigationStack(path: $navigationPath) {
             ScrollView {
                 VStack(alignment: .leading, spacing: 28) {
                     CategoryBar(selected: viewModel.selectedCategory,
@@ -41,6 +59,14 @@ struct HomeView: View {
 
                     if viewModel.showsInstalled {
                         installedHeader
+                    }
+
+                    if !viewModel.hasResults {
+                        ContentUnavailableView {
+                            Label(L10n.text("لا توجد نتائج"), systemImage: "magnifyingglass")
+                        } description: {
+                            Text(L10n.text("جرّب كلمة أخرى أو اختر قسمًا مختلفًا."))
+                        }
                     }
 
                     ForEach(Array(viewModel.visibleCategories.enumerated()), id: \.element) { index, category in
@@ -59,27 +85,44 @@ struct HomeView: View {
                 // على الشاشات العريضة جداً لا تتمدد البطاقات بلا حد
                 .frame(maxWidth: 1200)
                 .frame(maxWidth: .infinity)
-                .id(refresh)
+                .id("\(refresh)|\(language.rawValue)")
             }
             .background(Theme.background.ignoresSafeArea())
-            .navigationTitle("ويدجت")
+            .navigationTitle(L10n.text("ويدجت"))
+            .safeAreaInset(edge: .top, spacing: 0) {
+                if showsSearch { searchBar }
+            }
             .toolbar {
                 // الإعدادات و«ودجاتي» في الجهة المقابلة لزر طريقة الإضافة
                 ToolbarItemGroup(placement: .topBarTrailing) {
-                    Button { showSettings = true } label: {
-                        Image(systemName: "gearshape")
+                    Button {
+                        showsSearch.toggle()
+                        searchFocused = showsSearch
+                        if !showsSearch { viewModel.searchText = "" }
+                    } label: {
+                        Image(systemName: "magnifyingglass")
                     }
-                    .accessibilityLabel("الإعدادات")
+                    .accessibilityLabel(L10n.text("ابحث عن ودجت"))
+                    .accessibilityValue(showsSearch ? L10n.text("مفتوح") : L10n.text("مغلق"))
                     Button { viewModel.toggleInstalled() } label: {
                         Image(systemName: viewModel.showsInstalled ? "square.stack.3d.up.fill" : "square.stack.3d.up")
                     }
-                    .accessibilityLabel("ودجاتي")
+                    .accessibilityLabel(L10n.text("ودجاتي"))
+                }
+                if #available(iOS 26.0, *) {
+                    ToolbarSpacer(.fixed, placement: .topBarTrailing)
+                }
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button { showSettings = true } label: {
+                        Image(systemName: "gearshape")
+                    }
+                    .accessibilityLabel(L10n.text("الإعدادات"))
                 }
                 ToolbarItem(placement: .topBarLeading) {
                     Button { showHowTo = true } label: {
                         Image(systemName: "questionmark.circle")
                     }
-                    .accessibilityLabel("طريقة الإضافة")
+                    .accessibilityLabel(L10n.text("طريقة الإضافة"))
                 }
             }
             .navigationDestination(for: WidgetKind.self) { kind in
@@ -88,11 +131,68 @@ struct HomeView: View {
             // النظام لا يخبرنا عند إضافة ودجت، فنقرأ القائمة عند كل عودة للتطبيق
             .task { await viewModel.loadInstalled() }
             .onChange(of: scenePhase) { _, phase in
-                if phase == .active { Task { await viewModel.loadInstalled() } }
+                if phase == .active { refresh += 1; Task { await viewModel.loadInstalled() } }
+            }
+            .onOpenURL { url in
+                if url.scheme == "widgetar", url.host == "weather" {
+                    navigationPath = [.weather]
+                    return
+                }
+                guard let route = HealthRoute(url: url) else { return }
+                healthRoute = route
+            }
+            .sheet(item: $healthRoute) { route in
+                NavigationStack {
+                    Group {
+                        if let metric = route.metric { HealthMetricDetailView(metric: metric) }
+                        else if route.page == "water" { WaterTrackingView() }
+                        else if route.page == "weekly" { HealthInsightsPage(mode: .weekly) }
+                        else if route.page == "streak" { HealthInsightsPage(mode: .streak) }
+                        else if route.page == "workouts" { HealthInsightsPage(mode: .workouts) }
+                        else { HealthSettingsPage() }
+                    }
+                    .toolbar {
+                        ToolbarItem(placement: .cancellationAction) { Button(L10n.text("إغلاق")) { healthRoute = nil } }
+                    }
+                }
+                .appAppearance()
             }
             .sheet(isPresented: $showHowTo) { HowToAddView().appAppearance() }
             .fullScreenCover(isPresented: $showSettings, onDismiss: { refresh += 1 }) { SettingsView().environment(styleStore).appAppearance() }
         }
+    }
+
+    private var searchBar: some View {
+        HStack(spacing: 10) {
+            HStack(spacing: 10) {
+                Image(systemName: "magnifyingglass")
+                    .foregroundStyle(Theme.textSecondary)
+                TextField(L10n.text("ابحث عن ودجت"), text: $viewModel.searchText)
+                    .focused($searchFocused)
+                    .submitLabel(.search)
+                    .autocorrectionDisabled()
+                    .onSubmit { searchFocused = false }
+                if !viewModel.searchText.isEmpty {
+                    Button { viewModel.searchText = "" } label: {
+                        Image(systemName: "xmark.circle.fill")
+                            .foregroundStyle(Theme.textSecondary)
+                    }
+                    .accessibilityLabel(L10n.text("مسح البحث"))
+                }
+            }
+            .padding(12)
+            .background(Theme.cardTop, in: RoundedRectangle(cornerRadius: 14))
+            Button(L10n.text("إلغاء")) {
+                searchFocused = false
+                showsSearch = false
+                viewModel.searchText = ""
+            }
+        }
+        .font(AppFont.ui(15))
+        .padding(.horizontal, 16)
+        .padding(.vertical, 8)
+        .background(Theme.background)
+        .onAppear { searchFocused = true }
     }
 
     /// عنوان «ودجاتي»، أو شرح الإضافة إذا لم يُضف شيء بعد
@@ -101,26 +201,26 @@ struct HomeView: View {
         let count = viewModel.installedCount
         VStack(alignment: .leading, spacing: 10) {
             HStack(alignment: .firstTextBaseline) {
-                Text("ودجاتي")
+                Text(L10n.text("ودجاتي"))
                     .font(AppFont.uiBold(22))
                     .foregroundStyle(Theme.textPrimary)
                 if count > 0 {
-                    Text("\(DateHelper.arabic(count)) ودجت")
+                    Text(L10n.widgetCount(count))
                         .font(AppFont.ui(13))
                         .foregroundStyle(Theme.textSecondary)
                 }
                 Spacer()
-                Button("كل الودجات") { viewModel.toggleInstalled() }
+                Button(L10n.text("كل الودجات")) { viewModel.toggleInstalled() }
                     .font(AppFont.uiBold(14))
             }
             Text(count > 0
-                 ? "الودجات التي أضفتها لشاشتك الرئيسية وشاشة القفل. اضغط أي ودجت لتخصيصه."
-                 : "ما أضفت أي ودجت لشاشتك بعد. اختر ودجت من المعرض ثم أضفه من الشاشة الرئيسية.")
+                 ? L10n.text("الودجات التي أضفتها لشاشتك الرئيسية وشاشة القفل. اضغط أي ودجت لتخصيصه.")
+                 : L10n.text("ما أضفت أي ودجت لشاشتك بعد. اختر ودجت من المعرض ثم أضفه من الشاشة الرئيسية."))
                 .font(AppFont.ui(13))
                 .foregroundStyle(Theme.textSecondary)
             if count == 0 {
                 Button { showHowTo = true } label: {
-                    Label("طريقة الإضافة", systemImage: "questionmark.circle")
+                    Label(L10n.text("طريقة الإضافة"), systemImage: "questionmark.circle")
                         .font(AppFont.uiBold(15))
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 12)
@@ -153,7 +253,7 @@ struct HomeView: View {
                     Text(category.title)
                         .font(AppFont.uiBold(20))
                         .foregroundStyle(Theme.textPrimary)
-                    Text("\(DateHelper.arabic(widgets.small.count + widgets.wide.count)) ودجت")
+                    Text(L10n.widgetCount(widgets.small.count + widgets.wide.count))
                         .font(AppFont.ui(12))
                         .foregroundStyle(Theme.textSecondary)
                 }

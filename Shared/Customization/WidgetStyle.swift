@@ -22,6 +22,13 @@ nonisolated struct WidgetStyle: Codable, Hashable, Sendable {
     var titleFont: AppFontFamily = .arefRuqaa
     var fontWeight: AppFontWeight = .regular
     var fontScale: Double = 1
+    /// nil يحافظ على سلوك الأنماط القديمة، حتى يخصص المستخدم الدور بنفسه.
+    var labelWeight: AppFontWeight?
+    var titleWeight: AppFontWeight?
+    var numberWeight: AppFontWeight?
+    var labelScale: Double?
+    var titleScale: Double?
+    var numberScale: Double?
     var numberFont: NumberFont = .rounded
     /// يبدأ بشكل الأرقام العام من الإعدادات، ويقدر المستخدم يخالفه لودجت معيّن
     var numerals: Numerals = AppSettings.numerals
@@ -48,6 +55,12 @@ nonisolated struct WidgetStyle: Codable, Hashable, Sendable {
         titleFont = value(.titleFont, fallback.titleFont)
         fontWeight = value(.fontWeight, fallback.fontWeight)
         fontScale = value(.fontScale, fallback.fontScale)
+        labelWeight = value(.labelWeight, fallback.labelWeight)
+        titleWeight = value(.titleWeight, fallback.titleWeight)
+        numberWeight = value(.numberWeight, fallback.numberWeight)
+        labelScale = value(.labelScale, fallback.labelScale)
+        titleScale = value(.titleScale, fallback.titleScale)
+        numberScale = value(.numberScale, fallback.numberScale)
         numberFont = value(.numberFont, fallback.numberFont)
         numerals = value(.numerals, fallback.numerals)
         usesCalligraphy = value(.usesCalligraphy, fallback.usesCalligraphy)
@@ -81,15 +94,15 @@ nonisolated struct WidgetStyle: Codable, Hashable, Sendable {
     func font(_ role: WidgetFontRole, _ size: CGFloat) -> Font {
         let scale = CGFloat(fontScale)
         // العناوين الصغيرة تكبر بنصف المقدار حتى لا تزاحم المحتوى
-        let labelSize = size * (1 + (scale - 1) / 2)
+        let labelSize = size * CGFloat(labelScale ?? (1 + (fontScale - 1) / 2))
         let contentSize = size * scale
         switch role {
-        case .label:     return .app(labelFont, size: labelSize, weight: .medium)
-        case .labelBold: return .app(labelFont, size: labelSize, weight: .bold)
+        case .label:     return .app(labelFont, size: labelSize, weight: labelWeight ?? .medium)
+        case .labelBold: return .app(labelFont, size: labelSize, weight: labelWeight.map { $0.shifted(by: 2) } ?? .bold)
         case .text:      return .app(contentFont, size: contentSize, weight: fontWeight)
         case .textBold:  return .app(contentFont, size: contentSize, weight: fontWeight.shifted(by: 3))
-        case .title:     return .app(titleFont, size: contentSize, weight: fontWeight.shifted(by: 3))
-        case .number:    return numberFont.font(size: contentSize, weight: fontWeight.shifted(by: 4), family: contentFont)
+        case .title:     return .app(titleFont, size: size * CGFloat(titleScale ?? fontScale), weight: titleWeight ?? fontWeight.shifted(by: 3))
+        case .number:    return numberFont.font(size: size * CGFloat(numberScale ?? fontScale), weight: numberWeight ?? fontWeight.shifted(by: 4), family: contentFont)
         case .quran:     return .app(.uthmanicHafs, size: contentSize)
         }
     }
@@ -170,14 +183,16 @@ nonisolated enum NumberFont: String, Codable, CaseIterable, Identifiable, Sendab
 // MARK: - خيارات الواجهة
 extension AppFontFamily {
     /// الخطوط المتاحة للمستخدم (خط المصحف خاص بالآيات)
-    nonisolated static let customizable: [AppFontFamily] = [.amiri, .cairo, .tajawal]
+    nonisolated static let customizable: [AppFontFamily] = [.amiri, .cairo, .tajawal, .lateef, .ibmPlexArabic, .arefRuqaa]
     /// خطوط أسماء المناسبات: الرقعة أولاً ثم خطوط النص
-    nonisolated static let titleChoices: [AppFontFamily] = [.arefRuqaa] + customizable
+    nonisolated static let titleChoices: [AppFontFamily] = [.arefRuqaa] + customizable.filter { $0 != .arefRuqaa }
 
     /// المساحة التي يحتاجها الخط مقارنة بـ Amiri، مقاسة على أذكار الصباح والمساء
     nonisolated var spaceFactor: Double {
         switch self {
         case .amiri, .uthmanicHafs, .arefRuqaa: 1
+        case .lateef: 1.1
+        case .ibmPlexArabic: 1.28
         case .cairo: 1.28
         case .tajawal: 0.82
         }
@@ -185,7 +200,7 @@ extension AppFontFamily {
 }
 
 extension AppFontWeight {
-    nonisolated static let customizable: [AppFontWeight] = [.light, .regular, .medium, .bold, .black]
+    nonisolated static let customizable: [AppFontWeight] = allCases
 
     var title: String {
         switch self {

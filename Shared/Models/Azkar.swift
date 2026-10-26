@@ -21,6 +21,7 @@ nonisolated struct ZikrGroup: Identifiable, Hashable, Sendable, Decodable {
     }
 
     static let morningID: ID = 1
+    static let eveningID: ID = 2
 }
 
 nonisolated struct Zikr: Identifiable, Hashable, Sendable, Decodable {

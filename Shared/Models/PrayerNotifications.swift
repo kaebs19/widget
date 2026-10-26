@@ -19,7 +19,7 @@ nonisolated enum PrayerNotifications {
         static let afterAdhkar = "prayer.notify.afterAdhkar"
     }
 
-    /// تذكير بأذكار بعد الصلاة، بعد الأذان بربع ساعة تقريباً (بعد انقضاء الصلاة)
+    /// تذكير بأذكار بعد الصلاة، بعد الأذان بعشرين دقيقة
     static var afterAdhkar: Bool { AppGroup.defaults.bool(forKey: Key.afterAdhkar) }
     private static let afterAdhkarDelay: TimeInterval = 20 * 60
 
@@ -64,7 +64,8 @@ nonisolated enum PrayerNotifications {
                     if fire > now {
                         let zikr = adhkar[(offset * 5 + index) % adhkar.count]
                         let content = UNMutableNotificationContent()
-                        content.title = "أذكار بعد صلاة \(prayer.title)"
+                        content.title = PrayerNotificationText.adhkarTitle(prayer: prayer.title)
+                        content.threadIdentifier = "prayer.adhkar"
                         content.body = zikr.text
                         content.sound = .default
                         await add(content, at: fire, id: "\(prefix)after.\(prayer.rawValue).\(Int(fire.timeIntervalSince1970))",
@@ -75,12 +76,11 @@ nonisolated enum PrayerNotifications {
                 let fire = time.addingTimeInterval(Double(-before * 60))
                 guard fire > now else { continue }
                 let content = UNMutableNotificationContent()
-                if before == 0 {
-                    content.title = "حان الآن وقت صلاة \(prayer.title)"
-                } else {
-                    content.title = "بقي \(DateHelper.arabic(before)) دقيقة على صلاة \(prayer.title)"
-                }
-                content.body = "\(day.location.city) · \(PrayerSchedule.format(time))"
+                let message = PrayerNotificationText.adhan(prayer: prayer.title, city: day.location.city,
+                                                          minutesBefore: before)
+                content.title = message.title
+                content.body = message.body
+                content.threadIdentifier = "prayer.adhan"
                 content.sound = .default
                 content.interruptionLevel = .timeSensitive
                 await add(content, at: fire, id: "\(prefix)\(prayer.rawValue).\(Int(fire.timeIntervalSince1970))",

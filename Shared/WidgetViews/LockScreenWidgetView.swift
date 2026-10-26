@@ -15,7 +15,7 @@ extension WidgetKind {
         switch self {
         case .hijriDate:                     [.accessoryRectangular, .accessoryInline, .accessoryCircular]
         case .dayName:                       [.accessoryRectangular, .accessoryInline, .accessoryCircular]
-        case .morningDhikr:                  [.accessoryRectangular]
+        case .morningDhikr, .eveningDhikr:                  [.accessoryRectangular]
         case .ramadan, .eid, .nationalDay, .foundingDay:
                                              [.accessoryCircular, .accessoryRectangular, .accessoryInline]
         case .istighfar:                     [.accessoryCircular, .accessoryRectangular]
@@ -78,7 +78,7 @@ struct LockScreenWidgetView: View {
             dayNameCircular
         case (.dayName, _):
             dayNameRectangular
-        case (.morningDhikr, _):
+        case (.morningDhikr, _), (.eveningDhikr, _):
             dhikrRectangular
         case (.prayerRing, _), (.prayerBar, _), (.prayerList, _), (.prayerDay, _):
             PrayerLockView(kind: kind, date: date, family: family, style: style)
@@ -152,10 +152,10 @@ struct LockScreenWidgetView: View {
     // التصميم ٢٤
     @ViewBuilder
     private var dhikrRectangular: some View {
-        if let zikr = AzkarLibrary.bundled.rotatingZikr(in: ZikrGroup.morningID, at: date,
+        if let zikr = AzkarLibrary.bundled.rotatingZikr(in: kind == .eveningDhikr ? ZikrGroup.eveningID : ZikrGroup.morningID, at: date,
                                                          maxLetters: Self.dhikrMaxLetters) {
             VStack(alignment: .leading, spacing: 0) {
-                Label("ذكر الصباح", systemImage: "sun.max")
+                Label(kind == .eveningDhikr ? "ذكر المساء" : "ذكر الصباح", systemImage: kind == .eveningDhikr ? "moon.stars" : "sun.max")
                     .font(style.font(.label, 11))
                     .foregroundStyle(.secondary)
                 Text(zikr.text)

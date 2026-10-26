@@ -26,12 +26,12 @@ struct WidgetCustomizeView: View {
 
     var body: some View {
         VStack(spacing: 20) {
+            if kind.supportsCalligraphy { calligraphySection }
+            fontSection
             savedStylesSection
             backgroundSection
             colorsSection
-            fontSection
             numbersSection
-            if kind.supportsCalligraphy { calligraphySection }
             actions
         }
         .confirmationDialog("تطبيق هذا الشكل على كل الودجات؟", isPresented: $showApplyToAll,
@@ -168,38 +168,7 @@ struct WidgetCustomizeView: View {
 
     // MARK: الخط
     private var fontSection: some View {
-        SettingsSection("الخط") {
-            SettingRow("خط النص") {
-                ChoiceChips(options: AppFontFamily.customizable, selection: $style.contentFont) { family in
-                    Text(family.displayName).font(.app(family, size: 16))
-                }
-            }
-            SettingRow("خط العناوين") {
-                ChoiceChips(options: AppFontFamily.customizable, selection: $style.labelFont) { family in
-                    Text(family.displayName).font(.app(family, size: 16))
-                }
-            }
-            if kind.category == .occasions {
-                SettingRow("خط اسم المناسبة") {
-                    ChoiceChips(options: AppFontFamily.titleChoices, selection: $style.titleFont) { family in
-                        Text(family.displayName).font(.app(family, size: 16))
-                    }
-                }
-            }
-            SettingRow("وزن الخط") {
-                ChoiceChips(options: AppFontWeight.customizable, selection: $style.fontWeight) { weight in
-                    Text(weight.title).font(.app(style.contentFont, size: 15, weight: weight))
-                }
-            }
-            SettingRow("حجم الخط", detail: "\(DateHelper.arabic(Int((style.fontScale * 100).rounded())))٪") {
-                HStack(spacing: 12) {
-                    Text("أ").font(AppFont.ui(13))
-                    Slider(value: $style.fontScale, in: WidgetStyle.fontScaleRange, step: 0.05)
-                    Text("أ").font(AppFont.ui(20))
-                }
-                .foregroundStyle(Theme.textSecondary)
-            }
-        }
+        TypographySettingsSection(style: $style, isQuran: kind == .dailyVerse)
     }
 
     // MARK: الأرقام
@@ -209,15 +178,7 @@ struct WidgetCustomizeView: View {
                 ForEach(Numerals.allCases) { Text($0.title).tag($0) }
             }
             .pickerStyle(.segmented)
-            SettingRow("خط الأرقام") {
-                ChoiceChips(options: NumberFont.allCases, selection: $style.numberFont) { font in
-                    HStack(spacing: 6) {
-                        Text(style.numerals.apply("١٢٣"))
-                            .font(font.font(size: 15, weight: .bold, family: style.contentFont))
-                        Text(font.title).font(AppFont.ui(13))
-                    }
-                }
-            }
+
         }
     }
 

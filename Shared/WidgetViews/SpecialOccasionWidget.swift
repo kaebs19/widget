@@ -18,11 +18,12 @@ struct SpecialOccasionWidget: View {
     var date: Date = .now
     /// نوع المناسبة المحفوظة في التطبيق: يحدد الأيقونة والعنوان، ويُحسب العمر للميلاد
     var type: OccasionType? = nil
+    var calendarType: OccasionCalendar = .gregorian
     @Environment(\.widgetStyle) private var style
 
     /// موعد المناسبة القادم (لو تتكرر سنوياً ومضت، ننتقل للسنة القادمة)
     private var target: Date? {
-        occasionDate.map { DateHelper.nextOccurrence(of: $0, repeatsYearly: repeatsYearly, from: date) }
+        occasionDate.map { calendarType.nextDate(for: $0, repeats: repeatsYearly, from: date) }
     }
 
     var body: some View {
@@ -56,7 +57,7 @@ struct SpecialOccasionWidget: View {
     /// «يكمل ٣٠ سنة» للميلاد، «الذكرى ١٠» للزواج
     private var yearsLabel: String? {
         guard let type, type.countsYears, repeatsYearly, let occasionDate, let target else { return nil }
-        let calendar = DateHelper.gregorian
+        let calendar = calendarType.calendar
         let years = calendar.component(.year, from: target) - calendar.component(.year, from: occasionDate)
         guard years > 0 else { return nil }
         return type == .birthday ? "يكمل \(DateHelper.arabic(years)) سنة" : "الذكرى \(DateHelper.arabic(years))"

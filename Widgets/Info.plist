@@ -2,10 +2,17 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>ITSAppUsesNonExemptEncryption</key>
-	<false/>
-	<key>LSApplicationCategoryType</key>
-	<string>public.app-category.lifestyle</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLName</key>
+			<string>com.widgetar.health</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>widgetar</string>
+			</array>
+		</dict>
+	</array>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Amiri-Regular.ttf</string>
@@ -30,6 +37,19 @@
 		<string>UthmanicHafs-V30.ttf</string>
 		<string>ArefRuqaa-Regular.ttf</string>
 		<string>ArefRuqaa-Bold.ttf</string>
+		<string>Lateef-ExtraLight.ttf</string>
+		<string>Lateef-Light.ttf</string>
+		<string>Lateef-Regular.ttf</string>
+		<string>Lateef-Medium.ttf</string>
+		<string>Lateef-SemiBold.ttf</string>
+		<string>Lateef-Bold.ttf</string>
+		<string>Lateef-ExtraBold.ttf</string>
+		<string>IBMPlexSansArabic-ExtraLight.ttf</string>
+		<string>IBMPlexSansArabic-Light.ttf</string>
+		<string>IBMPlexSansArabic-Regular.ttf</string>
+		<string>IBMPlexSansArabic-Medium.ttf</string>
+		<string>IBMPlexSansArabic-SemiBold.ttf</string>
+		<string>IBMPlexSansArabic-Bold.ttf</string>
 	</array>
 	<key>UILaunchScreen</key>
 	<dict>

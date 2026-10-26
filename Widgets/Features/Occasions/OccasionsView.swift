@@ -167,6 +167,7 @@ private struct OccasionRow: View {
         if let years = occasion.yearsAtNext() {
             parts.append(occasion.type == .birthday ? "يكمل \(DateHelper.arabic(years)) سنة" : "الذكرى \(DateHelper.arabic(years))")
         }
+        if occasion.repeatsYearly { parts.append("سنوي · " + occasion.recurrenceCalendar.title) }
         if occasion.remindsDayBefore { parts.append("🔔") }
         return parts.joined(separator: " · ")
     }
@@ -199,11 +200,20 @@ private struct OccasionEditor: View {
                             .font(AppFont.ui(16))
                             .padding(12)
                             .background(Theme.background.opacity(0.6), in: RoundedRectangle(cornerRadius: 12))
+                        Picker("التقويم", selection: Binding(
+                            get: { occasion.recurrenceCalendar },
+                            set: { occasion.calendarType = $0 }
+                        )) {
+                            ForEach(OccasionCalendar.allCases) { calendar in
+                                Text(calendar.title).tag(calendar)
+                            }
+                        }
+                        .pickerStyle(.segmented)
                         DatePicker(occasion.type == .birthday ? "تاريخ الميلاد" : "التاريخ",
                                    selection: $occasion.date, displayedComponents: .date)
-                            // ميلادي بأرقام عربية، مثل بقية التطبيق
-                            .environment(\.locale, Locale(identifier: "ar@numbers=arab;calendar=gregorian"))
-                            .environment(\.calendar, DateHelper.gregorian)
+                            // التقويم المختار بأرقام عربية
+                            .environment(\.locale, Locale(identifier: occasion.recurrenceCalendar == .hijri ? "ar@numbers=arab;calendar=islamic-umalqura" : "ar@numbers=arab;calendar=gregorian"))
+                            .environment(\.calendar, occasion.recurrenceCalendar.calendar)
                         Toggle("تتكرر كل سنة", isOn: $occasion.repeatsYearly)
                         if occasion.type.countsYears, occasion.repeatsYearly, let years = occasion.yearsAtNext() {
                             Label(occasion.type == .birthday ? "يكمل \(DateHelper.arabic(years)) سنة في الموعد القادم"

@@ -58,6 +58,7 @@ struct HealthActivityHomeWidget: HomeWidget { static let kind = WidgetKind.healt
 struct HealthDashboardHomeWidget: HomeWidget { static let kind = WidgetKind.healthDashboard }
 struct HealthSleepHomeWidget: HomeWidget { static let kind = WidgetKind.healthSleep }
 struct PaydaysHomeWidget: HomeWidget { static let kind = WidgetKind.paydays }
+struct WeatherHomeWidget: HomeWidget { static let kind = WidgetKind.weather }
 struct NextMatchHomeWidget: HomeWidget { static let kind = WidgetKind.nextMatch }
 
 // MARK: - العرض
@@ -67,15 +68,33 @@ struct HomeWidgetView: View {
     let entry: WidgetEntry
     @Environment(\.widgetFamily) private var family
 
+    private var healthURL: URL? {
+        if entry.kind == .weather { return URL(string: "widgetar://weather") }
+        guard entry.kind.category == .health else { return nil }
+        let destination: String
+        switch entry.kind {
+        case .healthWater: destination = "water"
+        case .healthWeekly: destination = "weekly"
+        case .healthStreak: destination = "streak"
+        case .healthWorkouts: destination = "workouts"
+        case .healthSleep, .healthSleepWeek: destination = "sleep"
+        case .healthSteps: destination = "steps"
+        default: destination = "overview"
+        }
+        return URL(string: "widgetar://health/" + destination)
+    }
+
     var body: some View {
         // الشكل يُقرأ عند كل رسم، فأي تخصيص يحفظه التطبيق يظهر مع أول تحديث
         let style = WidgetStyleStorage.style(for: entry.kind.rawValue, savedStyleID: entry.styleID)
         if family.isLockScreen {
             LockScreenWidgetView(kind: entry.kind, date: entry.date, family: family, style: style)
+                .widgetURL(healthURL)
         } else {
             WidgetPreviewView(kind: entry.kind, date: entry.date, size: WidgetSize(family),
                               style: style, showsBackground: false)
                 .containerBackground(for: .widget) { WidgetBackgroundView(background: style.background) }
+                .widgetURL(healthURL)
         }
     }
 }
@@ -98,3 +117,14 @@ extension WidgetSize {
         }
     }
 }
+
+struct EveningDhikrHomeWidget: HomeWidget { static let kind = WidgetKind.eveningDhikr }
+struct DailyOverviewHomeWidget: HomeWidget { static let kind = WidgetKind.dailyOverview }
+struct SubscriptionsHomeWidget: HomeWidget { static let kind = WidgetKind.subscriptions }
+struct QuranGoalHomeWidget: HomeWidget { static let kind = WidgetKind.quranGoal }
+
+struct HealthWeeklyHomeWidget: HomeWidget { static let kind = WidgetKind.healthWeekly }
+struct HealthStreakHomeWidget: HomeWidget { static let kind = WidgetKind.healthStreak }
+struct HealthSleepWeekHomeWidget: HomeWidget { static let kind = WidgetKind.healthSleepWeek }
+struct HealthWaterHomeWidget: HomeWidget { static let kind = WidgetKind.healthWater }
+struct HealthWorkoutsHomeWidget: HomeWidget { static let kind = WidgetKind.healthWorkouts }

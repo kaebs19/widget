@@ -58,9 +58,9 @@ nonisolated enum ColorSchemeChoice: String, CaseIterable, Identifiable, Sendable
 
     var title: String {
         switch self {
-        case .system: "حسب الجهاز"
-        case .dark:   "داكن"
-        case .light:  "فاتح"
+        case .system: L10n.text("حسب الجهاز")
+        case .dark:   L10n.text("داكن")
+        case .light:  L10n.text("فاتح")
         }
     }
 
@@ -81,11 +81,11 @@ nonisolated enum AppAccent: String, CaseIterable, Identifiable, Sendable {
 
     var title: String {
         switch self {
-        case .gold:    "ذهبي"
-        case .emerald: "زمردي"
-        case .sky:     "سماوي"
-        case .rose:    "وردي"
-        case .violet:  "بنفسجي"
+        case .gold:    L10n.text("ذهبي")
+        case .emerald: L10n.text("زمردي")
+        case .sky:     L10n.text("سماوي")
+        case .rose:    L10n.text("وردي")
+        case .violet:  L10n.text("بنفسجي")
         }
     }
 
@@ -108,10 +108,13 @@ nonisolated enum AppAccent: String, CaseIterable, Identifiable, Sendable {
 // MARK: - تطبيق المظهر
 /// الأوراق (sheets) لا ترث preferredColorScheme من الجذر دائماً، فنطبّقه على كل واحدة أيضاً
 struct AppAppearance: ViewModifier {
+    @AppStorage(AppLanguage.preferenceKey, store: AppGroup.defaults) private var language = AppLanguage.system
     @AppStorage(AppSettings.Key.colorScheme, store: AppGroup.defaults) private var colorScheme = ColorSchemeChoice.dark
 
     func body(content: Content) -> some View {
         content.preferredColorScheme(colorScheme.colorScheme)
+            .environment(\.locale, language.locale)
+            .environment(\.layoutDirection, language.isRightToLeft ? .rightToLeft : .leftToRight)
     }
 }
 

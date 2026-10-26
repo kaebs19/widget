@@ -36,6 +36,7 @@ struct WidgetPreviewView: View {
     @ViewBuilder
     private var content: some View {
         switch kind {
+        case .weather: WeatherWidget(date: date, size: resolvedSize, allowsSample: showsBackground)
         case .prayerRing:   PrayerRingWidget(date: date)
         case .prayerBar:    PrayerBarWidget(date: date)
         case .prayerDay:    PrayerDayWidget(date: date)
@@ -46,10 +47,13 @@ struct WidgetPreviewView: View {
         case .dualDate:     DualDateWidget(date: date)
         case .gregorianMonth: MonthCalendarWidget(date: date, isHijri: false)
         case .hijriMonth:   MonthCalendarWidget(date: date, isHijri: true)
-        case .morningDhikr:
+        case .dailyOverview: DailyOverviewWidget(date: date)
+        case .subscriptions: SubscriptionsWidget(date: date)
+        case .quranGoal: QuranGoalWidget(date: date)
+        case .morningDhikr, .eveningDhikr:
             let maxLetters = DhikrWidget.maxLetters(for: resolvedSize, style: style)
-            if let zikr = AzkarLibrary.bundled.rotatingZikr(in: ZikrGroup.morningID, at: date, maxLetters: maxLetters) {
-                DhikrWidget(zikr: zikr, showsInfo: resolvedSize != .small)
+            if let zikr = AzkarLibrary.bundled.rotatingZikr(in: kind == .eveningDhikr ? ZikrGroup.eveningID : ZikrGroup.morningID, at: date, maxLetters: maxLetters) {
+                DhikrWidget(zikr: zikr, showsInfo: resolvedSize != .small, isEvening: kind == .eveningDhikr)
             }
         case .dailyVerse:
             let maxLetters = VerseWidget.maxLetters(for: resolvedSize, style: style)
@@ -80,9 +84,9 @@ struct WidgetPreviewView: View {
         case .specialOccasion:
             // مثال للمعرض؛ في الشاشة الرئيسية يختار المستخدم الاسم والتاريخ
             // أقرب مناسبة حفظها المستخدم، وإلا مثال
-            if let next = OccasionStore.all().min(by: { $0.nextDate(from: date) < $1.nextDate(from: date) }) {
+            if let next = OccasionStore.upcoming(from: date).first {
                 SpecialOccasionWidget(name: next.name, occasionDate: next.date, repeatsYearly: next.repeatsYearly,
-                                      date: date, type: next.type)
+                                      date: date, type: next.type, calendarType: next.recurrenceCalendar)
             } else {
                 SpecialOccasionWidget(name: "عيد ميلاد سارة",
                                       occasionDate: date.addingTimeInterval((13 * 24 + 6) * 3600),
@@ -95,14 +99,40 @@ struct WidgetPreviewView: View {
         case .paydays:      PaydaysWidget(date: date, size: resolvedSize)
         case .obligations:  ObligationsWidget(date: date, size: resolvedSize)
         case .budget:       BudgetWidget(date: date, size: resolvedSize)
+        case .healthWater: HealthWaterWidget(date: date)
+        case .healthWeekly, .healthStreak, .healthSleepWeek, .healthWorkouts:
+            if let insights = HealthInsightsCache.load() {
+                HealthInsightWidget(kind: kind, insights: insights, date: date)
+            } else if showsBackground {
+                HealthInsightWidget(kind: kind, insights: .sample(at: date), date: date, isSample: true)
+            } else if !HealthCache.isConnected {
+                HealthConnectPrompt()
+            } else {
+                VStack(spacing: 8) {
+                    Text("لا توجد قراءات متاحة").font(style.font(.labelBold, 14))
+                    Text("افتح الصحة من التطبيق لتحديث البيانات").font(style.font(.label, 11))
+                }.foregroundStyle(style.primary).widgetContent()
+            }
         case .healthSteps, .healthActivity, .healthDashboard, .healthSleep:
             // في المعرض نعرض مثالاً قبل ربط الصحة، وفي الشاشة الرئيسية ندعو لربطها
             if let health = HealthCache.load(now: date) ?? (showsBackground ? .sample : nil) {
-                switch kind {
-                case .healthSteps:    HealthStepsWidget(snapshot: health, date: date, size: resolvedSize)
-                case .healthActivity: HealthActivityWidget(snapshot: health, size: resolvedSize)
-                case .healthSleep:    HealthSleepWidget(snapshot: health)
-                default:              HealthDashboardWidget(snapshot: health, date: date, size: resolvedSize)
+                VStack(spacing: 0) {
+                    Group {
+                        switch kind {
+                        case .healthSteps:    HealthStepsWidget(snapshot: health, date: date, size: resolvedSize)
+                        case .healthActivity: HealthActivityWidget(snapshot: health, size: resolvedSize)
+                        case .healthSleep:    HealthSleepWidget(snapshot: health)
+                        default:              HealthDashboardWidget(snapshot: health, date: date, size: resolvedSize)
+                        }
+                    }
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    if showsBackground, HealthCache.load(now: date) == nil {
+                        Text("بيانات تجريبية للمعاينة")
+                            .font(style.font(.label, 8)).foregroundStyle(style.secondary)
+                            .padding(.bottom, 5)
+                    } else {
+                        HealthUpdateLabel(snapshot: health, date: date)
+                    }
                 }
             } else {
                 HealthConnectPrompt(compact: resolvedSize == .small)

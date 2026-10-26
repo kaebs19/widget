@@ -31,6 +31,19 @@
 		<string>UthmanicHafs-V30.ttf</string>
 		<string>ArefRuqaa-Regular.ttf</string>
 		<string>ArefRuqaa-Bold.ttf</string>
+		<string>Lateef-ExtraLight.ttf</string>
+		<string>Lateef-Light.ttf</string>
+		<string>Lateef-Regular.ttf</string>
+		<string>Lateef-Medium.ttf</string>
+		<string>Lateef-SemiBold.ttf</string>
+		<string>Lateef-Bold.ttf</string>
+		<string>Lateef-ExtraBold.ttf</string>
+		<string>IBMPlexSansArabic-ExtraLight.ttf</string>
+		<string>IBMPlexSansArabic-Light.ttf</string>
+		<string>IBMPlexSansArabic-Regular.ttf</string>
+		<string>IBMPlexSansArabic-Medium.ttf</string>
+		<string>IBMPlexSansArabic-SemiBold.ttf</string>
+		<string>IBMPlexSansArabic-Bold.ttf</string>
 	</array>
 </dict>
 </plist>

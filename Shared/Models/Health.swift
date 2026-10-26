@@ -96,10 +96,8 @@ nonisolated enum HealthMetric: String, CaseIterable, Identifiable, Codable, Send
 
     var goalKey: String { "health.goal.\(rawValue)" }
 
-    var goal: Double {
-        let value = AppGroup.defaults.double(forKey: goalKey)
-        return value > 0 ? value : defaultGoal
-    }
+    var baseGoal: Double { HealthGoals.base(self) }
+    var goal: Double { HealthGoals.goal(self, on: .now) }
 
     /// القيمة كما تُعرض: ٦٬٢٣٤ أو ٤٫٨ أو ٧:٣٠
     func format(_ value: Double) -> String {
@@ -138,6 +136,7 @@ nonisolated enum HealthMetric: String, CaseIterable, Identifiable, Codable, Send
     static var readTypes: Set<HKObjectType> {
         var types: Set<HKObjectType> = Set(allCases.compactMap(\.quantityType))
         types.insert(HKCategoryType(.sleepAnalysis))
+        types.insert(HKObjectType.workoutType())
         return types
     }
 }
@@ -151,20 +150,45 @@ nonisolated struct HealthSnapshot: Codable, Sendable, Equatable {
     /// خطوات آخر ٧ أيام، الأقدم أولاً، واليوم آخرها
     var weekSteps: [Double]
 
+    /// تاريخ اليوم الذي تخصه الأرقام، منفصل عن وقت آخر قراءة حقيقية.
+    var dayDate: Date? = nil
+    /// nil لليوم الذي لا تتوفر له قراءة؛ تبقى weekSteps لتوافق النسخ القديمة.
+    var weekStepReadings: [Double?]? = nil
+    var failedMetrics: [HealthMetric]? = nil
+    /// النسخ القديمة خزنت غياب العينات كصفر؛ لا نعد أصفارها قراءات مؤكدة.
+    var schemaVersion: Int? = 2
+
     func value(_ metric: HealthMetric) -> Double { values[metric] ?? 0 }
+    func hasData(_ metric: HealthMetric) -> Bool {
+        guard let value = values[metric], value.isFinite, value >= 0 else { return false }
+        return schemaVersion != nil || value > 0
+    }
+    func missingLabel(_ metric: HealthMetric) -> String {
+        failedMetrics?.contains(metric) == true ? "تعذر التحديث" : "لا توجد قراءة"
+    }
+    func displayValue(_ metric: HealthMetric) -> String {
+        hasData(metric) ? metric.format(value(metric)) : "—"
+    }
+    var stepReadings: [Double?] {
+        weekStepReadings ?? weekSteps.map { schemaVersion == nil && $0 == 0 ? nil : $0 }
+    }
 
     func progress(_ metric: HealthMetric) -> Double {
         min(value(metric) / metric.goal, 1)
     }
 
-    /// القيم تخص يوماً مضى: نصفّر مقاييس اليوم ونُبقي النوم وأسبوع الخطوات مُزاحاً
+    /// اليوم الجديد يبدأ بلا قراءات؛ يبقى وقت آخر تحديث كما هو، وتُزاح قراءات الأسبوع.
     func rolled(to now: Date, calendar: Calendar = .current) -> HealthSnapshot {
-        guard !calendar.isDate(date, inSameDayAs: now) else { return self }
-        let days = calendar.dateComponents([.day], from: calendar.startOfDay(for: date),
+        let sourceDay = dayDate ?? date
+        guard !calendar.isDate(sourceDay, inSameDayAs: now) else { return self }
+        let days = calendar.dateComponents([.day], from: calendar.startOfDay(for: sourceDay),
                                            to: calendar.startOfDay(for: now)).day ?? 7
-        var week = weekSteps
-        week.append(contentsOf: Array(repeating: 0, count: min(max(days, 0), 7)))
-        return HealthSnapshot(date: now, values: [:], weekSteps: Array(week.suffix(7)))
+        guard days > 0 else { return self }
+        var week = stepReadings
+        week.append(contentsOf: Array(repeating: nil, count: min(days, 7)))
+        let readings = Array(week.suffix(7))
+        return HealthSnapshot(date: date, values: [:], weekSteps: readings.map { $0 ?? 0 },
+                              dayDate: now, weekStepReadings: readings)
     }
 
     /// مثال للمعرض قبل ربط الصحة
@@ -217,72 +241,82 @@ nonisolated enum HealthReader {
         guard isAvailable, HealthCache.isConnected else { return HealthCache.load(now: now) }
         let calendar = Calendar.current
         let start = calendar.startOfDay(for: now)
-        do {
-            var values: [HealthMetric: Double] = [:]
-            for metric in HealthMetric.allCases {
+        var values: [HealthMetric: Double] = [:]
+        var failures: [HealthMetric] = []
+        for metric in HealthMetric.allCases {
+            do {
                 if let type = metric.quantityType {
                     values[metric] = try await sum(type, unit: metric.hkUnit, from: start, to: now)
+                } else {
+                    values[metric] = try await sleepHours(endingAt: now, calendar: calendar)
                 }
-            }
-            values[.sleep] = try await sleepHours(endingAt: now, calendar: calendar)
-            let week = try await weekSteps(endingAt: now, calendar: calendar)
-            let snapshot = HealthSnapshot(date: now, values: values, weekSteps: week)
-            HealthCache.save(snapshot)
-            return snapshot
-        } catch {
-            return HealthCache.load(now: now)
+            } catch { failures.append(metric) }
         }
+        // إذا فشلت القراءة بالكامل نحتفظ بتاريخ اللقطة السابقة، ولا نسمّيها تحديثاً جديداً.
+        if failures.count == HealthMetric.allCases.count { return HealthCache.load(now: now) }
+        let readings = (try? await history(for: .steps, days: 7, endingAt: now, calendar: calendar))?.map(\.value)
+            ?? Array(repeating: nil, count: 7)
+        let snapshot = HealthSnapshot(date: now, values: values, weekSteps: readings.map { $0 ?? 0 },
+                                      dayDate: now, weekStepReadings: readings, failedMetrics: failures)
+        HealthCache.save(snapshot)
+        _ = await HealthInsightsReader.shared.refresh(now: now)
+        return snapshot
     }
 
-    private static func sum(_ type: HKQuantityType, unit: HKUnit, from start: Date, to end: Date) async throws -> Double {
+    private static func sum(_ type: HKQuantityType, unit: HKUnit, from start: Date, to end: Date) async throws -> Double? {
         let predicate = HKQuery.predicateForSamples(withStart: start, end: end)
         let descriptor = HKStatisticsQueryDescriptor(predicate: .quantitySample(type: type, predicate: predicate),
                                                      options: .cumulativeSum)
-        return try await descriptor.result(for: store)?.sumQuantity()?.doubleValue(for: unit) ?? 0
+        return try await descriptor.result(for: store)?.sumQuantity()?.doubleValue(for: unit)
     }
 
-    private static func weekSteps(endingAt now: Date, calendar: Calendar) async throws -> [Double] {
-        let end = calendar.startOfDay(for: now).addingTimeInterval(86_400)
-        guard let start = calendar.date(byAdding: .day, value: -7, to: end) else { return [] }
-        let predicate = HKQuery.predicateForSamples(withStart: start, end: end)
-        let descriptor = HKStatisticsCollectionQueryDescriptor(
-            predicate: .quantitySample(type: HKQuantityType(.stepCount), predicate: predicate),
-            options: .cumulativeSum, anchorDate: start, intervalComponents: DateComponents(day: 1))
-        let collection = try await descriptor.result(for: store)
-        var days: [Double] = []
-        collection.enumerateStatistics(from: start, to: end.addingTimeInterval(-1)) { statistics, _ in
-            days.append(statistics.sumQuantity()?.doubleValue(for: .count()) ?? 0)
-        }
-        return Array(days.suffix(7))
-    }
-
-    /// نوم الليلة الماضية: من السادسة مساء أمس حتى الآن، مراحل النوم فقط (بدون «في السرير»)
-    private static func sleepHours(endingAt now: Date, calendar: Calendar) async throws -> Double {
+    /// مجموع كل يوم، مع إبقاء الأيام بلا عينات nil حتى لا تبدو كأنها قياس صفر.
+    static func history(for metric: HealthMetric, days: Int, endingAt now: Date = .now,
+                        calendar: Calendar = .current) async throws -> [HealthHistoryDay] {
+        guard isAvailable, HealthCache.isConnected else { throw HealthReadError.unavailable }
+        let count = min(max(days, 1), 31)
         let today = calendar.startOfDay(for: now)
-        guard let start = calendar.date(byAdding: .hour, value: -6, to: today) else { return 0 }
-        let predicate = HKQuery.predicateForSamples(withStart: start, end: now)
+        guard let start = calendar.date(byAdding: .day, value: -(count - 1), to: today) else { return [] }
+        let dates = (0..<count).compactMap { calendar.date(byAdding: .day, value: $0, to: start) }
+        if let type = metric.quantityType {
+            let predicate = HKQuery.predicateForSamples(withStart: start, end: now)
+            let descriptor = HKStatisticsCollectionQueryDescriptor(
+                predicate: .quantitySample(type: type, predicate: predicate),
+                options: .cumulativeSum, anchorDate: start, intervalComponents: DateComponents(day: 1))
+            let collection = try await descriptor.result(for: store)
+            return dates.map { day in
+                HealthHistoryDay(date: day, value: collection.statistics(for: day)?.sumQuantity()?.doubleValue(for: metric.hkUnit))
+            }
+        }
+        let firstWindow = HealthSleepWindow.interval(for: start, endingAt: now, calendar: calendar)
+        let intervals = try await sleepIntervals(from: firstWindow.start, to: now)
+        return dates.map { day in
+            HealthHistoryDay(date: day, value: HealthSleepWindow.hours(in: intervals,
+                window: HealthSleepWindow.interval(for: day, endingAt: now, calendar: calendar)))
+        }
+    }
+
+    private static func sleepHours(endingAt now: Date, calendar: Calendar) async throws -> Double? {
+        let window = HealthSleepWindow.interval(for: now, endingAt: now, calendar: calendar)
+        let intervals = try await sleepIntervals(from: window.start, to: window.end)
+        return HealthSleepWindow.hours(in: intervals, window: window)
+    }
+
+    private static func sleepIntervals(from start: Date, to end: Date) async throws -> [DateInterval] {
+        let predicate = HKQuery.predicateForSamples(withStart: start, end: end)
         let descriptor = HKSampleQueryDescriptor(predicates: [.categorySample(type: HKCategoryType(.sleepAnalysis),
                                                                                 predicate: predicate)],
                                                  sortDescriptors: [SortDescriptor(\.startDate)])
         let asleep = HKCategoryValueSleepAnalysis.allAsleepValues.map(\.rawValue)
-        let intervals = try await descriptor.result(for: store)
+        return try await descriptor.result(for: store)
             .filter { asleep.contains($0.value) }
-            .map { DateInterval(start: max($0.startDate, start), end: min($0.endDate, now)) }
-        // الساعة والجوال قد يسجّلان نفس الفترة، فندمج المتداخل قبل الجمع
-        var merged: [DateInterval] = []
-        for interval in intervals.sorted(by: { $0.start < $1.start }) {
-            if let last = merged.last, interval.start <= last.end {
-                merged[merged.count - 1] = DateInterval(start: last.start, end: max(last.end, interval.end))
-            } else {
-                merged.append(interval)
-            }
-        }
-        return merged.reduce(0) { $0 + $1.duration } / 3_600
+            .map { DateInterval(start: $0.startDate, end: $0.endDate) }
     }
 }
 
 // MARK: - تحديث الودجات
 nonisolated enum HealthWidgets {
+    @MainActor private static var observing = false
     @MainActor
     static func reload() {
         for kind in WidgetKind.allCases where kind.category == .health {
@@ -290,11 +324,12 @@ nonisolated enum HealthWidgets {
         }
     }
 
-    /// يطلب من الصحة إيقاظ التطبيق عند خطوات جديدة (ساعة على الأكثر)، فتتحدث الودجات بدون فتحه
+    /// تسجيل واحد لكل تشغيل، لكل المؤشرات التي نقرأها، بما فيها النوم.
+    @MainActor
     static func startBackgroundUpdates() {
-        guard HealthReader.isAvailable, HealthCache.isConnected else { return }
-        for metric in [HealthMetric.steps, .energy] {
-            guard let type = metric.quantityType else { continue }
+        guard !observing, HealthReader.isAvailable, HealthCache.isConnected else { return }
+        observing = true
+        for type in HealthMetric.readTypes.compactMap({ $0 as? HKSampleType }) {
             let query = HKObserverQuery(sampleType: type, predicate: nil) { _, completion, error in
                 guard error == nil else { completion(); return }
                 Task {
@@ -311,6 +346,14 @@ nonisolated enum HealthWidgets {
 
 // MARK: - تنسيق
 nonisolated enum HealthFormat {
+    static func updateLabel(_ date: Date, now: Date = .now) -> String {
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "ar@numbers=arab")
+        let sameDay = Calendar.current.isDate(date, inSameDayAs: now)
+        formatter.dateFormat = sameDay ? "h:mm a" : "d MMM، h:mm a"
+        return (sameDay ? "آخر تحديث " : "قراءة سابقة · ") + formatter.string(from: date)
+    }
+
     static func decimal(_ value: Double, digits: Int) -> String {
         let formatter = NumberFormatter()
         formatter.locale = Locale(identifier: "ar@numbers=arab")

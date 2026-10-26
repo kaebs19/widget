@@ -75,7 +75,7 @@ struct BudgetSettingsSection: View {
             }
             ProgressView(value: status.progress).tint(status.isOver ? .red : Theme.gold)
             if status.obligations > 0 {
-                Text("خصمنا \(PaydayFormat.amount(status.obligations)) التزامات قبل \(status.payday.displayName) من الرصيد قبل القسمة.")
+                Text("حُجز حسابيًا مبلغ \(PaydayFormat.amount(status.obligations)) للالتزامات المسجّلة قبل \(status.payday.displayName)، لتقدير حصة اليوم فقط. لا يتم سحب أو دفع أي مبلغ.")
                     .font(AppFont.ui(12))
                     .foregroundStyle(Theme.textSecondary)
             }
@@ -98,11 +98,11 @@ struct BudgetSettingsSection: View {
 
     // MARK: الرصيد
     private var balanceSection: some View {
-        SettingsSection("الرصيد") {
-            SettingRow(status == nil ? "رصيدك الآن" : "الرصيد الحالي",
+        SettingsSection("ميزانية يدوية") {
+            SettingRow(status == nil ? "مبلغ الميزانية" : "رصيد الميزانية المسجّل",
                        detail: status.map { PaydayFormat.amount($0.balance) }) {
                 HStack(spacing: 8) {
-                    TextField(status == nil ? "المبلغ في حسابك" : "رصيد جديد", text: $balanceText)
+                    TextField(status == nil ? "أدخل مبلغ الميزانية يدويًا" : "مبلغ ميزانية جديد", text: $balanceText)
                         .amountField()
                         .focused($focused)
                     Text("ر.س").foregroundStyle(Theme.textSecondary)
@@ -117,7 +117,7 @@ struct BudgetSettingsSection: View {
                 focused = false
                 changed()
             } label: {
-                Label(status == nil ? "ابدأ الحساب" : "تحديث الرصيد", systemImage: "checkmark.circle")
+                Label(status == nil ? "احسب الميزانية" : "تحديث الميزانية", systemImage: "checkmark.circle")
                     .font(AppFont.uiBold(15))
                     .frame(maxWidth: .infinity)
                     .padding(.vertical, 12)
@@ -125,7 +125,7 @@ struct BudgetSettingsSection: View {
                     .background(Theme.gold, in: RoundedRectangle(cornerRadius: 14))
             }
             .disabled(Self.number(balanceText) == nil)
-            Text("الرصيد يُحفظ على جهازك فقط. حدّثه متى نزل الراتب أو اختلف عن حسابك.")
+            Text("هذه أداة حساب وتسجيل يدوي فقط. التطبيق لا يتصل بحسابك البنكي ولا يسحب أو يحوّل أو يدفع أي أموال. يُحفظ مبلغ الميزانية الذي تدخله على جهازك.")
                 .font(AppFont.ui(12))
                 .foregroundStyle(Theme.textSecondary)
         }
@@ -133,7 +133,7 @@ struct BudgetSettingsSection: View {
 
     // MARK: تسجيل مصروف
     private var spendSection: some View {
-        SettingsSection("صرفت") {
+        SettingsSection("تسجيل مصروف يدوي") {
             HStack(spacing: 10) {
                 TextField("المبلغ", text: $spendText)
                     .amountField()
@@ -156,7 +156,7 @@ struct BudgetSettingsSection: View {
                         Budget.spend(amount)
                         changed()
                     } label: {
-                        Text("−\(DateHelper.arabic(amount))")
+                        Text("سجّل \(DateHelper.arabic(amount))")
                             .font(AppFont.uiBold(14))
                             .frame(maxWidth: .infinity)
                             .padding(.vertical, 9)
@@ -188,13 +188,16 @@ struct BudgetSettingsSection: View {
                 }
                 .labelsHidden()
             }
-            Toggle("خصم الالتزامات قبل الموعد", isOn: $subtractsObligations)
+            Toggle("احتساب الالتزامات ضمن الميزانية", isOn: $subtractsObligations)
+            Text("عند التفعيل، نستبعد قيمة الالتزامات التي أدخلتها من المبلغ المتاح لحساب حصة اليوم فقط. هذا حجز حسابي اختياري، ولا يسدّد الالتزامات أو يخصم أموالًا من حسابك البنكي.")
+                .font(AppFont.ui(12))
+                .foregroundStyle(Theme.textSecondary)
             NavigationLink { ObligationsView() } label: {
                 Label("التزاماتي", systemImage: "list.bullet.rectangle.portrait")
                     .font(AppFont.uiBold(14))
             }
             Divider()
-            SettingRow("زرّا المصروف في الودجت") {
+            SettingRow("مبالغ التسجيل السريع في الودجت") {
                 HStack {
                     stepPicker("الأول", selection: $smallStep)
                     Spacer()

@@ -15,6 +15,7 @@ struct WidgetsBundle: WidgetBundle {
     }
 
     var body: some Widget {
+        WeatherHomeWidget()
         coreWidgets
         healthWidgets
     }
@@ -27,6 +28,11 @@ struct WidgetsBundle: WidgetBundle {
         HealthActivityHomeWidget()
         HealthDashboardHomeWidget()
         HealthSleepHomeWidget()
+        HealthWeeklyHomeWidget()
+        HealthStreakHomeWidget()
+        HealthSleepWeekHomeWidget()
+        HealthWaterHomeWidget()
+        HealthWorkoutsHomeWidget()
         #endif
     }
 
@@ -43,6 +49,10 @@ struct WidgetsBundle: WidgetBundle {
         GregorianMonthHomeWidget()
         HijriMonthHomeWidget()
         MorningDhikrHomeWidget()
+        EveningDhikrHomeWidget()
+        DailyOverviewHomeWidget()
+        SubscriptionsHomeWidget()
+        QuranGoalHomeWidget()
         DailyVerseHomeWidget()
         IstighfarHomeWidget()
         RamadanHomeWidget()

@@ -58,7 +58,7 @@ struct LockScreenPreview: View {
             TasbeehLockView(dhikr: tasbeeh, date: .now, family: family, style: style)
                 .environment(\.layoutDirection, .rightToLeft)
         case .specialOccasion:
-            let occasion = OccasionStore.all().min { $0.nextDate() < $1.nextDate() }
+            let occasion = OccasionStore.upcoming().first
             let target = occasion?.nextDate() ?? .now.addingTimeInterval(13 * 86_400)
             let days = DateHelper.gregorian.dateComponents([.day], from: DateHelper.gregorian.startOfDay(for: .now),
                                                            to: DateHelper.gregorian.startOfDay(for: target)).day ?? 0

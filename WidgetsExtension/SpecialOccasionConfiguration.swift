@@ -44,6 +44,7 @@ nonisolated struct SpecialOccasionEntry: TimelineEntry, Sendable {
     let repeatsYearly: Bool
     var styleID: UUID? = nil
     var type: OccasionType? = nil
+    var calendarType: OccasionCalendar = .gregorian
 }
 
 nonisolated struct SpecialOccasionProvider: AppIntentTimelineProvider {
@@ -69,7 +70,7 @@ nonisolated struct SpecialOccasionProvider: AppIntentTimelineProvider {
         if let id = configuration.occasion?.id, let saved = OccasionStore.occasion(id: id) {
             return SpecialOccasionEntry(date: date, name: saved.name, occasionDate: saved.date,
                                         repeatsYearly: saved.repeatsYearly, styleID: configuration.style?.id,
-                                        type: saved.type)
+                                        type: saved.type, calendarType: saved.recurrenceCalendar)
         }
         return SpecialOccasionEntry(date: date, name: configuration.name,
                              occasionDate: configuration.date, repeatsYearly: configuration.repeatsYearly,
@@ -111,7 +112,7 @@ struct SpecialOccasionEntryView: View {
                 .lockScreenContainer(family: family)
         } else {
             SpecialOccasionWidget(name: entry.name, occasionDate: entry.occasionDate,
-                                  repeatsYearly: entry.repeatsYearly, date: entry.date, type: entry.type)
+                                  repeatsYearly: entry.repeatsYearly, date: entry.date, type: entry.type, calendarType: entry.calendarType)
                 .environment(\.widgetStyle, style)
                 .environment(\.layoutDirection, .rightToLeft)
                 .containerBackground(for: .widget) { WidgetBackgroundView(background: style.background) }
@@ -121,7 +122,7 @@ struct SpecialOccasionEntryView: View {
     @ViewBuilder
     private func lockScreen(style: WidgetStyle) -> some View {
         if let occasionDate = entry.occasionDate {
-            let target = DateHelper.nextOccurrence(of: occasionDate, repeatsYearly: entry.repeatsYearly, from: entry.date)
+            let target = entry.calendarType.nextDate(for: occasionDate, repeats: entry.repeatsYearly, from: entry.date)
             let calendar = DateHelper.gregorian
             let days = max(calendar.dateComponents([.day], from: calendar.startOfDay(for: entry.date),
                                                    to: calendar.startOfDay(for: target)).day ?? 0, 0)

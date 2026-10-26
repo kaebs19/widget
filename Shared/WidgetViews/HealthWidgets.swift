@@ -10,7 +10,7 @@ import WidgetKit
 
 // MARK: - مكوّنات مشتركة
 extension HealthMetric {
-    var color: Color { Color(Color.Resolved(hex: hex)) }
+    var color: Color { Color(Color.Resolved(hex: HealthDisplaySettings.colorHex(for: self))) }
 }
 
 /// حلقة تقدّم على طريقة حلقات النشاط: مسار باهت، وتقدّم بطرف مدوّر
@@ -25,7 +25,7 @@ struct HealthRing: View {
             Circle()
                 .stroke(color.opacity(renderingMode == .fullColor ? 0.22 : 0.3), lineWidth: lineWidth)
             Circle()
-                .trim(from: 0, to: max(progress, 0.001))
+                .trim(from: 0, to: min(max(progress, 0), 1))
                 .stroke(color, style: StrokeStyle(lineWidth: lineWidth, lineCap: .round))
                 .rotationEffect(.degrees(-90))
                 .widgetAccentable()
@@ -59,20 +59,23 @@ struct HealthWeekChart: View {
     @Environment(\.widgetStyle) private var style
 
     var body: some View {
-        let goal = HealthMetric.steps.goal
-        let top = max(snapshot.weekSteps.max() ?? 0, goal) * 1.08
+        let goals = snapshot.stepReadings.indices.map { index in
+            let day = Calendar.current.date(byAdding: .day, value: index - snapshot.stepReadings.count + 1, to: date) ?? date
+            return HealthGoals.goal(.steps, on: day)
+        }
+        let top = max(snapshot.stepReadings.compactMap { $0 }.max() ?? 0, goals.max() ?? HealthMetric.steps.goal) * 1.08
         let labels = HealthFormat.weekdayInitials(endingAt: date)
         HStack(alignment: .bottom, spacing: 5) {
-            ForEach(Array(snapshot.weekSteps.enumerated()), id: \.offset) { index, steps in
-                let isToday = index == snapshot.weekSteps.count - 1
+            ForEach(Array(snapshot.stepReadings.enumerated()), id: \.offset) { index, steps in
+                let isToday = index == snapshot.stepReadings.count - 1
                 VStack(spacing: 3) {
                     GeometryReader { proxy in
                         VStack {
                             Spacer(minLength: 0)
                             RoundedRectangle(cornerRadius: 3, style: .continuous)
-                                .fill(steps >= goal || isToday ? HealthMetric.steps.color
+                                .fill((steps ?? 0) >= goals[index] || isToday ? HealthMetric.steps.color
                                                                 : HealthMetric.steps.color.opacity(0.4))
-                                .frame(height: max(proxy.size.height * steps / top, 3))
+                                .frame(height: steps.map { max(proxy.size.height * $0 / top, 0) } ?? 1)
                                 .widgetAccentable(isToday)
                         }
                     }
@@ -89,9 +92,11 @@ struct HealthWeekChart: View {
             GeometryReader { proxy in
                 let chartHeight = proxy.size.height - (showsLabels ? 14 : 0)
                 Path { path in
-                    let y = chartHeight * (1 - goal / top)
-                    path.move(to: CGPoint(x: 0, y: y))
-                    path.addLine(to: CGPoint(x: proxy.size.width, y: y))
+                    for (index, goal) in goals.enumerated() {
+                        let x = proxy.size.width * (CGFloat(index) + 0.5) / CGFloat(max(goals.count, 1))
+                        let point = CGPoint(x: x, y: chartHeight * (1 - goal / top))
+                        if index == 0 { path.move(to: point) } else { path.addLine(to: point) }
+                    }
                 }
                 .stroke(style.secondary.opacity(0.6), style: StrokeStyle(lineWidth: 1, dash: [3, 3]))
             }
@@ -124,7 +129,7 @@ struct HealthStat: View {
                 }
             }
             HStack(alignment: .lastTextBaseline, spacing: 2) {
-                Text(style.text(metric.format(snapshot.value(metric))))
+                Text(style.text(snapshot.displayValue(metric)))
                     .font(style.font(.number, valueSize))
                     .foregroundStyle(style.primary)
                 Text(metric.unit)
@@ -133,14 +138,21 @@ struct HealthStat: View {
             }
             .lineLimit(1)
             .minimumScaleFactor(0.6)
-            if showsBar {
+            if snapshot.hasData(metric), HealthDisplaySettings.showsGoals || HealthDisplaySettings.showsPercentage {
+                Text(style.text(healthGoalLabel(metric, snapshot: snapshot)))
+                    .font(style.font(.label, 8))
+                    .foregroundStyle(style.secondary)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.7)
+            }
+            if showsBar, snapshot.hasData(metric) {
                 Capsule()
                     .fill(metric.color.opacity(0.22))
                     .frame(height: 4)
                     .overlay(alignment: .leading) {
                         GeometryReader { proxy in
                             Capsule().fill(metric.color)
-                                .frame(width: max(proxy.size.width * snapshot.progress(metric), 4))
+                                .frame(width: max(proxy.size.width * snapshot.progress(metric), 0))
                                 .widgetAccentable()
                         }
                     }
@@ -190,12 +202,12 @@ struct HealthStepsWidget: View {
                     .font(.system(size: 13, weight: .bold))
                     .foregroundStyle(HealthMetric.steps.color)
                     .widgetAccentable()
-                Text(style.text(HealthMetric.steps.format(snapshot.value(.steps))))
+                Text(style.text(snapshot.displayValue(.steps)))
                     .font(style.font(.number, 22))
                     .foregroundStyle(style.primary)
                     .lineLimit(1)
                     .minimumScaleFactor(0.5)
-                Text(style.text("من \(HealthMetric.steps.format(HealthMetric.steps.goal))"))
+                Text(snapshot.hasData(.steps) ? style.text(healthGoalLabel(.steps, snapshot: snapshot)) : snapshot.missingLabel(.steps))
                     .font(style.font(.label, 9))
                     .foregroundStyle(style.secondary)
                     .lineLimit(1)
@@ -224,7 +236,7 @@ struct HealthStepsWidget: View {
                 .font(.system(size: 9, weight: .bold))
                 .foregroundStyle(metric.color)
                 .widgetAccentable()
-            Text(style.text("\(metric.format(snapshot.value(metric))) \(metric.unit)"))
+            Text(style.text("\(snapshot.displayValue(metric)) \(metric.unit)"))
                 .font(style.font(.labelBold, 10))
                 .foregroundStyle(style.primary)
                 .lineLimit(1)
@@ -242,7 +254,7 @@ struct HealthStepsWidget: View {
                         .font(style.font(.labelBold, 11))
                         .foregroundStyle(style.primary)
                     Spacer()
-                    Text(style.text("المعدل \(HealthMetric.steps.format(average))"))
+                    Text(average.map { style.text("المعدل " + HealthMetric.steps.format($0)) } ?? "لا قراءات أسبوعية")
                         .font(style.font(.label, 10))
                         .foregroundStyle(style.secondary)
                 }
@@ -259,9 +271,9 @@ struct HealthStepsWidget: View {
         .padding(14)
     }
 
-    private var average: Double {
-        let days = snapshot.weekSteps
-        return days.isEmpty ? 0 : days.reduce(0, +) / Double(days.count)
+    private var average: Double? {
+        let days = snapshot.stepReadings.compactMap { $0 }
+        return days.isEmpty ? nil : days.reduce(0, +) / Double(days.count)
     }
 }
 
@@ -277,12 +289,18 @@ struct HealthActivityWidget: View {
                 HealthRings(snapshot: snapshot, lineWidth: 10)
                 HStack(spacing: 8) {
                     ForEach(HealthRings.metrics) { metric in
-                        Text(style.text(metric.format(snapshot.value(metric))))
-                            .font(style.font(.number, 12))
-                            .foregroundStyle(metric.color)
-                            .widgetAccentable()
-                            .lineLimit(1)
-                            .minimumScaleFactor(0.6)
+                        VStack(spacing: 1) {
+                            Text(style.text(snapshot.displayValue(metric)))
+                                .font(style.font(.number, 12))
+                                .foregroundStyle(metric.color)
+                                .widgetAccentable()
+                            if HealthDisplaySettings.showsPercentage, snapshot.hasData(metric) {
+                                Text(style.text("\(DateHelper.arabic(Int((snapshot.value(metric) / metric.goal * 100).rounded())))٪"))
+                                    .font(style.font(.label, 8)).foregroundStyle(style.secondary)
+                            }
+                        }
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.6)
                     }
                 }
             }
@@ -307,11 +325,11 @@ struct HealthActivityWidget: View {
                 .font(style.font(.label, 11))
                 .foregroundStyle(style.secondary)
             HStack(alignment: .lastTextBaseline, spacing: 3) {
-                Text(style.text(metric.format(snapshot.value(metric))))
+                Text(style.text(snapshot.displayValue(metric)))
                     .font(style.font(.number, 19))
                     .foregroundStyle(metric.color)
                     .widgetAccentable()
-                Text(style.text("/ \(metric.format(metric.goal)) \(metric.unit)"))
+                Text(style.text(healthGoalLabel(metric, snapshot: snapshot)))
                     .font(style.font(.label, 10))
                     .foregroundStyle(style.secondary)
             }
@@ -328,29 +346,30 @@ struct HealthDashboardWidget: View {
     var size: WidgetSize = .medium
     @Environment(\.widgetStyle) private var style
 
-    private let grid: [HealthMetric] = [.steps, .distance, .energy, .exercise, .flights, .sleep]
+    private var grid: [HealthMetric] { HealthDisplaySettings.metrics() }
 
     var body: some View {
         if size == .large { large } else { medium }
     }
 
     private var tiles: some View {
-        LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 10), count: 3), spacing: 10) {
+        LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 10), count: min(grid.count, 3)), spacing: 8) {
             ForEach(grid) { metric in
-                HealthStat(metric: metric, snapshot: snapshot, valueSize: size == .large ? 18 : 16,
+                HealthStat(metric: metric, snapshot: snapshot, valueSize: size == .large ? 18 : 14,
                            showsBar: true, showsTitle: size == .large)
             }
         }
     }
 
     private var medium: some View {
-        VStack(alignment: .leading, spacing: 8) {
+        VStack(alignment: .leading, spacing: 4) {
             header
             Spacer(minLength: 0)
             tiles
             Spacer(minLength: 0)
         }
-        .padding(14)
+        .padding(.horizontal, 12)
+        .padding(.vertical, 8)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 
@@ -412,8 +431,8 @@ struct HealthSleepWidget: View {
             .foregroundStyle(style.secondary)
 
             Spacer(minLength: 0)
-            if hours == 0 {
-                Text("لا بيانات نوم")
+            if !snapshot.hasData(.sleep) {
+                Text(snapshot.missingLabel(.sleep))
                     .font(style.font(.textBold, 16))
                     .foregroundStyle(style.primary)
                 Text("تُسجَّل من الساعة أو وضع النوم")
@@ -439,11 +458,11 @@ struct HealthSleepWidget: View {
                 .overlay(alignment: .leading) {
                     GeometryReader { proxy in
                         Capsule().fill(HealthMetric.sleep.color)
-                            .frame(width: max(proxy.size.width * snapshot.progress(.sleep), 6))
+                            .frame(width: max(proxy.size.width * snapshot.progress(.sleep), 0))
                             .widgetAccentable()
                     }
                 }
-            Text(style.text("الهدف \(HealthMetric.sleep.format(goal)) ساعات"))
+            Text(snapshot.hasData(.sleep) ? style.text(healthGoalLabel(.sleep, snapshot: snapshot)) : "")
                 .font(style.font(.label, 10))
                 .foregroundStyle(style.secondary)
         }
@@ -477,7 +496,7 @@ struct HealthLockView: View {
     private func content(_ snapshot: HealthSnapshot) -> some View {
         switch (kind, family) {
         case (.healthSleep, .accessoryInline):
-            Label(LockText.inline(style.text("نوم \(HealthMetric.sleep.format(snapshot.value(.sleep))) ساعة")),
+            Label(LockText.inline(style.text("نوم \(snapshot.displayValue(.sleep)) ساعة")),
                   systemImage: "bed.double.fill")
         case (.healthSleep, .accessoryCircular):
             gauge(.sleep, snapshot)
@@ -489,7 +508,7 @@ struct HealthLockView: View {
             if family == .accessoryInline {
                 inline(snapshot)
             } else {
-                rectangular(HealthRings.metrics, snapshot)
+                rectangular(kind == .healthDashboard ? Array(HealthDisplaySettings.metrics().prefix(3)) : HealthRings.metrics, snapshot)
             }
         case (_, .accessoryInline):
             inline(snapshot)
@@ -501,7 +520,7 @@ struct HealthLockView: View {
     }
 
     private func inline(_ snapshot: HealthSnapshot) -> some View {
-        Label(LockText.inline(style.text("\(HealthMetric.steps.format(snapshot.value(.steps))) خطوة · \(HealthMetric.distance.format(snapshot.value(.distance))) كم")),
+        Label(LockText.inline(style.text("\(snapshot.displayValue(.steps)) خطوة · \(snapshot.displayValue(.distance)) كم")),
               systemImage: "figure.walk")
     }
 
@@ -509,7 +528,7 @@ struct HealthLockView: View {
         Gauge(value: snapshot.progress(metric)) { EmptyView() } currentValueLabel: {
             VStack(spacing: 0) {
                 Image(systemName: metric.symbol).font(.system(size: 10))
-                Text(style.text(compact(metric, snapshot.value(metric))))
+                Text(snapshot.hasData(metric) ? style.text(compact(metric, snapshot.value(metric))) : "—")
                     .font(style.font(.number, 14))
                     .minimumScaleFactor(0.5)
             }
@@ -529,11 +548,11 @@ struct HealthLockView: View {
                 VStack(alignment: .leading, spacing: 1) {
                     HStack(spacing: 4) {
                         Image(systemName: metric.symbol).font(.system(size: 10)).frame(width: 14)
-                        Text(style.text("\(metric.format(snapshot.value(metric))) \(metric.unit)"))
+                        Text(style.text("\(snapshot.displayValue(metric)) \(metric.unit)"))
                             .font(style.font(.labelBold, metrics.count > 2 ? 11 : 13))
                         Spacer(minLength: 0)
                     }
-                    if metrics.count <= 2 {
+                    if metrics.count <= 2, snapshot.hasData(metric) {
                         ProgressView(value: snapshot.progress(metric))
                     }
                 }
@@ -542,5 +561,32 @@ struct HealthLockView: View {
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
+    }
+}
+
+private func healthGoalLabel(_ metric: HealthMetric, snapshot: HealthSnapshot) -> String {
+    guard snapshot.hasData(metric) else { return "" }
+    var parts: [String] = []
+    if HealthDisplaySettings.showsGoals { parts.append("الهدف \(metric.format(metric.goal))") }
+    if HealthDisplaySettings.showsPercentage {
+        parts.append("\(DateHelper.arabic(Int((snapshot.value(metric) / metric.goal * 100).rounded())))٪")
+    }
+    return parts.joined(separator: " · ")
+}
+
+/// وقت القراءة الفعلي؛ لا يتغير إلى «الآن» عند استخدام بيانات يوم سابق.
+struct HealthUpdateLabel: View {
+    let snapshot: HealthSnapshot
+    let date: Date
+    @Environment(\.widgetStyle) private var style
+    var body: some View {
+        Text(HealthFormat.updateLabel(snapshot.date, now: date))
+            .font(style.font(.label, 8))
+            .foregroundStyle(style.secondary)
+            .lineLimit(1)
+            .minimumScaleFactor(0.7)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(.horizontal, 12)
+            .padding(.bottom, 5)
     }
 }

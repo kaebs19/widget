@@ -10,6 +10,7 @@ import WidgetKit
 
 // MARK: - الإعدادات
 struct SettingsView: View {
+    @AppStorage(AppLanguage.preferenceKey, store: AppGroup.defaults) private var language = AppLanguage.system
     @Environment(\.dismiss) private var dismiss
     @Environment(WidgetStyleStore.self) private var styles
     @State private var showResetAll = false
@@ -29,7 +30,17 @@ struct SettingsView: View {
             ScrollView {
                 VStack(spacing: 24) {
                     generalGroup
-                    group("المحتوى") {
+                    group(L10n.text("المحتوى")) {
+                        NavigationLink {
+                            ScrollView { WeatherSettingsView().padding(16).readableWidth() }
+                                .background(Theme.background.ignoresSafeArea())
+                                .navigationTitle(L10n.text("الطقس"))
+                                .navigationBarTitleDisplayMode(.inline)
+                        } label: {
+                            rowLabel(L10n.text("الطقس"), WeatherLocation.saved?.city ?? L10n.text("اختر موقع الطقس"),
+                                     symbol: "cloud.sun.fill", color: Color(red: 0.18, green: 0.52, blue: 0.85), chevron: true)
+                        }
+                        .buttonStyle(.plain)
                         row(.prayer)
                         #if !targetEnvironment(macCatalyst)
                         row(.health)
@@ -38,46 +49,46 @@ struct SettingsView: View {
                         row(.finance)
                         row(.counter)
                     }
-                    group("الدعم") {
-                        actionRow("طريقة الإضافة", "للشاشة الرئيسية وشاشة القفل", symbol: "questionmark.circle.fill",
+                    group(L10n.text("الدعم")) {
+                        actionRow(L10n.text("طريقة الإضافة"), L10n.text("للشاشة الرئيسية وشاشة القفل"), symbol: "questionmark.circle.fill",
                                   color: Color(red: 0.20, green: 0.60, blue: 0.86), chevron: true) { showHowTo = true }
-                        actionRow("الأسئلة الشائعة", "إجابات سريعة لأكثر الأسئلة", symbol: "bubble.left.and.text.bubble.right.fill",
+                        actionRow(L10n.text("الأسئلة الشائعة"), L10n.text("إجابات سريعة لأكثر الأسئلة"), symbol: "bubble.left.and.text.bubble.right.fill",
                                   color: Color(red: 0.36, green: 0.42, blue: 0.86), external: true) { webPage = AppLinks.faq }
-                        actionRow("تواصل معنا", AppLinks.supportEmail, symbol: "envelope.fill",
+                        actionRow(L10n.text("تواصل معنا"), AppLinks.supportEmail, symbol: "envelope.fill",
                                   color: Color(red: 0.18, green: 0.62, blue: 0.52), external: true) {
-                            if let url = AppLinks.mail(subject: "دعم تطبيق ويدجت") { openURL(url) }
+                            if let url = AppLinks.mail(subject: L10n.text("دعم تطبيق ويدجت")) { openURL(url) }
                         }
-                        actionRow("إبلاغ عن خطأ في نص", "آية أو ذكر يحتاج تصحيح", symbol: "exclamationmark.bubble.fill",
+                        actionRow(L10n.text("إبلاغ عن خطأ في نص"), L10n.text("آية أو ذكر يحتاج تصحيح"), symbol: "exclamationmark.bubble.fill",
                                   color: Color(red: 0.90, green: 0.45, blue: 0.20), external: true) {
-                            if let url = AppLinks.mail(subject: "خطأ في نص",
+                            if let url = AppLinks.mail(subject: L10n.text("خطأ في نص"),
                                                        body: "اسم الودجت:\nالنص الذي فيه الخطأ:\nالتصحيح المقترح:\n") {
                                 openURL(url)
                             }
                         }
-                        actionRow("قيّم التطبيق", "رأيك يساعدنا نتحسّن", symbol: "star.fill",
+                        actionRow(L10n.text("قيّم التطبيق"), L10n.text("رأيك يساعدنا نتحسّن"), symbol: "star.fill",
                                   color: Color(red: 0.95, green: 0.70, blue: 0.15), external: true) { openURL(AppLinks.writeReview) }
                         ShareLink(item: AppLinks.appStore,
-                                  message: Text("جرّب تطبيق ويدجت: ودجات الصلاة والأذكار والتقويم الهجري")) {
-                            rowLabel("شارك التطبيق", "أرسله لمن تحب", symbol: "square.and.arrow.up.fill",
+                                  message: Text(L10n.text("جرّب تطبيق ويدجت: ودجات الصلاة والأذكار والتقويم الهجري"))) {
+                            rowLabel(L10n.text("شارك التطبيق"), L10n.text("أرسله لمن تحب"), symbol: "square.and.arrow.up.fill",
                                      color: Color(red: 0.55, green: 0.42, blue: 0.85))
                         }
                         .buttonStyle(.plain)
-                        actionRow("تابعنا على X", "@B_c_Arab", symbol: "at",
+                        actionRow(L10n.text("تابعنا على X"), "@B_c_Arab", symbol: "at",
                                   color: Color(white: 0.2), external: true) { openURL(AppLinks.x) }
                     }
-                    group("قانوني") {
+                    group(L10n.text("عن التطبيق")) {
                         row(.about)
-                        actionRow("سياسة الخصوصية", "كيف نتعامل مع بياناتك", symbol: "hand.raised.fill",
+                        actionRow(L10n.text("سياسة الخصوصية"), L10n.text("كيف نتعامل مع بياناتك"), symbol: "hand.raised.fill",
                                   color: Color(red: 0.25, green: 0.52, blue: 0.90), external: true) { webPage = AppLinks.privacy }
-                        actionRow("شروط الاستخدام", "شروط استخدام التطبيق", symbol: "doc.text.fill",
+                        actionRow(L10n.text("شروط الاستخدام"), L10n.text("شروط استخدام التطبيق"), symbol: "doc.text.fill",
                                   color: Color(white: 0.5), external: true) { webPage = AppLinks.terms }
                         NavigationLink { CreditsView() } label: {
-                            rowLabel("المصادر والتراخيص", "مصادر النصوص والخطوط والمكتبات", symbol: "books.vertical.fill",
+                            rowLabel(L10n.text("المصادر والتراخيص"), L10n.text("مصادر النصوص والخطوط والمكتبات"), symbol: "books.vertical.fill",
                                      color: Color(red: 0.62, green: 0.48, blue: 0.30), chevron: true)
                         }
                         .buttonStyle(.plain)
                     }
-                    Text("ويدجت \(AppLinks.version)")
+                    Text("\(L10n.text("ويدجت")) \(AppLinks.version)")
                         .font(AppFont.ui(12))
                         .foregroundStyle(Theme.textSecondary)
                 }
@@ -85,11 +96,11 @@ struct SettingsView: View {
                 .readableWidth()
             }
             .background(Theme.background.ignoresSafeArea())
-            .navigationTitle("الإعدادات")
+            .navigationTitle(L10n.text("الإعدادات"))
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) {
-                    Button("تم") { dismiss() }
+                    Button(L10n.text("تم")) { dismiss() }
                 }
             }
             .navigationDestination(for: SettingsPage.self) { page in
@@ -212,7 +223,7 @@ struct SettingsView: View {
                         .lineLimit(1)
                 }
                 Spacer()
-                Image(systemName: "chevron.left")
+                Image(systemName: language.isRightToLeft ? "chevron.left" : "chevron.right")
                     .font(.footnote.weight(.semibold))
                     .foregroundStyle(Theme.textSecondary)
             }
@@ -250,7 +261,7 @@ struct SettingsView: View {
             }
             Spacer()
             if external || chevron {
-                Image(systemName: external ? "arrow.up.left" : "chevron.left")
+                Image(systemName: external ? (language.isRightToLeft ? "arrow.up.left" : "arrow.up.right") : (language.isRightToLeft ? "chevron.left" : "chevron.right"))
                     .font(.footnote.weight(.semibold))
                     .foregroundStyle(Theme.textSecondary)
             }
@@ -267,16 +278,16 @@ struct SettingsView: View {
         case .prayer:
             "\(PrayerLocation.current.city) · \(PrayerSchedule.method.title)"
         case .occasions:
-            OccasionStore.all().isEmpty ? "أعياد الميلاد والذكريات" : "\(DateHelper.arabic(OccasionStore.all().count)) مناسبة"
+            OccasionStore.all().isEmpty ? L10n.text("أعياد الميلاد والذكريات") : "\(DateHelper.arabic(OccasionStore.all().count)) مناسبة"
         case .health:
             HealthCache.isConnected
-                ? HealthCache.load().map { "\(HealthMetric.steps.format($0.value(.steps))) خطوة اليوم" } ?? "مربوط بتطبيق الصحة"
-                : "الخطوات والسعرات والنوم"
+                ? HealthCache.load().map { "\(HealthMetric.steps.format($0.value(.steps))) خطوة اليوم" } ?? L10n.text("مربوط بتطبيق الصحة")
+                : L10n.text("الخطوات والسعرات والنوم")
         case .finance:
             Payday.allCases.map { $0.cycle() }.min { $0.next < $1.next }
                 .map { "\($0.payday.displayName) \(PaydayFormat.remaining($0.days))" } ?? ""
         case .counter:
-            haptics ? "الاهتزاز مفعّل" : "الاهتزاز متوقف"
+            haptics ? L10n.text("الاهتزاز مفعّل") : L10n.text("الاهتزاز متوقف")
         case .location:
             PrayerLocation.saved?.city ?? L10n.text("مكة المكرمة (افتراضي)")
         case .notifications:
@@ -284,9 +295,9 @@ struct SettingsView: View {
         case .widgetDefaults:
             L10n.text("الخلفية والخط للودجات")
         case .calendar:
-            "تصحيح الهجري: \(offsetLabel)"
+            "\(L10n.text("تصحيح التاريخ الهجري")): \(offsetLabel)"
         case .about:
-            "الإصدار \(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "")"
+            "\(L10n.text("الإصدار")) \(AppLinks.version)"
         }
     }
 
@@ -341,12 +352,18 @@ struct SettingsView: View {
     }
 
     private var widgetDefaultsSection: some View {
-        SettingsSection("الشكل الافتراضي للودجات") {
-            WidgetPreviewView(kind: .hijriDate, size: .medium, style: styles.defaultStyle)
-                .aspectRatio(WidgetSize.medium.aspectRatio, contentMode: .fit)
-                .cardStyle(radius: 20)
-                .animation(.snappy, value: styles.defaultStyle)
-            SettingRow("الخلفية") {
+        VStack(spacing: 20) {
+            SettingsSection(L10n.text("معاينة الشكل الافتراضي")) {
+                WidgetPreviewView(kind: .morningDhikr, size: .medium, style: styles.defaultStyle)
+                    .aspectRatio(WidgetSize.medium.aspectRatio, contentMode: .fit)
+                    .cardStyle(radius: 20)
+                    .animation(.snappy, value: styles.defaultStyle)
+                Text(L10n.text("تُحفظ التغييرات تلقائيًا للودجات التي لم تخصصها. الودجات المخصصة تبقى على شكلها حتى تطبق الإعدادات على الكل."))
+                    .font(AppFont.ui(12))
+                    .foregroundStyle(Theme.textSecondary)
+            }
+            TypographySettingsSection(style: defaultStyle)
+            SettingsSection(L10n.text("الخلفية")) {
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: 12) {
                         ForEach(BackgroundPreset.allCases) { preset in
@@ -358,38 +375,36 @@ struct SettingsView: View {
                     .padding(.vertical, 2)
                 }
             }
-            SettingRow("خط النص") {
-                ChoiceChips(options: AppFontFamily.customizable, selection: defaultStyle.contentFont) { family in
-                    Text(family.displayName).font(.app(family, size: 16))
-                }
+            SettingsSection(L10n.text("أسماء التقويم")) {
+                Toggle(L10n.text("أسماء الأيام والأشهر بالخط العربي المصوّر"), isOn: defaultStyle.usesCalligraphy)
+                    .font(AppFont.ui(14))
+                Text(L10n.text("أوقف الخط المصوّر لعرض أسماء التقويم بالخط الذي تختاره."))
+                    .font(AppFont.ui(12)).foregroundStyle(Theme.textSecondary)
             }
-            Text("يظهر في كل ودجت ما خصّصته من صفحته. الودجات المخصّصة تبقى على شكلها.")
-                .font(AppFont.ui(12))
-                .foregroundStyle(Theme.textSecondary)
             Button { showResetAll = true } label: {
-                Label("تطبيق على كل الودجات", systemImage: "square.on.square")
+                Label(L10n.text("تطبيق على كل الودجات"), systemImage: "square.on.square")
                     .font(AppFont.uiBold(15))
                     .frame(maxWidth: .infinity)
                     .padding(.vertical, 12)
                     .background(Theme.gold.opacity(0.12), in: RoundedRectangle(cornerRadius: 14))
             }
-            .confirmationDialog("إلغاء تخصيص كل الودجات؟", isPresented: $showResetAll, titleVisibility: .visible) {
-                Button("تطبيق الشكل الافتراضي على الكل", role: .destructive) { styles.resetAllToDefault() }
+            .confirmationDialog(L10n.text("إلغاء تخصيص كل الودجات؟"), isPresented: $showResetAll, titleVisibility: .visible) {
+                Button(L10n.text("تطبيق الشكل الافتراضي على الكل"), role: .destructive) { styles.resetAllToDefault() }
             } message: {
-                Text("كل ودجت خصّصته يرجع للشكل الافتراضي. أنماطك المحفوظة تبقى.")
+                Text(L10n.text("كل ودجت خصّصته يرجع للشكل الافتراضي. أنماطك المحفوظة تبقى."))
             }
         }
     }
 
     // MARK: العدّاد والتنبيهات
     private var counterSection: some View {
-        SettingsSection("عدّاد الذكر") {
-            Toggle("اهتزاز عند العدّ داخل التطبيق", isOn: $haptics)
+        SettingsSection(L10n.text("عدّاد الذكر")) {
+            Toggle(L10n.text("اهتزاز عند العدّ داخل التطبيق"), isOn: $haptics)
             Button(role: .destructive) { showResetCounter = true } label: {
-                Label("تصفير عدّاد اليوم", systemImage: "arrow.counterclockwise")
+                Label(L10n.text("تصفير عدّاد اليوم"), systemImage: "arrow.counterclockwise")
             }
-            .confirmationDialog("تصفير عدد اليوم لكل الأذكار؟", isPresented: $showResetCounter, titleVisibility: .visible) {
-                Button("تصفير", role: .destructive) {
+            .confirmationDialog(L10n.text("تصفير عدد اليوم لكل الأذكار؟"), isPresented: $showResetCounter, titleVisibility: .visible) {
+                Button(L10n.text("تصفير"), role: .destructive) {
                     TasbeehCounter.resetToday()
                     WidgetCenter.shared.reloadTimelines(ofKind: WidgetKind.istighfar.rawValue)
                 }
@@ -401,26 +416,26 @@ struct SettingsView: View {
 
     // MARK: التقويم
     private var calendarSection: some View {
-        SettingsSection("التقويم") {
-            SettingRow("تصحيح التاريخ الهجري", detail: offsetLabel) {
+        SettingsSection(L10n.text("التقويم")) {
+            SettingRow(L10n.text("تصحيح التاريخ الهجري"), detail: offsetLabel) {
                 HStack {
                     Text(DateHelper.hijriDayMonth(.now) + " " + DateHelper.hijriYear(.now) + " هـ")
                         .font(AppFont.uiBold(16))
                         .foregroundStyle(Theme.textPrimary)
                     Spacer()
-                    Stepper("تصحيح التاريخ الهجري", value: $hijriOffset, in: -2...2)
+                    Stepper(L10n.text("تصحيح التاريخ الهجري"), value: $hijriOffset, in: -2...2)
                         .labelsHidden()
                 }
             }
-            Text("حسب تقويم أم القرى. إذا اختلف إعلان رؤية الهلال، زِد أو أنقص يوماً، ويتعدّل التاريخ وعدّاد رمضان والعيد.")
+            Text(L10n.text("حسب تقويم أم القرى. إذا اختلف إعلان رؤية الهلال، زِد أو أنقص يوماً، ويتعدّل التاريخ وعدّاد رمضان والعيد."))
                 .font(AppFont.ui(12))
                 .foregroundStyle(Theme.textSecondary)
             Divider()
-            SettingRow("بداية الأسبوع") {
-                Picker("بداية الأسبوع", selection: $weekStart) {
-                    Text("السبت").tag(7)
-                    Text("الأحد").tag(1)
-                    Text("الاثنين").tag(2)
+            SettingRow(L10n.text("بداية الأسبوع")) {
+                Picker(L10n.text("بداية الأسبوع"), selection: $weekStart) {
+                    Text(L10n.text("السبت")).tag(7)
+                    Text(L10n.text("الأحد")).tag(1)
+                    Text(L10n.text("الاثنين")).tag(2)
                 }
                 .pickerStyle(.segmented)
             }
@@ -431,7 +446,7 @@ struct SettingsView: View {
 
     private var offsetLabel: String {
         switch hijriOffset {
-        case 0: "بدون تصحيح"
+        case 0: L10n.text("بدون تصحيح")
         case let days where days > 0: "+\(DateHelper.arabic(days)) يوم"
         default: "−\(DateHelper.arabic(-hijriOffset)) يوم"
         }
@@ -439,25 +454,93 @@ struct SettingsView: View {
 
     // MARK: عن التطبيق
     private var aboutSection: some View {
-        SettingsSection("عن التطبيق") {
+        SettingsSection(L10n.text("عن التطبيق")) {
             HStack {
-                Text("الإصدار")
+                Text(L10n.text("الإصدار"))
                 Spacer()
                 Text(AppLinks.version)
                     .foregroundStyle(Theme.textSecondary)
             }
             HStack {
-                Text("الموقع")
+                Text(L10n.text("الموقع"))
                 Spacer()
                 Link("kaebs19.github.io", destination: AppLinks.site)
                     .environment(\.layoutDirection, .leftToRight)
             }
-            Text("نص القرآن الكريم وخطه من مجمع الملك فهد لطباعة المصحف الشريف.")
+            Text(L10n.text("نص القرآن الكريم وخطه من مجمع الملك فهد لطباعة المصحف الشريف."))
                 .font(AppFont.ui(12))
                 .foregroundStyle(Theme.textSecondary)
         }
         .font(AppFont.ui(15))
         .foregroundStyle(Theme.textPrimary)
+    }
+}
+
+// MARK: - Language selection
+private struct LanguageSettingsView: View {
+    @AppStorage(AppLanguage.preferenceKey, store: AppGroup.defaults) private var language = AppLanguage.system
+
+    var body: some View {
+        ScrollView {
+            VStack(alignment: .leading, spacing: 12) {
+                VStack(spacing: 0) {
+                    ForEach(AppLanguage.allCases) { option in
+                        if option != .system {
+                            Divider().padding(.horizontal, 16)
+                        }
+                        Button {
+                            language = option
+                        } label: {
+                            HStack(spacing: 14) {
+                                Image(systemName: option == .system ? "iphone" : "globe")
+                                    .font(.system(size: 20))
+                                    .foregroundStyle(Theme.gold)
+                                    .frame(width: 32)
+                                VStack(alignment: .leading, spacing: 4) {
+                                    Text(option.title)
+                                        .font(AppFont.uiBold(16))
+                                        .foregroundStyle(Theme.textPrimary)
+                                    Text(subtitle(for: option))
+                                        .font(AppFont.ui(13))
+                                        .foregroundStyle(Theme.textSecondary)
+                                }
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                Image(systemName: language == option ? "checkmark.circle.fill" : "circle")
+                                    .font(.system(size: 22))
+                                    .foregroundStyle(language == option ? Theme.gold : Theme.textSecondary.opacity(0.4))
+                            }
+                            .padding(16)
+                            .frame(minHeight: 72)
+                            .contentShape(Rectangle())
+                        }
+                        .buttonStyle(.plain)
+                        .accessibilityAddTraits(language == option ? .isSelected : [])
+                    }
+                }
+                .background(Theme.cardTop.opacity(0.6), in: RoundedRectangle(cornerRadius: 18, style: .continuous))
+                Text(L10n.text("تتغير لغة الواجهة واتجاهها مباشرةً حسب اختيارك."))
+                    .font(AppFont.ui(13))
+                    .foregroundStyle(Theme.textSecondary)
+                    .padding(.horizontal, 6)
+            }
+            .padding(16)
+            .readableWidth()
+        }
+        .background(Theme.background.ignoresSafeArea())
+        .navigationTitle(L10n.text("لغة التطبيق"))
+        .navigationBarTitleDisplayMode(.inline)
+        .onChange(of: language) { _, _ in
+            WidgetCenter.shared.reloadAllTimelines()
+            Task { await PrayerNotifications.reschedule() }
+        }
+    }
+
+    private func subtitle(for option: AppLanguage) -> String {
+        switch option {
+        case .system: L10n.text("استخدام لغة الجهاز تلقائيًا")
+        case .arabic: "Arabic"
+        case .english: "الإنجليزية"
+        }
     }
 }
 
@@ -496,16 +579,16 @@ enum SettingsPage: Hashable {
 
     var title: String {
         switch self {
-        case .prayer:         "أوقات الصلاة"
-        case .occasions:      "مناسباتي"
-        case .finance:        "المال والأعمال"
-        case .health:         "الصحة"
-        case .counter:        "عدّاد الذكر"
+        case .prayer:         L10n.text("أوقات الصلاة")
+        case .occasions:      L10n.text("مناسباتي")
+        case .finance:        L10n.text("المال والأعمال")
+        case .health:         L10n.text("الصحة")
+        case .counter:        L10n.text("عدّاد الذكر")
         case .location:       L10n.text("الموقع")
         case .notifications:  L10n.text("الإشعارات")
         case .widgetDefaults: L10n.text("الشكل العام")
-        case .calendar:       "التقويم"
-        case .about:          "عن التطبيق"
+        case .calendar:       L10n.text("التقويم")
+        case .about:          L10n.text("عن التطبيق")
         }
     }
 

@@ -43,12 +43,23 @@ nonisolated struct WidgetTimelineProvider: AppIntentTimelineProvider {
 
     func timeline(for configuration: WidgetStyleIntent, in context: Context) async -> Timeline<WidgetEntry> {
         let styleID = configuration.style?.id
+        if kind == .weather {
+            try? await WeatherReader.shared.refresh()
+            let now = Date.now
+            return Timeline(entries: [WidgetEntry(date: now, kind: kind, styleID: styleID),
+                                      WidgetEntry(date: now.addingTimeInterval(2 * 3600 + 1), kind: kind, styleID: styleID),
+                                      WidgetEntry(date: now.addingTimeInterval(24 * 3600), kind: kind, styleID: styleID)],
+                            policy: .after(now.addingTimeInterval(30 * 60)))
+        }
         // ودجات الصلاة تتحدث باستمرار، فنجدّد معها تنبيهات الأذان حتى لو لم يُفتح التطبيق
         if kind.category == .prayer { await PrayerNotifications.reschedule() }
         // وكذلك تنبيهات مواعيد الصرف، فتمتد للشهر القادم بدون فتح التطبيق
         if kind.category == .finance {
             await PaydayNotifications.reschedule()
             await ObligationStore.scheduleReminders()
+        }
+        if kind == .healthWater {
+            return Timeline(entries: TimelineSchedule.hourly().map { WidgetEntry(date: $0, kind: kind, styleID: styleID) }, policy: .atEnd)
         }
         if kind.category == .health {
             // نقرأ الصحة الآن ونحفظها، ونطلب تحديثاً بعد ربع ساعة. والجهاز مقفل يُعرض آخر المحفوظ.
@@ -57,7 +68,7 @@ nonisolated struct WidgetTimelineProvider: AppIntentTimelineProvider {
             return Timeline(entries: [WidgetEntry(date: now, kind: kind, styleID: styleID)],
                             policy: .after(now.addingTimeInterval(15 * 60)))
         }
-        let dates = kind.category == .prayer ? TimelineSchedule.prayer() : TimelineSchedule.hourly()
+        let dates = (kind.category == .prayer || kind == .dailyOverview) ? TimelineSchedule.prayer() : TimelineSchedule.hourly()
         let entries = dates.map { WidgetEntry(date: $0, kind: kind, styleID: styleID) }
         return Timeline(entries: entries, policy: .atEnd)
     }

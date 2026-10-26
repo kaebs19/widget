@@ -79,6 +79,8 @@ struct CreditsView: View {
         Credit(title: "الأذكار", detail: "من كتاب حصن المسلم.", license: "—"),
         Credit(title: "حساب مواقيت الصلاة والقبلة", detail: "مكتبة Adhan من Batoul Apps.", license: "MIT"),
         Credit(title: "خط أميري (Amiri)", detail: "Khaled Hosny.", license: "SIL Open Font License 1.1"),
+        Credit(title: "خط لطيف (Lateef)", detail: "SIL International · من Google Fonts.", license: "SIL Open Font License 1.1"),
+        Credit(title: "خط IBM Plex عربي", detail: "IBM وBold Monday · من Google Fonts.", license: "SIL Open Font License 1.1"),
         Credit(title: "خط الرقعة (Aref Ruqaa)", detail: "The Aref Ruqaa Project Authors.", license: "SIL Open Font License 1.1"),
         Credit(title: "خطا القاهرة وتجوال (Cairo, Tajawal)", detail: "من Google Fonts.", license: "SIL Open Font License 1.1"),
     ]

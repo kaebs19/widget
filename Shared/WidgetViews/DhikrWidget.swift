@@ -12,6 +12,7 @@ struct DhikrWidget: View {
     let zikr: Zikr
     /// سطر المصدر/الفضل تحت الذكر؛ الحجم الصغير ما يتسع له
     var showsInfo = true
+    var isEvening = false
     @Environment(\.widgetStyle) private var style
 
     /// أطول ذكر (بعدد الحروف بدون التشكيل) يتسع له كل حجم دون أن ينقص النص.
@@ -28,7 +29,7 @@ struct DhikrWidget: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
-            WidgetHeader(icon: .system("sun.max"), title: "أذكار الصباح",
+            WidgetHeader(icon: .system(isEvening ? "moon.stars" : "sun.max"), title: isEvening ? "أذكار المساء" : "أذكار الصباح",
                          trailing: Self.repeatLabel(zikr.repeatCount))
             Text(zikr.text)
                 .font(style.font(.text, 17))

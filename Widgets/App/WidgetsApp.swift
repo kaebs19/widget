@@ -22,6 +22,7 @@ struct WidgetsApp: App {
         // الصحة توقظ التطبيق في الخلفية عند خطوات جديدة، فتتحدث ودجاتها
         #if !targetEnvironment(macCatalyst)
         HealthWidgets.startBackgroundUpdates()
+        WatchSync.shared.activate()
         #endif
     }
 
@@ -37,8 +38,17 @@ struct WidgetsApp: App {
                 .tint(Theme.accent(accent))
                 .environment(styleStore)
                 // عند كل فتح للتطبيق تمتد تنبيهات الأذان لأيام قادمة
+                #if !targetEnvironment(macCatalyst)
+                // أي تغيير في الإعدادات المشتركة يصل للساعة
+                .onReceive(NotificationCenter.default.publisher(for: UserDefaults.didChangeNotification)) { _ in
+                    WatchSync.shared.push()
+                }
+                #endif
                 .onChange(of: scenePhase) { _, phase in
                     if phase == .active {
+                        #if !targetEnvironment(macCatalyst)
+                        WatchSync.shared.push()
+                        #endif
                         Task {
                             await OccasionStore.scheduleReminders(for: OccasionStore.all())
                             await PrayerNotifications.reschedule()

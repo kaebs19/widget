@@ -462,7 +462,7 @@ struct SettingsView: View {
                     .foregroundStyle(Theme.textSecondary)
             }
             HStack {
-                Text(L10n.text("الموقع"))
+                Text(L10n.text("الموقع الإلكتروني"))
                 Spacer()
                 Link("kaebs19.github.io", destination: AppLinks.site)
                     .environment(\.layoutDirection, .leftToRight)

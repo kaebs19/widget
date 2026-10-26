@@ -1151,6 +1151,16 @@
         }
       }
     },
+    "ابدأ" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Start"
+          }
+        }
+      }
+    },
     "ابدأ الاستخدام" : {
       "localizations" : {
         "en" : {
@@ -1487,6 +1497,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sunday"
+          }
+        }
+      }
+    },
+    "الأذان" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adhan"
           }
         }
       }
@@ -1856,6 +1876,16 @@
     },
     "التكرار" : {},
     "التنبيه" : {},
+    "التنبيهات" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alerts"
+          }
+        }
+      }
+    },
     "التنبيهات غير مسموحة للتطبيق. فعّلها من إعدادات الجهاز." : {},
     "التنبيهات مفعّلة" : {},
     "التنبيهات مقفلة للتطبيق. فعّلها من إعدادات الجهاز." : {
@@ -2684,6 +2714,16 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
+            "value" : "Location"
+          }
+        }
+      }
+    },
+    "الموقع الإلكتروني" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
             "value" : "Website"
           }
         }
@@ -2791,6 +2831,16 @@
       }
     },
     "انتهى" : {},
+    "اهتزاز خفيف مع كل تنبيه على معصمك." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A gentle tap on your wrist with every alert."
+          }
+        }
+      }
+    },
     "اهتزاز عند العدّ داخل التطبيق" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2842,6 +2892,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "No adjustment"
+          }
+        }
+      }
+    },
+    "بعد ١٠ دقائق" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In 10 minutes"
           }
         }
       }
@@ -3213,6 +3273,16 @@
     "تفاصيل الاشتراك" : {},
     "تفاصيل التمارين" : {},
     "تفاصيل نوم الأسبوع" : {},
+    "تفضيلات تنطبق على جميع الودجات." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Preferences for all your widgets."
+          }
+        }
+      }
+    },
     "تفضيلات تنطبق على جميع الودجات، وتقدر تغيّرها في أي وقت." : {
       "localizations" : {
         "en" : {
@@ -3355,6 +3425,16 @@
       }
     },
     "جارٍ قراءة البيانات…" : {},
+    "جارٍ…" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Locating…"
+          }
+        }
+      }
+    },
     "جدول الصلوات" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -3964,6 +4044,16 @@
         }
       }
     },
+    "صلاة" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Prayer"
+          }
+        }
+      }
+    },
     "صورة من ألبومك" : {},
     "ضع الجوال مسطّحاً وبعيداً عن المعادن للحصول على اتجاه دقيق." : {},
     "طريقة إضافة الودجت" : {},
@@ -4227,6 +4317,16 @@
       }
     },
     "قبل %@ دقيقة" : {},
+    "قبل الصلاة" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Before prayer"
+          }
+        }
+      }
+    },
     "قد لا توجد بيانات مسجّلة، أو لم تسمح بقراءتها. راجع الأذونات من تطبيق الصحة." : {},
     "قد يُقدَّم قبل %@" : {},
     "قرأت اليوم: %@ صفحة" : {},
@@ -4550,6 +4650,16 @@
       }
     },
     "لم تسجل أي كوب اليوم" : {},
+    "لمواقيت صلاة دقيقة حسب مدينتك." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Accurate prayer times for your city."
+          }
+        }
+      }
+    },
     "له آخر دفعة" : {},
     "لون التطبيق" : {
       "extractionState" : "manual",
@@ -4865,6 +4975,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Makkah (default)"
+          }
+        }
+      }
+    },
+    "من الآيفون" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "From iPhone"
           }
         }
       }

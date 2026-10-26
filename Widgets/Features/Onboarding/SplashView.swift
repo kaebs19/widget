@@ -113,6 +113,8 @@ struct SplashView: View {
                 .rotationEffect(.degrees(-90))
         }
         .frame(width: ringRadius * 2, height: ringRadius * 2)
+        // الحلقة تُرسم مع عقارب الساعة من الأعلى مهما كان اتجاه اللغة
+        .environment(\.layoutDirection, .leftToRight)
     }
 
     @ViewBuilder

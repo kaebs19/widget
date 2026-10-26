@@ -8,12 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		5CF35A683078477B006458E2 /* WidgetsExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 5CF35A5B3078477B006458E2 /* WidgetsExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		AD4A0004000000000000AD04 /* Adhan in Frameworks */ = {isa = PBXBuildFile; productRef = AD4A0002000000000000AD02 /* Adhan */; };
-		AD4A0005000000000000AD05 /* Adhan in Frameworks */ = {isa = PBXBuildFile; productRef = AD4A0003000000000000AD03 /* Adhan */; };
 		7A7C00000000000000000001 /* WidgetsWatch.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 7A7C00000000000000000002 /* WidgetsWatch.app */; platformFilter = ios; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		7A7C0000000000000000000B /* Adhan in Frameworks */ = {isa = PBXBuildFile; productRef = 7A7C0000000000000000000C /* Adhan */; };
 		7A7C00000000000000001001 /* WidgetsWatchComplications.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 7A7C00000000000000001002 /* WidgetsWatchComplications.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		7A7C0000000000000000100C /* Adhan in Frameworks */ = {isa = PBXBuildFile; productRef = 7A7C0000000000000000100D /* Adhan */; };
+		AD4A0004000000000000AD04 /* Adhan in Frameworks */ = {isa = PBXBuildFile; productRef = AD4A0002000000000000AD02 /* Adhan */; };
+		AD4A0005000000000000AD05 /* Adhan in Frameworks */ = {isa = PBXBuildFile; productRef = AD4A0003000000000000AD03 /* Adhan */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,14 +52,12 @@
 		};
 		7A7C00000000000000000004 /* Embed Watch Content */ = {
 			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
 			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
-			dstSubfolderSpec = 16;
+			dstSubfolder = Product;
 			files = (
 				7A7C00000000000000000001 /* WidgetsWatch.app in Embed Watch Content */,
 			);
 			name = "Embed Watch Content";
-			runOnlyForDeploymentPostprocessing = 0;
 		};
 		7A7C00000000000000001004 /* Embed Foundation Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -101,9 +99,11 @@
 				DesignSystem/Ease.swift,
 				Localization/AppLanguage.swift,
 				Models/PrayerSchedule.swift,
+				Models/Tasbeeh.swift,
 				Resources/Localizable.xcstrings,
 				Storage/AppGroup.swift,
 				Storage/AppSettings.swift,
+				Storage/TasbeehCounter.swift,
 				Utilities/DateHelper.swift,
 			);
 			target = 7A7C00000000000000000005 /* WidgetsWatch */;
@@ -919,22 +919,22 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		AD4A0002000000000000AD02 /* Adhan */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = AD4A0001000000000000AD01 /* XCRemoteSwiftPackageReference "adhan-swift" */;
-			productName = Adhan;
-		};
-		AD4A0003000000000000AD03 /* Adhan */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = AD4A0001000000000000AD01 /* XCRemoteSwiftPackageReference "adhan-swift" */;
-			productName = Adhan;
-		};
 		7A7C0000000000000000000C /* Adhan */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = AD4A0001000000000000AD01 /* XCRemoteSwiftPackageReference "adhan-swift" */;
 			productName = Adhan;
 		};
 		7A7C0000000000000000100D /* Adhan */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AD4A0001000000000000AD01 /* XCRemoteSwiftPackageReference "adhan-swift" */;
+			productName = Adhan;
+		};
+		AD4A0002000000000000AD02 /* Adhan */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AD4A0001000000000000AD01 /* XCRemoteSwiftPackageReference "adhan-swift" */;
+			productName = Adhan;
+		};
+		AD4A0003000000000000AD03 /* Adhan */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = AD4A0001000000000000AD01 /* XCRemoteSwiftPackageReference "adhan-swift" */;
 			productName = Adhan;

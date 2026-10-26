@@ -85,7 +85,9 @@
     },
     "%@° من الشمال" : {},
     "%lld بالمئة" : {},
+    "--:--" : {},
     "/ %@" : {},
+    "123" : {},
     "Weather" : {},
     "kaebs19.github.io" : {},
     "weather.condition.blizzard" : {
@@ -1152,6 +1154,7 @@
       }
     },
     "ابدأ" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1223,6 +1226,16 @@
       }
     },
     "اختر الدفعات من الإعدادات" : {},
+    "اختر الذكر" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choose dhikr"
+          }
+        }
+      }
+    },
     "اختر الذكر الذي تعدّه" : {},
     "اختر الطريقة المعتمدة في بلدك." : {},
     "اختر المدينة" : {
@@ -1502,6 +1515,7 @@
       }
     },
     "الأذان" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2308,6 +2322,7 @@
       }
     },
     "الصلاة القادمة ووقتها والعد التنازلي لها." : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2842,6 +2857,7 @@
     },
     "انتهى" : {},
     "اهتزاز خفيف مع كل تنبيه على معصمك." : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2907,6 +2923,7 @@
       }
     },
     "بعد ١٠ دقائق" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3284,6 +3301,7 @@
     "تفاصيل التمارين" : {},
     "تفاصيل نوم الأسبوع" : {},
     "تفضيلات تنطبق على جميع الودجات." : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3436,6 +3454,7 @@
     },
     "جارٍ قراءة البيانات…" : {},
     "جارٍ…" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -4055,6 +4074,7 @@
       }
     },
     "صلاة" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -4158,6 +4178,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ramadan countdown"
+          }
+        }
+      }
+    },
+    "عدد مفتوح" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open count"
           }
         }
       }
@@ -4328,6 +4358,7 @@
     },
     "قبل %@ دقيقة" : {},
     "قبل الصلاة" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -4661,6 +4692,7 @@
     },
     "لم تسجل أي كوب اليوم" : {},
     "لمواقيت صلاة دقيقة حسب مدينتك." : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -4831,6 +4863,16 @@
         }
       }
     },
+    "مرة" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "times"
+          }
+        }
+      }
+    },
     "مسح" : {},
     "مسح البحث" : {
       "extractionState" : "manual",
@@ -4990,6 +5032,7 @@
       }
     },
     "من الآيفون" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -5537,6 +5580,7 @@
     "يومًا" : {},
     "يومًا متبقيًا" : {},
     "٠" : {},
+    "١٢٣" : {},
     "—" : {},
     "↑ %@  ↓ %@" : {
       "localizations" : {

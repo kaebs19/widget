@@ -27,7 +27,13 @@ struct WatchLaunchView: View {
             W.background.ignoresSafeArea()
             switch stage {
             case .home:
-                WatchHomeView().transition(.opacity)
+                // الصلاة أولاً، والعدّاد بالسحب للأسفل
+                TabView {
+                    WatchHomeView()
+                    NavigationStack { WatchTasbeehView() }
+                }
+                .tabViewStyle(.verticalPage)
+                .transition(.opacity)
             case .onboarding:
                 WatchOnboardingView(logoNamespace: logo) {
                     AppGroup.defaults.set(true, forKey: AppSettings.Key.onboardingCompleted)

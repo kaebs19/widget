@@ -38,14 +38,24 @@ final class WatchSync: NSObject, WCSessionDelegate {
     func push() {
         let session = WCSession.default
         guard WCSession.isSupported(), session.activationState == .activated, session.isPaired, session.isWatchAppInstalled else { return }
-        var context: [String: Any] = [:]
+        var context: [String: Any] = TasbeehCounter.snapshot()
         for key in Self.sentKeys {
             if let value = AppGroup.defaults.object(forKey: key) { context[key] = value }
         }
         try? session.updateApplicationContext(context)
     }
 
+    /// تصفير اليوم من الإعدادات يصل للساعة؛ الدمج وحده لا ينزّل العدد
+    func sendTasbeehReset() {
+        let session = WCSession.default
+        guard WCSession.isSupported(), session.activationState == .activated, session.isWatchAppInstalled else { return }
+        session.transferUserInfo([TasbeehCounter.resetKey: TasbeehCounter.dayID(for: .now)])
+    }
+
     private func apply(_ values: [String: Any]) {
+        if TasbeehCounter.merge(values) {
+            WidgetCenter.shared.reloadTimelines(ofKind: WidgetKind.istighfar.rawValue)
+        }
         var changed = false
         for (key, value) in values where Self.receivedKeys.contains(key) {
             AppGroup.defaults.set(value, forKey: key)

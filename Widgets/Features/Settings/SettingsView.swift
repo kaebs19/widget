@@ -406,6 +406,9 @@ struct SettingsView: View {
             .confirmationDialog(L10n.text("تصفير عدد اليوم لكل الأذكار؟"), isPresented: $showResetCounter, titleVisibility: .visible) {
                 Button(L10n.text("تصفير"), role: .destructive) {
                     TasbeehCounter.resetToday()
+                    #if !targetEnvironment(macCatalyst)
+                    WatchSync.shared.sendTasbeehReset()
+                    #endif
                     WidgetCenter.shared.reloadTimelines(ofKind: WidgetKind.istighfar.rawValue)
                 }
             }

@@ -27,8 +27,26 @@ final class WatchSession: NSObject, WCSessionDelegate {
         WCSession.default.transferUserInfo([key: value])
     }
 
+    // MARK: عدّاد الذكر
+    func incrementTasbeeh(_ dhikr: TasbeehDhikr) {
+        TasbeehCounter.increment(dhikr)
+        send(TasbeehCounter.snapshot())
+    }
+
+    func resetTasbeehToday() {
+        TasbeehCounter.resetToday()
+        send([TasbeehCounter.resetKey: TasbeehCounter.dayID(for: .now)])
+    }
+
+    private func send(_ values: [String: Any]) {
+        guard WCSession.isSupported(), WCSession.default.activationState == .activated else { return }
+        WCSession.default.transferUserInfo(values)
+    }
+
     private func apply(_ context: [String: Any]) {
-        for (key, value) in context {
+        // الأعداد تُدمج بدل الكتابة فوقها
+        TasbeehCounter.merge(context)
+        for (key, value) in context where !TasbeehCounter.syncKeys.contains(key) {
             AppGroup.defaults.set(value, forKey: key)
         }
         // وجه الساعة يعيد الحساب بالموقع والأرقام الجديدة
@@ -43,6 +61,10 @@ final class WatchSession: NSObject, WCSessionDelegate {
 
     nonisolated func session(_ session: WCSession, didReceiveApplicationContext applicationContext: [String: Any]) {
         Task { @MainActor in self.apply(applicationContext) }
+    }
+
+    nonisolated func session(_ session: WCSession, didReceiveUserInfo userInfo: [String: Any] = [:]) {
+        Task { @MainActor in self.apply(userInfo) }
     }
 }
 

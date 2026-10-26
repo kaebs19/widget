@@ -22,12 +22,13 @@ struct SettingsView: View {
     @AppStorage(AppSettings.Key.weekStart, store: AppGroup.defaults) private var weekStart = 1
     @AppStorage(AppSettings.Key.colorScheme, store: AppGroup.defaults) private var colorScheme = ColorSchemeChoice.dark
     @AppStorage(AppSettings.Key.accent, store: AppGroup.defaults) private var accent = AppAccent.gold
+    @AppStorage(AppSettings.Key.numerals, store: AppGroup.defaults) private var numerals = Numerals.latin
 
     var body: some View {
         NavigationStack {
             ScrollView {
                 VStack(spacing: 24) {
-                    header
+                    generalGroup
                     group("المحتوى") {
                         row(.prayer)
                         #if !targetEnvironment(macCatalyst)
@@ -36,14 +37,6 @@ struct SettingsView: View {
                         row(.occasions)
                         row(.finance)
                         row(.counter)
-                    }
-                    group("الشكل") {
-                        row(.appearance)
-                        row(.widgetDefaults)
-                    }
-                    group("عام") {
-                        row(.calendar)
-                        row(.about)
                     }
                     group("الدعم") {
                         actionRow("طريقة الإضافة", "للشاشة الرئيسية وشاشة القفل", symbol: "questionmark.circle.fill",
@@ -73,6 +66,7 @@ struct SettingsView: View {
                                   color: Color(white: 0.2), external: true) { openURL(AppLinks.x) }
                     }
                     group("قانوني") {
+                        row(.about)
                         actionRow("سياسة الخصوصية", "كيف نتعامل مع بياناتك", symbol: "hand.raised.fill",
                                   color: Color(red: 0.25, green: 0.52, blue: 0.90), external: true) { webPage = AppLinks.privacy }
                         actionRow("شروط الاستخدام", "شروط استخدام التطبيق", symbol: "doc.text.fill",
@@ -112,28 +106,81 @@ struct SettingsView: View {
             .sheet(item: $webPage) { url in SafariView(url: url).ignoresSafeArea() }
             #endif
         }
-        .tint(Theme.gold)
+        .tint(Theme.accent(accent))
     }
 
-    // MARK: الصفحة الرئيسية
-    private var header: some View {
-        HStack(spacing: 14) {
-            Image(systemName: "square.grid.2x2.fill")
-                .font(.system(size: 26))
-                .foregroundStyle(Theme.onAccent)
-                .frame(width: 60, height: 60)
-                .background(Theme.gold, in: RoundedRectangle(cornerRadius: 16, style: .continuous))
-            VStack(alignment: .leading, spacing: 3) {
-                Text("ويدجت").font(AppFont.uiBold(20))
-                Text("خصّص ودجاتك وأوقات صلاتك ومناسباتك")
-                    .font(AppFont.ui(13))
-                    .foregroundStyle(Theme.textSecondary)
+    // MARK: الإعدادات العامة
+    // أول ما يراه المستخدم: ما يُختار مرة ويشمل التطبيق والودجات كلها، والسريع منه يتغيّر في مكانه
+    private var generalGroup: some View {
+        group(L10n.text("الإعدادات العامة")) {
+            NavigationLink {
+                LanguageSettingsView()
+            } label: {
+                rowLabel(L10n.text("اللغة"), language.title,
+                         symbol: "globe", color: Color(red: 0.28, green: 0.46, blue: 0.88),
+                         chevron: true)
             }
-            Spacer()
+            .buttonStyle(.plain)
+            controlRow(L10n.text("الأرقام"), symbol: "number", color: Color(red: 0.36, green: 0.42, blue: 0.86)) {
+                Picker(L10n.text("الأرقام"), selection: numeralsBinding) {
+                    Text("123").tag(Numerals.latin)
+                    Text("١٢٣").tag(Numerals.arabic)
+                }
+                .pickerStyle(.segmented)
+                .frame(width: 130)
+            }
+            controlRow(L10n.text("الثيم"), symbol: "circle.lefthalf.filled", color: Color(white: 0.35)) {
+                Picker(L10n.text("الثيم"), selection: $colorScheme) {
+                    Text(ColorSchemeChoice.dark.title).tag(ColorSchemeChoice.dark)
+                    Text(ColorSchemeChoice.light.title).tag(ColorSchemeChoice.light)
+                    Text(L10n.text("تلقائي")).tag(ColorSchemeChoice.system)
+                }
+                .pickerStyle(.segmented)
+                .frame(width: 190)
+            }
+            controlRow(L10n.text("لون التطبيق"), symbol: "paintpalette.fill", color: Color(red: 0.93, green: 0.58, blue: 0.20)) {
+                HStack(spacing: 8) {
+                    ForEach(AppAccent.allCases) { option in
+                        AccentSwatch(accent: option, isSelected: option == accent, size: 24) {
+                            withAnimation(.snappy) { accent = option }
+                        }
+                    }
+                }
+            }
+            row(.location)
+            row(.notifications)
+            row(.widgetDefaults)
+            row(.calendar)
+            controlRow(L10n.text("الاهتزاز"), symbol: "iphone.radiowaves.left.and.right", color: Color(red: 0.55, green: 0.42, blue: 0.85)) {
+                Toggle(L10n.text("الاهتزاز"), isOn: $haptics).labelsHidden()
+            }
+        }
+    }
+
+    /// الأرقام تشمل كل الودجات حتى المخصّصة، فالتغيير يمر من المتجر
+    private var numeralsBinding: Binding<Numerals> {
+        Binding(get: { numerals }, set: { styles.applyNumerals($0) })
+    }
+
+    /// سطر فيه عنصر تحكم مباشر بدل فتح صفحة
+    private func controlRow<Control: View>(_ title: String, symbol: String, color: Color,
+                                           @ViewBuilder control: () -> Control) -> some View {
+        HStack(spacing: 12) {
+            Image(systemName: symbol)
+                .font(.system(size: 15, weight: .semibold))
+                .foregroundStyle(.white)
+                .frame(width: 34, height: 34)
+                .background(color, in: RoundedRectangle(cornerRadius: 9, style: .continuous))
+            Text(title)
+                .font(AppFont.uiBold(15))
+                .lineLimit(1)
+                .fixedSize()
+            Spacer(minLength: 8)
+            control()
         }
         .foregroundStyle(Theme.textPrimary)
-        .padding(16)
-        .background(Theme.cardTop.opacity(0.6), in: RoundedRectangle(cornerRadius: 20, style: .continuous))
+        .padding(.horizontal, 14)
+        .padding(.vertical, 10)
     }
 
     private func group<Content: View>(_ title: String, @ViewBuilder content: () -> Content) -> some View {
@@ -230,10 +277,12 @@ struct SettingsView: View {
                 .map { "\($0.payday.displayName) \(PaydayFormat.remaining($0.days))" } ?? ""
         case .counter:
             haptics ? "الاهتزاز مفعّل" : "الاهتزاز متوقف"
-        case .appearance:
-            "\(colorScheme.title) · \(accent.title)"
+        case .location:
+            PrayerLocation.saved?.city ?? L10n.text("مكة المكرمة (افتراضي)")
+        case .notifications:
+            PrayerNotifications.isEnabled ? L10n.text("تنبيه الأذان مفعّل") : L10n.text("الأذان والتذكيرات")
         case .widgetDefaults:
-            "الخلفية والخط والأرقام"
+            L10n.text("الخلفية والخط للودجات")
         case .calendar:
             "تصحيح الهجري: \(offsetLabel)"
         case .about:
@@ -250,16 +299,20 @@ struct SettingsView: View {
             FinanceSettingsView()
         case .health:
             HealthSettingsPage()
+        case .notifications:
+            NotificationSettingsPage()
+                .navigationTitle(page.title)
+                .navigationBarTitleDisplayMode(.inline)
         default:
             ScrollView {
                 VStack(spacing: 20) {
                     switch page {
                     case .prayer: PrayerSettingsSection()
                     case .counter: counterSection
-                    case .appearance: appearanceSection
+                    case .location: locationSection
                     case .widgetDefaults: widgetDefaultsSection
                     case .calendar: calendarSection
-                    case .about, .occasions, .finance, .health: aboutSection
+                    case .about, .occasions, .finance, .health, .notifications: aboutSection
                     }
                 }
                 .padding(16)
@@ -271,27 +324,14 @@ struct SettingsView: View {
         }
     }
 
-    // MARK: المظهر
-    private var appearanceSection: some View {
-        SettingsSection("المظهر") {
-            SettingRow("الوضع") {
-                Picker("الوضع", selection: $colorScheme) {
-                    ForEach(ColorSchemeChoice.allCases) { Text($0.title).tag($0) }
-                }
-                .pickerStyle(.segmented)
-            }
-            SettingRow("لون التطبيق", detail: accent.title) {
-                HStack(spacing: 14) {
-                    ForEach(AppAccent.allCases) { option in
-                        AccentSwatch(accent: option, isSelected: option == accent) {
-                            withAnimation(.snappy) { accent = option }
-                        }
-                    }
-                }
-            }
-            Text("لون التطبيق للأزرار والاختيارات فقط، وألوان كل ودجت تختارها من صفحته.")
+    // MARK: الموقع
+    private var locationSection: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            PrayerLocationSettings()
+            Text(L10n.text("موقعك يحسب أوقات الصلاة واتجاه القبلة، ويبقى على جهازك ولا يُشارك مع أحد."))
                 .font(AppFont.ui(12))
                 .foregroundStyle(Theme.textSecondary)
+                .padding(.horizontal, 6)
         }
     }
 
@@ -322,12 +362,6 @@ struct SettingsView: View {
                 ChoiceChips(options: AppFontFamily.customizable, selection: defaultStyle.contentFont) { family in
                     Text(family.displayName).font(.app(family, size: 16))
                 }
-            }
-            SettingRow("الأرقام") {
-                Picker("الأرقام", selection: defaultStyle.numerals) {
-                    ForEach(Numerals.allCases) { Text($0.title).tag($0) }
-                }
-                .pickerStyle(.segmented)
             }
             Text("يظهر في كل ودجت ما خصّصته من صفحته. الودجات المخصّصة تبقى على شكلها.")
                 .font(AppFont.ui(12))
@@ -431,6 +465,7 @@ struct SettingsView: View {
 private struct AccentSwatch: View {
     let accent: AppAccent
     let isSelected: Bool
+    var size: CGFloat = 34
     let action: () -> Void
     @Environment(\.colorScheme) private var colorScheme
 
@@ -439,15 +474,15 @@ private struct AccentSwatch: View {
         Button(action: action) {
             Circle()
                 .fill(Color(Color.Resolved(hex: hex)))
-                .frame(width: 34, height: 34)
+                .frame(width: size, height: size)
                 .overlay {
                     if isSelected {
                         Image(systemName: "checkmark")
-                            .font(.system(size: 13, weight: .bold))
+                            .font(.system(size: size * 0.38, weight: .bold))
                             .foregroundStyle(colorScheme == .light ? .white : .black)
                     }
                 }
-                .overlay(Circle().strokeBorder(Theme.textPrimary.opacity(isSelected ? 0.8 : 0), lineWidth: 2).padding(-4))
+                .overlay(Circle().strokeBorder(Theme.textPrimary.opacity(isSelected ? 0.8 : 0), lineWidth: 2).padding(-size * 0.12))
         }
         .buttonStyle(.plain)
         .accessibilityLabel(accent.title)
@@ -457,7 +492,7 @@ private struct AccentSwatch: View {
 
 // MARK: - أقسام الإعدادات
 enum SettingsPage: Hashable {
-    case prayer, health, occasions, finance, counter, appearance, widgetDefaults, calendar, about
+    case prayer, health, occasions, finance, counter, location, notifications, widgetDefaults, calendar, about
 
     var title: String {
         switch self {
@@ -466,8 +501,9 @@ enum SettingsPage: Hashable {
         case .finance:        "المال والأعمال"
         case .health:         "الصحة"
         case .counter:        "عدّاد الذكر"
-        case .appearance:     "المظهر"
-        case .widgetDefaults: "الشكل الافتراضي للودجات"
+        case .location:       L10n.text("الموقع")
+        case .notifications:  L10n.text("الإشعارات")
+        case .widgetDefaults: L10n.text("الشكل العام")
         case .calendar:       "التقويم"
         case .about:          "عن التطبيق"
         }
@@ -480,7 +516,8 @@ enum SettingsPage: Hashable {
         case .finance:        "banknote.fill"
         case .health:         "heart.fill"
         case .counter:        "circle.dotted.circle"
-        case .appearance:     "paintpalette.fill"
+        case .location:       "location.fill"
+        case .notifications:  "bell.badge.fill"
         case .widgetDefaults: "square.on.square.fill"
         case .calendar:       "calendar"
         case .about:          "info.circle.fill"
@@ -495,7 +532,8 @@ enum SettingsPage: Hashable {
         case .finance:        Color(red: 0.16, green: 0.60, blue: 0.40)
         case .health:         Color(red: 1.0, green: 0.22, blue: 0.37)
         case .counter:        Color(red: 0.55, green: 0.42, blue: 0.85)
-        case .appearance:     Color(red: 0.93, green: 0.58, blue: 0.20)
+        case .location:       Color(red: 0.20, green: 0.55, blue: 0.95)
+        case .notifications:  Color(red: 0.92, green: 0.30, blue: 0.30)
         case .widgetDefaults: Color(red: 0.25, green: 0.52, blue: 0.90)
         case .calendar:       Color(red: 0.88, green: 0.30, blue: 0.27)
         case .about:          Color(white: 0.55)

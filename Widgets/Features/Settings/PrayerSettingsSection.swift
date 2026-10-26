@@ -11,19 +11,68 @@ import UserNotifications
 // MARK: - إعدادات الصلاة
 // في الإعدادات وفي صفحات ودجات الصلاة
 struct PrayerSettingsSection: View {
-    @State private var locator = LocationProvider()
     @AppStorage(PrayerSchedule.Key.method, store: AppGroup.defaults) private var method = PrayerMethod.ummAlQura
     @AppStorage(PrayerSchedule.Key.madhab, store: AppGroup.defaults) private var isHanafi = false
-    @AppStorage(PrayerNotifications.Key.enabled, store: AppGroup.defaults) private var notify = false
-    @AppStorage(PrayerNotifications.Key.minutesBefore, store: AppGroup.defaults) private var minutesBefore = 0
-    @AppStorage(PrayerNotifications.Key.afterAdhkar, store: AppGroup.defaults) private var afterAdhkar = false
-    @State private var selectedPrayers = PrayerNotifications.prayers
     @State private var showAdjustments = false
     @State private var showQibla = false
-    @State private var notificationsDenied = false
 
     var body: some View {
         VStack(spacing: 20) {
+        PrayerLocationSettings()
+
+        SettingsSection("طريقة الحساب") {
+            HStack {
+                Text("طريقة الحساب")
+                Spacer()
+                Picker("طريقة الحساب", selection: $method) {
+                    ForEach(PrayerMethod.allCases) { Text($0.title).tag($0) }
+                }
+                .labelsHidden()
+            }
+            Toggle("العصر على المذهب الحنفي", isOn: $isHanafi)
+            Text(method == .ummAlQura
+                 ? "أم القرى: العشاء بعد المغرب بساعة ونصف، وساعتين في رمضان."
+                 : "اختر الطريقة المعتمدة في بلدك.")
+                .font(AppFont.ui(12))
+                .foregroundStyle(Theme.textSecondary)
+        }
+
+        PrayerNotificationSettings()
+
+        SettingsSection("أدوات") {
+            HStack(spacing: 10) {
+                Button { showAdjustments = true } label: {
+                    Label("تعديل الدقائق", systemImage: "slider.horizontal.3")
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 10)
+                        .background(Theme.gold.opacity(0.12), in: RoundedRectangle(cornerRadius: 12))
+                }
+                Button { showQibla = true } label: {
+                    Label("اتجاه القبلة", systemImage: "location.north.circle")
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 10)
+                        .background(Theme.gold.opacity(0.12), in: RoundedRectangle(cornerRadius: 12))
+                }
+            }
+            .font(AppFont.uiBold(14))
+            .foregroundStyle(Theme.gold)
+        }
+        }
+        .font(AppFont.ui(15))
+        .foregroundStyle(Theme.textPrimary)
+        .onChange(of: method) { PrayerWidgets.reload() }
+        .onChange(of: isHanafi) { PrayerWidgets.reload() }
+        .sheet(isPresented: $showAdjustments) { PrayerAdjustmentsView().appAppearance() }
+        .fullScreenCover(isPresented: $showQibla) { QiblaView().appAppearance() }
+    }
+}
+
+// MARK: - موقع أوقات الصلاة
+// في صفحة الصلاة وفي «الموقع» من الإعدادات العامة
+struct PrayerLocationSettings: View {
+    @State private var locator = LocationProvider()
+
+    var body: some View {
         SettingsSection("الموقع") {
             HStack(spacing: 12) {
                 Image(systemName: locator.location == nil ? "location.slash" : "location.fill")
@@ -51,24 +100,19 @@ struct PrayerSettingsSection: View {
                 .disabled(locator.isLocating)
             }
         }
+    }
+}
 
-        SettingsSection("طريقة الحساب") {
-            HStack {
-                Text("طريقة الحساب")
-                Spacer()
-                Picker("طريقة الحساب", selection: $method) {
-                    ForEach(PrayerMethod.allCases) { Text($0.title).tag($0) }
-                }
-                .labelsHidden()
-            }
-            Toggle("العصر على المذهب الحنفي", isOn: $isHanafi)
-            Text(method == .ummAlQura
-                 ? "أم القرى: العشاء بعد المغرب بساعة ونصف، وساعتين في رمضان."
-                 : "اختر الطريقة المعتمدة في بلدك.")
-                .font(AppFont.ui(12))
-                .foregroundStyle(Theme.textSecondary)
-        }
+// MARK: - تنبيهات الصلاة
+// في صفحة الصلاة وفي «الإشعارات» من الإعدادات العامة
+struct PrayerNotificationSettings: View {
+    @AppStorage(PrayerNotifications.Key.enabled, store: AppGroup.defaults) private var notify = false
+    @AppStorage(PrayerNotifications.Key.minutesBefore, store: AppGroup.defaults) private var minutesBefore = 0
+    @AppStorage(PrayerNotifications.Key.afterAdhkar, store: AppGroup.defaults) private var afterAdhkar = false
+    @State private var selectedPrayers = PrayerNotifications.prayers
+    @State private var notificationsDenied = false
 
+    var body: some View {
         SettingsSection("التنبيهات") {
             Toggle(isOn: $notify) {
                 Label("تنبيه الأذان", systemImage: "bell.badge")
@@ -109,37 +153,13 @@ struct PrayerSettingsSection: View {
                 Label("تذكير بأذكار بعد الصلاة", systemImage: "text.book.closed")
             }
         }
-
-        SettingsSection("أدوات") {
-            HStack(spacing: 10) {
-                Button { showAdjustments = true } label: {
-                    Label("تعديل الدقائق", systemImage: "slider.horizontal.3")
-                        .frame(maxWidth: .infinity)
-                        .padding(.vertical, 10)
-                        .background(Theme.gold.opacity(0.12), in: RoundedRectangle(cornerRadius: 12))
-                }
-                Button { showQibla = true } label: {
-                    Label("اتجاه القبلة", systemImage: "location.north.circle")
-                        .frame(maxWidth: .infinity)
-                        .padding(.vertical, 10)
-                        .background(Theme.gold.opacity(0.12), in: RoundedRectangle(cornerRadius: 12))
-                }
-            }
-            .font(AppFont.uiBold(14))
-            .foregroundStyle(Theme.gold)
-        }
-        }
         .font(AppFont.ui(15))
         .foregroundStyle(Theme.textPrimary)
-        .onChange(of: method) { PrayerWidgets.reload() }
-        .onChange(of: isHanafi) { PrayerWidgets.reload() }
         .onChange(of: minutesBefore) { PrayerWidgets.reload() }
         .onChange(of: selectedPrayers) { _, prayers in
             PrayerNotifications.setPrayers(prayers)
             PrayerWidgets.reload()
         }
-        .sheet(isPresented: $showAdjustments) { PrayerAdjustmentsView().appAppearance() }
-        .fullScreenCover(isPresented: $showQibla) { QiblaView().appAppearance() }
         .onChange(of: afterAdhkar) { _, on in
             Task {
                 if on {

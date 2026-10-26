@@ -12,8 +12,6 @@ struct WidgetsApp: App {
     @State private var styleStore = WidgetStyleStore()
     @Environment(\.scenePhase) private var scenePhase
     @AppStorage(AppSettings.Key.accent, store: AppGroup.defaults) private var accent = AppAccent.gold
-    @AppStorage(AppSettings.Key.hijriOffset, store: AppGroup.defaults) private var hijriOffset = 0
-    @AppStorage(AppSettings.Key.weekStart, store: AppGroup.defaults) private var weekStart = 1
 
     init() {
         AppFontFamily.validateRegistration()
@@ -28,14 +26,14 @@ struct WidgetsApp: App {
 
     var body: some Scene {
         WindowGroup {
-            HomeView()
+            LaunchView()
                 // التطبيق كله عربي RTL، فنحددها مرة وحدة هنا بدل كل شاشة
                 .environment(\.layoutDirection, .rightToLeft)
                 .environment(\.locale, Locale(identifier: "ar"))
                 .appAppearance()
-                .tint(Theme.gold)
-                // لون التمييز والتقويم يُقرأان من الإعدادات عند الرسم، فنعيد بناء الواجهة عند تغييرها
-                .id("\(accent.rawValue)|\(hijriOffset)|\(weekStart)")
+                // يُعاد حسابه مع كل تغيير للون التمييز؛ والرئيسية تعيد بناء محتواها عند إغلاق الإعدادات،
+                // فلا نعيد بناء الجذر حتى لا تُغلق الإعدادات نفسها أثناء التعديل
+                .tint(Theme.accent(accent))
                 .environment(styleStore)
                 // عند كل فتح للتطبيق تمتد تنبيهات الأذان لأيام قادمة
                 .onChange(of: scenePhase) { _, phase in

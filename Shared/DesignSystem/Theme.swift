@@ -20,9 +20,10 @@ enum Theme {
     static let textSecondary = adaptive(dark: 0xFFFFFF, light: 0x1C1B19, opacity: 0.6)
 
     /// لون التمييز. يُقرأ عند كل رسم، والتطبيق يعيد بناء الواجهة عند تغييره
-    static var gold: Color {
-        let hex = AppAccent.current.hex
-        return adaptive(dark: hex.dark, light: hex.light)
+    static var gold: Color { accent(.current) }
+
+    static func accent(_ accent: AppAccent) -> Color {
+        adaptive(dark: accent.hex.dark, light: accent.hex.light)
     }
 
     /// نص فوق لون التمييز: أسود فوق الذهبي الفاتح، وأبيض فوق الأغمق في الوضع الفاتح

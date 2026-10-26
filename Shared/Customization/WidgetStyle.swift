@@ -23,7 +23,8 @@ nonisolated struct WidgetStyle: Codable, Hashable, Sendable {
     var fontWeight: AppFontWeight = .regular
     var fontScale: Double = 1
     var numberFont: NumberFont = .rounded
-    var numerals: Numerals = .arabic
+    /// يبدأ بشكل الأرقام العام من الإعدادات، ويقدر المستخدم يخالفه لودجت معيّن
+    var numerals: Numerals = AppSettings.numerals
     /// أسماء الأيام والأشهر بصور الخط العربي بدل النص
     var usesCalligraphy = true
 
@@ -123,16 +124,16 @@ nonisolated enum Numerals: String, Codable, CaseIterable, Identifiable, Sendable
         }
     }
 
-    /// النصوص تُنسّق بالأرقام العربية أصلاً، فنحوّلها للإنجليزية عند الحاجة فقط
+    /// يحوّل أرقام النص لهذا الشكل في الاتجاهين، لأن النص قد يأتي بالشكل العام للتطبيق
     func apply(_ text: String) -> String {
-        guard self == .latin else { return text }
         var scalars = String.UnicodeScalarView()
         for scalar in text.unicodeScalars {
-            switch scalar.value {
-            case 0x0660...0x0669: scalars.append(Unicode.Scalar(scalar.value - 0x0660 + 0x30)!)
-            case 0x066A: scalars.append("%")   // ٪
-            case 0x066B: scalars.append(".")   // ٫
-            case 0x066C: scalars.append(",")   // ٬
+            switch (self, scalar.value) {
+            case (.latin, 0x0660...0x0669): scalars.append(Unicode.Scalar(scalar.value - 0x0660 + 0x30)!)
+            case (.latin, 0x066A): scalars.append("%")   // ٪
+            case (.latin, 0x066B): scalars.append(".")   // ٫
+            case (.latin, 0x066C): scalars.append(",")   // ٬
+            case (.arabic, 0x30...0x39): scalars.append(Unicode.Scalar(scalar.value - 0x30 + 0x0660)!)
             default: scalars.append(scalar)
             }
         }

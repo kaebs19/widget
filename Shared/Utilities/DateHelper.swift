@@ -30,14 +30,18 @@ enum DateHelper {
         return f
     }()
 
+    /// الرقم بالشكل الذي اختاره المستخدم في الإعدادات العامة (الاسم قديم من أيام الأرقام العربية فقط)
     static func arabic(_ number: Int) -> String {
-        numberFormatter.string(from: NSNumber(value: number)) ?? "\(number)"
+        digits(numberFormatter.string(from: NSNumber(value: number)) ?? "\(number)")
     }
 
     /// برقمين دائماً: ٠٦
     static func arabicTwoDigits(_ number: Int) -> String {
-        twoDigitFormatter.string(from: NSNumber(value: number)) ?? "\(number)"
+        digits(twoDigitFormatter.string(from: NSNumber(value: number)) ?? "\(number)")
     }
+
+    /// المنسّقات تكتب بالأرقام العربية، وهنا تتحوّل للشكل العام
+    static func digits(_ text: String) -> String { AppSettings.numerals.apply(text) }
 
     // MARK: - التنسيق
     private static func formatter(_ format: String, calendar: Calendar) -> DateFormatter {
@@ -67,16 +71,16 @@ enum DateHelper {
     static func hijriDay(_ date: Date) -> String   { arabic(hijri.component(.day, from: hijriAdjusted(date))) }
     static func hijriYear(_ date: Date) -> String  { arabic(hijri.component(.year, from: hijriAdjusted(date))) }
     static func hijriMonth(_ date: Date) -> String { hijriMonthFmt.string(from: hijriAdjusted(date)) }
-    static func gregorianFull(_ date: Date) -> String { gregorianFmt.string(from: date) }
-    static func weekday(_ date: Date) -> String    { weekdayFmt.string(from: date) }
+    static func gregorianFull(_ date: Date) -> String { digits(gregorianFmt.string(from: date)) }
+    static func weekday(_ date: Date) -> String    { digits(weekdayFmt.string(from: date)) }
     /// ١١ أكتوبر
-    static func gregorianDayMonth(_ date: Date) -> String { dayMonthFmt.string(from: date) }
+    static func gregorianDayMonth(_ date: Date) -> String { digits(dayMonthFmt.string(from: date)) }
     /// السبت ٢٤ أكتوبر
-    static func weekdayDayMonth(_ date: Date) -> String { weekdayDayMonthFmt.string(from: date) }
+    static func weekdayDayMonth(_ date: Date) -> String { digits(weekdayDayMonthFmt.string(from: date)) }
     /// أكتوبر
     static func gregorianMonthName(_ date: Date) -> String { monthNameFmt.string(from: date) }
     /// الخميس ٢٣ سبتمبر ٢٠٢٧
-    static func weekdayFull(_ date: Date) -> String { weekdayFullFmt.string(from: date) }
+    static func weekdayFull(_ date: Date) -> String { digits(weekdayFullFmt.string(from: date)) }
     /// ٢٩ ربيع الآخر
     static func hijriDayMonth(_ date: Date) -> String { "\(hijriDay(date)) \(hijriMonth(date))" }
 

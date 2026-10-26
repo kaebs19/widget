@@ -60,6 +60,23 @@ final class WidgetStyleStore {
         }
     }
 
+    /// شكل الأرقام من الإعدادات العامة يشمل كل الودجات، المخصّصة منها والأنماط المحفوظة
+    func applyNumerals(_ numerals: Numerals) {
+        AppGroup.defaults.set(numerals.rawValue, forKey: AppSettings.Key.numerals)
+        defaultStyle.numerals = numerals
+        WidgetStyleStorage.saveDefaultStyle(defaultStyle)
+        for (kind, style) in styles {
+            var updated = style
+            updated.numerals = numerals
+            styles[kind] = updated
+            WidgetStyleStorage.save(updated, for: [kind.rawValue])
+        }
+        for index in savedStyles.indices {
+            savedStyles[index].style.numerals = numerals
+        }
+        persistSavedStyles()
+    }
+
     // MARK: الأنماط المحفوظة
     func addSavedStyle(named name: String, style: WidgetStyle) {
         savedStyles.append(SavedStyle(name: name, style: style))

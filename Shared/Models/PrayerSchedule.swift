@@ -196,5 +196,5 @@ nonisolated enum PrayerSchedule {
     }()
 
     /// «٤:٣٦» بدون ص/م، لأن ترتيب الصلوات يوضح الفترة
-    static func format(_ date: Date) -> String { timeFormatter.string(from: date) }
+    static func format(_ date: Date) -> String { DateHelper.digits(timeFormatter.string(from: date)) }
 }

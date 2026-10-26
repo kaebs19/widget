@@ -17,6 +17,13 @@ nonisolated enum AppSettings {
         static let reminderHour = "settings.reminderHour"
         static let hijriOffset = "settings.hijriOffset"
         static let weekStart = "settings.weekStart"
+        static let numerals = "settings.numerals"
+        static let onboardingCompleted = "onboarding.completed"
+    }
+
+    /// شكل الأرقام في التطبيق والودجات؛ الإنجليزية افتراضياً
+    static var numerals: Numerals {
+        AppGroup.defaults.string(forKey: Key.numerals).flatMap(Numerals.init(rawValue:)) ?? .latin
     }
 
     /// تصحيح التاريخ الهجري بالأيام (−٢ إلى +٢) إذا اختلفت رؤية الهلال عن تقويم أم القرى

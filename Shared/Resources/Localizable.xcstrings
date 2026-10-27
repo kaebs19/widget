@@ -2820,7 +2820,16 @@
       }
     },
     "الوقت المعروض بعد التعديل. يتغيّر في الودجات والتنبيهات." : {},
-    "اليوم" : {},
+    "اليوم" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Today"
+          }
+        }
+      }
+    },
     "اليوم الوطني" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2922,6 +2931,16 @@
         }
       }
     },
+    "بعد %@ يوم" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In %@ days"
+          }
+        }
+      }
+    },
     "بعد ١٠ دقائق" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -3005,6 +3024,16 @@
     },
     "تاريخ التجديد" : {},
     "تاريخ الميلاد" : {},
+    "تاريخ اليوم بالهجري وأقرب مناسبة." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Today’s Hijri date and the next occasion."
+          }
+        }
+      }
+    },
     "تتغير لغة الواجهة واتجاهها مباشرةً حسب اختيارك." : {
       "extractionState" : "manual",
       "localizations" : {
@@ -3859,6 +3888,16 @@
     },
     "ربط الصحة" : {},
     "رجوع" : {},
+    "رمضان" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ramadan"
+          }
+        }
+      }
+    },
     "رياضة" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -4232,6 +4271,36 @@
     "عند الإيقاف تُكتب بخط النص الذي اخترته" : {},
     "عند التفعيل، نستبعد قيمة الالتزامات التي أدخلتها من المبلغ المتاح لحساب حصة اليوم فقط. هذا حجز حسابي اختياري، ولا يسدّد الالتزامات أو يخصم أموالًا من حسابك البنكي." : {},
     "عندك تعديلات ما حفظتها" : {},
+    "عيد الأضحى" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eid al-Adha"
+          }
+        }
+      }
+    },
+    "عيد الفطر" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eid al-Fitr"
+          }
+        }
+      }
+    },
+    "غداً" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tomorrow"
+          }
+        }
+      }
+    },
     "غير محدد" : {
       "localizations" : {
         "en" : {

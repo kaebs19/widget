@@ -27,10 +27,11 @@ struct WatchLaunchView: View {
             W.background.ignoresSafeArea()
             switch stage {
             case .home:
-                // الصلاة أولاً، والعدّاد بالسحب للأسفل
+                // الصلاة أولاً، ثم العدّاد والتقويم بالسحب للأسفل
                 TabView {
                     WatchHomeView()
                     NavigationStack { WatchTasbeehView() }
+                    WatchCalendarView()
                 }
                 .tabViewStyle(.verticalPage)
                 .transition(.opacity)

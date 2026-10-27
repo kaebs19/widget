@@ -64,6 +64,20 @@
 ## ما الجديد (الإصدار 1.0)
 الإصدار الأول من ويدجت: أوقات الصلاة والأذان، والأذكار وآية اليوم، والتقويم الهجري، والمناسبات، ومواعيد الراتب والدعم، وودجات الصحة. نسعد بملاحظاتك من داخل التطبيق.
 
+## ما الجديد (الإصدار 1.2)
+• ويدجت على Apple Watch: الصلاة القادمة بعدّ تنازلي، وأوقات اليوم، وعدّاد الذكر، والتاريخ الهجري والمناسبات القادمة.
+• الصلاة القادمة والتاريخ الهجري على وجه الساعة.
+• عدّاد الذكر يتزامن بين الآيفون والساعة.
+• شاشة ترحيب جديدة تضبط الموقع والتنبيهات وتفضيلاتك في ثلاث خطوات.
+• الإعدادات العامة في مكان واحد: اللغة، والأرقام، والمظهر، ولون التطبيق، والموقع، والإشعارات.
+• الأرقام الإنجليزية افتراضياً، ويمكنك اختيار الأرقام العربية لكل التطبيق والودجات.
+• دعم iPhone Duo بشاشتيه.
+• التطبيق متاح باللغة الإنجليزية.
+• ودجت الطقس من Apple Weather.
+• في الصحة: رؤى أسبوعية، وتتبع شرب الماء، وأهداف أسبوعية.
+• هدف يومي لقراءة القرآن، وتتبع اشتراكاتك.
+• تحسينات وإصلاحات.
+
 ## روابط
 - الدعم: https://kaebs19.github.io/Widget-Website/contact.html
 - التسويق: https://kaebs19.github.io/Widget-Website/
@@ -116,6 +130,20 @@ adhan,qibla,ramadan,eid,islamic,muslim,quran,calendar,steps,lock screen,tasbeeh,
 
 ## Promotional text
 Beautiful Arabic widgets for your Home and Lock Screen: prayer times, adhkar, Hijri date, paydays and your daily steps. Completely free, with no ads.
+
+## What's New (version 1.2)
+• Widget on Apple Watch: next prayer with a countdown, today's times, a dhikr counter, the Hijri date and upcoming occasions.
+• Next prayer and Hijri date right on your watch face.
+• Your dhikr count syncs between iPhone and Apple Watch.
+• A new welcome flow sets up location, alerts and your preferences in three steps.
+• General settings in one place: language, numerals, appearance, app color, location and notifications.
+• Western numerals by default, with Arabic numerals available across the app and widgets.
+• Support for iPhone Duo on both displays.
+• The app is now available in English.
+• Weather widget powered by Apple Weather.
+• Health: weekly insights, water tracking and weekly goals.
+• A daily Quran reading goal and subscription tracking.
+• Improvements and fixes.
 
 ## Description
 Widget brings what you need every day into elegant Arabic widgets for your Home Screen and Lock Screen: prayer times, adhkar, the Hijri date, occasions, salary and support paydays, and your daily health.

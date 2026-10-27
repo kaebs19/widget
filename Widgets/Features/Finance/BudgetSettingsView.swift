@@ -39,7 +39,7 @@ struct BudgetSettingsSection: View {
         .toolbar {
             ToolbarItemGroup(placement: .keyboard) {
                 Spacer()
-                Button("تم") { focused = false }
+                Button("تم", systemImage: "checkmark") { focused = false }
             }
         }
     }

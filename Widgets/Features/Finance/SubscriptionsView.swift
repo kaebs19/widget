@@ -91,9 +91,9 @@ private struct SubscriptionEditor: View {
             }
             .navigationTitle("تفاصيل الاشتراك")
             .toolbar {
-                ToolbarItem(placement: .cancellationAction) { Button("إلغاء") { dismiss() } }
+                ToolbarItem(placement: .cancellationAction) { Button("إلغاء", systemImage: "xmark") { dismiss() } }
                 ToolbarItem(placement: .confirmationAction) {
-                    Button("حفظ") {
+                    Button("حفظ", systemImage: "checkmark") {
                         item.name = item.name.trimmingCharacters(in: .whitespacesAndNewlines)
                         item.amount = (item.amount * 100).rounded() / 100
                         onSave(item)

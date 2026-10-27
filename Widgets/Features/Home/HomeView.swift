@@ -100,29 +100,25 @@ struct HomeView: View {
                         searchFocused = showsSearch
                         if !showsSearch { viewModel.searchText = "" }
                     } label: {
-                        Image(systemName: "magnifyingglass")
+                        Label(L10n.text("ابحث عن ودجت"), systemImage: "magnifyingglass")
                     }
-                    .accessibilityLabel(L10n.text("ابحث عن ودجت"))
                     .accessibilityValue(showsSearch ? L10n.text("مفتوح") : L10n.text("مغلق"))
                     Button { viewModel.toggleInstalled() } label: {
-                        Image(systemName: viewModel.showsInstalled ? "square.stack.3d.up.fill" : "square.stack.3d.up")
+                        Label(L10n.text("ودجاتي"), systemImage: viewModel.showsInstalled ? "square.stack.3d.up.fill" : "square.stack.3d.up")
                     }
-                    .accessibilityLabel(L10n.text("ودجاتي"))
                 }
                 if #available(iOS 26.0, *) {
                     ToolbarSpacer(.fixed, placement: .topBarTrailing)
                 }
                 ToolbarItem(placement: .topBarTrailing) {
                     Button { showSettings = true } label: {
-                        Image(systemName: "gearshape")
+                        Label(L10n.text("الإعدادات"), systemImage: "gearshape")
                     }
-                    .accessibilityLabel(L10n.text("الإعدادات"))
                 }
                 ToolbarItem(placement: .topBarLeading) {
                     Button { showHowTo = true } label: {
-                        Image(systemName: "questionmark.circle")
+                        Label(L10n.text("طريقة الإضافة"), systemImage: "questionmark.circle")
                     }
-                    .accessibilityLabel(L10n.text("طريقة الإضافة"))
                 }
             }
             .navigationDestination(for: WidgetKind.self) { kind in
@@ -152,7 +148,7 @@ struct HomeView: View {
                         else { HealthSettingsPage() }
                     }
                     .toolbar {
-                        ToolbarItem(placement: .cancellationAction) { Button(L10n.text("إغلاق")) { healthRoute = nil } }
+                        ToolbarItem(placement: .cancellationAction) { Button(L10n.text("إغلاق"), systemImage: "xmark") { healthRoute = nil } }
                     }
                 }
                 .appAppearance()

@@ -34,6 +34,10 @@ struct OnboardingView: View {
     @State private var prePrayer = false
     @State private var afterAdhkar = true
     @State private var digitsFlash = false
+    /// ارتفاع المساحة المتاحة؛ الشاشات القصيرة (الشاشة الخارجية في iPhone Duo وiPhone SE) تأخذ معاينة أقصر
+    @State private var availableHeight: CGFloat = 0
+
+    private var previewHeight: CGFloat { availableHeight > 0 && availableHeight < 760 ? 150 : 190 }
 
     private var isRTL: Bool { layoutDirection == .rightToLeft }
 
@@ -72,6 +76,7 @@ struct OnboardingView: View {
         .frame(maxWidth: 568)
         .frame(maxWidth: .infinity)
         .background(OB.background.ignoresSafeArea())
+        .onGeometryChange(for: CGFloat.self) { $0.size.height } action: { availableHeight = $0 }
         .sheet(isPresented: $showCitySearch) {
             CitySearchView { found in
                 found.save()
@@ -128,7 +133,7 @@ struct OnboardingView: View {
                 default: GeneralPreview(numerals: numerals, flash: digitsFlash)
                 }
             }
-            .frame(height: 190)
+            .frame(height: previewHeight)
             .frame(maxWidth: .infinity)
             .background(OB.panel, in: RoundedRectangle(cornerRadius: 22, style: .continuous))
             .overlay(RoundedRectangle(cornerRadius: 22, style: .continuous)

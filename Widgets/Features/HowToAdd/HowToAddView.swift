@@ -74,7 +74,7 @@ struct HowToAddView: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) {
-                    Button("تم") { dismiss() }.tint(Theme.gold)
+                    Button("تم", systemImage: "checkmark") { dismiss() }.tint(Theme.gold)
                 }
             }
         }

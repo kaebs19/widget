@@ -197,9 +197,8 @@ struct WidgetDetailView: View {
             if hasChanges {
                 ToolbarItem(placement: .topBarLeading) {
                     Button { showDiscard = true } label: {
-                        Image(systemName: "chevron.backward")
+                        Label(L10n.text("رجوع"), systemImage: "chevron.backward")
                     }
-                    .accessibilityLabel("رجوع")
                 }
             }
             ToolbarItemGroup(placement: .topBarTrailing) {
@@ -213,14 +212,12 @@ struct WidgetDetailView: View {
                     UserDefaults.standard.set(favorites.sorted(), forKey: "favoriteWidgetKinds")
                     isFavorite = favorites.contains(kind.rawValue)
                 } label: {
-                    Image(systemName: isFavorite ? "heart.fill" : "heart")
+                    Label(L10n.text(isFavorite ? "إزالة من المفضلة" : "إضافة إلى المفضلة"), systemImage: isFavorite ? "heart.fill" : "heart")
                 }
-                .accessibilityLabel(L10n.text(isFavorite ? "إزالة من المفضلة" : "إضافة إلى المفضلة"))
                 .accessibilityValue(L10n.text(isFavorite ? "في المفضلة" : "غير مضاف"))
                 Button { showHowTo = true } label: {
-                    Image(systemName: "questionmark.circle")
+                    Label(L10n.text("طريقة إضافة الودجت"), systemImage: "questionmark.circle")
                 }
-                .accessibilityLabel("طريقة إضافة الودجت")
                 Button {
                     styles.save(style, for: [kind])
                     draft = nil

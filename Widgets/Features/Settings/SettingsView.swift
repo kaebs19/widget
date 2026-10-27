@@ -100,7 +100,7 @@ struct SettingsView: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) {
-                    Button(L10n.text("تم")) { dismiss() }
+                    Button(L10n.text("تم"), systemImage: "checkmark") { dismiss() }
                 }
             }
             .navigationDestination(for: SettingsPage.self) { page in

@@ -73,10 +73,7 @@ struct OccasionsView: View {
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
-                Button { editing = Occasion(name: "", date: .now) } label: {
-                    Image(systemName: "plus")
-                }
-                .accessibilityLabel("إضافة مناسبة")
+                Button("إضافة مناسبة", systemImage: "plus") { editing = Occasion(name: "", date: .now) }
             }
         }
         .fullScreenCover(item: $editing) { occasion in
@@ -248,10 +245,10 @@ private struct OccasionEditor: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button("إلغاء") { dismiss() }
+                    Button("إلغاء", systemImage: "xmark") { dismiss() }
                 }
                 ToolbarItem(placement: .confirmationAction) {
-                    Button("حفظ") {
+                    Button("حفظ", systemImage: "checkmark") {
                         occasion.name = trimmedName
                         onSave(occasion)
                         dismiss()

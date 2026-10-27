@@ -272,7 +272,7 @@ struct CitySearchView: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button(L10n.text("إلغاء")) { dismiss() }
+                    Button(L10n.text("إلغاء"), systemImage: "xmark") { dismiss() }
                 }
             }
             .task(id: query) { await search() }

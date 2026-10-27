@@ -66,10 +66,7 @@ struct ObligationsView: View {
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
-                Button { editing = Obligation(name: "", firstDate: .now) } label: {
-                    Image(systemName: "plus")
-                }
-                .accessibilityLabel("إضافة التزام")
+                Button("إضافة التزام", systemImage: "plus") { editing = Obligation(name: "", firstDate: .now) }
             }
         }
         .fullScreenCover(item: $editing) { item in
@@ -220,10 +217,10 @@ private struct ObligationEditor: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button("إلغاء") { dismiss() }
+                    Button("إلغاء", systemImage: "xmark") { dismiss() }
                 }
                 ToolbarItem(placement: .confirmationAction) {
-                    Button("حفظ") {
+                    Button("حفظ", systemImage: "checkmark") {
                         item.name = item.name.trimmingCharacters(in: .whitespacesAndNewlines)
                         onSave(item)
                         dismiss()

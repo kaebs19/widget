@@ -87,7 +87,7 @@ struct QiblaView: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) {
-                    Button("تم") { dismiss() }
+                    Button("تم", systemImage: "checkmark") { dismiss() }
                 }
             }
             .onAppear { compass.start() }

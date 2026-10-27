@@ -201,7 +201,7 @@ struct Brand: View {
 
 /// عنوان بكلمة ذهبية
 func headline(_ parts: (before: String, highlight: String, after: String), size: CGFloat, direction: LayoutDirection) -> some View {
-    (Text(parts.before).foregroundStyle(text) + Text(parts.highlight).foregroundStyle(gold) + Text(parts.after).foregroundStyle(text))
+    Text("\(Text(parts.before).foregroundStyle(text))\(Text(parts.highlight).foregroundStyle(gold))\(Text(parts.after).foregroundStyle(text))")
         .font(plex(size))
         .multilineTextAlignment(.center)
         .lineSpacing(size * 0.05)

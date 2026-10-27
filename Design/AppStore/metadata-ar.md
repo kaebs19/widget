@@ -72,10 +72,6 @@
 • الإعدادات العامة في مكان واحد: اللغة، والأرقام، والمظهر، ولون التطبيق، والموقع، والإشعارات.
 • الأرقام الإنجليزية افتراضياً، ويمكنك اختيار الأرقام العربية لكل التطبيق والودجات.
 • دعم iPhone Duo بشاشتيه.
-• التطبيق متاح باللغة الإنجليزية.
-• ودجت الطقس من Apple Weather.
-• في الصحة: رؤى أسبوعية، وتتبع شرب الماء، وأهداف أسبوعية.
-• هدف يومي لقراءة القرآن، وتتبع اشتراكاتك.
 • تحسينات وإصلاحات.
 
 ## روابط
@@ -139,11 +135,26 @@ Beautiful Arabic widgets for your Home and Lock Screen: prayer times, adhkar, Hi
 • General settings in one place: language, numerals, appearance, app color, location and notifications.
 • Western numerals by default, with Arabic numerals available across the app and widgets.
 • Support for iPhone Duo on both displays.
-• The app is now available in English.
-• Weather widget powered by Apple Weather.
-• Health: weekly insights, water tracking and weekly goals.
-• A daily Quran reading goal and subscription tracking.
 • Improvements and fixes.
+
+## App Review Notes (version 1.2)
+This update adds an Apple Watch app with complications, a first-launch welcome flow, a redesigned General settings section, a global numeral style setting, and support for iPhone Duo.
+
+How to test the new features:
+
+Welcome flow (iPhone): on first launch after installing, a short splash is followed by three pages. Location: turn on “تحديد الموقع تلقائياً” (Detect location) or tap “المدينة” (City) to search for a city manually if location access is declined. Notifications: “الأذان عند دخول الوقت” (Adhan at prayer time), “تذكير قبل الصلاة بـ١٠ دقائق” (Reminder 10 minutes before) and “أذكار بعد الصلاة” (After-prayer adhkar). Notification permission is requested only when leaving this page with at least one option on. General: language, numeral style and appearance. Tap “ابدأ الاستخدام” (Get Started) to finish, or “تخطي” (Skip) at the top to go directly to the gallery. Later launches show a brief splash only.
+
+General settings: tap the gear icon in the gallery. The “الإعدادات العامة” (General) section at the top contains language, numerals (123 or ١٢٣), theme, app color, location, notifications, widget style, calendar and haptics. Changing numerals updates the app and all widgets immediately; Western numerals are the default.
+
+Apple Watch: the watch app installs with the iPhone app on a paired Apple Watch. After a short welcome flow, the main screen shows the next prayer with a countdown and today's prayer times. Swipe down for the dhikr counter: tap the ring to count, use the list button to choose a dhikr and the reset button to clear today's count. Swipe down again for today's Hijri and Gregorian date and upcoming occasions. Prayer times are calculated on the watch from the location and calculation method set on iPhone.
+
+Watch complications: long-press the watch face, tap Edit, go to Complications, choose “ويدجت” (Widget), then “الصلاة القادمة” (Next Prayer) or “التاريخ الهجري” (Hijri Date). Circular, rectangular, inline and corner families are supported.
+
+Sync: settings, saved occasions and the dhikr count sync between iPhone and Apple Watch directly through WatchConnectivity. Nothing is sent to any server, and no account or sign-in is required. If location is detected on the watch, it is stored on the watch and shared only with the paired iPhone.
+
+iPhone Duo: the app resizes for the outer and inner displays, and toolbar actions appear in the vertical side bar on the outer display.
+
+All existing features, including weather, health widgets and payday calculations, work as in the previous version. Notifications remain optional and local.
 
 ## Description
 Widget brings what you need every day into elegant Arabic widgets for your Home Screen and Lock Screen: prayer times, adhkar, the Hijri date, occasions, salary and support paydays, and your daily health.

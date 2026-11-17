@@ -61,6 +61,20 @@ struct PaydaysHomeWidget: HomeWidget { static let kind = WidgetKind.paydays }
 struct WeatherHomeWidget: HomeWidget { static let kind = WidgetKind.weather }
 struct NextMatchHomeWidget: HomeWidget { static let kind = WidgetKind.nextMatch }
 
+// الأيام والشهور (بالاشتراك)
+struct StyledDayHomeWidget: HomeWidget { static let kind = WidgetKind.styledDay }
+struct StyledHijriMonthHomeWidget: HomeWidget { static let kind = WidgetKind.styledHijriMonth }
+struct StyledGregorianMonthHomeWidget: HomeWidget { static let kind = WidgetKind.styledGregorianMonth }
+struct MonthBehindHomeWidget: HomeWidget { static let kind = WidgetKind.monthBehind }
+struct DayNumberHomeWidget: HomeWidget { static let kind = WidgetKind.dayNumber }
+struct MonthNumberHomeWidget: HomeWidget { static let kind = WidgetKind.monthNumber }
+struct BothDatesHomeWidget: HomeWidget { static let kind = WidgetKind.bothDates }
+struct WeekRibbonHomeWidget: HomeWidget { static let kind = WidgetKind.weekRibbon }
+struct MonthProgressHomeWidget: HomeWidget { static let kind = WidgetKind.monthProgress }
+struct BigNumberHomeWidget: HomeWidget { static let kind = WidgetKind.bigNumber }
+struct HijriCountdownHomeWidget: HomeWidget { static let kind = WidgetKind.hijriCountdown }
+struct CircleBadgeHomeWidget: HomeWidget { static let kind = WidgetKind.circleBadge }
+
 // MARK: - العرض
 // الشاشة الرئيسية: نفس `WidgetPreviewView` اللي يعرضه التطبيق في المعرض، فالتصميم واحد في المكانين.
 // شاشة القفل: تصاميم خاصة بلون واحد في `LockScreenWidgetView`.
@@ -87,7 +101,14 @@ struct HomeWidgetView: View {
     var body: some View {
         // الشكل يُقرأ عند كل رسم، فأي تخصيص يحفظه التطبيق يظهر مع أول تحديث
         let style = WidgetStyleStorage.style(for: entry.kind.rawValue, savedStyleID: entry.styleID)
-        if family.isLockScreen {
+        if entry.kind.isPremium && !Premium.isActive {
+            // غير مشترك: رسالة القفل، والضغط يفتح صفحة الاشتراك
+            PremiumLockedView(compact: family == .systemSmall)
+                .environment(\.widgetStyle, style)
+                .environment(\.layoutDirection, .rightToLeft)
+                .containerBackground(for: .widget) { WidgetBackgroundView(background: style.background) }
+                .widgetURL(URL(string: "widgetar://premium"))
+        } else if family.isLockScreen {
             LockScreenWidgetView(kind: entry.kind, date: entry.date, family: family, style: style)
                 .widgetURL(healthURL)
         } else {

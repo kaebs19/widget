@@ -19,6 +19,10 @@ nonisolated enum WidgetStyleStorage {
 
     /// شكل النوع غير المخصّص: ودجات التقويم الملوّنة لها ألوانها الخاصة ما دام المستخدم لم يغيّر الشكل الافتراضي
     static func fallbackStyle(for kindID: String, default defaultStyle: WidgetStyle) -> WidgetStyle {
+        // ودجات «الأيام والشهور» تأخذ ألوان تصميمها (أو ألوان الخط المختار)
+        if defaultStyle == .default, let kind = WidgetKind(rawValue: kindID), kind.isPremium {
+            return NameOptions.designStyle(for: kind)
+        }
         guard defaultStyle == .default, let preset = suggestedPresets[kindID] else { return defaultStyle }
         var style = defaultStyle
         style.apply(preset)

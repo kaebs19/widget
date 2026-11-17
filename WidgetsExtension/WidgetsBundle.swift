@@ -12,11 +12,13 @@ import WidgetKit
 struct WidgetsBundle: WidgetBundle {
     init() {
         AppFontFamily.validateRegistration()
+        DisplayFont.validateRegistration()
     }
 
     var body: some Widget {
         WeatherHomeWidget()
         coreWidgets
+        nameWidgets
         healthWidgets
     }
 
@@ -34,6 +36,23 @@ struct WidgetsBundle: WidgetBundle {
         HealthWaterHomeWidget()
         HealthWorkoutsHomeWidget()
         #endif
+    }
+
+    /// الأيام والشهور (بالاشتراك)
+    @WidgetBundleBuilder
+    private var nameWidgets: some Widget {
+        StyledDayHomeWidget()
+        StyledHijriMonthHomeWidget()
+        StyledGregorianMonthHomeWidget()
+        MonthBehindHomeWidget()
+        DayNumberHomeWidget()
+        MonthNumberHomeWidget()
+        BothDatesHomeWidget()
+        WeekRibbonHomeWidget()
+        MonthProgressHomeWidget()
+        BigNumberHomeWidget()
+        HijriCountdownHomeWidget()
+        CircleBadgeHomeWidget()
     }
 
     @WidgetBundleBuilder

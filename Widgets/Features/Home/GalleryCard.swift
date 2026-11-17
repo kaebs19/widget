@@ -13,6 +13,7 @@ struct GalleryCard: View {
     /// إذا كان مضافاً للشاشة: أين وكم نسخة
     var installed: InstalledWidget? = nil
     @Environment(WidgetStyleStore.self) private var styles
+    @Environment(StoreManager.self) private var store
 
     var body: some View {
         // NavigationLink(value:) مع navigationDestination أخف من NavigationLink(destination:)
@@ -26,6 +27,12 @@ struct GalleryCard: View {
                     VStack(spacing: 1) {
                         // العلامة بجانب الاسم حتى لا تغطي محتوى الودجت
                         HStack(spacing: 4) {
+                            if kind.isPremium && !store.isActive {
+                                Image(systemName: "crown.fill")
+                                    .font(.system(size: 11))
+                                    .foregroundStyle(Theme.gold)
+                                    .accessibilityLabel(L10n.text("بالاشتراك"))
+                            }
                             if installed != nil {
                                 Image(systemName: "checkmark.circle.fill")
                                     .font(.system(size: 12))

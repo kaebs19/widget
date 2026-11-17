@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import WidgetKit
 
 // المعاينة وتحتها التخصيص مباشرة. التعديلات تظهر في المعاينة، ولا تُحفظ إلا بزر ✓.
 struct WidgetDetailView: View {
@@ -22,11 +23,16 @@ struct WidgetDetailView: View {
     @State private var tasbeeh: TasbeehDhikr = .istighfar
     /// يزيد مع كل تغيير في إعدادات المال، فتُرسم المعاينات من جديد
     @State private var revision = 0
+    /// خيارات «الأيام والشهور»: تُحفظ فوراً لأنها ليست جزءاً من الشكل
+    @State private var nameOptions: NameOptions
+    @State private var showPaywall = false
+    @Environment(StoreManager.self) private var store
     @Environment(\.horizontalSizeClass) private var sizeClass
     private var isWide: Bool { sizeClass == .regular }
 
     init(kind: WidgetKind) {
         self.kind = kind
+        _nameOptions = State(initialValue: NameOptions.load(for: kind))
         // نبدأ بالحجم اللي ظهر في المعرض
         #if DEBUG
         let requestedSize = UserDefaults.standard.string(forKey: "screenshotSize").flatMap(WidgetSize.init(rawValue:))
@@ -49,7 +55,7 @@ struct WidgetDetailView: View {
             // يُرسم بمقاس الودجت الحقيقي ثم يُصغَّر كاملاً، فالمعاينة تطابق الشاشة الرئيسية
             // ولا يُقص نص (آية طويلة مثلاً) لأن المساحة أصغر من الودجت
             GeometryReader { proxy in
-                WidgetPreviewView(kind: kind, size: size, style: style, tasbeeh: tasbeeh)
+                WidgetPreviewView(kind: kind, size: size, style: style, tasbeeh: tasbeeh, nameOptions: nameOptions)
                     .id(revision)
                     .frame(width: size.size.width, height: size.size.height)
                     .cardStyle(radius: 24)
@@ -86,6 +92,11 @@ struct WidgetDetailView: View {
                         .font(AppFont.ui(14))
                         .foregroundStyle(Theme.textSecondary)
                         .frame(maxWidth: .infinity, alignment: .leading)
+
+                    if kind.isPremium {
+                        if !store.isActive { premiumBanner }
+                        NameOptionsSection(kind: kind, options: $nameOptions)
+                    }
 
                     if kind == .weather { WeatherSettingsView() }
 
@@ -241,5 +252,64 @@ struct WidgetDetailView: View {
             Button("تجاهل التعديلات", role: .destructive) { dismiss() }
         }
         .sheet(isPresented: $showHowTo) { HowToAddView().appAppearance() }
+        .sheet(isPresented: $showPaywall) { PaywallView().environment(store).environment(styles).appAppearance() }
+        .onChange(of: nameOptions) { _, options in
+            NameOptions.save(options, for: kind)
+            // الخط المختار يغيّر ألوان التصميم الافتراضية للنوع
+            styles.reload()
+            WidgetCenter.shared.reloadTimelines(ofKind: kind.rawValue)
+        }
+    }
+
+    private var premiumBanner: some View {
+        Button { showPaywall = true } label: {
+            HStack(spacing: 12) {
+                Image(systemName: "crown.fill").font(.system(size: 20))
+                VStack(alignment: .leading, spacing: 2) {
+                    Text("هذا الودجت ضمن الاشتراك").font(AppFont.uiBold(15))
+                    Text("جرّبه هنا كما تشاء، ويُفتح في شاشتك بعد الاشتراك").font(AppFont.ui(12)).opacity(0.85)
+                }
+                Spacer()
+                Image(systemName: "chevron.backward").font(.system(size: 13, weight: .semibold))
+            }
+            .padding(16)
+            .foregroundStyle(Theme.onAccent)
+            .background(Theme.gold, in: RoundedRectangle(cornerRadius: 16))
+        }
+        .buttonStyle(.plain)
+    }
+}
+
+// MARK: - خيارات الأيام والشهور
+private struct NameOptionsSection: View {
+    let kind: WidgetKind
+    @Binding var options: NameOptions
+
+    var body: some View {
+        if kind.usesShape {
+            SettingsSection("الخط") {
+                ChoiceChips(options: NameShape.allCases, selection: $options.shape) { Text($0.title).font(AppFont.ui(14)) }
+            }
+        }
+        if kind == .monthBehind || kind == .monthNumber {
+            SettingsSection("التقويم") {
+                ChoiceChips(options: NameCalendar.allCases, selection: $options.calendar) { Text($0.title).font(AppFont.ui(14)) }
+            }
+        }
+        if kind == .dayNumber {
+            SettingsSection("التخطيط") {
+                ChoiceChips(options: DayNumberLayout.allCases, selection: $options.dayLayout) { Text($0.title).font(AppFont.ui(14)) }
+            }
+        }
+        if kind == .monthNumber {
+            SettingsSection("التخطيط") {
+                ChoiceChips(options: MonthNumberLayout.allCases, selection: $options.monthLayout) { Text($0.title).font(AppFont.ui(14)) }
+            }
+        }
+        if kind == .hijriCountdown {
+            SettingsSection("المناسبة") {
+                ChoiceChips(options: HijriTarget.allCases, selection: $options.target) { Text($0.title).font(AppFont.ui(14)) }
+            }
+        }
     }
 }

@@ -31,9 +31,15 @@ final class WidgetStyleStore {
         BackgroundImageStore.removeUnused(keeping: Set(photoIDs))
     }
 
+    /// يزيد عند تغيير خيار يؤثر على الشكل الافتراضي (خط «الأيام والشهور»)، فتُعاد المعاينات
+    private var fallbackRevision = 0
+
     func style(for kind: WidgetKind) -> WidgetStyle {
-        styles[kind] ?? WidgetStyleStorage.fallbackStyle(for: kind.rawValue, default: defaultStyle)
+        _ = fallbackRevision
+        return styles[kind] ?? WidgetStyleStorage.fallbackStyle(for: kind.rawValue, default: defaultStyle)
     }
+
+    func reload() { fallbackRevision += 1 }
 
     /// يغيّر الشكل الافتراضي؛ يظهر في كل ودجت لم يخصّصه المستخدم
     func saveDefault(_ style: WidgetStyle) {

@@ -26,6 +26,8 @@ struct HomeView: View {
         return nil
     }()
     @State private var showHowTo = false
+    @State private var showPaywall = false
+    @Environment(StoreManager.self) private var store
     @State private var showSettings = false
     @State private var showsSearch = false
     @FocusState private var searchFocused: Bool
@@ -130,6 +132,10 @@ struct HomeView: View {
                 if phase == .active { refresh += 1; Task { await viewModel.loadInstalled() } }
             }
             .onOpenURL { url in
+                if url.scheme == "widgetar", url.host == "premium" {
+                    showPaywall = true
+                    return
+                }
                 if url.scheme == "widgetar", url.host == "weather" {
                     navigationPath = [.weather]
                     return
@@ -154,7 +160,8 @@ struct HomeView: View {
                 .appAppearance()
             }
             .sheet(isPresented: $showHowTo) { HowToAddView().appAppearance() }
-            .fullScreenCover(isPresented: $showSettings, onDismiss: { refresh += 1 }) { SettingsView().environment(styleStore).appAppearance() }
+            .sheet(isPresented: $showPaywall) { PaywallView().environment(store).environment(styleStore).appAppearance() }
+            .fullScreenCover(isPresented: $showSettings, onDismiss: { refresh += 1 }) { SettingsView().environment(styleStore).environment(store).appAppearance() }
         }
     }
 

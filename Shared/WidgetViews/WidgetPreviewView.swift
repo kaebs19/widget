@@ -21,6 +21,8 @@ struct WidgetPreviewView: View {
     var showsBackground = true
     /// الذكر الذي يعرضه ودجت العدّاد
     var tasbeeh: TasbeehDhikr = .istighfar
+    /// خيارات ودجات «الأيام والشهور»؛ nil تعني المحفوظ
+    var nameOptions: NameOptions? = nil
 
     var body: some View {
         content
@@ -138,6 +140,9 @@ struct WidgetPreviewView: View {
                 HealthConnectPrompt(compact: resolvedSize == .small)
             }
         case .nextMatch:    MatchWidget()
+        case .styledDay, .styledHijriMonth, .styledGregorianMonth, .monthBehind, .dayNumber, .monthNumber,
+             .bothDates, .weekRibbon, .monthProgress, .bigNumber, .hijriCountdown, .circleBadge:
+            NameWidget(kind: kind, date: date, size: resolvedSize, options: nameOptions ?? NameOptions.load(for: kind))
         }
     }
 

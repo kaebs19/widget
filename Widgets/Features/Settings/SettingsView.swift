@@ -17,6 +17,8 @@ struct SettingsView: View {
     @State private var showResetCounter = false
     @State private var showHowTo = false
     @State private var webPage: URL?
+    @State private var showPaywall = false
+    @Environment(StoreManager.self) private var store
     @Environment(\.openURL) private var openURL
     @AppStorage(AppSettings.Key.haptics, store: AppGroup.defaults) private var haptics = true
     @AppStorage(AppSettings.Key.hijriOffset, store: AppGroup.defaults) private var hijriOffset = 0
@@ -29,6 +31,11 @@ struct SettingsView: View {
         NavigationStack {
             ScrollView {
                 VStack(spacing: 24) {
+                    group(L10n.text("الاشتراك")) {
+                        actionRow(L10n.text("ودجات الأيام والشهور"),
+                                  store.isActive ? L10n.text("مشترك · إدارة الاشتراك") : L10n.text("اشتراك شهري أو سنوي"),
+                                  symbol: "crown.fill", color: Color(red: 0.85, green: 0.62, blue: 0.20), chevron: true) { showPaywall = true }
+                    }
                     generalGroup
                     group(L10n.text("المحتوى")) {
                         NavigationLink {
@@ -107,6 +114,7 @@ struct SettingsView: View {
                 destination(page)
             }
             .sheet(isPresented: $showHowTo) { HowToAddView().appAppearance() }
+            .sheet(isPresented: $showPaywall) { PaywallView().environment(store).appAppearance() }
             #if targetEnvironment(macCatalyst)
             // على الماك تُفتح الصفحات في المتصفح، فهو المعتاد هناك
             .onChange(of: webPage) { _, url in

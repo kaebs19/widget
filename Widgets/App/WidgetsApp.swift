@@ -11,11 +11,13 @@ import SwiftUI
 struct WidgetsApp: App {
     @AppStorage(AppLanguage.preferenceKey, store: AppGroup.defaults) private var language = AppLanguage.system
     @State private var styleStore = WidgetStyleStore()
+    @State private var storeManager = StoreManager()
     @Environment(\.scenePhase) private var scenePhase
     @AppStorage(AppSettings.Key.accent, store: AppGroup.defaults) private var accent = AppAccent.gold
 
     init() {
         AppFontFamily.validateRegistration()
+        DisplayFont.validateRegistration()
         #if DEBUG
         ScreenshotSeed.applyIfNeeded()
         #endif
@@ -37,6 +39,7 @@ struct WidgetsApp: App {
                 // فلا نعيد بناء الجذر حتى لا تُغلق الإعدادات نفسها أثناء التعديل
                 .tint(Theme.accent(accent))
                 .environment(styleStore)
+                .environment(storeManager)
                 // عند كل فتح للتطبيق تمتد تنبيهات الأذان لأيام قادمة
                 #if !targetEnvironment(macCatalyst)
                 // أي تغيير في الإعدادات المشتركة يصل للساعة
@@ -50,6 +53,7 @@ struct WidgetsApp: App {
                         WatchSync.shared.push()
                         #endif
                         Task {
+                            await storeManager.refreshStatus()
                             await OccasionStore.scheduleReminders(for: OccasionStore.all())
                             await PrayerNotifications.reschedule()
                             await PaydayNotifications.reschedule()

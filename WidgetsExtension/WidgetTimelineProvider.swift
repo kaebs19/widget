@@ -51,6 +51,8 @@ nonisolated struct WidgetTimelineProvider: AppIntentTimelineProvider {
                                       WidgetEntry(date: now.addingTimeInterval(24 * 3600), kind: kind, styleID: styleID)],
                             policy: .after(now.addingTimeInterval(30 * 60)))
         }
+        // الاشتراك: نتحقق من StoreKit مباشرة، فينفتح الودجت أو يُقفل حتى لو لم يُفتح التطبيق
+        if kind.isPremium { await Premium.refresh() }
         // ودجات الصلاة تتحدث باستمرار، فنجدّد معها تنبيهات الأذان حتى لو لم يُفتح التطبيق
         if kind.category == .prayer { await PrayerNotifications.reschedule() }
         // وكذلك تنبيهات مواعيد الصرف، فتمتد للشهر القادم بدون فتح التطبيق

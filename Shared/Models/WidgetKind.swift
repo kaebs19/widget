@@ -10,7 +10,7 @@ import SwiftUI
 // MARK: - الأقسام
 // CaseIterable يعطيك allCases تلقائياً، فتبني شريط الأقسام بحلقة بدون ما تكتب كل قسم يدوياً.
 enum WidgetCategory: String, CaseIterable, Identifiable {
-    case prayer, religious, calendar, health, occasions, finance, weather, sports
+    case prayer, religious, calendar, names, health, occasions, finance, weather, sports
 
     var id: String { rawValue }
 
@@ -29,6 +29,7 @@ enum WidgetCategory: String, CaseIterable, Identifiable {
         case .prayer:    L10n.text("الصلاة")
         case .religious: L10n.text("ديني")
         case .calendar:  L10n.text("تقويم")
+        case .names:     L10n.text("الأيام والشهور")
         case .health:    L10n.text("الصحة")
         case .occasions: L10n.text("مناسبات")
         case .finance:   L10n.text("المال والأعمال")
@@ -42,6 +43,7 @@ enum WidgetCategory: String, CaseIterable, Identifiable {
         case .prayer:    .asset(.iconMosque)
         case .religious: .asset(.iconCategoryReligious)
         case .calendar:  .asset(.iconCategoryCalendar)
+        case .names:     .system("textformat")
         case .health:    .system("heart")
         case .occasions: .asset(.iconCategoryOccasions)
         case .finance:   .system("banknote")
@@ -81,6 +83,8 @@ enum WidgetKind: String, CaseIterable, Identifiable {
     case prayerRing, prayerBar, prayerDay, prayerList
     case hijriDate, dayName
     case tearOff, dualDate, gregorianMonth, hijriMonth
+    case styledDay, styledHijriMonth, styledGregorianMonth, monthBehind, dayNumber, monthNumber
+    case bothDates, weekRibbon, monthProgress, bigNumber, hijriCountdown, circleBadge
     case morningDhikr, eveningDhikr, dailyVerse, istighfar, quranGoal
     case dailyOverview, subscriptions
     case ramadan, eid, nationalDay, foundingDay, specialOccasion
@@ -105,6 +109,18 @@ enum WidgetKind: String, CaseIterable, Identifiable {
         case .dualDate:     L10n.text("التاريخان")
         case .gregorianMonth: L10n.text("الشهر الميلادي")
         case .hijriMonth:   L10n.text("الشهر الهجري")
+        case .styledDay:    L10n.text("اسم اليوم بالخط")
+        case .styledHijriMonth: L10n.text("الشهر الهجري بالخط")
+        case .styledGregorianMonth: L10n.text("الشهر الميلادي بالخط")
+        case .monthBehind:  L10n.text("الرقم خلف الشهر")
+        case .dayNumber:    L10n.text("اليوم والرقم")
+        case .monthNumber:  L10n.text("الشهر والرقم")
+        case .bothDates:    L10n.text("التاريخان معاً")
+        case .weekRibbon:   L10n.text("شريط الأسبوع")
+        case .monthProgress: L10n.text("تقدّم الشهر")
+        case .bigNumber:    L10n.text("رقم عملاق")
+        case .hijriCountdown: L10n.text("عدّ تنازلي هجري")
+        case .circleBadge:  L10n.text("شارة دائرية")
         case .dailyOverview: L10n.text("يومي")
         case .subscriptions: L10n.text("اشتراكاتي")
         case .quranGoal: L10n.text("ورد القرآن")
@@ -153,6 +169,18 @@ enum WidgetKind: String, CaseIterable, Identifiable {
         case .dualDate:     L10n.text("اليوم بالتاريخين الهجري والميلادي")
         case .gregorianMonth: L10n.text("أيام الشهر الميلادي واليوم مميّز")
         case .hijriMonth:   L10n.text("أيام الشهر الهجري بتقويم أم القرى")
+        case .styledDay:    L10n.text("اسم اليوم بستة خطوط: نسخ ورقعة ونستعليق وكوفي ونقطي وإنجليزي")
+        case .styledHijriMonth: L10n.text("اسم الشهر الهجري بالخط الذي تختاره")
+        case .styledGregorianMonth: L10n.text("اسم الشهر الميلادي بالخط الذي تختاره")
+        case .monthBehind:  L10n.text("اسم الشهر بالرقعة ورقم اليوم كبيراً خلفه")
+        case .dayNumber:    L10n.text("اسم اليوم ورقمه بثلاثة تخطيطات")
+        case .monthNumber:  L10n.text("رقم اليوم واسم الشهر، هجري أو ميلادي")
+        case .bothDates:    L10n.text("اسم اليوم بخط النسخ مع التاريخين الهجري والميلادي")
+        case .weekRibbon:   L10n.text("أيام الأسبوع بأرقامها واليوم الحالي مميّز")
+        case .monthProgress: L10n.text("اسم الشهر الهجري وخانات تمتلئ مع أيامه")
+        case .bigNumber:    L10n.text("رقم اليوم كبيراً مع اليوم والشهر والسنة")
+        case .hijriCountdown: L10n.text("الأيام الباقية على رمضان أو العيد أو الحج")
+        case .circleBadge:  L10n.text("رقم اليوم الهجري داخل دائرة مع اسم اليوم والشهر")
         case .dailyOverview: L10n.text("التاريخ والصلاة القادمة وأقرب مناسبة في مكان واحد")
         case .subscriptions: L10n.text("تجديد الاشتراكات وتكلفتها الشهرية بالريال السعودي")
         case .quranGoal: L10n.text("هدفك اليومي من صفحات القرآن، وسجّل إنجازك من الشاشة")
@@ -194,6 +222,8 @@ enum WidgetKind: String, CaseIterable, Identifiable {
         case .prayerRing, .prayerBar, .prayerDay, .prayerList: .prayer
         case .dailyOverview, .hijriDate, .dayName, .tearOff, .dualDate,
              .gregorianMonth, .hijriMonth:             .calendar
+        case .styledDay, .styledHijriMonth, .styledGregorianMonth, .monthBehind, .dayNumber, .monthNumber,
+             .bothDates, .weekRibbon, .monthProgress, .bigNumber, .hijriCountdown, .circleBadge: .names
         case .morningDhikr, .eveningDhikr, .quranGoal, .dailyVerse, .istighfar:   .religious
         case .ramadan, .eid, .nationalDay, .foundingDay, .specialOccasion: .occasions
         case .salary, .citizenAccount, .hafiz, .retirement, .socialSecurity, .studentBonus,
@@ -211,7 +241,7 @@ enum WidgetKind: String, CaseIterable, Identifiable {
         case .istighfar, .ramadan, .eid, .foundingDay, .tearOff, .dualDate,
              .prayerRing, .prayerBar, .citizenAccount, .hafiz, .retirement,
              .socialSecurity, .studentBonus, .rehabilitation,
-             .healthSteps, .healthActivity, .healthSleep, .healthWater: .small
+             .healthSteps, .healthActivity, .healthSleep, .healthWater, .circleBadge: .small
         case .dailyVerse:                              .large
         default:                                       .medium
         }
@@ -242,6 +272,7 @@ enum WidgetKind: String, CaseIterable, Identifiable {
         case .healthSleep:                             [.small]
         case .healthWeekly, .healthStreak, .healthSleepWeek, .healthWorkouts: [.medium]
         case .specialOccasion, .dailyOverview, .subscriptions: [.medium]
+        case .bothDates, .weekRibbon, .monthProgress, .bigNumber: [.medium]
         case .quranGoal: [.small, .medium]
         default:                                       [.small, .medium]
         }

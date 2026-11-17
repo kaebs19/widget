@@ -110,7 +110,14 @@
 
     },
     "%lld بالمئة" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld percent"
+          }
+        }
+      }
     },
     "°C" : {
 
@@ -1522,7 +1529,14 @@
 
     },
     "اسم المناسبة" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Occasion name"
+          }
+        }
+      }
     },
     "اسم النمط" : {
 
@@ -1694,7 +1708,14 @@
       }
     },
     "الآيات بخط المصحف العثماني. يمكنك تغيير حجمها، وتخصيص خط العناوين والأرقام بشكل مستقل." : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verses use the Uthmani Mushaf script. You can change their size, and set the label and number fonts separately."
+          }
+        }
+      }
     },
     "الآية %@" : {
 
@@ -2158,7 +2179,14 @@
 
     },
     "الحجم الأصلي · ١٠٠٪" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Original size · 100%"
+          }
+        }
+      }
     },
     "الحلقات والأشرطة في الودجات تمتلئ عند بلوغ الهدف." : {
 
@@ -3558,7 +3586,14 @@
       }
     },
     "تصغير %@" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Smaller %@"
+          }
+        }
+      }
     },
     "تصفير" : {
       "extractionState" : "manual",
@@ -3787,7 +3822,14 @@
       }
     },
     "تكبير %@" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Larger %@"
+          }
+        }
+      }
     },
     "تلقائي" : {
       "localizations" : {
@@ -4019,7 +4061,14 @@
       }
     },
     "حجم %@" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ size"
+          }
+        }
+      }
     },
     "حجم الكوب: %@ مل" : {
 
@@ -4153,7 +4202,14 @@
       }
     },
     "خط %@" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ font"
+          }
+        }
+      }
     },
     "خطأ في نص" : {
       "extractionState" : "manual",
@@ -5009,7 +5065,14 @@
       }
     },
     "كل حجم نسبة إلى تصميم الودجت. العناوين البارزة تحتفظ بوزن أثقل لتبقى واضحة." : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Each size is relative to the widget's design. Prominent titles keep a heavier weight so they stay clear."
+          }
+        }
+      }
     },
     "كل ذكر له عدده اليومي. لتغيير الذكر في الشاشة الرئيسية: اضغط مطولاً على الودجت ثم «تعديل الودجت»." : {
 
@@ -5565,6 +5628,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "معاينة %1$@: %2$@"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ preview: %2$@"
           }
         }
       }
@@ -6191,7 +6260,14 @@
 
     },
     "يستخدم خط النص الذي اخترته في تبويب «النص»." : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uses the text font you chose in the Text tab."
+          }
+        }
+      }
     },
     "يصلك تنبيه %@ في اليوم السابق." : {
 
@@ -7070,6 +7146,246 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "12 day and month widgets, small and medium"
+          }
+        }
+      }
+    },
+    "النص" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Text"
+          }
+        }
+      }
+    },
+    "العناوين" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Labels"
+          }
+        }
+      }
+    },
+    "الخطوط والحجم" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fonts & Size"
+          }
+        }
+      }
+    },
+    "نوع الأرقام" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Number style"
+          }
+        }
+      }
+    },
+    "وزن الخط" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Font weight"
+          }
+        }
+      }
+    },
+    "نوع الخط" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Font"
+          }
+        }
+      }
+    },
+    "رفيع جداً" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Extra Light"
+          }
+        }
+      }
+    },
+    "خفيف" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Light"
+          }
+        }
+      }
+    },
+    "عادي" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Regular"
+          }
+        }
+      }
+    },
+    "شبه عريض" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Semibold"
+          }
+        }
+      }
+    },
+    "عريض" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bold"
+          }
+        }
+      }
+    },
+    "عريض جداً" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Extra Bold"
+          }
+        }
+      }
+    },
+    "ثقيل" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Black"
+          }
+        }
+      }
+    },
+    "مدوّر" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rounded"
+          }
+        }
+      }
+    },
+    "كلاسيكي" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Classic"
+          }
+        }
+      }
+    },
+    "ثابت العرض" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Monospaced"
+          }
+        }
+      }
+    },
+    "خط النص" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Text font"
+          }
+        }
+      }
+    },
+    "لطيف" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lateef"
+          }
+        }
+      }
+    },
+    "IBM Plex عربي" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "IBM Plex Arabic"
+          }
+        }
+      }
+    },
+    "القاهرة" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cairo"
+          }
+        }
+      }
+    },
+    "تجوال" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tajawal"
+          }
+        }
+      }
+    },
+    "أميري" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Amiri"
+          }
+        }
+      }
+    },
+    "عثماني حفص" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uthmanic Hafs"
+          }
+        }
+      }
+    },
+    "رقعة" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ruqaa"
           }
         }
       }

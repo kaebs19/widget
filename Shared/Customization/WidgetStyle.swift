@@ -131,11 +131,11 @@ nonisolated enum NumberFont: String, Codable, CaseIterable, Identifiable, Sendab
 
     var title: String {
         switch self {
-        case .rounded:    "مدوّر"
-        case .standard:   "عادي"
-        case .serif:      "كلاسيكي"
-        case .monospaced: "ثابت العرض"
-        case .text:       "خط النص"
+        case .rounded:    L10n.text("مدوّر")
+        case .standard:   L10n.text("عادي")
+        case .serif:      L10n.text("كلاسيكي")
+        case .monospaced: L10n.text("ثابت العرض")
+        case .text:       L10n.text("خط النص")
         }
     }
 
@@ -174,14 +174,14 @@ extension AppFontWeight {
 
     var title: String {
         switch self {
-        case .extraLight: "رفيع جداً"
-        case .light: "خفيف"
-        case .regular: "عادي"
-        case .medium: "متوسط"
-        case .semibold: "شبه عريض"
-        case .bold: "عريض"
-        case .extraBold: "عريض جداً"
-        case .black: "ثقيل"
+        case .extraLight: L10n.text("رفيع جداً")
+        case .light: L10n.text("خفيف")
+        case .regular: L10n.text("عادي")
+        case .medium: L10n.text("متوسط")
+        case .semibold: L10n.text("شبه عريض")
+        case .bold: L10n.text("عريض")
+        case .extraBold: L10n.text("عريض جداً")
+        case .black: L10n.text("ثقيل")
         }
     }
 }

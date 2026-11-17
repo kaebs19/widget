@@ -87,13 +87,13 @@ nonisolated enum AppFontFamily: String, CaseIterable, Identifiable, Codable, Sen
 
     var displayName: String {
         switch self {
-        case .lateef: "لطيف"
-        case .ibmPlexArabic: "IBM Plex عربي"
-        case .cairo: "القاهرة"
-        case .tajawal: "تجوال"
-        case .amiri: "أميري"
-        case .uthmanicHafs: "عثماني حفص"
-        case .arefRuqaa: "رقعة"
+        case .lateef: L10n.text("لطيف")
+        case .ibmPlexArabic: L10n.text("IBM Plex عربي")
+        case .cairo: L10n.text("القاهرة")
+        case .tajawal: L10n.text("تجوال")
+        case .amiri: L10n.text("أميري")
+        case .uthmanicHafs: L10n.text("عثماني حفص")
+        case .arefRuqaa: L10n.text("رقعة")
         }
     }
 

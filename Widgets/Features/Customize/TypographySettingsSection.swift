@@ -11,10 +11,10 @@ struct TypographySettingsSection: View {
         var id: Self { self }
         var name: String {
             switch self {
-            case .content: "النص"
-            case .labels: "العناوين"
-            case .title: "اسم المناسبة"
-            case .numbers: "الأرقام"
+            case .content: L10n.text("النص")
+            case .labels: L10n.text("العناوين")
+            case .title: L10n.text("اسم المناسبة")
+            case .numbers: L10n.text("الأرقام")
             }
         }
         var role: WidgetFontRole {
@@ -77,7 +77,7 @@ struct TypographySettingsSection: View {
     }
 
     var body: some View {
-        SettingsSection("الخطوط والحجم") {
+        SettingsSection(L10n.text("الخطوط والحجم")) {
             ChoiceChips(options: Part.allCases, selection: $part) { item in
                 Text(item.name).font(AppFont.ui(13))
             }
@@ -89,27 +89,27 @@ struct TypographySettingsSection: View {
                 .padding(8)
                 .background { WidgetBackgroundView(background: style.background) }
                 .clipShape(RoundedRectangle(cornerRadius: 14))
-                .accessibilityLabel("معاينة \(part.name): \(sample)")
+                .accessibilityLabel(String(format: L10n.text("معاينة %@: %@"), part.name, sample))
 
             if fixedQuran {
-                Text("الآيات بخط المصحف العثماني. يمكنك تغيير حجمها، وتخصيص خط العناوين والأرقام بشكل مستقل.")
+                Text(L10n.text("الآيات بخط المصحف العثماني. يمكنك تغيير حجمها، وتخصيص خط العناوين والأرقام بشكل مستقل."))
                     .font(AppFont.ui(12))
                     .foregroundStyle(Theme.textSecondary)
             } else {
                 if part == .numbers {
-                    SettingRow("نوع الأرقام") {
+                    SettingRow(L10n.text("نوع الأرقام")) {
                         ChoiceChips(options: NumberFont.allCases, selection: $style.numberFont) { font in
                             Text(font.title).font(font.font(size: 14, weight: .medium, family: style.contentFont))
                         }
                         if style.numberFont == .text {
-                            Text("يستخدم خط النص الذي اخترته في تبويب «النص».")
+                            Text(L10n.text("يستخدم خط النص الذي اخترته في تبويب «النص»."))
                                 .font(AppFont.ui(12)).foregroundStyle(Theme.textSecondary)
                         }
                     }
                 } else {
                     fontChoices
                 }
-                SettingRow("وزن الخط", detail: weight.wrappedValue.title) {
+                SettingRow(L10n.text("وزن الخط"), detail: weight.wrappedValue.title) {
                     ChoiceChips(options: weights, selection: weight) { value in
                         Text(value.title)
                             .font(part == .numbers ? style.numberFont.font(size: 14, weight: value, family: style.contentFont)
@@ -117,24 +117,24 @@ struct TypographySettingsSection: View {
                     }
                 }
             }
-            SettingRow("حجم \(part.name)", detail: "\(DateHelper.arabic(Int((scale.wrappedValue * 100).rounded())))٪") {
+            SettingRow(String(format: L10n.text("حجم %@"), part.name), detail: "\(DateHelper.arabic(Int((scale.wrappedValue * 100).rounded())))٪") {
                 HStack(spacing: 12) {
                     Button { scale.wrappedValue -= 0.05 } label: { Image(systemName: "minus") }
                         .disabled(scale.wrappedValue <= WidgetStyle.fontScaleRange.lowerBound)
-                        .accessibilityLabel("تصغير \(part.name)")
+                        .accessibilityLabel(String(format: L10n.text("تصغير %@"), part.name))
                         .frame(minWidth: 44, minHeight: 44)
                     Slider(value: scale, in: WidgetStyle.fontScaleRange, step: 0.05)
-                        .accessibilityLabel("حجم \(part.name)")
-                        .accessibilityValue("\(Int((scale.wrappedValue * 100).rounded())) بالمئة")
+                        .accessibilityLabel(String(format: L10n.text("حجم %@"), part.name))
+                        .accessibilityValue(String(format: L10n.text("%lld بالمئة"), Int((scale.wrappedValue * 100).rounded())))
                     Button { scale.wrappedValue += 0.05 } label: { Image(systemName: "plus") }
                         .disabled(scale.wrappedValue >= WidgetStyle.fontScaleRange.upperBound)
-                        .accessibilityLabel("تكبير \(part.name)")
+                        .accessibilityLabel(String(format: L10n.text("تكبير %@"), part.name))
                         .frame(minWidth: 44, minHeight: 44)
                 }
-                Button("الحجم الأصلي · ١٠٠٪") { scale.wrappedValue = 1 }
+                Button(L10n.text("الحجم الأصلي · ١٠٠٪")) { scale.wrappedValue = 1 }
                     .font(AppFont.ui(12))
             }
-            Text("كل حجم نسبة إلى تصميم الودجت. العناوين البارزة تحتفظ بوزن أثقل لتبقى واضحة.")
+            Text(L10n.text("كل حجم نسبة إلى تصميم الودجت. العناوين البارزة تحتفظ بوزن أثقل لتبقى واضحة."))
                 .font(AppFont.ui(12)).foregroundStyle(Theme.textSecondary)
         }
     }
@@ -149,7 +149,7 @@ struct TypographySettingsSection: View {
     }
 
     private var fontChoices: some View {
-        SettingRow("نوع الخط", detail: family.wrappedValue.displayName) {
+        SettingRow(L10n.text("نوع الخط"), detail: family.wrappedValue.displayName) {
             LazyVGrid(columns: [GridItem(.adaptive(minimum: 130), spacing: 8)], spacing: 8) {
                 ForEach(AppFontFamily.customizable) { item in
                     let selected = item == family.wrappedValue
@@ -170,7 +170,7 @@ struct TypographySettingsSection: View {
                         .overlay(RoundedRectangle(cornerRadius: 12).strokeBorder(selected ? Theme.gold : Theme.border))
                     }
                     .buttonStyle(.plain)
-                    .accessibilityLabel("خط \(item.displayName)")
+                    .accessibilityLabel(String(format: L10n.text("خط %@"), item.displayName))
                     .accessibilityAddTraits(selected ? .isSelected : [])
                 }
             }

@@ -29,8 +29,26 @@ nonisolated enum WidgetStyleStorage {
         return style
     }
 
+    /// لون افتراضي لكل ودجت حتى لا يظهر المعرض كله بالأسود؛ يتنوّع داخل كل قسم
     private static let suggestedPresets: [String: BackgroundPreset] = [
+        // الصلاة
+        "prayerRing": .navy, "prayerBar": .teal, "prayerDay": .dawn, "prayerList": .emerald,
+        // ديني
+        "morningDhikr": .sand, "eveningDhikr": .violet, "dailyVerse": .emerald, "istighfar": .teal, "quranGoal": .golden,
+        // تقويم
+        "hijriDate": .navy, "dayName": .rose, "dailyOverview": .crescent,
         "tearOff": .sunflower, "dualDate": .sunset, "gregorianMonth": .lagoon, "hijriMonth": .sage,
+        // مناسبات
+        "ramadan": .crescent, "eid": .violet, "nationalDay": .national, "foundingDay": .sand, "specialOccasion": .rose,
+        // المال والأعمال
+        "salary": .emerald, "citizenAccount": .teal, "hafiz": .navy, "retirement": .golden, "socialSecurity": .sage,
+        "studentBonus": .lagoon, "rehabilitation": .violet, "paydays": .navy, "obligations": .pearl,
+        "budget": .sunset, "subscriptions": .violet,
+        // الصحة
+        "healthSteps": .teal, "healthDashboard": .navy, "healthSleep": .violet, "healthWeekly": .emerald,
+        "healthStreak": .golden, "healthSleepWeek": .navy, "healthWater": .lagoon, "healthWorkouts": .rose,
+        // الطقس والرياضة
+        "weather": .lagoon, "nextMatch": .national,
     ]
 
     /// الشكل المحفوظ لهذا النوع فقط؛ nil إذا لم يخصّصه المستخدم

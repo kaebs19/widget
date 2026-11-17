@@ -1,6 +1,7 @@
 import Foundation
 import CoreLocation
 import WeatherKit
+import os
 
 nonisolated struct WeatherLocation: Codable, Equatable, Sendable {
     let latitude: Double
@@ -78,6 +79,7 @@ nonisolated enum WeatherCache {
 
 actor WeatherReader {
     static let shared = WeatherReader()
+    private static let log = Logger(subsystem: "com.widgetar.app", category: "weather")
     private var loading = false
 
     /// Keep the last valid reading on failure. Never associate a response with a newer location.
@@ -87,8 +89,15 @@ actor WeatherReader {
         loading = true
         defer { loading = false }
         let service = WeatherService.shared
-        let weather = try await service.weather(for: CLLocation(latitude: location.latitude, longitude: location.longitude))
-        let attribution = try await service.attribution
+        let weather: Weather
+        let attribution: WeatherAttribution
+        do {
+            weather = try await service.weather(for: CLLocation(latitude: location.latitude, longitude: location.longitude))
+            attribution = try await service.attribution
+        } catch {
+            Self.log.error("WeatherKit request failed: \(String(describing: error), privacy: .public)")
+            throw error
+        }
         let now = Date.now
         let current = weather.currentWeather
         let snapshot = WeatherSnapshot(location: location, fetchedAt: now, observedAt: current.date,

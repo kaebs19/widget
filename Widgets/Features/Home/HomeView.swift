@@ -63,6 +63,12 @@ struct HomeView: View {
                         installedHeader
                     }
 
+                    // بطاقة الاشتراك لغير المشتركين، في «الكل» وقسم «الأيام والشهور»
+                    if !store.isActive && !viewModel.showsInstalled && viewModel.searchText.isEmpty
+                        && (viewModel.selectedCategory == nil || viewModel.selectedCategory == .names) {
+                        ProBanner { showPaywall = true }
+                    }
+
                     if !viewModel.hasResults {
                         ContentUnavailableView {
                             Label(L10n.text("لا توجد نتائج"), systemImage: "magnifyingglass")

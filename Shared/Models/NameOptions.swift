@@ -26,14 +26,15 @@ nonisolated enum NameShape: String, Codable, CaseIterable, Identifiable, Sendabl
     }
 
     /// ألوان التصميم الأصلي؛ تُستخدم ما دام المستخدم لم يخصّص شكل هذا النوع
-    var palette: (card: UInt32, ink: UInt32, accent: UInt32) {
+    /// لكل خط لوحته: مستوحاة من التصميم الأصلي مع تدرّج يعطيها عمقاً
+    var palette: NamePalette {
         switch self {
-        case .naskh:    (0x1C1C1E, 0xEDE8DC, 0xC9A45C)
-        case .ruqaa:    (0xF1ECE0, 0x1B1A17, 0x8A6A2E)
-        case .nastaliq: (0x0F2A22, 0xE3C98A, 0xE3C98A)
-        case .kufi:     (0x161618, 0xFFFFFF, 0xF5A623)
-        case .dots:     (0x15171C, 0xFFB84D, 0xFFB84D)
-        case .english:  (0x1C1C1E, 0xF2EEE2, 0xC9A45C)
+        case .naskh:    NamePalette(0x2B3990, 0x161D52, ink: 0xF3EEDF, accent: 0xE8C77E)   // نيلي
+        case .ruqaa:    NamePalette(0xF6F1E6, 0xE6DCC6, ink: 0x1B1A17, accent: 0x9A6B1F)   // ورقي
+        case .nastaliq: NamePalette(0x14523F, 0x0A2C22, ink: 0xEBD198, accent: 0xEBD198)   // زمردي وذهبي
+        case .kufi:     NamePalette(0x9B2335, 0x4E0F1C, ink: 0xFFFFFF, accent: 0xFFC56B)   // عنابي
+        case .dots:     NamePalette(0x15171C, 0x0A0B0E, ink: 0xFFB84D, accent: 0xFFB84D)   // كهرماني على أسود
+        case .english:  NamePalette(0x45285A, 0x22122F, ink: 0xF4EEE6, accent: 0xD9B36C)   // بنفسجي
         }
     }
 }
@@ -119,20 +120,47 @@ nonisolated struct NameOptions: Codable, Hashable, Sendable {
     /// الافتراضي لكل نوع
     init(kind: WidgetKind? = nil) {
         if kind == .styledGregorianMonth || kind == .monthBehind { calendar = .gregorian }
+        // خط افتراضي مختلف لكل ودجت، فتتنوّع الألوان في المعرض
+        if kind == .styledHijriMonth { shape = .nastaliq }
+        if kind == .styledGregorianMonth { shape = .kufi }
     }
 }
 
 extension NameOptions {
     /// ألوان التصميم: الخط المختار له ألوانه، والبقية داكنة بنص عاجي ولون برتقالي
     static func designStyle(for kind: WidgetKind) -> WidgetStyle {
-        var palette: (card: UInt32, ink: UInt32, accent: UInt32) = (0x1C1C1E, 0xF2EEE2, 0xF5A623)
-        if kind.usesShape { palette = load(for: kind).shape.palette }
-        if kind == .monthNumber || kind == .monthBehind { palette.accent = 0xE3C98A }
+        let palette = kind.usesShape ? load(for: kind).shape.palette : NamePalette.forKind(kind)
         var style = WidgetStyle.default
-        style.background = .color(Color.Resolved(hex: palette.card))
+        style.background = palette.top == palette.bottom
+            ? .color(Color.Resolved(hex: palette.top))
+            : .gradient(Color.Resolved(hex: palette.top), Color.Resolved(hex: palette.bottom))
         style.textColor = Color.Resolved(hex: palette.ink)
         style.accentColor = Color.Resolved(hex: palette.accent)
         return style
+    }
+}
+
+/// ألوان ودجت: تدرّج الخلفية من الأعلى للأسفل، ولون النص، ولون التمييز
+nonisolated struct NamePalette: Sendable {
+    let top: UInt32, bottom: UInt32, ink: UInt32, accent: UInt32
+    init(_ top: UInt32, _ bottom: UInt32, ink: UInt32, accent: UInt32) {
+        self.top = top; self.bottom = bottom; self.ink = ink; self.accent = accent
+    }
+
+    /// كل ودجت بلون مختلف حتى يتميّز في المعرض والشاشة الرئيسية
+    static func forKind(_ kind: WidgetKind) -> NamePalette {
+        switch kind {
+        case .monthBehind:    NamePalette(0xC2415B, 0x6E1F45, ink: 0xFFF6EE, accent: 0xFFD27A)   // وردي غروبي
+        case .dayNumber:      NamePalette(0x2477C9, 0x123F7A, ink: 0xFFFFFF, accent: 0xFFCF5C)   // أزرق
+        case .monthNumber:    NamePalette(0x2F8F6A, 0x14503B, ink: 0xFFFFFF, accent: 0xF3D58A)   // أخضر
+        case .bothDates:      NamePalette(0xF5EBDC, 0xE6D3B3, ink: 0x3A2E1F, accent: 0xA85A26)   // رملي
+        case .weekRibbon:     NamePalette(0x6C4FD1, 0x37207A, ink: 0xFFFFFF, accent: 0xFFD166)   // بنفسجي
+        case .monthProgress:  NamePalette(0x22A094, 0x0F5F58, ink: 0xFFFFFF, accent: 0xFFE08A)   // فيروزي
+        case .bigNumber:      NamePalette(0xF29A3A, 0xC4470F, ink: 0xFFFFFF, accent: 0xFFF1D6)   // برتقالي
+        case .hijriCountdown: NamePalette(0x1E2F57, 0x0A1228, ink: 0xF3EEDF, accent: 0xF5C26B)   // ليلي
+        case .circleBadge:    NamePalette(0xFBFAF7, 0xECE7DD, ink: 0x1E1E1E, accent: 0xC27C0E)   // لؤلؤي
+        default:              NamePalette(0x1C1C1E, 0x1C1C1E, ink: 0xF2EEE2, accent: 0xF5A623)
+        }
     }
 }
 

@@ -7389,6 +7389,56 @@
           }
         }
       }
+    },
+    "ويدجت برو" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Widget Pro"
+          }
+        }
+      }
+    },
+    "الأيام والشهور بخطوط عربية فاخرة" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Days & months in fine Arabic calligraphy"
+          }
+        }
+      }
+    },
+    "١٢ ودجت بألوان وخطوط مختلفة" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "12 widgets in different colors and scripts"
+          }
+        }
+      }
+    },
+    "جرّب أسبوعاً مجاناً" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Try a week free"
+          }
+        }
+      }
+    },
+    "اكتشف برو" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Discover Pro"
+          }
+        }
+      }
     }
   },
   "version" : "1.0"

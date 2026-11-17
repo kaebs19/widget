@@ -16,11 +16,11 @@ nonisolated enum NameShape: String, Codable, CaseIterable, Identifiable, Sendabl
 
     var title: String {
         switch self {
-        case .naskh:    "نسخ مشكّل"
-        case .ruqaa:    "رقعة ورقي"
-        case .nastaliq: "نستعليق ذهبي"
-        case .kufi:     "كوفي + إنجليزي"
-        case .dots:     "هندسي نقطي"
+        case .naskh:    L10n.text("نسخ مشكّل")
+        case .ruqaa:    L10n.text("رقعة ورقي")
+        case .nastaliq: L10n.text("نستعليق ذهبي")
+        case .kufi:     L10n.text("كوفي + إنجليزي")
+        case .dots:     L10n.text("هندسي نقطي")
         case .english:  "English"
         }
     }
@@ -41,7 +41,7 @@ nonisolated enum NameShape: String, Codable, CaseIterable, Identifiable, Sendabl
 nonisolated enum NameCalendar: String, Codable, CaseIterable, Identifiable, Sendable {
     case hijri, gregorian
     var id: Self { self }
-    var title: String { self == .hijri ? "هجري" : "ميلادي" }
+    var title: String { L10n.text(self == .hijri ? "هجري" : "ميلادي") }
 }
 
 /// تخطيط «اليوم + الرقم» (الشكل ٠٨)
@@ -50,9 +50,9 @@ nonisolated enum DayNumberLayout: String, Codable, CaseIterable, Identifiable, S
     var id: Self { self }
     var title: String {
         switch self {
-        case .behind: "الرقم خلف الاسم"
-        case .beside: "الرقم بجانب الاسم"
-        case .above:  "اليوم فوق الرقم"
+        case .behind: L10n.text("الرقم خلف الاسم")
+        case .beside: L10n.text("الرقم بجانب الاسم")
+        case .above:  L10n.text("اليوم فوق الرقم")
         }
     }
 }
@@ -61,7 +61,7 @@ nonisolated enum DayNumberLayout: String, Codable, CaseIterable, Identifiable, S
 nonisolated enum MonthNumberLayout: String, Codable, CaseIterable, Identifiable, Sendable {
     case beside, above
     var id: Self { self }
-    var title: String { self == .beside ? "الرقم بجانب الشهر" : "الرقم فوق الشهر" }
+    var title: String { L10n.text(self == .beside ? "الرقم بجانب الشهر" : "الرقم فوق الشهر") }
 }
 
 /// المناسبات الهجرية للعدّ التنازلي
@@ -71,12 +71,12 @@ nonisolated enum HijriTarget: String, Codable, CaseIterable, Identifiable, Senda
 
     var title: String {
         switch self {
-        case .ramadan: "رمضان"
-        case .eidFitr: "عيد الفطر"
-        case .arafah:  "يوم عرفة"
-        case .eidAdha: "عيد الأضحى"
-        case .newYear: "رأس السنة الهجرية"
-        case .ashura:  "عاشوراء"
+        case .ramadan: L10n.text("رمضان")
+        case .eidFitr: L10n.text("عيد الفطر")
+        case .arafah:  L10n.text("يوم عرفة")
+        case .eidAdha: L10n.text("عيد الأضحى")
+        case .newYear: L10n.text("رأس السنة الهجرية")
+        case .ashura:  L10n.text("عاشوراء")
         }
     }
 

@@ -266,11 +266,11 @@ struct WidgetDetailView: View {
             HStack(spacing: 12) {
                 Image(systemName: "crown.fill").font(.system(size: 20))
                 VStack(alignment: .leading, spacing: 2) {
-                    Text("هذا الودجت ضمن الاشتراك").font(AppFont.uiBold(15))
-                    Text("جرّبه هنا كما تشاء، ويُفتح في شاشتك بعد الاشتراك").font(AppFont.ui(12)).opacity(0.85)
+                    Text(L10n.text("هذا الودجت ضمن الاشتراك")).font(AppFont.uiBold(15))
+                    Text(L10n.text("جرّبه هنا كما تشاء، ويُفتح في شاشتك بعد الاشتراك")).font(AppFont.ui(12)).opacity(0.85)
                 }
                 Spacer()
-                Image(systemName: "chevron.backward").font(.system(size: 13, weight: .semibold))
+                Image(systemName: "chevron.forward").font(.system(size: 13, weight: .semibold))
             }
             .padding(16)
             .foregroundStyle(Theme.onAccent)
@@ -287,27 +287,27 @@ private struct NameOptionsSection: View {
 
     var body: some View {
         if kind.usesShape {
-            SettingsSection("الخط") {
+            SettingsSection(L10n.text("الخط")) {
                 ChoiceChips(options: NameShape.allCases, selection: $options.shape) { Text($0.title).font(AppFont.ui(14)) }
             }
         }
         if kind == .monthBehind || kind == .monthNumber {
-            SettingsSection("التقويم") {
+            SettingsSection(L10n.text("التقويم")) {
                 ChoiceChips(options: NameCalendar.allCases, selection: $options.calendar) { Text($0.title).font(AppFont.ui(14)) }
             }
         }
         if kind == .dayNumber {
-            SettingsSection("التخطيط") {
+            SettingsSection(L10n.text("التخطيط")) {
                 ChoiceChips(options: DayNumberLayout.allCases, selection: $options.dayLayout) { Text($0.title).font(AppFont.ui(14)) }
             }
         }
         if kind == .monthNumber {
-            SettingsSection("التخطيط") {
+            SettingsSection(L10n.text("التخطيط")) {
                 ChoiceChips(options: MonthNumberLayout.allCases, selection: $options.monthLayout) { Text($0.title).font(AppFont.ui(14)) }
             }
         }
         if kind == .hijriCountdown {
-            SettingsSection("المناسبة") {
+            SettingsSection(L10n.text("المناسبة")) {
                 ChoiceChips(options: HijriTarget.allCases, selection: $options.target) { Text($0.title).font(AppFont.ui(14)) }
             }
         }

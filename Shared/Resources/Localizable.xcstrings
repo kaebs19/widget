@@ -1201,7 +1201,14 @@
 
     },
     "إعادة المحاولة" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Try Again"
+          }
+        }
+      }
     },
     "إعدادات الصحة" : {
 
@@ -6196,7 +6203,14 @@
 
     },
     "يوم" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "day"
+          }
+        }
+      }
     },
     "يوم التأسيس" : {
       "extractionState" : "manual",
@@ -6246,6 +6260,816 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "My day"
+          }
+        }
+      }
+    },
+    "أسبوع مجاناً" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1 week free"
+          }
+        }
+      }
+    },
+    "أسماء الأيام والشهور الهجرية والميلادية بخطوط عربية فاخرة، تتغيّر وحدها كل يوم" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hijri and Gregorian day and month names in fine Arabic calligraphy, updating by themselves every day"
+          }
+        }
+      }
+    },
+    "أنت مشترك، وكل ودجات الأيام والشهور مفتوحة" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You're subscribed; all Days & Months widgets are unlocked"
+          }
+        }
+      }
+    },
+    "أيام" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "days"
+          }
+        }
+      }
+    },
+    "أيام الأسبوع بأرقامها واليوم الحالي مميّز" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The week's days with their numbers, today highlighted"
+          }
+        }
+      }
+    },
+    "إدارة الاشتراك" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Manage Subscription"
+          }
+        }
+      }
+    },
+    "ابدأ الأسبوع المجاني" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Start Free Week"
+          }
+        }
+      }
+    },
+    "استعادة المشتريات" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Restore Purchases"
+          }
+        }
+      }
+    },
+    "اسم الشهر الميلادي بالخط الذي تختاره" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The Gregorian month name in the script you choose"
+          }
+        }
+      }
+    },
+    "اسم الشهر الهجري بالخط الذي تختاره" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The Hijri month name in the script you choose"
+          }
+        }
+      }
+    },
+    "اسم الشهر الهجري وخانات تمتلئ مع أيامه" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The Hijri month with bars that fill as it passes"
+          }
+        }
+      }
+    },
+    "اسم الشهر بالرقعة ورقم اليوم كبيراً خلفه" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The month in Ruqaa with a large day number behind it"
+          }
+        }
+      }
+    },
+    "اسم اليوم بالخط" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Calligraphy Day"
+          }
+        }
+      }
+    },
+    "اسم اليوم بخط النسخ مع التاريخين الهجري والميلادي" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The day name in Naskh with the Hijri and Gregorian dates"
+          }
+        }
+      }
+    },
+    "اسم اليوم بستة خطوط: نسخ ورقعة ونستعليق وكوفي ونقطي وإنجليزي" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The day name in six scripts: Naskh, Ruqaa, Nastaliq, Kufi, dot-matrix and English"
+          }
+        }
+      }
+    },
+    "اسم اليوم ورقمه بثلاثة تخطيطات" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The day name and number in three layouts"
+          }
+        }
+      }
+    },
+    "اشتراك شهري أو سنوي" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Monthly or yearly subscription"
+          }
+        }
+      }
+    },
+    "اشترك الآن" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Subscribe Now"
+          }
+        }
+      }
+    },
+    "اشترك من التطبيق لفتحها" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Subscribe in the app to unlock"
+          }
+        }
+      }
+    },
+    "الأيام الباقية على رمضان أو العيد أو الحج" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Days left until Ramadan, Eid or Hajj"
+          }
+        }
+      }
+    },
+    "الأيام والشهور" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Days & Months"
+          }
+        }
+      }
+    },
+    "الاشتراك" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Subscription"
+          }
+        }
+      }
+    },
+    "التاريخان معاً" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Both Dates"
+          }
+        }
+      }
+    },
+    "التخطيط" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Layout"
+          }
+        }
+      }
+    },
+    "الخط" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Script"
+          }
+        }
+      }
+    },
+    "الرقم بجانب الاسم" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Number beside name"
+          }
+        }
+      }
+    },
+    "الرقم بجانب الشهر" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Number beside month"
+          }
+        }
+      }
+    },
+    "الرقم خلف الاسم" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Number behind name"
+          }
+        }
+      }
+    },
+    "الرقم خلف الشهر" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Number Behind Month"
+          }
+        }
+      }
+    },
+    "الرقم فوق الشهر" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Number above month"
+          }
+        }
+      }
+    },
+    "الشراء بانتظار الموافقة، وسيُفتح الاشتراك تلقائياً عند اعتماده." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The purchase is awaiting approval; Pro will unlock automatically once it's approved."
+          }
+        }
+      }
+    },
+    "الشهر الميلادي بالخط" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Calligraphy Gregorian Month"
+          }
+        }
+      }
+    },
+    "الشهر الهجري بالخط" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Calligraphy Hijri Month"
+          }
+        }
+      }
+    },
+    "الشهر والرقم" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Month & Number"
+          }
+        }
+      }
+    },
+    "المناسبة" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Occasion"
+          }
+        }
+      }
+    },
+    "اليوم فوق الرقم" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Day above number"
+          }
+        }
+      }
+    },
+    "اليوم والرقم" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Day & Number"
+          }
+        }
+      }
+    },
+    "باقي على %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Until %@"
+          }
+        }
+      }
+    },
+    "بالاشتراك" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "With Pro"
+          }
+        }
+      }
+    },
+    "تعذّر إتمام الشراء. حاول مرة أخرى." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Couldn't complete the purchase. Please try again."
+          }
+        }
+      }
+    },
+    "تعذّر التحقق من عملية الشراء." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Couldn't verify the purchase."
+          }
+        }
+      }
+    },
+    "تعذّر جلب الأسعار. تحقق من الاتصال وحاول مرة أخرى." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Couldn't load prices. Check your connection and try again."
+          }
+        }
+      }
+    },
+    "تعذّرت استعادة المشتريات." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Couldn't restore purchases."
+          }
+        }
+      }
+    },
+    "تقدّم الشهر" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Month Progress"
+          }
+        }
+      }
+    },
+    "جرّبه هنا كما تشاء، ويُفتح في شاشتك بعد الاشتراك" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Try it here as much as you like; it unlocks on your Home Screen once you subscribe"
+          }
+        }
+      }
+    },
+    "خطتك: سنوي" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your plan: Yearly"
+          }
+        }
+      }
+    },
+    "خطتك: شهري" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your plan: Monthly"
+          }
+        }
+      }
+    },
+    "رأس السنة الهجرية" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Islamic New Year"
+          }
+        }
+      }
+    },
+    "رقعة ورقي" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ruqaa on paper"
+          }
+        }
+      }
+    },
+    "رقم اليوم الهجري داخل دائرة مع اسم اليوم والشهر" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The Hijri day in a circle with the weekday and month"
+          }
+        }
+      }
+    },
+    "رقم اليوم كبيراً مع اليوم والشهر والسنة" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A large day number with the weekday, month and year"
+          }
+        }
+      }
+    },
+    "رقم اليوم واسم الشهر، هجري أو ميلادي" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Day number and month name, Hijri or Gregorian"
+          }
+        }
+      }
+    },
+    "رقم عملاق" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Giant Number"
+          }
+        }
+      }
+    },
+    "ستة خطوط: نسخ مشكّل، رقعة، نستعليق، كوفي، نقطي، وإنجليزي" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Six scripts: vowelled Naskh, Ruqaa, Nastaliq, Kufi, dot-matrix and English"
+          }
+        }
+      }
+    },
+    "سنة" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "year"
+          }
+        }
+      }
+    },
+    "سنوي" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yearly"
+          }
+        }
+      }
+    },
+    "شارة دائرية" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Circle Badge"
+          }
+        }
+      }
+    },
+    "شريط الأسبوع" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Week Strip"
+          }
+        }
+      }
+    },
+    "شهر" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "month"
+          }
+        }
+      }
+    },
+    "شهري" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Monthly"
+          }
+        }
+      }
+    },
+    "شهرياً" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "per month"
+          }
+        }
+      }
+    },
+    "عاشوراء" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ashura"
+          }
+        }
+      }
+    },
+    "عدّ تنازلي هجري" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hijri Countdown"
+          }
+        }
+      }
+    },
+    "كل ودجت يقبل تخصيص الخلفية والألوان" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Every widget takes your own background and colors"
+          }
+        }
+      }
+    },
+    "كوفي + إنجليزي" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kufi + English"
+          }
+        }
+      }
+    },
+    "لا يوجد اشتراك سارٍ على حساب Apple هذا." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No active subscription on this Apple Account."
+          }
+        }
+      }
+    },
+    "م" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "AD"
+          }
+        }
+      }
+    },
+    "مشترك · إدارة الاشتراك" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Subscribed · Manage"
+          }
+        }
+      }
+    },
+    "ميلادي" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gregorian"
+          }
+        }
+      }
+    },
+    "نستعليق ذهبي" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Golden Nastaliq"
+          }
+        }
+      }
+    },
+    "نسخ مشكّل" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vowelled Naskh"
+          }
+        }
+      }
+    },
+    "هجري" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hijri"
+          }
+        }
+      }
+    },
+    "هجري بتقويم أم القرى وميلادي، وعدّ تنازلي لرمضان والعيدين" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Umm al-Qura Hijri and Gregorian, with countdowns to Ramadan and both Eids"
+          }
+        }
+      }
+    },
+    "هذا الودجت ضمن الاشتراك" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This widget is part of Pro"
+          }
+        }
+      }
+    },
+    "هـ" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "AH"
+          }
+        }
+      }
+    },
+    "هندسي نقطي" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dot matrix"
+          }
+        }
+      }
+    },
+    "ودجات الأيام والشهور" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Days & Months widgets"
+          }
+        }
+      }
+    },
+    "يتجدد الاشتراك تلقائياً بنفس السعر في نهاية كل فترة ما لم يُلغَ قبل ٢٤ ساعة على الأقل من موعد التجديد، ويُخصم المبلغ من حساب Apple. تُدار الاشتراكات وتُلغى من إعدادات حسابك في App Store. عند إلغاء التجربة المجانية قبل انتهائها لا يُخصم شيء." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The subscription renews automatically at the same price at the end of each period unless cancelled at least 24 hours before renewal, and is charged to your Apple Account. Manage or cancel it in your App Store account settings. Cancel the free trial before it ends and you won't be charged."
+          }
+        }
+      }
+    },
+    "يوم عرفة" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Day of Arafah"
+          }
+        }
+      }
+    },
+    "يوماً" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "days"
+          }
+        }
+      }
+    },
+    "١٢ ودجت للأيام والشهور، صغيرة ومتوسطة" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "12 day and month widgets, small and medium"
           }
         }
       }

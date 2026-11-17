@@ -222,7 +222,7 @@ private struct MonthNumberWidget: View {
     let compact: Bool
     @Environment(\.widgetStyle) private var style
 
-    private var yearLine: String { "\(style.number(parts.year(calendar))) \(calendar == .hijri ? "هـ" : "م")" }
+    private var yearLine: String { "\(style.number(parts.year(calendar))) \(L10n.text(calendar == .hijri ? "هـ" : "م"))" }
 
     var body: some View {
         Group {
@@ -279,9 +279,9 @@ private struct BothDatesWidget: View {
                 .widgetAccentable()
             Spacer(minLength: 0)
             HStack(spacing: 22) {
-                column("هجري", "\(style.number(parts.hDay)) \(parts.monthName(.hijri)) \(style.number(parts.hYear))")
+                column(L10n.text("هجري"), "\(style.number(parts.hDay)) \(parts.monthName(.hijri)) \(style.number(parts.hYear))")
                 Rule(height: 44)
-                column("ميلادي", "\(style.number(parts.gDay)) \(parts.monthName(.gregorian)) \(style.number(parts.gYear))")
+                column(L10n.text("ميلادي"), "\(style.number(parts.gDay)) \(parts.monthName(.gregorian)) \(style.number(parts.gYear))")
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
@@ -427,14 +427,14 @@ private struct HijriCountdownWidget: View {
                     .font(.system(size: compact ? 15 : 19, weight: .semibold))
                     .foregroundStyle(style.accent)
                     .widgetAccentable()
-                Text(days == 0 ? target.title : "باقي على \(target.title)")
+                Text(days == 0 ? target.title : String(format: L10n.text("باقي على %@"), target.title))
                     .font(caption(compact ? 14 : 19))
                     .foregroundStyle(style.secondary)
                     .lineLimit(1).minimumScaleFactor(0.6)
             }
             Spacer(minLength: 0)
             if days == 0 {
-                Text("اليوم")
+                Text(L10n.text("اليوم"))
                     .font(DisplayFont.ruqaa.font(compact ? 48 : 72))
                     .foregroundStyle(style.accent)
                     .widgetAccentable()
@@ -444,7 +444,7 @@ private struct HijriCountdownWidget: View {
                         .font(DisplayFont.interHeavy.font(compact ? 64 : 104))
                         .foregroundStyle(style.primary)
                         .lineLimit(1).minimumScaleFactor(0.5)
-                    Text(days == 1 ? "يوم" : (3...10).contains(days) ? "أيام" : "يوماً")
+                    Text(L10n.text(days == 1 ? "يوم" : (3...10).contains(days) ? "أيام" : "يوماً"))
                         .font(DisplayFont.ruqaa.font(compact ? 26 : 40))
                         .foregroundStyle(style.accent)
                         .widgetAccentable()
@@ -494,10 +494,10 @@ struct PremiumLockedView: View {
                 .font(.system(size: compact ? 20 : 24, weight: .semibold))
                 .foregroundStyle(style.accent)
                 .widgetAccentable()
-            Text("ودجات الأيام والشهور")
+            Text(L10n.text("ودجات الأيام والشهور"))
                 .font(caption(compact ? 13 : 15, weight: .bold))
                 .foregroundStyle(style.primary)
-            Text("اشترك من التطبيق لفتحها")
+            Text(L10n.text("اشترك من التطبيق لفتحها"))
                 .font(caption(compact ? 11 : 13))
                 .foregroundStyle(style.secondary)
         }

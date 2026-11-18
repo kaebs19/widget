@@ -20,8 +20,17 @@ struct NameWidget: View {
         let parts = DateParts(date)
         let compact = size == .small
         switch kind {
+        case .styledHijriMonth, .styledGregorianMonth where size == .large:
+            LargeMonthWidget(kind: kind, date: date, parts: parts, shape: options.shape)
         case .styledDay, .styledHijriMonth, .styledGregorianMonth:
             StyledNameWidget(kind: kind, parts: parts, shape: options.shape, compact: compact)
+        case .bothDates where size == .large:
+            VStack(spacing: 0) {
+                BothDatesWidget(parts: parts).frame(height: 160)
+                MonthGrid(month: .hijri(date))
+                    .padding(.horizontal, 18)
+                    .padding(.bottom, 16)
+            }
         case .monthBehind:
             MonthBehindWidget(parts: parts, calendar: options.calendar, compact: compact)
         case .dayNumber:
@@ -122,6 +131,54 @@ private struct StyledNameWidget: View {
             .lineLimit(1)
             .minimumScaleFactor(0.35)
             .widgetAccentable()
+    }
+}
+
+// MARK: - كبير: اسم الشهر بالخط فوق تقويمه
+private struct LargeMonthWidget: View {
+    let kind: WidgetKind
+    let date: Date
+    let parts: DateParts
+    let shape: NameShape
+    @Environment(\.widgetStyle) private var style
+
+    private var calendar: NameCalendar { kind == .styledGregorianMonth ? .gregorian : .hijri }
+
+    var body: some View {
+        VStack(spacing: 6) {
+            HStack(alignment: .firstTextBaseline) {
+                Group {
+                    if shape == .english {
+                        Text(parts.monthEnglish(calendar).uppercased())
+                            .font(DisplayFont.cormorant.font(34)).tracking(5)
+                    } else {
+                        Text(parts.monthName(calendar, vowelled: shape == .naskh)).font(font(54))
+                    }
+                }
+                .foregroundStyle(style.primary)
+                .lineLimit(1).minimumScaleFactor(0.4)
+                .widgetAccentable()
+                Spacer(minLength: 8)
+                Text("\(style.number(parts.year(calendar))) \(L10n.text(calendar == .hijri ? "هـ" : "م"))")
+                    .font(caption(15, weight: .semibold))
+                    .foregroundStyle(style.accent)
+            }
+            Rectangle().fill(style.primary.opacity(0.12)).frame(height: 1)
+            MonthGrid(month: calendar == .hijri ? .hijri(date) : .gregorian(date))
+        }
+        .padding(.horizontal, 20)
+        .padding(.vertical, 16)
+    }
+
+    private func font(_ size: CGFloat) -> Font {
+        switch shape {
+        case .naskh: DisplayFont.amiri.font(size)
+        case .ruqaa: DisplayFont.ruqaa.font(size)
+        case .nastaliq: DisplayFont.gulzar.font(size * 0.8)
+        case .kufi: DisplayFont.reemKufi.font(size * 0.85)
+        case .dots: DisplayFont.handjet.font(size * 1.1)
+        case .english: DisplayFont.cormorant.font(size * 0.6)
+        }
     }
 }
 

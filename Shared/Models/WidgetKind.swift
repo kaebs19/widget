@@ -272,7 +272,9 @@ enum WidgetKind: String, CaseIterable, Identifiable {
         case .healthSleep:                             [.small]
         case .healthWeekly, .healthStreak, .healthSleepWeek, .healthWorkouts: [.medium]
         case .specialOccasion, .dailyOverview, .subscriptions: [.medium]
-        case .bothDates, .weekRibbon, .monthProgress, .bigNumber: [.medium]
+        case .weekRibbon, .monthProgress, .bigNumber: [.medium]
+        case .bothDates: [.medium, .large]
+        case .styledHijriMonth, .styledGregorianMonth: [.small, .medium, .large]
         case .quranGoal: [.small, .medium]
         default:                                       [.small, .medium]
         }

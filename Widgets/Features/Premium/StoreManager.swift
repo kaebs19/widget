@@ -32,6 +32,28 @@ final class StoreManager {
     }
 
     var monthly: Product? { products.first { $0.id == Premium.monthlyID } }
+
+    /// كم يوفّر السنوي مقارنة باثني عشر شهراً، بالنسبة المئوية (nil إن لم تتوفر الأسعار)
+    var yearlySavings: Int? {
+        guard let monthly, let yearly, monthly.price > 0 else { return nil }
+        let ratio = NSDecimalNumber(decimal: yearly.price / (monthly.price * 12)).doubleValue
+        let percent = Int(((1 - ratio) * 100).rounded())
+        return percent >= 5 ? percent : nil
+    }
+
+    // MARK: طلب التقييم
+    // بعد ثلاثة أيام من الاشتراك يكون المستخدم جرّب الودجات، فنطلب التقييم مرة واحدة
+    private static let subscribedAtKey = "premium.subscribedAt"
+    private static let reviewAskedKey = "premium.reviewAsked"
+
+    var shouldAskForReview: Bool {
+        let defaults = UserDefaults.standard
+        guard isActive, !defaults.bool(forKey: Self.reviewAskedKey),
+              let since = defaults.object(forKey: Self.subscribedAtKey) as? Date else { return false }
+        return Date.now.timeIntervalSince(since) > 3 * 24 * 3600
+    }
+
+    func markReviewAsked() { UserDefaults.standard.set(true, forKey: Self.reviewAskedKey) }
     var yearly: Product? { products.first { $0.id == Premium.yearlyID } }
 
     func load() async {
@@ -76,6 +98,9 @@ final class StoreManager {
                 }
                 await transaction.finish()
                 await refreshStatus()
+                if isActive, UserDefaults.standard.object(forKey: Self.subscribedAtKey) == nil {
+                    UserDefaults.standard.set(Date.now, forKey: Self.subscribedAtKey)
+                }
                 return isActive
             case .pending:
                 errorMessage = L10n.text("الشراء بانتظار الموافقة، وسيُفتح الاشتراك تلقائياً عند اعتماده.")

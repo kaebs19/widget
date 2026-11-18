@@ -5,6 +5,7 @@
 //  Created by Mohammed Saleh on 09/10/2026.
 //
 
+import StoreKit
 import SwiftUI
 
 struct HomeView: View {
@@ -28,6 +29,7 @@ struct HomeView: View {
     @State private var showHowTo = false
     @State private var showPaywall = false
     @Environment(StoreManager.self) private var store
+    @Environment(\.requestReview) private var requestReview
     @State private var showSettings = false
     @State private var showsSearch = false
     @FocusState private var searchFocused: Bool
@@ -134,6 +136,15 @@ struct HomeView: View {
             }
             // النظام لا يخبرنا عند إضافة ودجت، فنقرأ القائمة عند كل عودة للتطبيق
             .task { await viewModel.loadInstalled() }
+            // مشترك منذ ثلاثة أيام: طلب تقييم واحد، والنظام يقرر إن كان يظهر
+            .task {
+                await store.refreshStatus()
+                if store.shouldAskForReview {
+                    store.markReviewAsked()
+                    try? await Task.sleep(for: .seconds(2))
+                    requestReview()
+                }
+            }
             .onChange(of: scenePhase) { _, phase in
                 if phase == .active { refresh += 1; Task { await viewModel.loadInstalled() } }
             }

@@ -132,6 +132,13 @@ struct PaywallView: View {
                     HStack(spacing: 6) {
                         Text(isYearly ? L10n.text("سنوي") : L10n.text("شهري"))
                             .font(AppFont.uiBold(16))
+                        if isYearly, let savings = store.yearlySavings {
+                            Text(String(format: L10n.text("وفّر %lld٪"), savings))
+                                .font(AppFont.uiBold(11))
+                                .padding(.horizontal, 8).padding(.vertical, 3)
+                                .foregroundStyle(Theme.gold)
+                                .background(Theme.gold.opacity(0.15), in: Capsule())
+                        }
                         if isYearly && store.trialEligible {
                             Text(L10n.text("أسبوع مجاناً"))
                                 .font(AppFont.uiBold(11))

@@ -3072,7 +3072,14 @@
 
     },
     "النمط" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Style"
+          }
+        }
+      }
     },
     "النوم" : {
       "extractionState" : "manual",
@@ -7436,6 +7443,66 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Discover Pro"
+          }
+        }
+      }
+    },
+    "اختر خط هذا الودجت، أو اتركه ليأخذ اختيار التطبيق" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choose this widget's script, or leave it to use the app's choice"
+          }
+        }
+      }
+    },
+    "هجري أو ميلادي، أو اتركه ليأخذ اختيار التطبيق" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hijri or Gregorian, or leave it to use the app's choice"
+          }
+        }
+      }
+    },
+    "طريقة عرض اسم اليوم ورقمه" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "How the day name and number are shown"
+          }
+        }
+      }
+    },
+    "التقويم وطريقة عرض الشهر ورقمه" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The calendar and how the month and number are shown"
+          }
+        }
+      }
+    },
+    "المناسبة الهجرية التي يعدّ لها الودجت" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The Hijri occasion this widget counts down to"
+          }
+        }
+      }
+    },
+    "English" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "English"
           }
         }
       }

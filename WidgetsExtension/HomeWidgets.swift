@@ -62,17 +62,10 @@ struct WeatherHomeWidget: HomeWidget { static let kind = WidgetKind.weather }
 struct NextMatchHomeWidget: HomeWidget { static let kind = WidgetKind.nextMatch }
 
 // الأيام والشهور (بالاشتراك)
-struct StyledDayHomeWidget: HomeWidget { static let kind = WidgetKind.styledDay }
-struct StyledHijriMonthHomeWidget: HomeWidget { static let kind = WidgetKind.styledHijriMonth }
-struct StyledGregorianMonthHomeWidget: HomeWidget { static let kind = WidgetKind.styledGregorianMonth }
-struct MonthBehindHomeWidget: HomeWidget { static let kind = WidgetKind.monthBehind }
-struct DayNumberHomeWidget: HomeWidget { static let kind = WidgetKind.dayNumber }
-struct MonthNumberHomeWidget: HomeWidget { static let kind = WidgetKind.monthNumber }
 struct BothDatesHomeWidget: HomeWidget { static let kind = WidgetKind.bothDates }
 struct WeekRibbonHomeWidget: HomeWidget { static let kind = WidgetKind.weekRibbon }
 struct MonthProgressHomeWidget: HomeWidget { static let kind = WidgetKind.monthProgress }
 struct BigNumberHomeWidget: HomeWidget { static let kind = WidgetKind.bigNumber }
-struct HijriCountdownHomeWidget: HomeWidget { static let kind = WidgetKind.hijriCountdown }
 struct CircleBadgeHomeWidget: HomeWidget { static let kind = WidgetKind.circleBadge }
 
 // MARK: - العرض
@@ -98,9 +91,19 @@ struct HomeWidgetView: View {
         return URL(string: "widgetar://health/" + destination)
     }
 
+    private var resolvedStyle: WidgetStyle {
+        let style = WidgetStyleStorage.style(for: entry.kind.rawValue, savedStyleID: entry.styleID)
+        // خط اختير لهذه النسخة: ألوانه بدل ألوان خط التطبيق، ما دام الشكل غير مخصّص
+        if entry.styleID == nil, entry.kind.usesShape, let shape = entry.nameOptions?.shape,
+           style == NameOptions.designStyle(for: entry.kind) {
+            return NameOptions.designStyle(for: entry.kind, shape: shape)
+        }
+        return style
+    }
+
     var body: some View {
         // الشكل يُقرأ عند كل رسم، فأي تخصيص يحفظه التطبيق يظهر مع أول تحديث
-        let style = WidgetStyleStorage.style(for: entry.kind.rawValue, savedStyleID: entry.styleID)
+        let style = resolvedStyle
         if entry.kind.isPremium && !Premium.isActive && family.isLockScreen {
             PremiumLockedAccessory(family: family)
                 .widgetURL(URL(string: "widgetar://premium"))
@@ -112,11 +115,11 @@ struct HomeWidgetView: View {
                 .containerBackground(for: .widget) { WidgetBackgroundView(background: style.background) }
                 .widgetURL(URL(string: "widgetar://premium"))
         } else if family.isLockScreen {
-            LockScreenWidgetView(kind: entry.kind, date: entry.date, family: family, style: style)
+            LockScreenWidgetView(kind: entry.kind, date: entry.date, family: family, style: style, nameOptions: entry.nameOptions)
                 .widgetURL(healthURL)
         } else {
             WidgetPreviewView(kind: entry.kind, date: entry.date, size: WidgetSize(family),
-                              style: style, showsBackground: false)
+                              style: style, showsBackground: false, nameOptions: entry.nameOptions)
                 .containerBackground(for: .widget) { WidgetBackgroundView(background: style.background) }
                 .widgetURL(healthURL)
         }

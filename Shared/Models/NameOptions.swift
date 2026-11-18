@@ -128,8 +128,8 @@ nonisolated struct NameOptions: Codable, Hashable, Sendable {
 
 extension NameOptions {
     /// ألوان التصميم: الخط المختار له ألوانه، والبقية داكنة بنص عاجي ولون برتقالي
-    static func designStyle(for kind: WidgetKind) -> WidgetStyle {
-        let palette = kind.usesShape ? load(for: kind).shape.palette : NamePalette.forKind(kind)
+    static func designStyle(for kind: WidgetKind, shape: NameShape? = nil) -> WidgetStyle {
+        let palette = kind.usesShape ? (shape ?? load(for: kind).shape).palette : NamePalette.forKind(kind)
         var style = WidgetStyle.default
         style.background = palette.top == palette.bottom
             ? .color(Color.Resolved(hex: palette.top))

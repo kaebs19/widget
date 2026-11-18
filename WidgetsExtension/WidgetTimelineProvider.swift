@@ -25,6 +25,8 @@ nonisolated struct WidgetEntry: TimelineEntry, Sendable {
     let kind: WidgetKind
     /// النمط الذي اختاره المستخدم لهذه النسخة؛ nil تعني شكل النوع
     var styleID: UUID? = nil
+    /// خيارات «الأيام والشهور» لهذه النسخة (من «تعديل الودجت»)
+    var nameOptions: NameOptions? = nil
 }
 
 /// كل الـ Widgets تُحسب من التاريخ فقط (التقويم، العدادات، الذكر اللي يتبدّل كل ساعة)،

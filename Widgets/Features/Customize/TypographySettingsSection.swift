@@ -117,7 +117,7 @@ struct TypographySettingsSection: View {
                     }
                 }
             }
-            SettingRow(String(format: L10n.text("حجم %@"), part.name), detail: "\(DateHelper.arabic(Int((scale.wrappedValue * 100).rounded())))٪") {
+            SettingRow(String(format: L10n.text("حجم %@"), part.name), detail: String(format: L10n.text("%@٪"), DateHelper.arabic(Int((scale.wrappedValue * 100).rounded())))) {
                 HStack(spacing: 12) {
                     Button { scale.wrappedValue -= 0.05 } label: { Image(systemName: "minus") }
                         .disabled(scale.wrappedValue <= WidgetStyle.fontScaleRange.lowerBound)

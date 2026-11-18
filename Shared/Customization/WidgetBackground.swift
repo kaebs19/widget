@@ -33,7 +33,10 @@ nonisolated enum BackgroundPreset: String, Codable, CaseIterable, Identifiable, 
 
     var id: Self { self }
 
-    var title: String {
+    var title: String { L10n.text(titleKey) }
+
+
+    private var titleKey: String {
         switch self {
         case .night:    "ليلي"
         case .golden:   "ذهبي"

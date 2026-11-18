@@ -80,9 +80,9 @@ struct PrayerLocationSettings: View {
                     .frame(width: 36, height: 36)
                     .background(Theme.gold.opacity(0.12), in: Circle())
                 VStack(alignment: .leading, spacing: 2) {
-                    Text(locator.location?.city ?? "مكة المكرمة (افتراضي)")
+                    Text(locator.location?.city ?? L10n.text("مكة المكرمة (افتراضي)"))
                         .font(AppFont.uiBold(15))
-                    Text(locator.errorMessage ?? (locator.location == nil ? "حدّد موقعك لأوقات مدينتك" : "يُحفظ موقعك على جهازك فقط"))
+                    Text(L10n.text(locator.errorMessage ?? (locator.location == nil ? "حدّد موقعك لأوقات مدينتك" : "يُحفظ موقعك على جهازك فقط")))
                         .font(AppFont.ui(12))
                         .foregroundStyle(locator.errorMessage == nil ? Theme.textSecondary : Color.red.opacity(0.85))
                 }
@@ -124,7 +124,7 @@ struct PrayerNotificationSettings: View {
                         Button {
                             if isOn { selectedPrayers.remove(prayer) } else { selectedPrayers.insert(prayer) }
                         } label: {
-                            Text(prayer.title)
+                            Text(L10n.text(prayer.title))
                                 .font(AppFont.ui(13))
                                 .frame(maxWidth: .infinity)
                                 .padding(.vertical, 8)

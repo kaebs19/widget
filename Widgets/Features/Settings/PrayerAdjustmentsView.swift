@@ -50,17 +50,17 @@ struct PrayerAdjustmentsView: View {
         return HStack {
             Image(systemName: prayer.symbol).foregroundStyle(Theme.gold).frame(width: 24)
             VStack(alignment: .leading, spacing: 2) {
-                Text(prayer.title).font(AppFont.uiBold(15))
+                Text(L10n.text(prayer.title)).font(AppFont.uiBold(15))
                 if let time {
                     Text(PrayerSchedule.format(time)).font(AppFont.ui(12)).foregroundStyle(Theme.textSecondary)
                 }
             }
             Spacer()
-            Text(value == 0 ? "—" : (value > 0 ? "+" : "−") + DateHelper.arabic(abs(value)) + " د")
+            Text(value == 0 ? "—" : (value > 0 ? "+" : "−") + DateHelper.arabic(abs(value)) + " " + L10n.text("د"))
                 .font(AppFont.number(15))
                 .foregroundStyle(value == 0 ? Theme.textSecondary : Theme.gold)
                 .frame(minWidth: 52)
-            Stepper(prayer.title, value: Binding(get: { value }, set: { set(prayer, $0) }), in: -30...30)
+            Stepper(L10n.text(prayer.title), value: Binding(get: { value }, set: { set(prayer, $0) }), in: -30...30)
                 .labelsHidden()
         }
     }

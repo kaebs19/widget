@@ -78,7 +78,7 @@ struct LocationPreview: View {
                     }
                     .font(OB.font(14, .bold))
                     .animation(OB.enter(0.45).delay(Double(index) * 0.12), value: day == nil)
-                    Text(prayer.title)
+                    Text(L10n.text(prayer.title))
                         .font(OB.font(11))
                         .foregroundStyle(OB.muted)
                 }
@@ -106,18 +106,18 @@ struct NotificationPreview: View {
         let isha = moment.map { PrayerSchedule.format($0.today.time(.isha)) } ?? ""
         VStack(spacing: 8) {
             if prePrayer {
-                banner(title: "\(upcoming.title) بعد \(DateHelper.arabic(10)) دقائق",
-                       body: "\(upcoming.title) عند \(upcomingTime) · \(city)", when: L10n.text("الآن"))
+                banner(title: String(format: L10n.text("%@ بعد %@ دقائق"), L10n.text(upcoming.title), DateHelper.arabic(10)),
+                       body: String(format: L10n.text("%@ عند %@ · %@"), L10n.text(upcoming.title), upcomingTime, city), when: L10n.text("الآن"))
                     .transition(.move(edge: .top).combined(with: .opacity))
             }
             if adhan {
                 banner(title: L10n.text("حان وقت صلاة العشاء"), body: "\(city) · \(isha)",
-                       when: "\(DateHelper.arabic(10)) د")
+                       when: String(format: L10n.text("%@ د"), DateHelper.arabic(10)))
                     .transition(.opacity)
             }
             if afterAdhkar {
                 banner(title: L10n.text("أذكار بعد الصلاة"), body: L10n.text("لا تنسَ أذكارك بعد الصلاة"),
-                       when: "\(DateHelper.arabic(5)) د")
+                       when: String(format: L10n.text("%@ د"), DateHelper.arabic(5)))
                     .transition(.opacity)
             }
             if !(adhan || prePrayer || afterAdhkar) {
@@ -190,7 +190,7 @@ struct GeneralPreview: View {
                 Image(systemName: next.symbol)
                     .font(.system(size: side * 0.12))
                     .foregroundStyle(OB.accent)
-                Text(next.title)
+                Text(L10n.text(next.title))
                     .font(OB.font(side * 0.09, .bold))
                     .foregroundStyle(OB.text)
                 if let moment {
@@ -290,7 +290,7 @@ struct CitySearchView: View {
         guard !Task.isCancelled else { return }
         results = placemarks.compactMap { placemark in
             guard let coordinate = placemark.location?.coordinate else { return nil }
-            let name = [placemark.locality ?? placemark.name, placemark.country].compactMap { $0 }.joined(separator: "، ")
+            let name = [placemark.locality ?? placemark.name, placemark.country].compactMap { $0 }.joined(separator: AppLanguage.current.isRightToLeft ? "، " : ", ")
             return PrayerLocation(latitude: coordinate.latitude, longitude: coordinate.longitude,
                                   city: placemark.locality ?? placemark.name ?? name)
         }

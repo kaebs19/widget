@@ -13,7 +13,10 @@ nonisolated enum Numerals: String, Codable, CaseIterable, Identifiable, Sendable
 
     var id: Self { self }
 
-    var title: String {
+    var title: String { L10n.text(titleKey) }
+
+
+    private var titleKey: String {
         switch self {
         case .arabic: "١٢٣ عربية"
         case .latin:  "123 إنجليزية"

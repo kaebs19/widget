@@ -4,7 +4,7 @@ import WidgetKit
 nonisolated enum SubscriptionCycle: String, Codable, CaseIterable, Identifiable, Sendable {
     case monthly, yearly
     var id: Self { self }
-    var title: String { self == .monthly ? "شهري" : "سنوي" }
+    var title: String { L10n.text(self == .monthly ? "شهري" : "سنوي") }
 }
 
 nonisolated struct Subscription: Codable, Identifiable, Hashable, Sendable {
@@ -52,6 +52,6 @@ nonisolated enum SubscriptionStore {
     }
 
     static func amountLabel(_ amount: Double) -> String {
-        amount.formatted(.number.locale(Locale(identifier: "ar_SA")).precision(.fractionLength(0...2))) + " ر.س"
+        amount.formatted(.number.locale(Locale(identifier: "ar_SA")).precision(.fractionLength(0...2))) + " " + L10n.text("ر.س")
     }
 }

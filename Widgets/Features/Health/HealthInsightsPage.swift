@@ -6,7 +6,7 @@ struct HealthInsightsPage: View {
     @State private var insights = HealthInsightsCache.load()
     @State private var loading = false
     @State private var metric: HealthMetric = .steps
-    private var title: String { mode == .weekly ? "أسبوعي الصحي" : mode == .streak ? "استمراريتي" : "تماريني" }
+    private var title: String { L10n.text(mode == .weekly ? "أسبوعي الصحي" : mode == .streak ? "استمراريتي" : "تماريني") }
     var body: some View {
         ScrollView {
             VStack(spacing: 20) {
@@ -43,15 +43,15 @@ struct HealthInsightsPage: View {
                 let steps = data.days(.steps)
                 let exercise = data.days(.exercise)
                 let sleep = data.days(.sleep)
-                summary("متوسط الخطوات", HealthInsights.average(steps).map { HealthMetric.steps.format($0) + " خطوة" })
-                summary("دقائق التمرين", HealthInsights.total(exercise).map { HealthMetric.exercise.format($0) + " دقيقة" })
-                summary("متوسط النوم", HealthInsights.average(sleep).map { HealthMetric.sleep.format($0) + " ساعة" })
-                summary("أيام تحقيق هدف الخطوات", steps.compactMap(\.value).isEmpty ? nil : "\(DateHelper.arabic(HealthInsights.achieved(steps, metric: .steps))) من \(DateHelper.arabic(steps.compactMap(\.value).count)) يوم مسجّل")
+                summary("متوسط الخطوات", HealthInsights.average(steps).map { HealthMetric.steps.format($0) + " " + HealthMetric.steps.unit })
+                summary("دقائق التمرين", HealthInsights.total(exercise).map { HealthMetric.exercise.format($0) + " " + HealthMetric.exercise.unit })
+                summary("متوسط النوم", HealthInsights.average(sleep).map { HealthMetric.sleep.format($0) + " " + HealthMetric.sleep.unit })
+                summary("أيام تحقيق هدف الخطوات", steps.compactMap(\.value).isEmpty ? nil : String(format: L10n.text("%@ من %@ يوم مسجّل"), DateHelper.arabic(HealthInsights.achieved(steps, metric: .steps)), DateHelper.arabic(steps.compactMap(\.value).count)))
                 Text("المتوسطات تستبعد الأيام بلا قراءة وتشمل اليوم الجاري.")
                     .font(AppFont.ui(12)).foregroundStyle(Theme.textSecondary)
             }
             ForEach([HealthMetric.steps, .exercise, .sleep]) { item in
-                NavigationLink(item.title + " · التفاصيل") { HealthMetricDetailView(metric: item) }
+                NavigationLink(String(format: L10n.text("%@ · التفاصيل"), item.title)) { HealthMetricDetailView(metric: item) }
                     .font(AppFont.uiBold(15))
             }
         }
@@ -65,7 +65,7 @@ struct HealthInsightsPage: View {
                 ForEach([HealthMetric.steps, .exercise, .sleep]) { item in Text(item.title).tag(item) }
             }.pickerStyle(.segmented)
             SettingsSection("سلسلة الإنجاز") {
-                Text(count == 0 ? "لا توجد قراءات" : "\(DateHelper.arabic(result.count))\(result.isLimited ? "+" : "") يوم متتالٍ مؤكّد")
+                Text(count == 0 ? L10n.text("لا توجد قراءات") : String(format: L10n.text("%@%@ يوم متتالٍ مؤكّد"), DateHelper.arabic(result.count), result.isLimited ? "+" : ""))
                     .font(AppFont.uiBold(25)).foregroundStyle(metric.color)
                 Text("إذا لم يتحقق هدف اليوم بعد، تُحسب السلسلة المنتهية بالأمس. غياب القراءة يوقف السلسلة المؤكدة، ولا يعني إخفاقًا مسجّلًا.")
                     .font(AppFont.ui(12)).foregroundStyle(Theme.textSecondary)
@@ -101,7 +101,7 @@ struct HealthInsightsPage: View {
                 .background(achieved ? metric.color : Theme.cardTop, in: Circle())
                 .overlay(Circle().strokeBorder(calendar.isDateInToday(day.date) ? Theme.gold : .clear))
                 .accessibilityElement(children: .ignore)
-                .accessibilityLabel(DateHelper.weekdayDayMonth(day.date) + ": " + (day.value == nil ? "لا توجد قراءة" : achieved ? "تحقق الهدف" : "قراءة دون الهدف"))
+                .accessibilityLabel(DateHelper.weekdayDayMonth(day.date) + ": " + L10n.text(day.value == nil ? "لا توجد قراءة" : achieved ? "تحقق الهدف" : "قراءة دون الهدف"))
             }
         }
     }
@@ -111,7 +111,7 @@ struct HealthInsightsPage: View {
         return VStack(spacing: 20) {
             SettingsSection("تمارين آخر ٧ أيام") {
                 summary("عدد التمارين المتاحة", week.isEmpty ? nil : DateHelper.arabic(week.count))
-                summary("المدة الإجمالية", week.isEmpty ? nil : HealthFormat.decimal(week.reduce(0) { $0 + $1.minutes }, digits: 0) + " دقيقة")
+                summary("المدة الإجمالية", week.isEmpty ? nil : HealthFormat.decimal(week.reduce(0) { $0 + $1.minutes }, digits: 0) + " " + HealthMetric.exercise.unit)
                 Text("نقرأ التمارين المسجّلة فقط. إن لم تظهر، راجع إذن قراءة التمارين من إعدادات الصحة.")
                     .font(AppFont.ui(12)).foregroundStyle(Theme.textSecondary)
             }
@@ -121,11 +121,11 @@ struct HealthInsightsPage: View {
                 SettingsSection("التمارين المسجّلة · آخر ٣١ يومًا") {
                     ForEach(all) { workout in
                         VStack(alignment: .leading, spacing: 5) {
-                            summary(workout.title, HealthFormat.decimal(workout.minutes, digits: 0) + " دقيقة")
+                            summary(workout.title, HealthFormat.decimal(workout.minutes, digits: 0) + " " + HealthMetric.exercise.unit)
                             Text(DateHelper.weekdayDayMonth(workout.date))
                                 .font(AppFont.ui(12)).foregroundStyle(Theme.textSecondary)
                             if let energy = workout.energy {
-                                Text(HealthFormat.decimal(energy, digits: 0) + " سعرة")
+                                Text(HealthFormat.decimal(energy, digits: 0) + " " + HealthMetric.energy.unit)
                                     .font(AppFont.ui(12)).foregroundStyle(HealthMetric.energy.color)
                             }
                         }
@@ -137,7 +137,7 @@ struct HealthInsightsPage: View {
     }
     private func summary(_ title: String, _ value: String?) -> some View {
         HStack {
-            Text(title).font(AppFont.ui(14))
+            Text(L10n.text(title)).font(AppFont.ui(14))
             Spacer()
             Text(value ?? "—").font(AppFont.uiBold(16)).foregroundStyle(Theme.gold)
         }

@@ -7,7 +7,9 @@ nonisolated struct HealthWorkout: Identifiable, Codable, Sendable {
     var minutes: Double
     var activity: UInt
     var energy: Double?
-    var title: String {
+    var title: String { L10n.text(titleKey) }
+
+    private var titleKey: String {
         switch HKWorkoutActivityType(rawValue: activity) {
         case .walking: "مشي"
         case .running: "جري"

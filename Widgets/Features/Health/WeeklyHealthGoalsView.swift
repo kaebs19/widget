@@ -12,7 +12,7 @@ struct WeeklyHealthGoalsView: View {
             Section {
                 ForEach(1...7, id: \.self) { day in
                     VStack(alignment: .leading, spacing: 8) {
-                        Toggle(names[day - 1], isOn: Binding(get: { overrides[day] != nil }, set: { enabled in
+                        Toggle(L10n.text(names[day - 1]), isOn: Binding(get: { overrides[day] != nil }, set: { enabled in
                             set(enabled ? metric.baseGoal : nil, day: day)
                         }))
                         if let value = overrides[day] {

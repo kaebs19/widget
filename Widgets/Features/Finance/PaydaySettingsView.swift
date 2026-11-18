@@ -45,15 +45,15 @@ struct FinanceSettingsView: View {
 
 extension FinanceSettingsView {
     private var obligationsSummary: String {
-        guard let first = ObligationStore.upcoming().first else { return "الإيجار والأقساط والفواتير" }
+        guard let first = ObligationStore.upcoming().first else { return L10n.text("الإيجار والأقساط والفواتير") }
         let days = DateHelper.gregorian.dateComponents([.day], from: DateHelper.gregorian.startOfDay(for: .now),
                                                        to: first.date).day ?? 0
         return "\(first.obligation.displayName) \(PaydayFormat.remaining(days))"
     }
 
     private var budgetSummary: String {
-        guard let status = Budget.status() else { return "كم تصرف كل يوم حتى الراتب" }
-        return status.isOver ? "تجاوزت حصة اليوم" : "باقي لليوم \(PaydayFormat.amount(status.leftToday))"
+        guard let status = Budget.status() else { return L10n.text("كم تصرف كل يوم حتى الراتب") }
+        return status.isOver ? L10n.text("تجاوزت حصة اليوم") : String(format: L10n.text("باقي لليوم %@"), PaydayFormat.amount(status.leftToday))
     }
 }
 
@@ -71,7 +71,7 @@ private struct FinanceToolRow: View {
                 .frame(width: 34, height: 34)
                 .background(Color(red: 0.16, green: 0.60, blue: 0.40), in: RoundedRectangle(cornerRadius: 9, style: .continuous))
             VStack(alignment: .leading, spacing: 2) {
-                Text(title).font(AppFont.uiBold(15))
+                Text(L10n.text(title)).font(AppFont.uiBold(15))
                 Text(detail).font(AppFont.ui(12)).foregroundStyle(Theme.textSecondary)
             }
             Spacer()
@@ -233,7 +233,7 @@ struct PaydaySettingsSection: View {
             HStack(alignment: .lastTextBaseline) {
                 VStack(alignment: .leading, spacing: 4) {
                     Text(DateHelper.weekdayFull(first.next)).font(AppFont.uiBold(17))
-                    Text(first.isMoved || first.eid != nil ? movedNote(first) : "في موعدها المعتاد")
+                    Text(first.isMoved || first.eid != nil ? movedNote(first) : L10n.text("في موعدها المعتاد"))
                         .font(AppFont.ui(12))
                         .foregroundStyle(Theme.textSecondary)
                 }
@@ -262,9 +262,9 @@ struct PaydaySettingsSection: View {
 
     private func movedNote(_ cycle: PaydayCycle) -> String {
         if let eid = cycle.eid {
-            return "يوافق إجازة \(eid)، وغالباً يُقدَّم الصرف قبلها. إذا أُعلن موعده عدّله من «موعد استثنائي»."
+            return String(format: L10n.text("يوافق إجازة %@، وغالباً يُقدَّم الصرف قبلها. إذا أُعلن موعده عدّله من «موعد استثنائي»."), eid)
         }
-        return payday.activeOverride() != nil ? "موعد استثنائي حدّدته" : "نُقل من يوم \(DateHelper.arabic(day)) بسبب الإجازة"
+        return payday.activeOverride() != nil ? L10n.text("موعد استثنائي حدّدته") : String(format: L10n.text("نُقل من يوم %@ بسبب الإجازة"), DateHelper.arabic(day))
     }
 
     // MARK: الموعد
@@ -294,7 +294,7 @@ struct PaydaySettingsSection: View {
                 Spacer()
                 Picker("يوم الصرف", selection: $day) {
                     ForEach(1...31, id: \.self) { value in
-                        Text(value == 31 ? "آخر يوم" : DateHelper.arabic(value)).tag(value)
+                        Text(value == 31 ? L10n.text("آخر يوم") : DateHelper.arabic(value)).tag(value)
                     }
                 }
                 .labelsHidden()

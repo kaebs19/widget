@@ -21,7 +21,7 @@ struct SubscriptionsView: View {
                         HStack {
                             VStack(alignment: .leading, spacing: 5) {
                                 Text(item.name).foregroundStyle(Theme.textPrimary)
-                                Text(item.isActive ? "التجديد: " + DateHelper.weekdayDayMonth(item.nextRenewal()) : "متوقف")
+                                Text(item.isActive ? String(format: L10n.text("التجديد: %@"), DateHelper.weekdayDayMonth(item.nextRenewal())) : L10n.text("متوقف"))
                                     .font(.caption).foregroundStyle(.secondary)
                             }
                             Spacer()

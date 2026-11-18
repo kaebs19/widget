@@ -142,7 +142,7 @@ private struct ObligationRow: View {
             Spacer()
             if let days {
                 VStack(spacing: 0) {
-                    Text(days <= 0 ? "اليوم" : DateHelper.arabic(days))
+                    Text(days <= 0 ? L10n.text("اليوم") : DateHelper.arabic(days))
                         .font(AppFont.number(days <= 0 ? 15 : 22))
                         .foregroundStyle(Theme.textPrimary)
                     if days > 0 {
@@ -162,7 +162,7 @@ private struct ObligationRow: View {
         if let next { parts.append(DateHelper.weekdayDayMonth(next)) }
         if item.amount > 0 { parts.append(PaydayFormat.amount(item.amount)) }
         parts.append(item.frequency.title)
-        if let count = item.remainingCount(), count > 0 { parts.append("باقي \(DateHelper.arabic(count))") }
+        if let count = item.remainingCount(), count > 0 { parts.append(String(format: L10n.text("باقي %@"), DateHelper.arabic(count))) }
         if item.remindsDayBefore { parts.append("🔔") }
         return parts.joined(separator: " · ")
     }
@@ -195,8 +195,8 @@ private struct ObligationEditor: View {
                     SettingsSection("التذكير") {
                         Toggle("ذكّرني قبل يوم", isOn: $item.remindsDayBefore)
                         Text(notificationsAllowed
-                             ? "يصلك تنبيه \(AppSettings.reminderTimeLabel()) في اليوم السابق."
-                             : "التنبيهات غير مسموحة للتطبيق. فعّلها من إعدادات الجهاز.")
+                             ? String(format: L10n.text("يصلك تنبيه %@ في اليوم السابق."), AppSettings.reminderTimeLabel())
+                             : L10n.text("التنبيهات غير مسموحة للتطبيق. فعّلها من إعدادات الجهاز."))
                             .font(AppFont.ui(12))
                             .foregroundStyle(Theme.textSecondary)
                     }

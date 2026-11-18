@@ -68,7 +68,7 @@ struct SettingsView: View {
                         actionRow(L10n.text("إبلاغ عن خطأ في نص"), L10n.text("آية أو ذكر يحتاج تصحيح"), symbol: "exclamationmark.bubble.fill",
                                   color: Color(red: 0.90, green: 0.45, blue: 0.20), external: true) {
                             if let url = AppLinks.mail(subject: L10n.text("خطأ في نص"),
-                                                       body: "اسم الودجت:\nالنص الذي فيه الخطأ:\nالتصحيح المقترح:\n") {
+                                                       body: L10n.text("اسم الودجت:\nالنص الذي فيه الخطأ:\nالتصحيح المقترح:\n")) {
                                 openURL(url)
                             }
                         }
@@ -286,10 +286,10 @@ struct SettingsView: View {
         case .prayer:
             "\(PrayerLocation.current.city) · \(PrayerSchedule.method.title)"
         case .occasions:
-            OccasionStore.all().isEmpty ? L10n.text("أعياد الميلاد والذكريات") : "\(DateHelper.arabic(OccasionStore.all().count)) مناسبة"
+            OccasionStore.all().isEmpty ? L10n.text("أعياد الميلاد والذكريات") : String(format: L10n.text("%@ مناسبة"), DateHelper.arabic(OccasionStore.all().count))
         case .health:
             HealthCache.isConnected
-                ? HealthCache.load().map { "\(HealthMetric.steps.format($0.value(.steps))) خطوة اليوم" } ?? L10n.text("مربوط بتطبيق الصحة")
+                ? HealthCache.load().map { String(format: L10n.text("%@ خطوة اليوم"), HealthMetric.steps.format($0.value(.steps))) } ?? L10n.text("مربوط بتطبيق الصحة")
                 : L10n.text("الخطوات والسعرات والنوم")
         case .finance:
             Payday.allCases.map { $0.cycle() }.min { $0.next < $1.next }
@@ -430,7 +430,7 @@ struct SettingsView: View {
         SettingsSection(L10n.text("التقويم")) {
             SettingRow(L10n.text("تصحيح التاريخ الهجري"), detail: offsetLabel) {
                 HStack {
-                    Text(DateHelper.hijriDayMonth(.now) + " " + DateHelper.hijriYear(.now) + " هـ")
+                    Text(DateHelper.hijriDayMonth(.now) + " " + DateHelper.hijriYear(.now) + " " + L10n.text("هـ"))
                         .font(AppFont.uiBold(16))
                         .foregroundStyle(Theme.textPrimary)
                     Spacer()
@@ -458,8 +458,8 @@ struct SettingsView: View {
     private var offsetLabel: String {
         switch hijriOffset {
         case 0: L10n.text("بدون تصحيح")
-        case let days where days > 0: "+\(DateHelper.arabic(days)) يوم"
-        default: "−\(DateHelper.arabic(-hijriOffset)) يوم"
+        case let days where days > 0: String(format: L10n.text("+%@ يوم"), DateHelper.arabic(days))
+        default: String(format: L10n.text("−%@ يوم"), DateHelper.arabic(-hijriOffset))
         }
     }
 

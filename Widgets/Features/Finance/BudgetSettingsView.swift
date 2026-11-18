@@ -90,7 +90,7 @@ struct BudgetSettingsSection: View {
 
     private func line(_ title: String, _ value: String) -> some View {
         HStack(spacing: 6) {
-            Text(title).foregroundStyle(Theme.textSecondary)
+            Text(L10n.text(title)).foregroundStyle(Theme.textSecondary)
             Text(value).font(AppFont.uiBold(13))
         }
         .font(AppFont.ui(13))
@@ -219,8 +219,8 @@ struct BudgetSettingsSection: View {
 
     private func stepPicker(_ title: String, selection: Binding<Int>) -> some View {
         HStack(spacing: 4) {
-            Text(title).foregroundStyle(Theme.textSecondary)
-            Picker(title, selection: selection) {
+            Text(L10n.text(title)).foregroundStyle(Theme.textSecondary)
+            Picker(L10n.text(title), selection: selection) {
                 ForEach(Self.steps, id: \.self) { Text(DateHelper.arabic($0)).tag($0) }
             }
             .labelsHidden()

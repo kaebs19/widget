@@ -13,7 +13,10 @@ nonisolated enum OccasionType: String, Codable, CaseIterable, Identifiable, Send
 
     var id: Self { self }
 
-    var title: String {
+    var title: String { L10n.text(titleKey) }
+
+
+    private var titleKey: String {
         switch self {
         case .birthday:   "عيد ميلاد"
         case .wedding:    "ذكرى زواج"
@@ -45,7 +48,7 @@ nonisolated enum OccasionType: String, Codable, CaseIterable, Identifiable, Send
 nonisolated enum OccasionCalendar: String, Codable, CaseIterable, Identifiable, Sendable {
     case gregorian, hijri
     var id: Self { self }
-    var title: String { self == .hijri ? "هجري" : "ميلادي" }
+    var title: String { L10n.text(self == .hijri ? "هجري" : "ميلادي") }
     var calendar: Calendar { self == .hijri ? DateHelper.hijri : DateHelper.gregorian }
 
     /// نحافظ على الشهر واليوم الأصليين، ونقصر اليوم عند غيابه في السنة الجديدة.

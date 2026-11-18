@@ -48,7 +48,9 @@ nonisolated enum PrayerMethod: String, CaseIterable, Identifiable, Sendable {
 
     var id: Self { self }
 
-    var title: String {
+    var title: String { L10n.text(titleKey) }
+
+    private var titleKey: String {
         switch self {
         case .ummAlQura:             "أم القرى"
         case .muslimWorldLeague:     "رابطة العالم الإسلامي"
@@ -76,7 +78,7 @@ nonisolated struct PrayerLocation: Codable, Hashable, Sendable {
     var city: String
 
     /// قبل أن يحدد المستخدم موقعه نحسب لمكة المكرمة
-    static let makkah = PrayerLocation(latitude: 21.4225, longitude: 39.8262, city: "مكة المكرمة")
+    static var makkah: PrayerLocation { PrayerLocation(latitude: 21.4225, longitude: 39.8262, city: L10n.text("مكة المكرمة")) }
 
     private static let key = "prayer.location"
 

@@ -36,7 +36,7 @@ enum AppLinks {
     /// رسالة بريد جاهزة فيها إصدار التطبيق والجهاز، لتسهيل تتبع المشكلة
     static func mail(subject: String, body: String = "") -> URL? {
         let device = UIDevice.current
-        let footer = "\n\n—\nالتطبيق: \(version)\nالجهاز: \(device.model) · iOS \(device.systemVersion)"
+        let footer = String(format: L10n.text("\n\n—\nالتطبيق: %@\nالجهاز: %@ · iOS %@"), version, device.model, device.systemVersion)
         var parts = URLComponents()
         parts.scheme = "mailto"
         parts.path = supportEmail
@@ -90,11 +90,11 @@ struct CreditsView: View {
             VStack(spacing: 12) {
                 ForEach(credits) { credit in
                     VStack(alignment: .leading, spacing: 6) {
-                        Text(credit.title).font(AppFont.uiBold(16))
-                        Text(credit.detail)
+                        Text(L10n.text(credit.title)).font(AppFont.uiBold(16))
+                        Text(L10n.text(credit.detail))
                             .font(AppFont.ui(14))
                             .foregroundStyle(Theme.textSecondary)
-                        Text(credit.license)
+                        Text(L10n.text(credit.license))
                             .font(AppFont.ui(12))
                             .foregroundStyle(Theme.gold)
                     }

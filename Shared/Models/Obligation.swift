@@ -15,7 +15,10 @@ nonisolated enum ObligationType: String, Codable, CaseIterable, Identifiable, Se
 
     var id: Self { self }
 
-    var title: String {
+    var title: String { L10n.text(titleKey) }
+
+
+    private var titleKey: String {
         switch self {
         case .rent:         "إيجار"
         case .loan:         "قسط"
@@ -49,7 +52,10 @@ nonisolated enum ObligationFrequency: Int, Codable, CaseIterable, Identifiable, 
 
     var id: Self { self }
 
-    var title: String {
+    var title: String { L10n.text(titleKey) }
+
+
+    private var titleKey: String {
         switch self {
         case .monthly:    "شهري"
         case .quarterly:  "كل ٣ أشهر"
@@ -166,7 +172,7 @@ nonisolated enum ObligationStore {
                       let fire = calendar.date(bySettingHour: AppSettings.reminderHour, minute: 0, second: 0, of: dayBefore),
                       fire > now else { continue }
                 let content = UNMutableNotificationContent()
-                content.title = "غداً موعد \(item.displayName)"
+                content.title = String(format: L10n.text("غداً موعد %@"), item.displayName)
                 content.body = item.amount > 0
                     ? "\(PaydayFormat.amount(item.amount)) · \(DateHelper.weekdayDayMonth(target))"
                     : DateHelper.weekdayDayMonth(target)

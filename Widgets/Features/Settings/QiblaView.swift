@@ -33,7 +33,7 @@ struct QiblaView: View {
                         .strokeBorder(isAligned ? Theme.gold : Theme.border, lineWidth: isAligned ? 4 : 2)
                         .background(Circle().fill(Theme.cardTop.opacity(0.6)))
                     // علامات الاتجاهات تدور مع الجهاز، والنص نفسه يبقى قائماً
-                    ForEach(Array(["ش", "ق", "ج", "غ"].enumerated()), id: \.offset) { index, letter in
+                    ForEach(Array((AppLanguage.current.isRightToLeft ? ["ش", "ق", "ج", "غ"] : ["N", "E", "S", "W"]).enumerated()), id: \.offset) { index, letter in
                         let angle = (Double(index) * 90 - (compass.heading ?? 0)) * .pi / 180
                         Text(letter)
                             .font(AppFont.uiBold(16))

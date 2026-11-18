@@ -46,7 +46,7 @@ struct WidgetCustomizeView: View {
             TextField("اسم النمط", text: $newStyleName)
             Button("حفظ") {
                 let name = newStyleName.trimmingCharacters(in: .whitespacesAndNewlines)
-                store.addSavedStyle(named: name.isEmpty ? "نمط \(store.savedStyles.count + 1)" : name, style: style)
+                store.addSavedStyle(named: name.isEmpty ? String(format: L10n.text("نمط %lld"), store.savedStyles.count + 1) : name, style: style)
             }
             Button("إلغاء", role: .cancel) {}
         } message: {

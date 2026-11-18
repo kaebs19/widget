@@ -22,7 +22,7 @@ struct HealthMetricDetailView: View {
         ScrollView {
             VStack(spacing: 20) {
                 Picker("الفترة", selection: $period) {
-                    ForEach(Period.allCases) { item in Text(item.title).tag(item) }
+                    ForEach(Period.allCases) { item in Text(L10n.text(item.title)).tag(item) }
                 }
                 .pickerStyle(.segmented)
                 if !HealthCache.isConnected {
@@ -92,7 +92,7 @@ struct HealthMetricDetailView: View {
     }
     private func summary(_ title: String, value: Double) -> some View {
         HStack {
-            Text(title).font(AppFont.ui(14))
+            Text(L10n.text(title)).font(AppFont.ui(14))
             Spacer()
             Text(metric.format(value) + " " + metric.unit)
                 .font(AppFont.uiBold(17)).foregroundStyle(metric.color)

@@ -45,8 +45,8 @@ nonisolated enum AppSettings {
     @MainActor
     static func reminderTimeLabel(_ hour: Int = reminderHour) -> String {
         let display = hour % 12 == 0 ? 12 : hour % 12
-        let period = hour < 12 ? "صباحاً" : (hour < 18 ? "ظهراً" : "مساءً")
-        return "الساعة \(DateHelper.arabic(display)) \(period)"
+        let period = L10n.text(hour < 12 ? "صباحاً" : (hour < 18 ? "ظهراً" : "مساءً"))
+        return String(format: L10n.text("الساعة %@ %@"), DateHelper.arabic(display), period)
     }
 }
 

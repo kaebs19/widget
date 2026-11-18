@@ -19,7 +19,7 @@ struct SettingsSection<Content: View>: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
-            Text(title)
+            Text(L10n.text(title))
                 .font(AppFont.uiBold(15))
                 .foregroundStyle(Theme.textSecondary)
             VStack(alignment: .leading, spacing: 16) {
@@ -47,7 +47,7 @@ struct SettingRow<Content: View>: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             HStack {
-                Text(title)
+                Text(L10n.text(title))
                 Spacer()
                 if let detail {
                     Text(detail).foregroundStyle(Theme.gold)

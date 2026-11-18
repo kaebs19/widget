@@ -15,7 +15,10 @@ nonisolated enum HealthMetric: String, CaseIterable, Identifiable, Codable, Send
 
     var id: Self { self }
 
-    var title: String {
+    var title: String { L10n.text(titleKey) }
+
+
+    private var titleKey: String {
         switch self {
         case .steps:    "الخطوات"
         case .distance: "المسافة"
@@ -26,7 +29,10 @@ nonisolated enum HealthMetric: String, CaseIterable, Identifiable, Codable, Send
         }
     }
 
-    var unit: String {
+    var unit: String { L10n.text(unitKey) }
+
+
+    private var unitKey: String {
         switch self {
         case .steps:    "خطوة"
         case .distance: "كم"
@@ -164,7 +170,7 @@ nonisolated struct HealthSnapshot: Codable, Sendable, Equatable {
         return schemaVersion != nil || value > 0
     }
     func missingLabel(_ metric: HealthMetric) -> String {
-        failedMetrics?.contains(metric) == true ? "تعذر التحديث" : "لا توجد قراءة"
+        L10n.text(failedMetrics?.contains(metric) == true ? "تعذر التحديث" : "لا توجد قراءة")
     }
     func displayValue(_ metric: HealthMetric) -> String {
         hasData(metric) ? metric.format(value(metric)) : "—"
@@ -351,7 +357,7 @@ nonisolated enum HealthFormat {
         formatter.locale = Locale(identifier: "ar@numbers=arab")
         let sameDay = Calendar.current.isDate(date, inSameDayAs: now)
         formatter.dateFormat = sameDay ? "h:mm a" : "d MMM، h:mm a"
-        return (sameDay ? "آخر تحديث " : "قراءة سابقة · ") + formatter.string(from: date)
+        return (sameDay ? L10n.text("آخر تحديث") + " " : L10n.text("قراءة سابقة") + " · ") + formatter.string(from: date)
     }
 
     static func decimal(_ value: Double, digits: Int) -> String {

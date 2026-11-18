@@ -35,7 +35,9 @@ nonisolated enum TasbeehDhikr: String, AppEnum, CaseIterable, Identifiable, Send
     }
 
     /// العنوان الصغير أعلى الودجت
-    var title: String {
+    var title: String { L10n.text(titleKey) }
+
+    private var titleKey: String {
         switch self {
         case .istighfar:   "الاستغفار"
         case .subhanAllah: "التسبيح"

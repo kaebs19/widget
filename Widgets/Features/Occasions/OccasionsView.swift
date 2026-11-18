@@ -162,9 +162,9 @@ private struct OccasionRow: View {
     private func subtitle(next: Date) -> String {
         var parts = [DateHelper.weekdayDayMonth(next)]
         if let years = occasion.yearsAtNext() {
-            parts.append(occasion.type == .birthday ? "يكمل \(DateHelper.arabic(years)) سنة" : "الذكرى \(DateHelper.arabic(years))")
+            parts.append(String(format: L10n.text(occasion.type == .birthday ? "يكمل %@ سنة" : "الذكرى %@"), DateHelper.arabic(years)))
         }
-        if occasion.repeatsYearly { parts.append("سنوي · " + occasion.recurrenceCalendar.title) }
+        if occasion.repeatsYearly { parts.append(L10n.text("سنوي") + " · " + occasion.recurrenceCalendar.title) }
         if occasion.remindsDayBefore { parts.append("🔔") }
         return parts.joined(separator: " · ")
     }
@@ -193,7 +193,7 @@ private struct OccasionEditor: View {
                         }
                     }
                     SettingsSection("التفاصيل") {
-                        TextField(placeholder, text: $occasion.name)
+                        TextField(L10n.text(placeholder), text: $occasion.name)
                             .font(AppFont.ui(16))
                             .padding(12)
                             .background(Theme.background.opacity(0.6), in: RoundedRectangle(cornerRadius: 12))
@@ -213,8 +213,8 @@ private struct OccasionEditor: View {
                             .environment(\.calendar, occasion.recurrenceCalendar.calendar)
                         Toggle("تتكرر كل سنة", isOn: $occasion.repeatsYearly)
                         if occasion.type.countsYears, occasion.repeatsYearly, let years = occasion.yearsAtNext() {
-                            Label(occasion.type == .birthday ? "يكمل \(DateHelper.arabic(years)) سنة في الموعد القادم"
-                                                             : "الذكرى \(DateHelper.arabic(years)) في الموعد القادم",
+                            Label(String(format: L10n.text(occasion.type == .birthday ? "يكمل %@ سنة في الموعد القادم"
+                                                                                      : "الذكرى %@ في الموعد القادم"), DateHelper.arabic(years)),
                                   systemImage: "sparkles")
                                 .font(AppFont.ui(13))
                                 .foregroundStyle(Theme.gold)
@@ -223,8 +223,8 @@ private struct OccasionEditor: View {
                     SettingsSection("التذكير") {
                         Toggle("ذكّرني قبل يوم", isOn: $occasion.remindsDayBefore)
                         Text(notificationsAllowed
-                             ? "يصلك تنبيه \(AppSettings.reminderTimeLabel()) في اليوم السابق."
-                             : "التنبيهات غير مسموحة للتطبيق. فعّلها من إعدادات الجهاز.")
+                             ? String(format: L10n.text("يصلك تنبيه %@ في اليوم السابق."), AppSettings.reminderTimeLabel())
+                             : L10n.text("التنبيهات غير مسموحة للتطبيق. فعّلها من إعدادات الجهاز."))
                             .font(AppFont.ui(12))
                             .foregroundStyle(Theme.textSecondary)
                     }

@@ -46,11 +46,11 @@ extension OccasionStore {
                       let fireDate = calendar.date(bySettingHour: AppSettings.reminderHour, minute: 0, second: 0, of: dayBefore),
                       fireDate > now else { continue }
                 let content = UNMutableNotificationContent()
-                content.title = "غداً \(occasion.name)"
+                content.title = String(format: L10n.text("غداً %@"), occasion.name)
                 if let years, occasion.type == .birthday {
-                    content.body = "يكمل \(DateHelper.arabic(years)) سنة · \(DateHelper.weekdayDayMonth(target))"
+                    content.body = String(format: L10n.text("يكمل %@ سنة · %@"), DateHelper.arabic(years), DateHelper.weekdayDayMonth(target))
                 } else {
-                    content.body = "باقي يوم على \(occasion.name) · \(DateHelper.weekdayDayMonth(target))"
+                    content.body = String(format: L10n.text("باقي يوم على %@ · %@"), occasion.name, DateHelper.weekdayDayMonth(target))
                 }
                 content.sound = .default
                 let parts = calendar.dateComponents([.year, .month, .day, .hour, .minute], from: fireDate)

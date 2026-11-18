@@ -181,7 +181,7 @@ struct WidgetDetailView: View {
                     if kind == .istighfar {
                         SettingsSection("الذكر") {
                             ChoiceChips(options: TasbeehDhikr.allCases, selection: $tasbeeh) { dhikr in
-                                Text(dhikr.isLong ? "\(dhikr.title) · \(dhikr.goal == 1 ? "مرة" : "١٠٠")" : dhikr.title)
+                                Text(dhikr.isLong ? "\(dhikr.title) · \(dhikr.goal == 1 ? L10n.text("مرة") : "١٠٠")" : dhikr.title)
                                     .font(AppFont.ui(14))
                             }
                             Text("كل ذكر له عدده اليومي. لتغيير الذكر في الشاشة الرئيسية: اضغط مطولاً على الودجت ثم «تعديل الودجت».")

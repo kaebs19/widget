@@ -25,7 +25,10 @@ nonisolated enum Payday: String, CaseIterable, Identifiable, Codable, Sendable {
 
     var id: Self { self }
 
-    var title: String {
+    var title: String { L10n.text(titleKey) }
+
+
+    private var titleKey: String {
         switch self {
         case .salary:         "الراتب"
         case .citizenAccount: "حساب المواطن"
@@ -71,7 +74,9 @@ nonisolated enum Payday: String, CaseIterable, Identifiable, Codable, Sendable {
     }
 
     /// مصدر الموعد الرسمي، يظهر تحت الإعدادات
-    var officialNote: String {
+    var officialNote: String { L10n.text(officialNoteKey) }
+
+    private var officialNoteKey: String {
         switch self {
         case .salary:
             "الرواتب الحكومية يوم ٢٧ من كل شهر ميلادي. للقطاع الخاص اختر يوم راتبك."
@@ -262,17 +267,17 @@ nonisolated struct PaydayCycle: Sendable {
     static func eidHoliday(on date: Date) -> String? {
         let parts = DateHelper.hijri.dateComponents([.month, .day], from: DateHelper.hijriAdjusted(date))
         switch (parts.month ?? 0, parts.day ?? 0) {
-        case (9, 24...), (10, ...5): return "عيد الفطر"
-        case (12, 4...15):           return "عيد الأضحى"
+        case (9, 24...), (10, ...5): return L10n.text("عيد الفطر")
+        case (12, 4...15):           return L10n.text("عيد الأضحى")
         default:                     return nil
         }
     }
 
     /// ملاحظة قصيرة إذا تغيّر الموعد أو قد يتغيّر
     var note: String? {
-        if let eid { return "قد يُقدَّم قبل \(eid)" }
+        if let eid { return String(format: L10n.text("قد يُقدَّم قبل %@"), eid) }
         guard isMoved else { return nil }
-        return payday.activeOverride(now: today) == nil ? "نُقل بسبب الإجازة" : "موعد استثنائي"
+        return L10n.text(payday.activeOverride(now: today) == nil ? "نُقل بسبب الإجازة" : "موعد استثنائي")
     }
 
     /// تغيّر موعد هذه الدفعة عن يومها المعتاد (بسبب الإجازة أو موعد استثنائي)
@@ -294,7 +299,10 @@ nonisolated enum WeekendShift: String, CaseIterable, Identifiable, Sendable {
 
     var id: Self { self }
 
-    var title: String {
+    var title: String { L10n.text(titleKey) }
+
+
+    private var titleKey: String {
         switch self {
         case .nearest: "الأقرب"
         case .before:  "تقديم"
@@ -303,7 +311,10 @@ nonisolated enum WeekendShift: String, CaseIterable, Identifiable, Sendable {
         }
     }
 
-    var detail: String {
+    var detail: String { L10n.text(detailKey) }
+
+
+    private var detailKey: String {
         switch self {
         case .nearest: "الجمعة يُقدَّم للخميس، والسبت يُؤجَّل للأحد"
         case .before:  "الجمعة والسبت يُقدَّمان للخميس"
@@ -330,7 +341,10 @@ nonisolated enum PaydayReminder: String, CaseIterable, Identifiable, Sendable {
 
     var id: Self { self }
 
-    var title: String {
+    var title: String { L10n.text(titleKey) }
+
+
+    private var titleKey: String {
         switch self {
         case .off:       "بدون"
         case .dayBefore: "قبلها بيوم"
@@ -364,10 +378,10 @@ nonisolated enum PaydayNotifications {
                 let content = UNMutableNotificationContent()
                 let name = payday.displayName
                 if payday.reminder == .dayBefore {
-                    content.title = "غداً موعد \(name)"
+                    content.title = String(format: L10n.text("غداً موعد %@"), name)
                     content.body = DateHelper.weekdayDayMonth(target)
                 } else {
-                    content.title = "اليوم موعد \(name)"
+                    content.title = String(format: L10n.text("اليوم موعد %@"), name)
                     content.body = payday.amount > 0 && Payday.showsAmount
                         ? "\(PaydayFormat.amount(payday.amount)) · \(DateHelper.weekdayDayMonth(target))"
                         : DateHelper.weekdayDayMonth(target)
@@ -389,7 +403,7 @@ nonisolated enum PaydayFormat {
         let formatter = NumberFormatter()
         formatter.locale = Locale(identifier: "ar@numbers=arab")
         formatter.numberStyle = .decimal
-        return "\(formatter.string(from: NSNumber(value: value)) ?? "\(value)") ر.س"
+        return "\(formatter.string(from: NSNumber(value: value)) ?? "\(value)") " + L10n.text("ر.س")
     }
 
     /// تمييز العدد: «يوم متبقٍ»، «أيام متبقية»، «يومًا متبقيًا»
@@ -405,11 +419,11 @@ nonisolated enum PaydayFormat {
     /// «اليوم»، «غداً»، «بعد ١٢ يومًا»
     static func remaining(_ days: Int) -> String {
         switch days {
-        case 0:  "اليوم"
-        case 1:  "غداً"
-        case 2:  "بعد يومين"
-        case 3...10: "بعد \(DateHelper.arabic(days)) أيام"
-        default: "بعد \(DateHelper.arabic(days)) يومًا"
+        case 0:  L10n.text("اليوم")
+        case 1:  L10n.text("غداً")
+        case 2:  L10n.text("بعد يومين")
+        case 3...10: String(format: L10n.text("بعد %@ أيام"), DateHelper.arabic(days))
+        default: String(format: L10n.text("بعد %@ يومًا"), DateHelper.arabic(days))
         }
     }
 }

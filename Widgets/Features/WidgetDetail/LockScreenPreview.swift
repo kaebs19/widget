@@ -62,7 +62,7 @@ struct LockScreenPreview: View {
             let target = occasion?.nextDate() ?? .now.addingTimeInterval(13 * 86_400)
             let days = DateHelper.gregorian.dateComponents([.day], from: DateHelper.gregorian.startOfDay(for: .now),
                                                            to: DateHelper.gregorian.startOfDay(for: target)).day ?? 0
-            LockCountdownView(countdown: LockCountdown(title: occasion?.name ?? "عيد ميلاد سارة",
+            LockCountdownView(countdown: LockCountdown(title: occasion?.name ?? L10n.text("عيد ميلاد سارة"),
                                                        symbol: occasion?.type.symbol ?? "birthday.cake",
                                                        days: days, detail: DateHelper.weekdayDayMonth(target)),
                               family: family, style: style)

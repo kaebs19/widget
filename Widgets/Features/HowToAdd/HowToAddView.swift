@@ -14,7 +14,7 @@ struct HowToAddView: View {
     enum Place: String, CaseIterable, Identifiable {
         case home, lock
         var id: Self { self }
-        var title: String { self == .home ? "الشاشة الرئيسية" : "شاشة القفل" }
+        var title: String { L10n.text(self == .home ? "الشاشة الرئيسية" : "شاشة القفل") }
     }
 
     @State private var place: Place = .home
@@ -57,7 +57,7 @@ struct HowToAddView: View {
                             .foregroundStyle(Theme.onAccent)
                             .frame(width: 30, height: 30)
                             .background(Theme.gold, in: Circle())
-                        Text(step.text)
+                        Text(L10n.text(step.text))
                             .font(AppFont.ui(15))
                             .foregroundStyle(Theme.textPrimary)
                         Spacer()

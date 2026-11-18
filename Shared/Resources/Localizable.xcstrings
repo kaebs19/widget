@@ -50,6 +50,12 @@
             "state" : "new",
             "value" : "%1$@ / %2$@ مل"
           }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ / %2$@ mL"
+          }
         }
       }
     },
@@ -74,7 +80,14 @@
       }
     },
     "%@ مل" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ mL"
+          }
+        }
+      }
     },
     "%@، %@" : {
       "localizations" : {
@@ -103,11 +116,24 @@
             "state" : "new",
             "value" : "%1$@%2$@ يوم متتالٍ مؤكّد"
           }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@%2$@ confirmed days in a row"
+          }
         }
       }
     },
     "%@° من الشمال" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@° from north"
+          }
+        }
+      }
     },
     "%lld بالمئة" : {
       "localizations" : {
@@ -136,7 +162,14 @@
       }
     },
     "● حققت الهدف   ◌ قراءة دون الهدف   — لا توجد قراءة" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "● Goal met   ◌ Below goal   — No reading"
+          }
+        }
+      }
     },
     "٠" : {
 
@@ -732,7 +765,14 @@
       }
     },
     "آخر ٧ أيام" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Last 7 Days"
+          }
+        }
+      }
     },
     "آخر تحديث" : {
       "extractionState" : "manual",
@@ -769,7 +809,14 @@
       }
     },
     "آخر دفعة" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Final Payment"
+          }
+        }
+      }
     },
     "آية أو ذكر يحتاج تصحيح" : {
       "extractionState" : "manual",
@@ -829,19 +876,40 @@
 
     },
     "أتممت ورد اليوم، تقبّل الله منك." : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You completed today’s reading. May Allah accept it from you."
+          }
+        }
+      }
     },
     "أدخل رصيدك" : {
 
     },
     "أدخل مبلغ الميزانية يدويًا" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enter your budget amount"
+          }
+        }
+      }
     },
     "أدخل مبلغ ميزانيتك يدويًا من التطبيق لتقدير حصة كل يوم حتى الراتب" : {
 
     },
     "أدر الجوال حتى يشير السهم للأعلى" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Turn your phone until the arrow points up"
+          }
+        }
+      }
     },
     "أذان %@" : {
       "extractionState" : "manual",
@@ -942,7 +1010,14 @@
 
     },
     "أسفل التدرج" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gradient Bottom"
+          }
+        }
+      }
     },
     "أسماء الأيام والأشهر بالخط العربي المصوّر" : {
       "extractionState" : "manual",
@@ -972,16 +1047,37 @@
       }
     },
     "أضف أعياد الميلاد والذكريات ومواعيدك المهمة" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add birthdays, anniversaries, and important dates"
+          }
+        }
+      }
     },
     "أضف أول اشتراك من زر +" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add your first subscription with the + button"
+          }
+        }
+      }
     },
     "أضف إيجارك وأقساطك من التطبيق" : {
 
     },
     "أضف إيجارك وأقساطك وفواتيرك" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add your rent, installments, and bills"
+          }
+        }
+      }
     },
     "أضف اشتراكاتك من التطبيق" : {
 
@@ -990,7 +1086,14 @@
 
     },
     "أعلى التدرج" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gradient Top"
+          }
+        }
+      }
     },
     "أعياد الميلاد والذكريات" : {
       "extractionState" : "manual",
@@ -1010,13 +1113,34 @@
       }
     },
     "أم القرى: العشاء بعد المغرب بساعة ونصف، وساعتين في رمضان." : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Umm al-Qura: Isha is 90 minutes after Maghrib, and 2 hours in Ramadan."
+          }
+        }
+      }
     },
     "أنت متجه للقبلة" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You’re facing the Qibla"
+          }
+        }
+      }
     },
     "أهداف أيام الأسبوع" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Weekday Goals"
+          }
+        }
+      }
     },
     "أوقات الصلاة" : {
       "extractionState" : "manual",
@@ -1138,22 +1262,64 @@
       }
     },
     "إدارة الاشتراكات" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Manage Subscriptions"
+          }
+        }
+      }
     },
     "إدارة المناسبات" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Manage Occasions"
+          }
+        }
+      }
     },
     "إذا أُعلن تقديم الصرف قبل العيد أو إجازة رسمية. يرجع الموعد المعتاد تلقائياً بعد هذه الدفعة." : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "If payment is announced early before Eid or a public holiday. The usual date returns automatically after this payment."
+          }
+        }
+      }
     },
     "إذا غابت القراءات: افتح تطبيق الصحة ← ملفك ← التطبيقات ← ويدجت، وفعّل القراءة. والجهاز مقفل تعرض الودجات آخر قراءة." : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "If readings are missing, open Health → your profile → Apps → Widget and turn on read access. While the device is locked, widgets show the last reading."
+          }
+        }
+      }
     },
     "إذا لم يتحقق هدف اليوم بعد، تُحسب السلسلة المنتهية بالأمس. غياب القراءة يوقف السلسلة المؤكدة، ولا يعني إخفاقًا مسجّلًا." : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "If today’s goal isn’t met yet, the streak ending yesterday is counted. A missing reading stops the confirmed streak but isn’t recorded as a miss."
+          }
+        }
+      }
     },
     "إرجاع الكل للحساب الأصلي" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reset All to Calculated Times"
+          }
+        }
+      }
     },
     "إزالة من المفضلة" : {
       "extractionState" : "manual",
@@ -1190,22 +1356,64 @@
       }
     },
     "إضافة اشتراك" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add Subscription"
+          }
+        }
+      }
     },
     "إضافة التزام" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add Obligation"
+          }
+        }
+      }
     },
     "إضافة مناسبة" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add Occasion"
+          }
+        }
+      }
     },
     "إظهار الأهداف في الودجات" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show Goals in Widgets"
+          }
+        }
+      }
     },
     "إظهار المبالغ في الودجات" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show Amounts in Widgets"
+          }
+        }
+      }
     },
     "إظهار نسبة الإنجاز" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show Progress Percentage"
+          }
+        }
+      }
     },
     "إعادة المحاولة" : {
       "localizations" : {
@@ -1218,10 +1426,24 @@
       }
     },
     "إعدادات الصحة" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Health Settings"
+          }
+        }
+      }
     },
     "إعدادات الماء" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Water Settings"
+          }
+        }
+      }
     },
     "إغلاق" : {
       "extractionState" : "manual",
@@ -1275,10 +1497,24 @@
       }
     },
     "إنقاص صفحة" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remove a Page"
+          }
+        }
+      }
     },
     "إيقاف الحساب ومسح الرصيد" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stop Tracking and Clear Balance"
+          }
+        }
+      }
     },
     "ابحث عن ودجت" : {
       "extractionState" : "manual",
@@ -1329,7 +1565,14 @@
       }
     },
     "اتجاه القبلة" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Qibla Direction"
+          }
+        }
+      }
     },
     "اجعلها على طريقتك" : {
       "localizations" : {
@@ -1342,13 +1585,34 @@
       }
     },
     "احتساب الالتزامات ضمن الميزانية" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Include Obligations in Budget"
+          }
+        }
+      }
     },
     "احسب الميزانية" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Calculate Budget"
+          }
+        }
+      }
     },
     "اختر أي مناسبة لودجت «مناسبة خاصة»: اضغط عليه مطولاً ثم «تعديل الودجت» ← «من مناسباتي»." : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choose any occasion for the “Special Occasion” widget: touch and hold it, then tap “Edit Widget” → “From My Occasions”."
+          }
+        }
+      }
     },
     "اختر اسم مناسبتك وتاريخها من «تعديل الودجت»" : {
       "extractionState" : "manual",
@@ -1395,7 +1659,14 @@
 
     },
     "اختر الطريقة المعتمدة في بلدك." : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choose the method used in your country."
+          }
+        }
+      }
     },
     "اختر المدينة" : {
       "localizations" : {
@@ -1408,10 +1679,24 @@
       }
     },
     "اختر النمط لأي ودجت في الشاشة الرئيسية: اضغط عليه مطولاً ثم «تعديل الودجت». اضغط مطولاً على النمط هنا لتحديثه أو حذفه." : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pick a style for any Home Screen widget: touch and hold it, then tap “Edit Widget”. Touch and hold a style here to update or delete it."
+          }
+        }
+      }
     },
     "اختر مؤشرًا واحدًا على الأقل، ورتّب المؤشرات بالأسهم. الترتيب نفسه يظهر في الودجت." : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choose at least one metric and reorder them with the arrows. The widget uses the same order."
+          }
+        }
+      }
     },
     "اختر مناسبة" : {
 
@@ -1440,16 +1725,37 @@
 
     },
     "اختر هدفك وحجم كوبك. التسجيل محفوظ محليًا داخل التطبيق، ويبدأ مجموع جديد كل يوم. لا نكتب هذه السجلات في تطبيق الصحة." : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choose your goal and cup size. Logs are saved locally in the app, and a new total starts each day. These logs aren’t written to the Health app."
+          }
+        }
+      }
     },
     "اربط الصحة" : {
 
     },
     "اربط الصحة من الإعدادات لعرض قراءات هذا المؤشر." : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Connect Health in Settings to see readings for this metric."
+          }
+        }
+      }
     },
     "اربط تطبيق الصحة" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Connect Apple Health"
+          }
+        }
+      }
     },
     "استخدام لغة الجهاز تلقائيًا" : {
       "extractionState" : "manual",
@@ -1486,10 +1792,24 @@
       }
     },
     "استعادة ألوان الصحة الأصلية" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Restore Original Health Colors"
+          }
+        }
+      }
     },
     "استعادة الشكل الافتراضي" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Restore Default Look"
+          }
+        }
+      }
     },
     "استغفار وتسبيح وتهليل وصلاة على النبي ﷺ، تعدّها بالضغط من الشاشة" : {
       "extractionState" : "manual",
@@ -1526,7 +1846,14 @@
       }
     },
     "اسم الاشتراك" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Subscription name"
+          }
+        }
+      }
     },
     "اسم المناسبة" : {
       "localizations" : {
@@ -1539,7 +1866,14 @@
       }
     },
     "اسم النمط" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Style name"
+          }
+        }
+      }
     },
     "اسم اليوم" : {
       "extractionState" : "manual",
@@ -1593,7 +1927,14 @@
       }
     },
     "اشتراك نشط" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Active Subscription"
+          }
+        }
+      }
     },
     "اشتراكاتي" : {
       "extractionState" : "manual",
@@ -1613,7 +1954,14 @@
       }
     },
     "اضغط أي مؤشر لعرض تفاصيل اليوم والأسبوع والشهر." : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tap any metric to see today, this week, and this month."
+          }
+        }
+      }
     },
     "اضغط القلب أسفل أي ودجت لإضافته، أو غيّر البحث والفلاتر." : {
       "extractionState" : "manual",
@@ -1636,7 +1984,14 @@
 
     },
     "اضغط مطولاً على شاشة القفل ثم «تخصيص» لإضافتها." : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Touch and hold the Lock Screen, then tap “Customize” to add it."
+          }
+        }
+      }
     },
     "افتح التطبيق لتحديث الطقس" : {
       "extractionState" : "manual",
@@ -1665,10 +2020,24 @@
 
     },
     "افتح قفل الجهاز وتحقق من ربط الصحة، ثم أعد المحاولة." : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unlock your device and check the Health connection, then try again."
+          }
+        }
+      }
     },
     "افتح قفل الجهاز وراجع أذونات الصحة ثم حدّث البيانات." : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unlock your device, check Health permissions, then refresh."
+          }
+        }
+      }
     },
     "اقترب أذان %@" : {
       "extractionState" : "manual",
@@ -1813,7 +2182,14 @@
       }
     },
     "الألوان تطبق على الحلقات والأشرطة والرسوم في كل ودجات الصحة. قد يعرض النظام شاشة القفل والودجات الملوّنة بدرجة واحدة." : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Colors apply to rings, bars, and charts in all Health widgets. The system may show Lock Screen and tinted widgets in a single color."
+          }
+        }
+      }
     },
     "الإذن" : {
       "localizations" : {
@@ -1914,13 +2290,34 @@
       }
     },
     "الاستمرارية وتقويم الإنجاز" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Streaks and Progress Calendar"
+          }
+        }
+      }
     },
     "الاسم في الودجت" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Name in Widget"
+          }
+        }
+      }
     },
     "الاشتراكات" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Subscriptions"
+          }
+        }
+      }
     },
     "الاهتزاز" : {
       "localizations" : {
@@ -1967,7 +2364,14 @@
       }
     },
     "البوصلة غير متاحة على هذا الجهاز، وجّه أعلى الجوال للشمال ثم اتبع الزاوية." : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The compass isn’t available on this device. Point the top of your phone north, then follow the angle."
+          }
+        }
+      }
     },
     "التأهيل الشامل" : {
       "extractionState" : "manual",
@@ -1987,7 +2391,14 @@
       }
     },
     "التاريخ" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Date"
+          }
+        }
+      }
     },
     "التاريخ الهجري" : {
       "extractionState" : "manual",
@@ -2068,13 +2479,34 @@
       }
     },
     "التذكير يصلك في اليوم السابق، بنفس ساعة تذكير المناسبات." : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reminders arrive the day before, at the same hour as occasion reminders."
+          }
+        }
+      }
     },
     "التراجع عن آخر كوب" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Undo Last Cup"
+          }
+        }
+      }
     },
     "التزام جديد" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "New Obligation"
+          }
+        }
+      }
     },
     "التزاماتي" : {
       "extractionState" : "manual",
@@ -2094,10 +2526,24 @@
       }
     },
     "التزاماتي: أضف إيجاراً أو قسطاً" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "My Obligations: Add Rent or an Installment"
+          }
+        }
+      }
     },
     "التفاصيل" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Details"
+          }
+        }
+      }
     },
     "التقاعد" : {
       "extractionState" : "manual",
@@ -2134,10 +2580,24 @@
       }
     },
     "التكرار" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Repeat"
+          }
+        }
+      }
     },
     "التنبيه" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alert"
+          }
+        }
+      }
     },
     "التنبيهات" : {
       "localizations" : {
@@ -2150,10 +2610,24 @@
       }
     },
     "التنبيهات غير مسموحة للتطبيق. فعّلها من إعدادات الجهاز." : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notifications aren’t allowed for the app. Turn them on in Settings."
+          }
+        }
+      }
     },
     "التنبيهات مفعّلة" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notifications On"
+          }
+        }
+      }
     },
     "التنبيهات مقفلة للتطبيق. فعّلها من إعدادات الجهاز." : {
       "localizations" : {
@@ -2176,7 +2650,14 @@
       }
     },
     "الحجم" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Size"
+          }
+        }
+      }
     },
     "الحجم الأصلي · ١٠٠٪" : {
       "localizations" : {
@@ -2189,7 +2670,14 @@
       }
     },
     "الحلقات والأشرطة في الودجات تمتلئ عند بلوغ الهدف." : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rings and bars in widgets fill up when you reach the goal."
+          }
+        }
+      }
     },
     "الخطوات" : {
       "extractionState" : "manual",
@@ -2337,10 +2825,24 @@
       }
     },
     "الذكر" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dhikr"
+          }
+        }
+      }
     },
     "الذكرى %@ في الموعد القادم" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Anniversary %@ on the next date"
+          }
+        }
+      }
     },
     "الراتب وحساب المواطن وحافز والتقاعد في مكان واحد" : {
       "extractionState" : "manual",
@@ -2360,7 +2862,14 @@
       }
     },
     "الرجوع للموعد الرسمي" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Back to Official Date"
+          }
+        }
+      }
     },
     "الرياح" : {
       "extractionState" : "manual",
@@ -2431,7 +2940,14 @@
       }
     },
     "السماح بالتنبيهات" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Allow Notifications"
+          }
+        }
+      }
     },
     "الشكل" : {
       "extractionState" : "manual",
@@ -2529,7 +3045,14 @@
       }
     },
     "الصحة غير متاحة على هذا الجهاز" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Health isn’t available on this device"
+          }
+        }
+      }
     },
     "الصلاة" : {
       "extractionState" : "manual",
@@ -2801,10 +3324,24 @@
       }
     },
     "العصر على المذهب الحنفي" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hanafi Asr"
+          }
+        }
+      }
     },
     "الفترة" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Period"
+          }
+        }
+      }
     },
     "الفجر" : {
       "extractionState" : "manual",
@@ -2824,7 +3361,14 @@
       }
     },
     "الفجوات أيام بلا قراءة، ولا تُحسب صفرًا في المتوسط. يشمل الرسم اليوم الجاري." : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gaps are days without readings and don’t count as zero in the average. The chart includes today."
+          }
+        }
+      }
     },
     "الكل" : {
       "extractionState" : "manual",
@@ -2861,7 +3405,14 @@
       }
     },
     "المؤشر" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Metric"
+          }
+        }
+      }
     },
     "المال والأعمال" : {
       "extractionState" : "manual",
@@ -2898,31 +3449,87 @@
       }
     },
     "المبالغ بالريال السعودي. يُقسم الاشتراك السنوي على ١٢ لحساب المتوسط الشهري. نفترض استمرار التجديد حتى توقف الاشتراك هنا." : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Amounts are in SAR. Yearly subscriptions are divided by 12 for the monthly average. Renewals are assumed to continue until you pause the subscription here."
+          }
+        }
+      }
     },
     "المبالغ تظهر في الودجات المتوسطة والكبيرة فقط، ولا تظهر على شاشة القفل." : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Amounts appear only in medium and large widgets, never on the Lock Screen."
+          }
+        }
+      }
     },
     "المبلغ" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Amount"
+          }
+        }
+      }
     },
     "المبلغ (اختياري)" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Amount (Optional)"
+          }
+        }
+      }
     },
     "المبلغ بالريال لكل دورة" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Amount in SAR per cycle"
+          }
+        }
+      }
     },
     "المبلغ يُحفظ على جهازك فقط. وقت التنبيه نفسه وقت تذكير المناسبات في الإعدادات." : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The amount is saved only on your device. The alert time matches the occasion reminder time in Settings."
+          }
+        }
+      }
     },
     "المتوسط والأهداف حسب الأيام المتاحة" : {
 
     },
     "المتوسطات تستبعد الأيام بلا قراءة وتشمل اليوم الجاري." : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Averages exclude days without readings and include today."
+          }
+        }
+      }
     },
     "المجموع الشهري التقريبي" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Estimated Monthly Total"
+          }
+        }
+      }
     },
     "المحتوى" : {
       "extractionState" : "manual",
@@ -3020,10 +3627,24 @@
       }
     },
     "المكان" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Location"
+          }
+        }
+      }
     },
     "الملخصات تعتمد على قراءات تطبيق الصحة." : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Summaries are based on readings from the Health app."
+          }
+        }
+      }
     },
     "المناسبات ومواعيد الصرف" : {
       "localizations" : {
@@ -3036,10 +3657,24 @@
       }
     },
     "الموعد الجديد" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "New Date"
+          }
+        }
+      }
     },
     "الموعد القادم" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Next Due Date"
+          }
+        }
+      }
     },
     "الموقع" : {
       "extractionState" : "manual",
@@ -3069,7 +3704,14 @@
       }
     },
     "النقل" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Shift"
+          }
+        }
+      }
     },
     "النمط" : {
       "localizations" : {
@@ -3105,11 +3747,24 @@
             "state" : "new",
             "value" : "الهدف الأساسي: %1$@ %2$@"
           }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Base goal: %1$@ %2$@"
+          }
         }
       }
     },
     "الهدف اليومي: %@ صفحة" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Daily goal: %@ pages"
+          }
+        }
+      }
     },
     "الودجات التي أضفتها لشاشتك الرئيسية وشاشة القفل. اضغط أي ودجت لتخصيصه." : {
       "extractionState" : "manual",
@@ -3129,7 +3784,14 @@
       }
     },
     "الودجات التي تستخدمه ترجع لشكل نوعها." : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Widgets using it go back to their type’s look."
+          }
+        }
+      }
     },
     "الوضع" : {
       "extractionState" : "manual",
@@ -3149,7 +3811,14 @@
       }
     },
     "الوقت المعروض بعد التعديل. يتغيّر في الودجات والتنبيهات." : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The time shown includes the adjustment. It changes in widgets and alerts."
+          }
+        }
+      }
     },
     "اليوم" : {
       "localizations" : {
@@ -3196,7 +3865,14 @@
       }
     },
     "انتهى" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ended"
+          }
+        }
+      }
     },
     "اهتزاز خفيف مع كل تنبيه على معصمك." : {
       "extractionState" : "stale",
@@ -3230,13 +3906,34 @@
 
     },
     "باقي %@ دفعة" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ payments left"
+          }
+        }
+      }
     },
     "باقي هذا الشهر" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Left This Month"
+          }
+        }
+      }
     },
     "بالخط العربي" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In Arabic Calligraphy"
+          }
+        }
+      }
     },
     "بداية الأسبوع" : {
       "extractionState" : "manual",
@@ -3345,10 +4042,24 @@
       }
     },
     "تأخير %@" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Move %@ Down"
+          }
+        }
+      }
     },
     "تابع مواعيدها من الشاشة الرئيسية، واحتسب قيمتها في تقدير ميزانيتك اليومية. التطبيق لا يسدّد الالتزامات أو يسحب أموالًا." : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Track their due dates from your Home Screen and include them in your daily budget estimate. The app doesn’t pay obligations or withdraw money."
+          }
+        }
+      }
     },
     "تابعنا على X" : {
       "extractionState" : "manual",
@@ -3368,10 +4079,24 @@
       }
     },
     "تاريخ التجديد" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Renewal Date"
+          }
+        }
+      }
     },
     "تاريخ الميلاد" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Date of Birth"
+          }
+        }
+      }
     },
     "تاريخ اليوم بالهجري وأقرب مناسبة." : {
       "extractionState" : "stale",
@@ -3402,7 +4127,14 @@
       }
     },
     "تتكرر كل سنة" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Repeats Every Year"
+          }
+        }
+      }
     },
     "تتوفر قراءة لـ %@ من %@ يومًا" : {
       "localizations" : {
@@ -3411,11 +4143,24 @@
             "state" : "new",
             "value" : "تتوفر قراءة لـ %1$@ من %2$@ يومًا"
           }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Readings available for %1$@ of %2$@ days"
+          }
         }
       }
     },
     "تجاهل التعديلات" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Discard Changes"
+          }
+        }
+      }
     },
     "تجاوز" : {
 
@@ -3441,10 +4186,24 @@
       }
     },
     "تحديث" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Update"
+          }
+        }
+      }
     },
     "تحديث البيانات" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Refresh Data"
+          }
+        }
+      }
     },
     "تحديث الطقس" : {
       "extractionState" : "manual",
@@ -3464,13 +4223,34 @@
       }
     },
     "تحديث الميزانية" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Update Budget"
+          }
+        }
+      }
     },
     "تحديث بالشكل الحالي" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Update with Current Look"
+          }
+        }
+      }
     },
     "تحديد" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Locate"
+          }
+        }
+      }
     },
     "تحديد الموقع تلقائياً" : {
       "localizations" : {
@@ -3500,7 +4280,14 @@
       }
     },
     "تخصيص أهداف أيام الأسبوع" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Customize Weekday Goals"
+          }
+        }
+      }
     },
     "تخطي" : {
       "localizations" : {
@@ -3513,10 +4300,24 @@
       }
     },
     "تدرّج مخصص" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Custom Gradient"
+          }
+        }
+      }
     },
     "تذكير بأذكار بعد الصلاة" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "After-Prayer Adhkar Reminder"
+          }
+        }
+      }
     },
     "تذكير بأذكار صلاة %@" : {
       "extractionState" : "manual",
@@ -3546,31 +4347,80 @@
       }
     },
     "تذكير قبل المناسبة" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reminder Before the Occasion"
+          }
+        }
+      }
     },
     "تراجع عن آخر كوب" : {
 
     },
     "تراجع عن آخر مصروف (%@)" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Undo Last Expense (%@)"
+          }
+        }
+      }
     },
     "تُستخدم أهداف أيام الأسبوع الحالية. علامة + تعني أن السلسلة قد تمتد قبل نافذة القراءات المتاحة." : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Current weekday goals are used. A + means the streak may extend before the available readings."
+          }
+        }
+      }
     },
     "تُسجَّل من الساعة أو وضع النوم" : {
 
     },
     "تسجيل صفحة" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Log a Page"
+          }
+        }
+      }
     },
     "تسجيل كوب · %@ مل" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Log a Cup · %@ mL"
+          }
+        }
+      }
     },
     "تسجيل كوب ماء" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Log a Cup of Water"
+          }
+        }
+      }
     },
     "تسجيل مصروف" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Log Expense"
+          }
+        }
+      }
     },
     "تسجيل مصروف يدوي بقيمة %lld ريال دون دفع فعلي" : {
 
@@ -3671,7 +4521,14 @@
       }
     },
     "تطبيق على الكل" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apply to All"
+          }
+        }
+      }
     },
     "تطبيق على كل الودجات" : {
       "extractionState" : "manual",
@@ -3691,19 +4548,54 @@
       }
     },
     "تطبيق هذا الشكل على كل الودجات؟" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apply this look to all widgets?"
+          }
+        }
+      }
     },
     "تظهر نافذة الصحة لتختار ما نقرأه: الخطوات والمسافة والسعرات ودقائق التمرين والطوابق والنوم والتمارين المسجّلة. بياناتك تبقى على جهازك." : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The Health sheet lets you choose what we read: steps, distance, calories, exercise minutes, flights, sleep, and recorded workouts. Your data stays on your device."
+          }
+        }
+      }
     },
     "تعديل الالتزام" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Edit Obligation"
+          }
+        }
+      }
     },
     "تعديل الدقائق" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adjust Minutes"
+          }
+        }
+      }
     },
     "تعديل المناسبة" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Edit Occasion"
+          }
+        }
+      }
     },
     "تعذّر تحديث الطقس" : {
       "extractionState" : "manual",
@@ -3760,22 +4652,64 @@
 
     },
     "تعذر قراءة البيانات" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Couldn’t Read Data"
+          }
+        }
+      }
     },
     "تغيير موعد الدفعة القادمة" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Change Next Payment Date"
+          }
+        }
+      }
     },
     "تفاصيل أسبوعي الصحي" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "My Healthy Week Details"
+          }
+        }
+      }
     },
     "تفاصيل الاشتراك" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Subscription Details"
+          }
+        }
+      }
     },
     "تفاصيل التمارين" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Workout Details"
+          }
+        }
+      }
     },
     "تفاصيل نوم الأسبوع" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This Week’s Sleep Details"
+          }
+        }
+      }
     },
     "تفضيلات تنطبق على جميع الودجات، وتقدر تغيّرها في أي وقت." : {
       "localizations" : {
@@ -3809,7 +4743,14 @@
       }
     },
     "تقديم %@" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Move %@ Up"
+          }
+        }
+      }
     },
     "تقويم" : {
       "extractionState" : "manual",
@@ -3883,7 +4824,14 @@
       }
     },
     "تنبيه الأذان" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adhan Alert"
+          }
+        }
+      }
     },
     "تنبيه الأذان مفعّل" : {
       "localizations" : {
@@ -3913,7 +4861,14 @@
       }
     },
     "جارٍ التحديث…" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Updating…"
+          }
+        }
+      }
     },
     "جارٍ التحديد…" : {
       "localizations" : {
@@ -3926,7 +4881,14 @@
       }
     },
     "جارٍ قراءة البيانات…" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reading data…"
+          }
+        }
+      }
     },
     "جارٍ…" : {
       "extractionState" : "stale",
@@ -3991,7 +4953,14 @@
       }
     },
     "جزى الله خيرًا كل من ساهم في هذه الأعمال." : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "May Allah reward everyone who contributed to these works."
+          }
+        }
+      }
     },
     "حافز" : {
       "extractionState" : "manual",
@@ -4055,7 +5024,14 @@
       }
     },
     "حتى موعد" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Until"
+          }
+        }
+      }
     },
     "حُجز حسابيًا مبلغ %@ للالتزامات المسجّلة قبل %@، لتقدير حصة اليوم فقط. لا يتم سحب أو دفع أي مبلغ." : {
       "localizations" : {
@@ -4063,6 +5039,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "حُجز حسابيًا مبلغ %1$@ للالتزامات المسجّلة قبل %2$@، لتقدير حصة اليوم فقط. لا يتم سحب أو دفع أي مبلغ."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ is set aside on paper for obligations due before %2$@, only to estimate today’s share. No money is withdrawn or paid."
           }
         }
       }
@@ -4078,7 +5060,14 @@
       }
     },
     "حجم الكوب: %@ مل" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cup size: %@ mL"
+          }
+        }
+      }
     },
     "حدّد موقعك" : {
       "localizations" : {
@@ -4091,16 +5080,44 @@
       }
     },
     "حذف" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete"
+          }
+        }
+      }
     },
     "حذف الالتزام" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete Obligation"
+          }
+        }
+      }
     },
     "حذف المناسبة" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete Occasion"
+          }
+        }
+      }
     },
     "حذف النمط «%@»؟" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete the style “%@”?"
+          }
+        }
+      }
     },
     "حساب المواطن" : {
       "extractionState" : "manual",
@@ -4154,22 +5171,64 @@
       }
     },
     "حفظ" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Save"
+          }
+        }
+      }
     },
     "حفظ الشكل الحالي كنمط" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Save Current Look as Style"
+          }
+        }
+      }
     },
     "حفظ كنمط جديد" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Save as New Style"
+          }
+        }
+      }
     },
     "حفظ والرجوع" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Save and Go Back"
+          }
+        }
+      }
     },
     "حققت هدفك اليوم" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You met your goal today"
+          }
+        }
+      }
     },
     "حكومي وعسكري" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Government and Military"
+          }
+        }
+      }
     },
     "حلقات النشاط" : {
       "extractionState" : "manual",
@@ -4189,7 +5248,14 @@
       }
     },
     "خاص أو آخر" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Private or Other"
+          }
+        }
+      }
     },
     "خصّص ودجاتك وأوقات صلاتك ومناسباتك" : {
       "extractionState" : "manual",
@@ -4253,7 +5319,14 @@
       }
     },
     "خلفية %@" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ background"
+          }
+        }
+      }
     },
     "داكن" : {
       "extractionState" : "manual",
@@ -4290,7 +5363,14 @@
       }
     },
     "دورة التجديد" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Billing Cycle"
+          }
+        }
+      }
     },
     "ديني" : {
       "extractionState" : "manual",
@@ -4344,7 +5424,14 @@
       }
     },
     "ذكّرني قبل يوم" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remind Me a Day Before"
+          }
+        }
+      }
     },
     "ذهبي" : {
       "extractionState" : "manual",
@@ -4364,16 +5451,37 @@
       }
     },
     "ر.س" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "SAR"
+          }
+        }
+      }
     },
     "ر.س باقي" : {
 
     },
     "ر.س باقي لليوم" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "SAR left for today"
+          }
+        }
+      }
     },
     "ر.س تجاوزت حصة اليوم" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "SAR over today’s share"
+          }
+        }
+      }
     },
     "رأيك يساعدنا نتحسّن" : {
       "extractionState" : "manual",
@@ -4393,10 +5501,24 @@
       }
     },
     "ربط الصحة" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Connect Health"
+          }
+        }
+      }
     },
     "رجوع" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Back"
+          }
+        }
+      }
     },
     "رمضان" : {
       "localizations" : {
@@ -4463,22 +5585,57 @@
       }
     },
     "ساعة" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "hr"
+          }
+        }
+      }
     },
     "سبحان الله · ٣٣ مرة" : {
 
     },
     "سجّل" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Log"
+          }
+        }
+      }
     },
     "سجّل %@" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Log %@"
+          }
+        }
+      }
     },
     "سجّل الصفحات التي قرأتها هنا أو من زر الودجت. يبدأ عدّ جديد كل يوم." : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Log the pages you read here or with the widget button. A new count starts each day."
+          }
+        }
+      }
     },
     "سجل اليوم" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Today’s Log"
+          }
+        }
+      }
     },
     "سجّل تمرينًا في الصحة أو راجع أذونات التمارين" : {
 
@@ -4654,13 +5811,34 @@
       }
     },
     "صورة من ألبومك" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Photo from Your Library"
+          }
+        }
+      }
     },
     "ضع الجوال مسطّحاً وبعيداً عن المعادن للحصول على اتجاه دقيق." : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hold your phone flat and away from metal for an accurate direction."
+          }
+        }
+      }
     },
     "طريقة إضافة الودجت" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "How to Add the Widget"
+          }
+        }
+      }
     },
     "طريقة الإضافة" : {
       "extractionState" : "manual",
@@ -4707,7 +5885,14 @@
       }
     },
     "عدّ الذكر" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Count Dhikr"
+          }
+        }
+      }
     },
     "عداد الذكر" : {
       "extractionState" : "manual",
@@ -4805,19 +5990,54 @@
       }
     },
     "عند إيقاف تخصيص يوم يُستخدم الهدف الأساسي من إعدادات الصحة. تُحسب الاستمرارية وتقويم الإنجاز وفق جدول الأهداف الحالي، بما فيه الأيام السابقة المعروضة." : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "When a day isn’t customized, the base goal from Health settings is used. Streaks and the progress calendar follow the current goal schedule, including past days shown."
+          }
+        }
+      }
     },
     "عند الأذان" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "At Adhan"
+          }
+        }
+      }
     },
     "عند الإيقاف تُكتب بخط النص الذي اخترته" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "When off, they use the text font you chose"
+          }
+        }
+      }
     },
     "عند التفعيل، نستبعد قيمة الالتزامات التي أدخلتها من المبلغ المتاح لحساب حصة اليوم فقط. هذا حجز حسابي اختياري، ولا يسدّد الالتزامات أو يخصم أموالًا من حسابك البنكي." : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "When on, the obligations you entered are subtracted from the available amount, only to calculate today’s share. This is an optional on-paper reservation; it doesn’t pay obligations or deduct money from your bank account."
+          }
+        }
+      }
     },
     "عندك تعديلات ما حفظتها" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You have unsaved changes"
+          }
+        }
+      }
     },
     "عيد الأضحى" : {
       "localizations" : {
@@ -4904,10 +6124,24 @@
       }
     },
     "فتح الإعدادات للسماح بالتنبيهات" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open Settings to Allow Notifications"
+          }
+        }
+      }
     },
     "فعّل «ذكّرني قبل يوم» من «تعديل الودجت»، ويصلك تنبيه %@ في اليوم السابق. تقدر تغيّر الوقت من الإعدادات." : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Turn on “Remind Me a Day Before” in “Edit Widget”, and you’ll get an alert at %@ the day before. You can change the time in Settings."
+          }
+        }
+      }
     },
     "فعّل إذن الموقع من إعدادات الجهاز" : {
       "extractionState" : "manual",
@@ -4978,7 +6212,14 @@
       }
     },
     "قبل %@ دقيقة" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ min before"
+          }
+        }
+      }
     },
     "قبل الصلاة" : {
       "extractionState" : "stale",
@@ -4992,16 +6233,44 @@
       }
     },
     "قد لا توجد بيانات مسجّلة، أو لم تسمح بقراءتها. راجع الأذونات من تطبيق الصحة." : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "There may be no recorded data, or read access wasn’t allowed. Check permissions in the Health app."
+          }
+        }
+      }
     },
     "قد يُقدَّم قبل %@" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "May come early before %@"
+          }
+        }
+      }
     },
     "قرأت اليوم: %@ صفحة" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Read today: %@ pages"
+          }
+        }
+      }
     },
     "قرأت صفحة" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "I Read a Page"
+          }
+        }
+      }
     },
     "قفل" : {
       "extractionState" : "manual",
@@ -5082,7 +6351,14 @@
       }
     },
     "كل ذكر له عدده اليومي. لتغيير الذكر في الشاشة الرئيسية: اضغط مطولاً على الودجت ثم «تعديل الودجت»." : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Each dhikr has its own daily count. To change the dhikr on the Home Screen, touch and hold the widget, then tap “Edit Widget”."
+          }
+        }
+      }
     },
     "كل عام وأنتم بخير" : {
 
@@ -5212,7 +6488,14 @@
 
     },
     "لا بيانات بعد. امشِ قليلاً أو تأكد من أذونات القراءة." : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No data yet. Take a short walk or check read permissions."
+          }
+        }
+      }
     },
     "لا تنبيهات" : {
       "localizations" : {
@@ -5235,16 +6518,44 @@
       }
     },
     "لا توجد تمارين متاحة" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No Workouts Available"
+          }
+        }
+      }
     },
     "لا توجد قراءات" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No readings"
+          }
+        }
+      }
     },
     "لا توجد قراءات لهذه الفترة" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No Readings for This Period"
+          }
+        }
+      }
     },
     "لا توجد قراءات متاحة" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No Readings Available"
+          }
+        }
+      }
     },
     "لا توجد نتائج" : {
       "extractionState" : "manual",
@@ -5335,7 +6646,14 @@
       }
     },
     "للأقساط: حدّد آخر قسط، فيختفي الالتزام بعده ويظهر عدد الأقساط الباقية." : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "For installments: set the final one, and the obligation disappears after it while showing how many remain."
+          }
+        }
+      }
     },
     "للشاشة الرئيسية وشاشة القفل" : {
       "extractionState" : "manual",
@@ -5355,7 +6673,14 @@
       }
     },
     "لم تسجل أي كوب اليوم" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No cups logged today"
+          }
+        }
+      }
     },
     "لمواقيت صلاة دقيقة حسب مدينتك." : {
       "extractionState" : "stale",
@@ -5369,7 +6694,14 @@
       }
     },
     "له آخر دفعة" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Has a Final Payment"
+          }
+        }
+      }
     },
     "لون التطبيق" : {
       "extractionState" : "manual",
@@ -5406,16 +6738,44 @@
       }
     },
     "لون التمييز" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Accent Color"
+          }
+        }
+      }
     },
     "لون التمييز يظهر في الأيقونات والأشرطة والتفاصيل المهمة. اختيار خلفية جاهزة يضبط الألوان المناسبة لها." : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The accent color appears in icons, bars, and key details. Choosing a preset background sets matching colors."
+          }
+        }
+      }
     },
     "لون النص" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Text Color"
+          }
+        }
+      }
     },
     "لون سادة" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Solid Color"
+          }
+        }
+      }
     },
     "ما أضفت أي ودجت لشاشتك بعد. اختر ودجت من المعرض ثم أضفه من الشاشة الرئيسية." : {
       "extractionState" : "manual",
@@ -5452,7 +6812,14 @@
       }
     },
     "مبلغ ميزانية جديد" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "New budget amount"
+          }
+        }
+      }
     },
     "متبقي على أذان %@ في مدينة %@: %@ دقيقة." : {
       "extractionState" : "manual",
@@ -5523,10 +6890,24 @@
       }
     },
     "مراجعة إعدادات الصحة والأذونات" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Review Health Settings and Permissions"
+          }
+        }
+      }
     },
     "مراجعة الأذونات" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Review Permissions"
+          }
+        }
+      }
     },
     "مربوط بتطبيق الصحة" : {
       "extractionState" : "manual",
@@ -5556,7 +6937,14 @@
       }
     },
     "مسح" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Clear"
+          }
+        }
+      }
     },
     "مسح البحث" : {
       "extractionState" : "manual",
@@ -5576,7 +6964,14 @@
       }
     },
     "مسح الرصيد والمصروف؟" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Clear balance and expenses?"
+          }
+        }
+      }
     },
     "مصادر النصوص والخطوط والمكتبات" : {
       "extractionState" : "manual",
@@ -5772,13 +7167,34 @@
       }
     },
     "مناسباتي: أضف عيد ميلاد أو ذكرى" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "My Occasions: Add a Birthday or Anniversary"
+          }
+        }
+      }
     },
     "مناسبة" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Occasion"
+          }
+        }
+      }
     },
     "مناسبة جديدة" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "New Occasion"
+          }
+        }
+      }
     },
     "مناسبة خاصة" : {
       "extractionState" : "manual",
@@ -5815,7 +7231,14 @@
       }
     },
     "موعد %@ القادم" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Next %@ date"
+          }
+        }
+      }
     },
     "موعد إيداع الضمان الاجتماعي المطور" : {
       "extractionState" : "manual",
@@ -5869,7 +7292,14 @@
       }
     },
     "موعد الصرف اليوم" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Payday is today"
+          }
+        }
+      }
     },
     "موعد صرف إعانة التأهيل الشامل" : {
       "extractionState" : "manual",
@@ -6018,7 +7448,14 @@
       }
     },
     "نزل %@؟ حدّث رصيدك لتُحسب الأيام القادمة صح." : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Did %@ arrive? Update your balance so the coming days are calculated correctly."
+          }
+        }
+      }
     },
     "نص القرآن الكريم وخطه من مجمع الملك فهد لطباعة المصحف الشريف." : {
       "extractionState" : "manual",
@@ -6038,13 +7475,34 @@
       }
     },
     "نقرأ التمارين المسجّلة فقط. إن لم تظهر، راجع إذن قراءة التمارين من إعدادات الصحة." : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Only recorded workouts are read. If they don’t appear, check workout read access in Health settings."
+          }
+        }
+      }
     },
     "نقرأ فقط، ولا نكتب شيئاً في الصحة" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Read-only; nothing is written to Health"
+          }
+        }
+      }
     },
     "نمط" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Style"
+          }
+        }
+      }
     },
     "نوم الليلة" : {
 
@@ -6087,10 +7545,24 @@
 
     },
     "هدف الماء وحجم الكوب وسجل اليوم" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Water Goal, Cup Size, and Today’s Log"
+          }
+        }
+      }
     },
     "هدف اليوم: %@ مل" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Daily goal: %@ mL"
+          }
+        }
+      }
     },
     "هدف ماء تحدده بنفسك، وسجّل كوبًا أو تراجع عنه من الشاشة" : {
       "extractionState" : "manual",
@@ -6110,7 +7582,14 @@
       }
     },
     "هدف مختلف لكل يوم" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A Different Goal for Each Day"
+          }
+        }
+      }
     },
     "هدفك اليومي من صفحات القرآن، وسجّل إنجازك من الشاشة" : {
       "extractionState" : "manual",
@@ -6130,13 +7609,27 @@
       }
     },
     "هذه أداة حساب وتسجيل يدوي فقط. التطبيق لا يتصل بحسابك البنكي ولا يسحب أو يحوّل أو يدفع أي أموال. يُحفظ مبلغ الميزانية الذي تدخله على جهازك." : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This is a manual calculation and logging tool only. The app doesn’t connect to your bank account and never withdraws, transfers, or pays any money. The budget amount you enter is saved on your device."
+          }
+        }
+      }
     },
     "هي لنا دار" : {
 
     },
     "وتابع العدّ التنازلي لها من الشاشة الرئيسية." : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "and follow their countdowns from your Home Screen."
+          }
+        }
+      }
     },
     "وحدة الحرارة" : {
       "extractionState" : "manual",
@@ -6234,7 +7727,14 @@
       }
     },
     "وقت التنبيه" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alert Time"
+          }
+        }
+      }
     },
     "وقت تذكير «قبل يوم»" : {
       "localizations" : {
@@ -6264,7 +7764,14 @@
       }
     },
     "يستبدل الشكل الحالي لكل الودجات بهذا الشكل." : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Replaces the current look of every widget with this one."
+          }
+        }
+      }
     },
     "يستخدم خط النص الذي اخترته في تبويب «النص»." : {
       "localizations" : {
@@ -6277,13 +7784,34 @@
       }
     },
     "يصلك تنبيه %@ في اليوم السابق." : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You’ll get an alert at %@ the day before."
+          }
+        }
+      }
     },
     "يظهر في «تعديل الودجت» لتختاره لأي ودجت." : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "It appears in “Edit Widget” so you can pick it for any widget."
+          }
+        }
+      }
     },
     "يكمل %@ سنة في الموعد القادم" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Turns %@ on the next date"
+          }
+        }
+      }
     },
     "يوم" : {
       "localizations" : {
@@ -6313,10 +7841,24 @@
       }
     },
     "يوم الصرف" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Payday"
+          }
+        }
+      }
     },
     "يوم الصرف في الشهر" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Payday of the Month"
+          }
+        }
+      }
     },
     "يوم متبقٍ" : {
 
@@ -7523,6 +9065,2346 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "The day name in Ruqaa with the Hijri date (Widget Pro)."
+          }
+        }
+      }
+    },
+    "نمط %lld" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Style %lld"
+          }
+        }
+      }
+    },
+    "%@٪" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@%%"
+          }
+        }
+      }
+    },
+    "أنماطي" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "My Styles"
+          }
+        }
+      }
+    },
+    "نقوش إسلامية" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Islamic Patterns"
+          }
+        }
+      }
+    },
+    "الألوان" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Colors"
+          }
+        }
+      }
+    },
+    "أسماء الأيام والأشهر" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Day and Month Names"
+          }
+        }
+      }
+    },
+    "الوصول للموقع مقفل. فعّله من إعدادات الجهاز." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Location access is off. Turn it on in Settings."
+          }
+        }
+      }
+    },
+    "بدون الموقع نحسب الأوقات لمكة المكرمة." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Without your location, times are calculated for Makkah."
+          }
+        }
+      }
+    },
+    "تعذّر تحديد الموقع، حاول مرة ثانية." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Couldn’t find your location. Try again."
+          }
+        }
+      }
+    },
+    "د" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "min"
+          }
+        }
+      }
+    },
+    "أدوات" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tools"
+          }
+        }
+      }
+    },
+    "حدّد موقعك لأوقات مدينتك" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Set your location for your city’s times"
+          }
+        }
+      }
+    },
+    "يُحفظ موقعك على جهازك فقط" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your location is saved only on your device"
+          }
+        }
+      }
+    },
+    "اسم الودجت:\nالنص الذي فيه الخطأ:\nالتصحيح المقترح:\n" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Widget name:\nText with the error:\nSuggested correction:\n"
+          }
+        }
+      }
+    },
+    "%@ مناسبة" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ occasions"
+          }
+        }
+      }
+    },
+    "%@ خطوة اليوم" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ steps today"
+          }
+        }
+      }
+    },
+    "+%@ يوم" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "+%@ d"
+          }
+        }
+      }
+    },
+    "−%@ يوم" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "−%@ d"
+          }
+        }
+      }
+    },
+    "\n\n—\nالتطبيق: %@\nالجهاز: %@ · iOS %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "\n\n—\nApp: %@\nDevice: %@ · iOS %@"
+          }
+        }
+      }
+    },
+    "نص القرآن الكريم وخطه" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quran Text and Script"
+          }
+        }
+      }
+    },
+    "مجمع الملك فهد لطباعة المصحف الشريف، رواية حفص، الإصدار ٣٠. النص كما هو دون أي تعديل." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "King Fahd Complex for the Printing of the Holy Quran, Hafs narration, version 30. The text is unmodified."
+          }
+        }
+      }
+    },
+    "شروط استخدام مجمع الملك فهد" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "King Fahd Complex Terms of Use"
+          }
+        }
+      }
+    },
+    "الأذكار" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adhkar"
+          }
+        }
+      }
+    },
+    "من كتاب حصن المسلم." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "From the book Hisn al-Muslim (Fortress of the Muslim)."
+          }
+        }
+      }
+    },
+    "حساب مواقيت الصلاة والقبلة" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Prayer Times and Qibla Calculation"
+          }
+        }
+      }
+    },
+    "مكتبة Adhan من Batoul Apps." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The Adhan library by Batoul Apps."
+          }
+        }
+      }
+    },
+    "خط أميري (Amiri)" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Amiri Font"
+          }
+        }
+      }
+    },
+    "خط لطيف (Lateef)" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lateef Font"
+          }
+        }
+      }
+    },
+    "SIL International · من Google Fonts." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "SIL International · from Google Fonts."
+          }
+        }
+      }
+    },
+    "خط IBM Plex عربي" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "IBM Plex Arabic Font"
+          }
+        }
+      }
+    },
+    "IBM وBold Monday · من Google Fonts." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "IBM and Bold Monday · from Google Fonts."
+          }
+        }
+      }
+    },
+    "خط الرقعة (Aref Ruqaa)" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aref Ruqaa Font"
+          }
+        }
+      }
+    },
+    "خطا القاهرة وتجوال (Cairo, Tajawal)" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cairo and Tajawal Fonts"
+          }
+        }
+      }
+    },
+    "من Google Fonts." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "From Google Fonts."
+          }
+        }
+      }
+    },
+    "حصة اليوم" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Today’s Share"
+          }
+        }
+      }
+    },
+    "صرفت اليوم" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spent Today"
+          }
+        }
+      }
+    },
+    "ميزانية يدوية" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Manual Budget"
+          }
+        }
+      }
+    },
+    "مبلغ الميزانية" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Budget Amount"
+          }
+        }
+      }
+    },
+    "رصيد الميزانية المسجّل" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recorded Budget Balance"
+          }
+        }
+      }
+    },
+    "تسجيل مصروف يدوي" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Log an Expense"
+          }
+        }
+      }
+    },
+    "الحساب" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Calculation"
+          }
+        }
+      }
+    },
+    "مبالغ التسجيل السريع في الودجت" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quick Log Amounts in the Widget"
+          }
+        }
+      }
+    },
+    "الأول" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "First"
+          }
+        }
+      }
+    },
+    "الثاني" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Second"
+          }
+        }
+      }
+    },
+    "باقي %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ left"
+          }
+        }
+      }
+    },
+    "النوع" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Type"
+          }
+        }
+      }
+    },
+    "التذكير" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reminder"
+          }
+        }
+      }
+    },
+    "المدة" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Duration"
+          }
+        }
+      }
+    },
+    "أدواتي" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "My Tools"
+          }
+        }
+      }
+    },
+    "الدفعات" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Payments"
+          }
+        }
+      }
+    },
+    "الإيجار والأقساط والفواتير" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rent, installments, and bills"
+          }
+        }
+      }
+    },
+    "كم تصرف كل يوم حتى الراتب" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "How much to spend each day until payday"
+          }
+        }
+      }
+    },
+    "تجاوزت حصة اليوم" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Over today’s share"
+          }
+        }
+      }
+    },
+    "باقي لليوم %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ left for today"
+          }
+        }
+      }
+    },
+    "ودجت مواعيد الصرف" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Payment Dates Widget"
+          }
+        }
+      }
+    },
+    "الدفعات القادمة" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Upcoming Payments"
+          }
+        }
+      }
+    },
+    "في موعدها المعتاد" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "On its usual date"
+          }
+        }
+      }
+    },
+    "يوافق إجازة %@، وغالباً يُقدَّم الصرف قبلها. إذا أُعلن موعده عدّله من «موعد استثنائي»." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Falls in the %@ holiday, so payment usually comes earlier. If a date is announced, set it in “One-Time Date”."
+          }
+        }
+      }
+    },
+    "موعد استثنائي حدّدته" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A one-time date you set"
+          }
+        }
+      }
+    },
+    "نُقل من يوم %@ بسبب الإجازة" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Moved from day %@ because of the weekend"
+          }
+        }
+      }
+    },
+    "الموعد" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Schedule"
+          }
+        }
+      }
+    },
+    "القطاع" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sector"
+          }
+        }
+      }
+    },
+    "آخر يوم" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Last Day"
+          }
+        }
+      }
+    },
+    "إذا صادف الجمعة أو السبت" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "If It Falls on Friday or Saturday"
+          }
+        }
+      }
+    },
+    "موعد استثنائي" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "One-Time Date"
+          }
+        }
+      }
+    },
+    "التجديد: %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Renews: %@"
+          }
+        }
+      }
+    },
+    "متوقف" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Paused"
+          }
+        }
+      }
+    },
+    "إيجار" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rent"
+          }
+        }
+      }
+    },
+    "قسط" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Installment"
+          }
+        }
+      }
+    },
+    "بطاقة ائتمان" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Credit Card"
+          }
+        }
+      }
+    },
+    "فاتورة" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bill"
+          }
+        }
+      }
+    },
+    "اشتراك" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Subscription"
+          }
+        }
+      }
+    },
+    "رسوم دراسية" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "School Fees"
+          }
+        }
+      }
+    },
+    "التزام" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Obligation"
+          }
+        }
+      }
+    },
+    "كل ٣ أشهر" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Every 3 Months"
+          }
+        }
+      }
+    },
+    "كل ٦ أشهر" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Every 6 Months"
+          }
+        }
+      }
+    },
+    "غداً موعد %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ is due tomorrow"
+          }
+        }
+      }
+    },
+    "اليوم موعد %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ is due today"
+          }
+        }
+      }
+    },
+    "الراتب" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Salary"
+          }
+        }
+      }
+    },
+    "الرواتب الحكومية يوم ٢٧ من كل شهر ميلادي. للقطاع الخاص اختر يوم راتبك." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Government salaries are paid on the 27th of each Gregorian month. For the private sector, choose your payday."
+          }
+        }
+      }
+    },
+    "يُودَع الدعم يوم ١٠ من كل شهر ميلادي." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Support is deposited on the 10th of each Gregorian month."
+          }
+        }
+      }
+    },
+    "يُصرف حافز يوم ٥ من كل شهر ميلادي." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hafiz is paid on the 5th of each Gregorian month."
+          }
+        }
+      }
+    },
+    "معاشات التقاعد المدني والعسكري والتأمينات يوم ١ من كل شهر ميلادي، وتُقدَّم إذا صادف إجازة." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Civil, military, and GOSI pensions are paid on the 1st of each Gregorian month, earlier if it falls on a holiday."
+          }
+        }
+      }
+    },
+    "يُودَع الضمان الاجتماعي المطور يوم ١ من كل شهر ميلادي، ويُقدَّم إذا صادف إجازة." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Social Security is deposited on the 1st of each Gregorian month, earlier if it falls on a holiday."
+          }
+        }
+      }
+    },
+    "مكافآت طلاب الجامعات والمعاهد يوم ٢٧ من كل شهر ميلادي. بعض الجهات تصرفها في يوم آخر." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "University and institute stipends are paid on the 27th of each Gregorian month. Some institutions pay on another day."
+          }
+        }
+      }
+    },
+    "إعانة التأهيل الشامل يوم ٢٦ من كل شهر ميلادي، وتُؤجَّل لليوم التالي إذا صادف إجازة." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Comprehensive Rehabilitation support is paid on the 26th of each Gregorian month, moved to the next day if it falls on a holiday."
+          }
+        }
+      }
+    },
+    "نُقل بسبب الإجازة" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Moved for the weekend"
+          }
+        }
+      }
+    },
+    "الأقرب" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nearest"
+          }
+        }
+      }
+    },
+    "تقديم" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Earlier"
+          }
+        }
+      }
+    },
+    "تأخير" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Later"
+          }
+        }
+      }
+    },
+    "بدون" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "None"
+          }
+        }
+      }
+    },
+    "الجمعة يُقدَّم للخميس، والسبت يُؤجَّل للأحد" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Friday moves to Thursday, Saturday moves to Sunday"
+          }
+        }
+      }
+    },
+    "الجمعة والسبت يُقدَّمان للخميس" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Friday and Saturday move to Thursday"
+          }
+        }
+      }
+    },
+    "الجمعة والسبت يُؤجَّلان للأحد" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Friday and Saturday move to Sunday"
+          }
+        }
+      }
+    },
+    "يبقى في يومه حتى لو كان إجازة" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stays on its day even on the weekend"
+          }
+        }
+      }
+    },
+    "قبلها بيوم" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Day Before"
+          }
+        }
+      }
+    },
+    "بعد يومين" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In 2 days"
+          }
+        }
+      }
+    },
+    "بعد %@ أيام" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In %@ days"
+          }
+        }
+      }
+    },
+    "بعد %@ يومًا" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In %@ days"
+          }
+        }
+      }
+    },
+    "المسافة" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Distance"
+          }
+        }
+      }
+    },
+    "السعرات" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Calories"
+          }
+        }
+      }
+    },
+    "التمرين" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Exercise"
+          }
+        }
+      }
+    },
+    "الطوابق" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Flights"
+          }
+        }
+      }
+    },
+    "خطوة" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "steps"
+          }
+        }
+      }
+    },
+    "كم" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "km"
+          }
+        }
+      }
+    },
+    "سعرة" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "kcal"
+          }
+        }
+      }
+    },
+    "دقيقة" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "min"
+          }
+        }
+      }
+    },
+    "طابق" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "floors"
+          }
+        }
+      }
+    },
+    "تعذر التحديث" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Couldn’t update"
+          }
+        }
+      }
+    },
+    "لا توجد قراءة" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No reading"
+          }
+        }
+      }
+    },
+    "قراءة سابقة" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Earlier reading"
+          }
+        }
+      }
+    },
+    "مشي" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Walking"
+          }
+        }
+      }
+    },
+    "جري" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Running"
+          }
+        }
+      }
+    },
+    "دراجة" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cycling"
+          }
+        }
+      }
+    },
+    "سباحة" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Swimming"
+          }
+        }
+      }
+    },
+    "تمارين قوة" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Strength Training"
+          }
+        }
+      }
+    },
+    "تمارين متقطعة" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "HIIT"
+          }
+        }
+      }
+    },
+    "يوغا" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yoga"
+          }
+        }
+      }
+    },
+    "بيلاتس" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pilates"
+          }
+        }
+      }
+    },
+    "مشي جبلي" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hiking"
+          }
+        }
+      }
+    },
+    "جهاز بيضاوي" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elliptical"
+          }
+        }
+      }
+    },
+    "تمرين" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Workout"
+          }
+        }
+      }
+    },
+    "مؤشرات صحتي اليوم" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "My Health Today Metrics"
+          }
+        }
+      }
+    },
+    "ألوان وعرض الصحة" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Health Colors and Display"
+          }
+        }
+      }
+    },
+    "متوسط الخطوات" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Average Steps"
+          }
+        }
+      }
+    },
+    "دقائق التمرين" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Exercise Minutes"
+          }
+        }
+      }
+    },
+    "متوسط النوم" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Average Sleep"
+          }
+        }
+      }
+    },
+    "أيام تحقيق هدف الخطوات" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Days Step Goal Met"
+          }
+        }
+      }
+    },
+    "%@ من %@ يوم مسجّل" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ of %2$@ logged days"
+          }
+        }
+      }
+    },
+    "%@ · التفاصيل" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ · Details"
+          }
+        }
+      }
+    },
+    "سلسلة الإنجاز" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Streak"
+          }
+        }
+      }
+    },
+    "تقويم آخر ٣٠ يومًا" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Last 30 Days"
+          }
+        }
+      }
+    },
+    "تحقق الهدف" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Goal met"
+          }
+        }
+      }
+    },
+    "قراءة دون الهدف" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Below goal"
+          }
+        }
+      }
+    },
+    "تمارين آخر ٧ أيام" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Workouts · Last 7 Days"
+          }
+        }
+      }
+    },
+    "عدد التمارين المتاحة" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Workouts Available"
+          }
+        }
+      }
+    },
+    "المدة الإجمالية" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Total Duration"
+          }
+        }
+      }
+    },
+    "التمارين المسجّلة · آخر ٣١ يومًا" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recorded Workouts · Last 31 Days"
+          }
+        }
+      }
+    },
+    "٧ أيام" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "7 Days"
+          }
+        }
+      }
+    },
+    "٣٠ يومًا" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "30 Days"
+          }
+        }
+      }
+    },
+    "ملخص الفترة" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Period Summary"
+          }
+        }
+      }
+    },
+    "المجموع" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Total"
+          }
+        }
+      }
+    },
+    "متوسط الأيام المتاحة" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Average of Available Days"
+          }
+        }
+      }
+    },
+    "الإجمالي" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Total"
+          }
+        }
+      }
+    },
+    "القراءات اليومية" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Daily Readings"
+          }
+        }
+      }
+    },
+    "هدف اليوم" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Today’s Goal"
+          }
+        }
+      }
+    },
+    "قراءة اليوم" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Today’s Reading"
+          }
+        }
+      }
+    },
+    "الهدف" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Goal"
+          }
+        }
+      }
+    },
+    "المتبقي" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remaining"
+          }
+        }
+      }
+    },
+    "متابعة صحتي" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "My Health Tracking"
+          }
+        }
+      }
+    },
+    "تطبيق الصحة" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Health App"
+          }
+        }
+      }
+    },
+    "الأهداف اليومية الأساسية" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Base Daily Goals"
+          }
+        }
+      }
+    },
+    "الثلاثاء" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tuesday"
+          }
+        }
+      }
+    },
+    "الأربعاء" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wednesday"
+          }
+        }
+      }
+    },
+    "الخميس" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Thursday"
+          }
+        }
+      }
+    },
+    "الجمعة" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Friday"
+          }
+        }
+      }
+    },
+    "عيد ميلاد" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Birthday"
+          }
+        }
+      }
+    },
+    "ذكرى زواج" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wedding Anniversary"
+          }
+        }
+      }
+    },
+    "تخرّج" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Graduation"
+          }
+        }
+      }
+    },
+    "مولود" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Newborn"
+          }
+        }
+      }
+    },
+    "سفر" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Travel"
+          }
+        }
+      }
+    },
+    "غداً %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ is tomorrow"
+          }
+        }
+      }
+    },
+    "يكمل %@ سنة · %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Turns %1$@ · %2$@"
+          }
+        }
+      }
+    },
+    "باقي يوم على %@ · %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "One day until %1$@ · %2$@"
+          }
+        }
+      }
+    },
+    "يكمل %@ سنة" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Turns %@"
+          }
+        }
+      }
+    },
+    "الذكرى %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Anniversary %@"
+          }
+        }
+      }
+    },
+    "مثلاً: عيد ميلاد سارة" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "e.g. Sara’s birthday"
+          }
+        }
+      }
+    },
+    "مثلاً: ذكرى زواجنا" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "e.g. Our anniversary"
+          }
+        }
+      }
+    },
+    "مثلاً: تخرّج أحمد" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "e.g. Ahmed’s graduation"
+          }
+        }
+      }
+    },
+    "مثلاً: قدوم المولود" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "e.g. Baby’s arrival"
+          }
+        }
+      }
+    },
+    "مثلاً: رحلة العمرة" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "e.g. Umrah trip"
+          }
+        }
+      }
+    },
+    "الشاشة الرئيسية" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Home Screen"
+          }
+        }
+      }
+    },
+    "شاشة القفل" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lock Screen"
+          }
+        }
+      }
+    },
+    "اضغط مطولاً على مكان فاضي في الشاشة الرئيسية" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Touch and hold an empty area on the Home Screen"
+          }
+        }
+      }
+    },
+    "اضغط زر «تعديل» ثم «إضافة ودجت» أعلى الشاشة" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tap “Edit”, then “Add Widget” at the top of the screen"
+          }
+        }
+      }
+    },
+    "ابحث عن «ويدجت» واختره من القائمة" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Search for “Widget” and choose it from the list"
+          }
+        }
+      }
+    },
+    "اسحب يمين ويسار لاختيار الودجت والحجم" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Swipe left and right to choose the widget and size"
+          }
+        }
+      }
+    },
+    "اضغط «إضافة ودجت» وبعدها «تم»" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tap “Add Widget”, then “Done”"
+          }
+        }
+      }
+    },
+    "لتغيير الذكر أو المناسبة أو النمط: اضغط مطولاً على الودجت ثم «تعديل الودجت»" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "To change the dhikr, occasion, or style: touch and hold the widget, then tap “Edit Widget”"
+          }
+        }
+      }
+    },
+    "افتح الجوال بوجهك أو رمزك، وابقَ على شاشة القفل" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unlock your phone with Face ID or your passcode, and stay on the Lock Screen"
+          }
+        }
+      }
+    },
+    "اضغط مطولاً على شاشة القفل ثم «تخصيص»" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Touch and hold the Lock Screen, then tap “Customize”"
+          }
+        }
+      }
+    },
+    "اختر «شاشة القفل»" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choose “Lock Screen”"
+          }
+        }
+      }
+    },
+    "اضغط مكان الودجات تحت الساعة، أو السطر فوقها" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tap the widget area below the clock, or the line above it"
+          }
+        }
+      }
+    },
+    "اختر من «ويدجت»: الصلاة القادمة أو التاريخ الهجري أو عداد الذكر" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "From “Widget”, choose Next Prayer, Hijri Date, or Dhikr Counter"
+          }
+        }
+      }
+    },
+    "اضغط «تم» لحفظ شاشة القفل" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tap “Done” to save the Lock Screen"
+          }
+        }
+      }
+    },
+    "%@ بعد %@ دقائق" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ in %2$@ minutes"
+          }
+        }
+      }
+    },
+    "%@ عند %@ · %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ at %2$@ · %3$@"
+          }
+        }
+      }
+    },
+    "%@ د" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@m ago"
+          }
+        }
+      }
+    },
+    "عيد ميلاد سارة" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sara’s Birthday"
+          }
+        }
+      }
+    },
+    "١٢٣ عربية" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "١٢٣ Arabic"
+          }
+        }
+      }
+    },
+    "123 إنجليزية" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "123 Western"
+          }
+        }
+      }
+    },
+    "ليلي" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Night"
+          }
+        }
+      }
+    },
+    "نقش" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pattern"
+          }
+        }
+      }
+    },
+    "كحلي" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Navy"
+          }
+        }
+      }
+    },
+    "عنّابي" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Burgundy"
+          }
+        }
+      }
+    },
+    "فيروزي" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Turquoise"
+          }
+        }
+      }
+    },
+    "فجر" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dawn"
+          }
+        }
+      }
+    },
+    "وطني" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "National"
+          }
+        }
+      }
+    },
+    "رملي" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sand"
+          }
+        }
+      }
+    },
+    "لؤلؤي" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pearl"
+          }
+        }
+      }
+    },
+    "دوّار الشمس" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sunflower"
+          }
+        }
+      }
+    },
+    "غروب" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sunset"
+          }
+        }
+      }
+    },
+    "بحيرة" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lagoon"
+          }
+        }
+      }
+    },
+    "مريمية" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sage"
+          }
+        }
+      }
+    },
+    "نجمة ثمانية" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eight-Point Star"
+          }
+        }
+      }
+    },
+    "توريق" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Arabesque"
+          }
+        }
+      }
+    },
+    "مشربية" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mashrabiya"
+          }
+        }
+      }
+    },
+    "سداسي" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hexagonal"
+          }
+        }
+      }
+    },
+    "قباب ومآذن" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Domes and Minarets"
+          }
+        }
+      }
+    },
+    "الحرم المكي" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Masjid al-Haram"
+          }
+        }
+      }
+    },
+    "المسجد النبوي" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Prophet’s Mosque"
+          }
+        }
+      }
+    },
+    "هلال ونجوم" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Crescent and Stars"
+          }
+        }
+      }
+    },
+    "الشروق" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sunrise"
+          }
+        }
+      }
+    },
+    "أم القرى" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Umm al-Qura"
+          }
+        }
+      }
+    },
+    "رابطة العالم الإسلامي" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Muslim World League"
+          }
+        }
+      }
+    },
+    "الهيئة المصرية" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Egyptian General Authority"
+          }
+        }
+      }
+    },
+    "كراتشي" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Karachi"
+          }
+        }
+      }
+    },
+    "دبي" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dubai"
+          }
+        }
+      }
+    },
+    "قطر" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Qatar"
+          }
+        }
+      }
+    },
+    "الكويت" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kuwait"
+          }
+        }
+      }
+    },
+    "لجنة رؤية الهلال" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Moonsighting Committee"
+          }
+        }
+      }
+    },
+    "سنغافورة" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Singapore"
+          }
+        }
+      }
+    },
+    "تركيا" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Turkey"
+          }
+        }
+      }
+    },
+    "طهران" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tehran"
+          }
+        }
+      }
+    },
+    "أمريكا الشمالية" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "North America (ISNA)"
+          }
+        }
+      }
+    },
+    "مكة المكرمة" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Makkah"
+          }
+        }
+      }
+    },
+    "الاستغفار" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Istighfar"
+          }
+        }
+      }
+    },
+    "التسبيح" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tasbih"
+          }
+        }
+      }
+    },
+    "التهليل" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tahlil"
+          }
+        }
+      }
+    },
+    "الصلاة على النبي" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Salawat"
+          }
+        }
+      }
+    },
+    "صباحاً" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "AM"
+          }
+        }
+      }
+    },
+    "ظهراً" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "PM"
+          }
+        }
+      }
+    },
+    "مساءً" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "PM"
+          }
+        }
+      }
+    },
+    "الساعة %@ %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ %2$@"
           }
         }
       }

@@ -44,21 +44,41 @@ enum DateHelper {
     static func digits(_ text: String) -> String { AppSettings.numerals.apply(text) }
 
     // MARK: - التنسيق
+    /// لغة التواريخ تتبع لغة التطبيق: العربية بأرقامها، أو الإنجليزية
+    static var locale: Locale {
+        AppLanguage.current.resolvedCode() == "en" ? Locale(identifier: "en") : arabic
+    }
+
+    /// لمنتقي التاريخ: لغة التطبيق مع تقويم محدد
+    static func pickerLocale(calendar: String) -> Locale {
+        let code = AppLanguage.current.resolvedCode() == "en" ? "en" : "ar@numbers=arab"
+        return Locale(identifier: code + (code.contains("@") ? ";" : "@") + "calendar=" + calendar)
+    }
+
+    /// منسّق لكل لغة، يُنشأ مرة واحدة ثم يُعاد استخدامه
+    nonisolated(unsafe) private static var formatters: [String: DateFormatter] = [:]
+    private static let formattersLock = NSLock()
+
     private static func formatter(_ format: String, calendar: Calendar) -> DateFormatter {
+        let locale = locale
+        let key = "\(locale.identifier)|\(calendar.identifier)|\(format)"
+        formattersLock.lock(); defer { formattersLock.unlock() }
+        if let cached = formatters[key] { return cached }
         let f = DateFormatter()
         f.calendar = calendar
-        f.locale = arabic
+        f.locale = locale
         f.dateFormat = format
+        formatters[key] = f
         return f
     }
 
-    private static let hijriMonthFmt  = formatter("MMMM", calendar: hijri)
-    private static let gregorianFmt   = formatter("d MMMM y", calendar: gregorian)
-    private static let weekdayFmt     = formatter("EEEE", calendar: gregorian)
-    private static let dayMonthFmt    = formatter("d MMMM", calendar: gregorian)
-    private static let weekdayDayMonthFmt = formatter("EEEE d MMMM", calendar: gregorian)
-    private static let monthNameFmt   = formatter("MMMM", calendar: gregorian)
-    private static let weekdayFullFmt = formatter("EEEE d MMMM y", calendar: gregorian)
+    private static var hijriMonthFmt: DateFormatter { formatter("MMMM", calendar: hijri) }
+    private static var gregorianFmt: DateFormatter { formatter("d MMMM y", calendar: gregorian) }
+    private static var weekdayFmt: DateFormatter { formatter("EEEE", calendar: gregorian) }
+    private static var dayMonthFmt: DateFormatter { formatter("d MMMM", calendar: gregorian) }
+    private static var weekdayDayMonthFmt: DateFormatter { formatter("EEEE d MMMM", calendar: gregorian) }
+    private static var monthNameFmt: DateFormatter { formatter("MMMM", calendar: gregorian) }
+    private static var weekdayFullFmt: DateFormatter { formatter("EEEE d MMMM y", calendar: gregorian) }
 
     // MARK: - تصحيح الهجري
     /// اليوم المقابل في التقويم الهجري بعد تصحيح المستخدم من الإعدادات.

@@ -354,9 +354,10 @@ nonisolated enum HealthWidgets {
 nonisolated enum HealthFormat {
     static func updateLabel(_ date: Date, now: Date = .now) -> String {
         let formatter = DateFormatter()
-        formatter.locale = Locale(identifier: "ar@numbers=arab")
+        formatter.locale = DateHelper.locale
         let sameDay = Calendar.current.isDate(date, inSameDayAs: now)
-        formatter.dateFormat = sameDay ? "h:mm a" : "d MMM، h:mm a"
+        let comma = AppLanguage.current.isRightToLeft ? "،" : ","
+        formatter.dateFormat = sameDay ? "h:mm a" : "d MMM\(comma) h:mm a"
         return (sameDay ? L10n.text("آخر تحديث") + " " : L10n.text("قراءة سابقة") + " · ") + formatter.string(from: date)
     }
 

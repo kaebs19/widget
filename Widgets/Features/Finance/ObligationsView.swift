@@ -258,7 +258,7 @@ private struct ObligationEditor: View {
                 Text("ر.س").foregroundStyle(Theme.textSecondary)
             }
             DatePicker("الموعد القادم", selection: $item.firstDate, displayedComponents: .date)
-                .environment(\.locale, Locale(identifier: "ar@numbers=arab;calendar=gregorian"))
+                .environment(\.locale, DateHelper.pickerLocale(calendar: "gregorian"))
                 .environment(\.calendar, DateHelper.gregorian)
             SettingRow("التكرار") {
                 Picker("التكرار", selection: $item.frequency) {
@@ -277,7 +277,7 @@ private struct ObligationEditor: View {
             if let endDate = item.endDate {
                 DatePicker("آخر دفعة", selection: Binding(get: { endDate }, set: { item.endDate = $0 }),
                            in: item.firstDate..., displayedComponents: .date)
-                    .environment(\.locale, Locale(identifier: "ar@numbers=arab;calendar=gregorian"))
+                    .environment(\.locale, DateHelper.pickerLocale(calendar: "gregorian"))
                     .environment(\.calendar, DateHelper.gregorian)
                 if let count = item.remainingCount() {
                     Label("باقي \(DateHelper.arabic(count)) دفعة", systemImage: "number")

@@ -174,7 +174,7 @@ struct HealthHistoryBars: View {
                         }
                         .frame(maxWidth: .infinity)
                     }
-                    Text(day.date.formatted(.dateTime.locale(Locale(identifier: "ar")).weekday(.narrow)))
+                    Text(day.date.formatted(.dateTime.locale(DateHelper.locale).weekday(.narrow)))
                         .font(style.font(.label, 8)).foregroundStyle(style.secondary)
                 }
                 .accessibilityElement(children: .ignore)

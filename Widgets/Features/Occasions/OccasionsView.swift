@@ -209,7 +209,7 @@ private struct OccasionEditor: View {
                         DatePicker(occasion.type == .birthday ? "تاريخ الميلاد" : "التاريخ",
                                    selection: $occasion.date, displayedComponents: .date)
                             // التقويم المختار بأرقام عربية
-                            .environment(\.locale, Locale(identifier: occasion.recurrenceCalendar == .hijri ? "ar@numbers=arab;calendar=islamic-umalqura" : "ar@numbers=arab;calendar=gregorian"))
+                            .environment(\.locale, DateHelper.pickerLocale(calendar: occasion.recurrenceCalendar == .hijri ? "islamic-umalqura" : "gregorian"))
                             .environment(\.calendar, occasion.recurrenceCalendar.calendar)
                         Toggle("تتكرر كل سنة", isOn: $occasion.repeatsYearly)
                         if occasion.type.countsYears, occasion.repeatsYearly, let years = occasion.yearsAtNext() {

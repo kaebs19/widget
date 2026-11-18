@@ -20,7 +20,7 @@ final class WatchSync: NSObject, WCSessionDelegate {
         "prayer.location", PrayerSchedule.Key.method, PrayerSchedule.Key.madhab,
         AppSettings.Key.numerals, AppLanguage.preferenceKey, AppSettings.Key.hijriOffset, AppSettings.Key.accent,
         AppSettings.Key.haptics, PrayerNotifications.Key.enabled, PrayerNotifications.Key.minutesBefore,
-        OccasionStore.key,
+        OccasionStore.key, Premium.activeKey, Premium.expiryKey,
     ] + PrayerName.allCases.map { PrayerSchedule.Key.adjustment($0) }
 
     /// ما يُسمح للساعة بتغييره هنا

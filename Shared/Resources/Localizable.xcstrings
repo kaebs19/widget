@@ -7516,6 +7516,16 @@
           }
         }
       }
+    },
+    "اسم اليوم بخط الرقعة مع التاريخ الهجري (ويدجت برو)." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The day name in Ruqaa with the Hijri date (Widget Pro)."
+          }
+        }
+      }
     }
   },
   "version" : "1.0"

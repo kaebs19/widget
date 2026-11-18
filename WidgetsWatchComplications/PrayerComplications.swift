@@ -140,5 +140,6 @@ struct WatchComplications: WidgetBundle {
     var body: some Widget {
         PrayerComplication()
         HijriDateComplication()
+        CalligraphyDayComplication()
     }
 }

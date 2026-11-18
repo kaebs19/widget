@@ -17,8 +17,9 @@ nonisolated enum Premium {
     static let yearlyID = "com.widgetar.app.pro.yearly"
     static let productIDs = [yearlyID, monthlyID]
 
-    private static let activeKey = "premium.active"
-    private static let expiryKey = "premium.expiry"
+    /// تُرسل للساعة أيضاً، فتفتح مضاعفات «برو» على وجهها
+    static let activeKey = "premium.active"
+    static let expiryKey = "premium.expiry"
 
     /// آخر حالة معروفة. تنتهي تلقائياً بعد تاريخ التجديد إن لم يتحقق التطبيق من جديد.
     static var isActive: Bool {

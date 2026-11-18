@@ -101,7 +101,10 @@ struct HomeWidgetView: View {
     var body: some View {
         // الشكل يُقرأ عند كل رسم، فأي تخصيص يحفظه التطبيق يظهر مع أول تحديث
         let style = WidgetStyleStorage.style(for: entry.kind.rawValue, savedStyleID: entry.styleID)
-        if entry.kind.isPremium && !Premium.isActive {
+        if entry.kind.isPremium && !Premium.isActive && family.isLockScreen {
+            PremiumLockedAccessory(family: family)
+                .widgetURL(URL(string: "widgetar://premium"))
+        } else if entry.kind.isPremium && !Premium.isActive {
             // غير مشترك: رسالة القفل، والضغط يفتح صفحة الاشتراك
             PremiumLockedView(compact: family == .systemSmall)
                 .environment(\.widgetStyle, style)

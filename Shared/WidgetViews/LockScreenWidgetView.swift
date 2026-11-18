@@ -29,7 +29,7 @@ extension WidgetKind {
         case .healthSteps, .healthSleep, .healthActivity:
                                              [.accessoryCircular, .accessoryRectangular, .accessoryInline]
         case .healthDashboard:               [.accessoryRectangular]
-        default:                             []
+        default:                             nameLockFamilies
         }
     }
 }
@@ -51,13 +51,20 @@ struct LockScreenWidgetView: View {
     let date: Date
     let family: WidgetFamily
     var style: WidgetStyle = .default
+    /// خيارات «الأيام والشهور»؛ nil تعني المحفوظ في التطبيق
+    var nameOptions: NameOptions? = nil
 
     /// المستطيل يتسع لسطرين قصيرين فقط
     private static let dhikrMaxLetters = 40
 
     var body: some View {
-        content
-            .lockScreenContainer(family: family)
+        if kind.isPremium {
+            NameLockView(kind: kind, date: date, family: family, options: nameOptions ?? NameOptions.load(for: kind))
+                .environment(\.widgetStyle, style)
+        } else {
+            content
+                .lockScreenContainer(family: family)
+        }
     }
 
     @ViewBuilder

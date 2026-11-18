@@ -255,6 +255,7 @@ struct WidgetDetailView: View {
         .sheet(isPresented: $showPaywall) { PaywallView().environment(store).environment(styles).appAppearance() }
         .onChange(of: nameOptions) { _, options in
             NameOptions.save(options, for: kind)
+            revision += 1
             // الخط المختار يغيّر ألوان التصميم الافتراضية للنوع
             styles.reload()
             WidgetCenter.shared.reloadTimelines(ofKind: kind.rawValue)

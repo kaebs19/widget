@@ -506,3 +506,238 @@ struct PremiumLockedView: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 }
+
+// MARK: - شاشة القفل
+// لون واحد يحدده النظام، فالتمييز بالحجم والشفافية. الخطوط العربية نفسها تبقى هي الزينة.
+extension WidgetKind {
+    var nameLockFamilies: [WidgetFamily] {
+        switch self {
+        case .styledDay, .styledHijriMonth, .styledGregorianMonth: [.accessoryRectangular, .accessoryInline]
+        case .monthBehind, .weekRibbon:                           [.accessoryRectangular]
+        case .dayNumber, .monthNumber, .bigNumber, .monthProgress: [.accessoryCircular, .accessoryRectangular]
+        case .bothDates:                                          [.accessoryRectangular, .accessoryInline]
+        case .hijriCountdown:                                     [.accessoryCircular, .accessoryRectangular, .accessoryInline]
+        case .circleBadge:                                        [.accessoryCircular]
+        default:                                                  []
+        }
+    }
+}
+
+struct NameLockView: View {
+    let kind: WidgetKind
+    let date: Date
+    let family: WidgetFamily
+    var options: NameOptions
+    @Environment(\.widgetStyle) private var style
+
+    var body: some View {
+        let parts = DateParts(date)
+        Group {
+            switch family {
+            case .accessoryInline: inline(parts)
+            case .accessoryCircular: circular(parts)
+            default: rectangular(parts)
+            }
+        }
+        .lockScreenContainer(family: family)
+    }
+
+    // السطر فوق الساعة: نص عادي فقط
+    @ViewBuilder
+    private func inline(_ p: DateParts) -> some View {
+        switch kind {
+        case .hijriCountdown:
+            let days = countdownDays
+            Label(LockText.inline(days == 0 ? options.target.title
+                                  : "\(options.target.title) · \(style.number(days)) \(L10n.text(days == 1 ? "يوم" : (3...10).contains(days) ? "أيام" : "يوماً"))"),
+                  systemImage: options.target.symbol)
+        case .bothDates:
+            Label(LockText.inline("\(style.number(p.hDay)) \(p.monthName(.hijri)) · \(style.number(p.gDay)) \(p.monthName(.gregorian))"),
+                  systemImage: "calendar")
+        default:
+            Label(LockText.inline("\(NameTables.weekdays[p.weekday]) · \(style.number(p.hDay)) \(p.monthName(.hijri))"),
+                  systemImage: "moon")
+        }
+    }
+
+    @ViewBuilder
+    private func circular(_ p: DateParts) -> some View {
+        switch kind {
+        case .monthProgress:
+            Gauge(value: Double(p.hDay), in: 0...Double(p.hMonthLength)) {
+                Text(p.monthName(.hijri))
+            } currentValueLabel: {
+                Text(style.number(p.hDay)).font(DisplayFont.interHeavy.font(18))
+            }
+            .gaugeStyle(.accessoryCircularCapacity)
+        case .hijriCountdown:
+            let days = countdownDays
+            VStack(spacing: -1) {
+                Image(systemName: options.target.symbol).font(.system(size: 11, weight: .semibold))
+                Text(style.number(days)).font(DisplayFont.interHeavy.font(20)).minimumScaleFactor(0.5)
+                Text(L10n.text(days == 1 ? "يوم" : (3...10).contains(days) ? "أيام" : "يوماً")).font(caption(9))
+            }
+        case .monthNumber:
+            VStack(spacing: -2) {
+                Text(style.number(p.day(options.calendar))).font(DisplayFont.interHeavy.font(22))
+                Text(p.monthName(options.calendar)).font(DisplayFont.ruqaa.font(13)).minimumScaleFactor(0.5)
+            }
+        case .circleBadge:
+            VStack(spacing: -1) {
+                Text(NameTables.weekdays[p.weekday]).font(DisplayFont.reemKufi.font(10)).minimumScaleFactor(0.6)
+                Text(style.number(p.hDay)).font(DisplayFont.interHeavy.font(22))
+                Text(p.monthName(.hijri)).font(caption(8)).minimumScaleFactor(0.6)
+            }
+            .padding(4)
+            .overlay(Circle().strokeBorder(lineWidth: 1.5).opacity(0.5))
+        default: // اليوم والرقم، الرقم العملاق
+            VStack(spacing: -2) {
+                Text(NameTables.weekdays[p.weekday]).font(DisplayFont.reemKufi.font(11)).minimumScaleFactor(0.6)
+                Text(style.number(p.gDay)).font(DisplayFont.interHeavy.font(24))
+            }
+        }
+    }
+
+    @ViewBuilder
+    private func rectangular(_ p: DateParts) -> some View {
+        switch kind {
+        case .styledDay, .styledHijriMonth, .styledGregorianMonth:
+            let calendar: NameCalendar = kind == .styledGregorianMonth ? .gregorian : .hijri
+            let name = kind == .styledDay
+                ? (options.shape == .naskh ? NameTables.weekdaysVowelled[p.weekday] : NameTables.weekdays[p.weekday])
+                : p.monthName(calendar, vowelled: options.shape == .naskh)
+            let english = kind == .styledDay ? NameTables.weekdaysEnglish[p.weekday] : p.monthEnglish(calendar)
+            VStack(spacing: 0) {
+                if options.shape == .english {
+                    Text(english.uppercased()).font(DisplayFont.cormorant.font(24)).tracking(3)
+                } else {
+                    Text(name).font(scriptFont(options.shape, 34))
+                }
+                Text(subtitle(p, kind: kind))
+                    .font(caption(11)).foregroundStyle(.secondary)
+            }
+            .lineLimit(1).minimumScaleFactor(0.4)
+            .frame(maxWidth: .infinity)
+        case .monthBehind:
+            ZStack {
+                Text(style.number(p.day(options.calendar))).font(DisplayFont.interHeavy.font(52)).opacity(0.25)
+                Text(p.monthName(options.calendar)).font(DisplayFont.ruqaa.font(30)).minimumScaleFactor(0.5)
+            }
+            .frame(maxWidth: .infinity)
+        case .weekRibbon:
+            let shift = (p.weekday - (AppSettings.weekStart - 1) + 7) % 7
+            let calendar = DateHelper.gregorian
+            let start = calendar.date(byAdding: .day, value: -shift, to: calendar.startOfDay(for: date)) ?? date
+            HStack(spacing: 0) {
+                ForEach(0..<7, id: \.self) { offset in
+                    let day = calendar.date(byAdding: .day, value: offset, to: start) ?? date
+                    let d = DateParts(day)
+                    let isToday = offset == shift
+                    VStack(spacing: 2) {
+                        Text(WeekdayLetters.all[d.weekday]).font(caption(10)).foregroundStyle(.secondary)
+                        Text(style.number(d.gDay)).font(DisplayFont.interHeavy.font(13))
+                            .frame(width: 22, height: 22)
+                            .background { if isToday { Circle().fill(.primary.opacity(0.25)) } }
+                    }
+                    .frame(maxWidth: .infinity)
+                }
+            }
+        case .monthProgress:
+            VStack(alignment: .leading, spacing: 4) {
+                HStack {
+                    Text(p.monthName(.hijri)).font(DisplayFont.ruqaa.font(22))
+                    Spacer()
+                    Text("\(style.number(p.hDay))/\(style.number(p.hMonthLength))").font(DisplayFont.interHeavy.font(13))
+                        .environment(\.layoutDirection, .leftToRight)
+                }
+                HStack(spacing: 2) {
+                    ForEach(1...p.hMonthLength, id: \.self) { day in
+                        Capsule().opacity(day <= p.hDay ? 1 : 0.25).frame(height: 10)
+                    }
+                }
+            }
+        case .hijriCountdown:
+            let days = countdownDays
+            HStack(alignment: .center, spacing: 8) {
+                Text(style.number(days)).font(DisplayFont.interHeavy.font(40)).minimumScaleFactor(0.5)
+                VStack(alignment: .leading, spacing: 0) {
+                    Label(options.target.title, systemImage: options.target.symbol).font(caption(13, weight: .bold))
+                    Text(L10n.text(days == 1 ? "يوم" : (3...10).contains(days) ? "أيام" : "يوماً"))
+                        .font(DisplayFont.ruqaa.font(18))
+                }
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+        case .bothDates:
+            VStack(alignment: .leading, spacing: 0) {
+                Text(NameTables.weekdays[p.weekday]).font(.custom("Amiri-Bold", fixedSize: 24))
+                Text("\(style.number(p.hDay)) \(p.monthName(.hijri)) \(style.number(p.hYear))").font(caption(12, weight: .semibold))
+                Text("\(style.number(p.gDay)) \(p.monthName(.gregorian)) \(style.number(p.gYear))").font(caption(11)).foregroundStyle(.secondary)
+            }
+            .lineLimit(1).minimumScaleFactor(0.6)
+            .frame(maxWidth: .infinity, alignment: .leading)
+        case .monthNumber:
+            HStack(spacing: 8) {
+                Text(style.number(p.day(options.calendar))).font(DisplayFont.interHeavy.font(40))
+                VStack(alignment: .leading, spacing: 0) {
+                    Text(p.monthName(options.calendar)).font(DisplayFont.ruqaa.font(24)).minimumScaleFactor(0.5)
+                    Text("\(style.number(p.year(options.calendar))) \(L10n.text(options.calendar == .hijri ? "هـ" : "م"))")
+                        .font(caption(11)).foregroundStyle(.secondary)
+                }
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+        default: // اليوم والرقم، الرقم العملاق
+            HStack(spacing: 8) {
+                Text(style.number(p.gDay)).font(DisplayFont.interHeavy.font(42))
+                VStack(alignment: .leading, spacing: 0) {
+                    Text(NameTables.weekdays[p.weekday]).font(DisplayFont.reemKufi.font(20))
+                    Text(kind == .bigNumber ? "\(p.monthName(.gregorian)) \(style.number(p.gYear))"
+                                            : "\(p.monthName(.hijri)) \(style.number(p.hYear))")
+                        .font(caption(11)).foregroundStyle(.secondary)
+                }
+                .lineLimit(1).minimumScaleFactor(0.6)
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+        }
+    }
+
+    private var countdownDays: Int {
+        DateHelper.daysUntilHijri(month: options.target.monthDay.month, day: options.target.monthDay.day, from: date)
+    }
+
+    private func subtitle(_ p: DateParts, kind: WidgetKind) -> String {
+        switch kind {
+        case .styledGregorianMonth: "\(style.number(p.gDay)) · \(style.number(p.gYear))"
+        case .styledHijriMonth: "\(style.number(p.hDay)) · \(style.number(p.hYear)) \(L10n.text("هـ"))"
+        default: "\(style.number(p.hDay)) \(p.monthName(.hijri)) · \(style.number(p.gDay)) \(p.monthName(.gregorian))"
+        }
+    }
+
+    private func scriptFont(_ shape: NameShape, _ size: CGFloat) -> Font {
+        switch shape {
+        case .naskh: DisplayFont.amiri.font(size)
+        case .ruqaa: DisplayFont.ruqaa.font(size)
+        case .nastaliq: DisplayFont.gulzar.font(size * 0.8)
+        case .kufi: DisplayFont.reemKufi.font(size * 0.85)
+        case .dots: DisplayFont.handjet.font(size * 1.1)
+        case .english: DisplayFont.cormorant.font(size * 0.7)
+        }
+    }
+}
+
+/// قفل ودجات «برو» في شاشة القفل لغير المشتركين
+struct PremiumLockedAccessory: View {
+    let family: WidgetFamily
+    var body: some View {
+        Group {
+            switch family {
+            case .accessoryInline: Label(L10n.text("ويدجت برو"), systemImage: "lock.fill")
+            case .accessoryCircular: Image(systemName: "lock.fill").font(.system(size: 20, weight: .semibold))
+            default:
+                Label(L10n.text("اشترك من التطبيق لفتحها"), systemImage: "lock.fill")
+                    .font(caption(13, weight: .bold))
+                    .frame(maxWidth: .infinity, alignment: .leading)
+            }
+        }
+        .lockScreenContainer(family: family)
+    }
+}

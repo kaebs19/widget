@@ -1,4 +1,4 @@
-# بيانات المتجر — ويدجت 1.0
+# بيانات المتجر — ويدجت (محدّث للإصدار 1.3)
 
 ## الاسم (٣٠ حرفاً كحد أقصى)
 ويدجت - صلاة وأذكار وتقويم
@@ -10,12 +10,12 @@
 أذان,قبلة,رمضان,عيد,حساب المواطن,حافز,تقاعد,خطوات,شاشة القفل,آية,استغفار,سبحة,أم القرى,مناسبات,هجرية
 
 ## النص الترويجي (١٧٠)
-شاشتك الرئيسية بلمسة عربية: أوقات الصلاة والأذكار والتاريخ الهجري ومواعيد الراتب وخطواتك في ودجات أنيقة. مجاني بالكامل وبدون إعلانات.
+جديد «ويدجت برو»: أسماء الأيام والشهور الهجرية والميلادية بستة خطوط عربية فاخرة، على الشاشة الرئيسية وشاشة القفل والساعة. جرّبه أسبوعاً مجاناً.
 
 ## الوصف (٤٠٠٠)
 ويدجت يجمع ما تحتاجه كل يوم في ودجات عربية أنيقة على الشاشة الرئيسية وشاشة القفل: أوقات الصلاة، والأذكار، والتاريخ الهجري، والمناسبات، ومواعيد الراتب والدعم، وصحتك اليومية. صُمّم للعربية من الأساس، بخطوط عربية جميلة وأرقام عربية أو إنجليزية حسب ذوقك.
 
-مجاني بالكامل، بدون إعلانات، وبدون حساب. بياناتك تبقى على جهازك.
+مجاني وبدون إعلانات وبدون حساب، وبياناتك تبقى على جهازك. ومع اشتراك «ويدجت برو» الاختياري تفتح ودجات «الأيام والشهور».
 
 ■ أوقات الصلاة والأذان
 • الصلاة القادمة مع عد تنازلي حي، وجدول الصلوات الخمس
@@ -23,6 +23,12 @@
 • تنبيه الأذان أو قبله بدقائق، وتذكير بأذكار بعد الصلاة
 • تعديل دقائق كل صلاة لتطابق أذان مسجدك
 • اتجاه القبلة بالبوصلة
+
+■ جديد: ويدجت برو — الأيام والشهور
+• ١٢ ودجت لأسماء الأيام والشهور الهجرية والميلادية بستة خطوط: نسخ مشكّل، رقعة، نستعليق، كوفي، نقطي، وإنجليزي
+• شريط الأسبوع، وتقدّم الشهر الهجري، والرقم العملاق، والتاريخان معاً، وعدّ تنازلي لرمضان والعيدين وعرفة
+• بأحجام صغيرة ومتوسطة وكبيرة، ولشاشة القفل ووجه Apple Watch
+• اختر لكل نسخة على الشاشة خطها وتخطيطها من «تعديل الودجت»
 
 ■ الأذكار والقرآن
 • أذكار الصباح من حصن المسلم
@@ -61,6 +67,12 @@
 
 ملاحظة: مواعيد الصرف تُحسب وفق المواعيد المعلنة المعتادة، وقد تتغير بقرار من الجهة المختصة، ويمكنك تعديلها من الإعدادات.
 
+■ اشتراك ويدجت برو
+اشتراك شهري أو سنوي، والسنوي يبدأ بأسبوع مجاني لمن لم يجرّبه. يُخصم المبلغ من حساب Apple عند تأكيد الشراء أو بعد انتهاء التجربة، ويتجدد تلقائياً ما لم يُلغَ قبل ٢٤ ساعة على الأقل من نهاية الفترة. يمكنك إدارة الاشتراك وإلغاؤه من إعدادات حسابك في App Store.
+
+شروط الاستخدام: https://kaebs19.github.io/Widget-Website/terms.html
+سياسة الخصوصية: https://kaebs19.github.io/Widget-Website/privacy.html
+
 ## ما الجديد (الإصدار 1.0)
 الإصدار الأول من ويدجت: أوقات الصلاة والأذان، والأذكار وآية اليوم، والتقويم الهجري، والمناسبات، ومواعيد الراتب والدعم، وودجات الصحة. نسعد بملاحظاتك من داخل التطبيق.
 
@@ -74,10 +86,19 @@
 • دعم iPhone Duo بشاشتيه.
 • تحسينات وإصلاحات.
 
+## ما الجديد (الإصدار 1.3)
+• جديد «ويدجت برو»: ١٢ ودجت لأسماء الأيام والشهور الهجرية والميلادية بستة خطوط عربية فاخرة، باشتراك شهري أو سنوي مع أسبوع مجاني للسنوي.
+• ودجات «الأيام والشهور» على شاشة القفل ووجه Apple Watch، وبحجم كبير مع تقويم الشهر.
+• اختر خط كل ودجت وتخطيطه من «تعديل الودجت».
+• ألوان جديدة لكل الودجات بدل الخلفية الداكنة الموحّدة.
+• التطبيق والتواريخ بالإنجليزية كاملة عند اختيار اللغة الإنجليزية.
+• تحسينات وإصلاحات.
+
 ## روابط
 - الدعم: https://kaebs19.github.io/Widget-Website/contact.html
 - التسويق: https://kaebs19.github.io/Widget-Website/
 - الخصوصية: https://kaebs19.github.io/Widget-Website/privacy.html
+- شروط الاستخدام (EULA، في آخر الوصف): https://kaebs19.github.io/Widget-Website/terms.html
 
 ## التصنيف
 - الأساسي: Lifestyle (نمط الحياة)
@@ -88,13 +109,13 @@
 © 2026 Mohammed Saleh
 
 ## خصوصية التطبيق (App Privacy)
-Data Not Collected — لا تُجمع بيانات. كل البيانات (الموقع، الصحة، المبالغ) تبقى على الجهاز ولا تُرسل لأي خادم.
+Data Not Collected — لا تُجمع بيانات. كل البيانات (الموقع، الصحة، المبالغ) تبقى على الجهاز ولا تُرسل لأي خادم. الشراء يتم عبر Apple والتطبيق لا يجمع بيانات الشراء، فلا يتغير هذا القسم مع الاشتراك.
 
 ---
 
 ## ملاحظات المراجعة (App Review Notes) — بالإنجليزية
 
-Widget is a free app with no ads, no in-app purchases and no account or sign-in. All features work without login.
+Widget is free with no ads and no account or sign-in. Since version 1.3 an optional auto-renewable subscription, Widget Pro (monthly, or yearly with a 1-week free trial), unlocks the «Days & Months» widget category only; every other feature stays free.
 
 How to test:
 1. Open the app to browse the widget gallery by section (Prayer, Religious, Calendar, Health, Occasions, Finance). Tap any widget to customize it.
@@ -125,7 +146,7 @@ Arabic widgets, payday, health
 adhan,qibla,ramadan,eid,islamic,muslim,quran,calendar,steps,lock screen,tasbeeh,salary,payday,arabic
 
 ## Promotional text
-Beautiful Arabic widgets for your Home and Lock Screen: prayer times, adhkar, Hijri date, paydays and your daily steps. Completely free, with no ads.
+New Widget Pro: Hijri and Gregorian day and month names in six fine Arabic scripts, on your Home Screen, Lock Screen and Apple Watch. Try it free for a week.
 
 ## What's New (version 1.2)
 • Widget on Apple Watch: next prayer with a countdown, today's times, a dhikr counter, the Hijri date and upcoming occasions.
@@ -136,6 +157,21 @@ Beautiful Arabic widgets for your Home and Lock Screen: prayer times, adhkar, Hi
 • Western numerals by default, with Arabic numerals available across the app and widgets.
 • Support for iPhone Duo on both displays.
 • Improvements and fixes.
+
+## What's New (version 1.3)
+• New Widget Pro: 12 widgets for Hijri and Gregorian day and month names in six fine Arabic scripts, with a monthly or yearly subscription and a free week on yearly.
+• Days & Months widgets on the Lock Screen and Apple Watch face, plus a large size with the month calendar.
+• Choose each widget's script and layout from Edit Widget.
+• Fresh colors for every widget instead of one dark background.
+• The whole app, including dates, in English when English is selected.
+• Improvements and fixes.
+
+## App Review Notes (version 1.3)
+This update adds Widget Pro, an optional auto-renewable subscription (group «Widget Pro»: com.widgetar.app.pro.monthly and com.widgetar.app.pro.yearly; the yearly plan has a 1-week free trial). It unlocks only the new «الأيام والشهور» (Days & Months) widget category; all other features remain free.
+
+Where to find it: tap the «ويدجت برو» (Widget Pro) banner at the top of the gallery, or Settings › الاشتراك (Subscription), or tap any locked Days & Months widget. Every paid widget can be previewed and customized in the app before subscribing; on the Home Screen, Lock Screen and Apple Watch it shows a lock until the user subscribes. The subscription page shows both plans with prices from the App Store, Restore Purchases, the auto-renewal terms, and links to the Terms of Use and Privacy Policy.
+
+To test: buy either plan with a sandbox account, then add a Days & Months widget (long-press the Home Screen › Edit › Add Widget › «ويدجت»). Long-press the widget › Edit Widget to choose its script or layout.
 
 ## App Review Notes (version 1.2)
 This update adds an Apple Watch app with complications, a first-launch welcome flow, a redesigned General settings section, a global numeral style setting, and support for iPhone Duo.
@@ -159,13 +195,19 @@ All existing features, including weather, health widgets and payday calculations
 ## Description
 Widget brings what you need every day into elegant Arabic widgets for your Home Screen and Lock Screen: prayer times, adhkar, the Hijri date, occasions, salary and support paydays, and your daily health.
 
-Completely free. No ads. No account. Your data stays on your device.
+Free, with no ads and no account; your data stays on your device. The optional Widget Pro subscription unlocks the Days & Months widgets.
 
 PRAYER TIMES
 • Next prayer with a live countdown, and the full daily schedule
 • Based on your location with Umm al-Qura or other methods
 • Adhan notifications, after-prayer adhkar reminders and per-prayer minute adjustments
 • Qibla compass
+
+NEW: WIDGET PRO — DAYS & MONTHS
+• 12 widgets for Hijri and Gregorian day and month names in six scripts: vowelled Naskh, Ruqaa, Nastaliq, Kufi, dot-matrix and English
+• Week strip, Hijri month progress, giant date, both dates together, and countdowns to Ramadan, both Eids and Arafah
+• Small, medium and large sizes, plus Lock Screen and Apple Watch
+• Pick each widget's script and layout from Edit Widget
 
 ADHKAR & QURAN
 • Morning adhkar from Hisn al-Muslim
@@ -197,3 +239,9 @@ FULL CUSTOMIZATION
 • Lock Screen widgets in all three sizes
 
 Works on iPhone, iPad and Mac.
+
+WIDGET PRO SUBSCRIPTION
+Monthly or yearly; the yearly plan starts with a 1-week free trial if you haven't tried it before. Payment is charged to your Apple Account at confirmation of purchase or when the trial ends. The subscription renews automatically unless cancelled at least 24 hours before the end of the current period. Manage or cancel it in your App Store account settings.
+
+Terms of Use: https://kaebs19.github.io/Widget-Website/terms.html
+Privacy Policy: https://kaebs19.github.io/Widget-Website/privacy.html
